@@ -11,6 +11,7 @@
 		39042D872C5E060300125248 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39042D862C5E060300125248 /* ContentView.swift */; };
 		39042D892C5E060400125248 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39042D882C5E060400125248 /* Assets.xcassets */; };
 		39042D8C2C5E060400125248 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39042D8B2C5E060400125248 /* Preview Assets.xcassets */; };
+		39042DB82C5F333C00125248 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39042DB72C5F333C00125248 /* ColorExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		39042D862C5E060300125248 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		39042D882C5E060400125248 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		39042D8B2C5E060400125248 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		39042DB72C5F333C00125248 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				39042D842C5E060300125248 /* Watch2GetherApp.swift */,
 				39042D862C5E060300125248 /* ContentView.swift */,
+				39042DB72C5F333C00125248 /* ColorExtension.swift */,
 				39042D882C5E060400125248 /* Assets.xcassets */,
 				39042D8A2C5E060400125248 /* Preview Content */,
 			);
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39042DB82C5F333C00125248 /* ColorExtension.swift in Sources */,
 				39042D872C5E060300125248 /* ContentView.swift in Sources */,
 				39042D852C5E060300125248 /* Watch2GetherApp.swift in Sources */,
 			);
