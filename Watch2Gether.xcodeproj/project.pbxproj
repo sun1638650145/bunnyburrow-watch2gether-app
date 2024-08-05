@@ -13,6 +13,7 @@
 		39042D8C2C5E060400125248 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39042D8B2C5E060400125248 /* Preview Assets.xcassets */; };
 		39042DB82C5F333C00125248 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39042DB72C5F333C00125248 /* ColorExtension.swift */; };
 		3988491D2C60A0A90015D413 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3988491C2C60A0A90015D413 /* LoginView.swift */; };
+		3988491F2C60A5590015D413 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3988491E2C60A5590015D413 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +24,7 @@
 		39042D8B2C5E060400125248 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		39042DB72C5F333C00125248 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		3988491C2C60A0A90015D413 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		3988491E2C60A5590015D413 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 				39042D862C5E060300125248 /* ContentView.swift */,
 				3988491C2C60A0A90015D413 /* LoginView.swift */,
 				39042DB72C5F333C00125248 /* ColorExtension.swift */,
+				3988491E2C60A5590015D413 /* User.swift */,
 				39042D882C5E060400125248 /* Assets.xcassets */,
 				39042D8A2C5E060400125248 /* Preview Content */,
 			);
@@ -146,6 +149,7 @@
 				39042DB82C5F333C00125248 /* ColorExtension.swift in Sources */,
 				39042D872C5E060300125248 /* ContentView.swift in Sources */,
 				3988491D2C60A0A90015D413 /* LoginView.swift in Sources */,
+				3988491F2C60A5590015D413 /* User.swift in Sources */,
 				39042D852C5E060300125248 /* Watch2GetherApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

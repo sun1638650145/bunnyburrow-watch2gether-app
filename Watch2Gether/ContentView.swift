@@ -10,6 +10,8 @@ import SwiftUI
 struct ContentView: View {
     /// 登陆状态.
     @State private var isLoggedIn = false
+    /// 用户信息.
+    @State private var user: User?
     
     var body: some View {
         ZStack {
@@ -18,7 +20,7 @@ struct ContentView: View {
             if isLoggedIn {
                 // ...
             } else {
-                LoginView()
+                LoginView(isLoggedIn: $isLoggedIn, user: $user)
             }
         }
     }

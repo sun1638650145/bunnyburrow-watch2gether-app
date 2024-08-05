@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct LoginView: View {
+    @Binding var isLoggedIn: Bool
+    @Binding var user: User?
+    
     var body: some View {
         VStack {
             Text("一起看电影")
@@ -20,5 +23,8 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    @State var isLoggedIn = false
+    @State var user: User?
+    
+    return LoginView(isLoggedIn: $isLoggedIn, user: $user)
 }
