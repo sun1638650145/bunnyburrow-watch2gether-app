@@ -14,6 +14,7 @@
 		39042DB82C5F333C00125248 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39042DB72C5F333C00125248 /* ColorExtension.swift */; };
 		3988491D2C60A0A90015D413 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3988491C2C60A0A90015D413 /* LoginView.swift */; };
 		3988491F2C60A5590015D413 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3988491E2C60A5590015D413 /* User.swift */; };
+		398849282C60B68B0015D413 /* AvatarUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398849272C60B68B0015D413 /* AvatarUploader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		39042DB72C5F333C00125248 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		3988491C2C60A0A90015D413 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		3988491E2C60A5590015D413 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		398849272C60B68B0015D413 /* AvatarUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarUploader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				39042D842C5E060300125248 /* Watch2GetherApp.swift */,
 				39042D862C5E060300125248 /* ContentView.swift */,
 				3988491C2C60A0A90015D413 /* LoginView.swift */,
+				398849272C60B68B0015D413 /* AvatarUploader.swift */,
 				39042DB72C5F333C00125248 /* ColorExtension.swift */,
 				3988491E2C60A5590015D413 /* User.swift */,
 				39042D882C5E060400125248 /* Assets.xcassets */,
@@ -150,6 +153,7 @@
 				39042D872C5E060300125248 /* ContentView.swift in Sources */,
 				3988491D2C60A0A90015D413 /* LoginView.swift in Sources */,
 				3988491F2C60A5590015D413 /* User.swift in Sources */,
+				398849282C60B68B0015D413 /* AvatarUploader.swift in Sources */,
 				39042D852C5E060300125248 /* Watch2GetherApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

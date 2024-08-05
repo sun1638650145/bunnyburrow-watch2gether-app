@@ -18,6 +18,8 @@ struct LoginView: View {
                 .font(.largeTitle)
                 .foregroundColor(Color(hex: "#F9F9F9"))
                 .padding(10)
+            
+            AvatarUploader()
         }
     }
 }
