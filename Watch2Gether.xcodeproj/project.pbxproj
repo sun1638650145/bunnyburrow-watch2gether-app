@@ -61,8 +61,7 @@
 			children = (
 				39042D842C5E060300125248 /* Watch2GetherApp.swift */,
 				39042D862C5E060300125248 /* ContentView.swift */,
-				3988491C2C60A0A90015D413 /* LoginView.swift */,
-				398849272C60B68B0015D413 /* AvatarUploader.swift */,
+				39B58F6C2C61F9A1006F23F5 /* Views */,
 				39042DB72C5F333C00125248 /* ColorExtension.swift */,
 				3988491E2C60A5590015D413 /* User.swift */,
 				39042D882C5E060400125248 /* Assets.xcassets */,
@@ -77,6 +76,23 @@
 				39042D8B2C5E060400125248 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		39B58F6C2C61F9A1006F23F5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				39B58F6D2C61FA2B006F23F5 /* LoginView */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		39B58F6D2C61FA2B006F23F5 /* LoginView */ = {
+			isa = PBXGroup;
+			children = (
+				3988491C2C60A0A90015D413 /* LoginView.swift */,
+				398849272C60B68B0015D413 /* AvatarUploader.swift */,
+			);
+			path = LoginView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
