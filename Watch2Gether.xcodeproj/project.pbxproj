@@ -11,10 +11,11 @@
 		39042D872C5E060300125248 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39042D862C5E060300125248 /* ContentView.swift */; };
 		39042D892C5E060400125248 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39042D882C5E060400125248 /* Assets.xcassets */; };
 		39042D8C2C5E060400125248 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39042D8B2C5E060400125248 /* Preview Assets.xcassets */; };
-		39042DB82C5F333C00125248 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39042DB72C5F333C00125248 /* ColorExtension.swift */; };
+		39042DB82C5F333C00125248 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39042DB72C5F333C00125248 /* Color.swift */; };
 		3988491D2C60A0A90015D413 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3988491C2C60A0A90015D413 /* LoginView.swift */; };
 		3988491F2C60A5590015D413 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3988491E2C60A5590015D413 /* User.swift */; };
 		398849282C60B68B0015D413 /* AvatarUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398849272C60B68B0015D413 /* AvatarUploader.swift */; };
+		39B58F6F2C620565006F23F5 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B58F6E2C620565006F23F5 /* Image.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,10 +24,11 @@
 		39042D862C5E060300125248 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		39042D882C5E060400125248 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		39042D8B2C5E060400125248 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		39042DB72C5F333C00125248 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		39042DB72C5F333C00125248 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		3988491C2C60A0A90015D413 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		3988491E2C60A5590015D413 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		398849272C60B68B0015D413 /* AvatarUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarUploader.swift; sourceTree = "<group>"; };
+		39B58F6E2C620565006F23F5 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +64,7 @@
 				39042D842C5E060300125248 /* Watch2GetherApp.swift */,
 				39042D862C5E060300125248 /* ContentView.swift */,
 				39B58F6C2C61F9A1006F23F5 /* Views */,
-				39042DB72C5F333C00125248 /* ColorExtension.swift */,
+				39B58F702C620A71006F23F5 /* Extensions */,
 				3988491E2C60A5590015D413 /* User.swift */,
 				39042D882C5E060400125248 /* Assets.xcassets */,
 				39042D8A2C5E060400125248 /* Preview Content */,
@@ -93,6 +95,15 @@
 				398849272C60B68B0015D413 /* AvatarUploader.swift */,
 			);
 			path = LoginView;
+			sourceTree = "<group>";
+		};
+		39B58F702C620A71006F23F5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				39042DB72C5F333C00125248 /* Color.swift */,
+				39B58F6E2C620565006F23F5 /* Image.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,7 +176,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39042DB82C5F333C00125248 /* ColorExtension.swift in Sources */,
+				39B58F6F2C620565006F23F5 /* Image.swift in Sources */,
+				39042DB82C5F333C00125248 /* Color.swift in Sources */,
 				39042D872C5E060300125248 /* ContentView.swift in Sources */,
 				3988491D2C60A0A90015D413 /* LoginView.swift in Sources */,
 				3988491F2C60A5590015D413 /* User.swift in Sources */,
