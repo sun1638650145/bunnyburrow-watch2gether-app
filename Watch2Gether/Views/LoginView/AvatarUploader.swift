@@ -54,8 +54,12 @@ struct AvatarUploader: View {
         })
         #endif
         .sheet(isPresented: $isPresented, content: {
+            #if os(iOS)
+            ImagePickerViewController(selectedImage: $avatar)
+            #elseif os(macOS)
             ImagePickerViewController(selectedImage: $avatar)
                 .frame(width: 0, height: 0)
+            #endif
         })
     }
 }
