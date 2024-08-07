@@ -11,6 +11,8 @@ struct LoginView: View {
     @Binding var isLoggedIn: Bool
     @Binding var user: User?
     
+    @State private var avatar: PlatformImage?
+    
     var body: some View {
         VStack {
             Text("一起看电影")
@@ -19,7 +21,7 @@ struct LoginView: View {
                 .foregroundColor(Color(hex: "#F9F9F9"))
                 .padding(10)
             
-            AvatarUploader()
+            AvatarUploader($avatar)
         }
     }
 }
