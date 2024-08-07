@@ -52,7 +52,8 @@ struct AvatarUploader: View {
             }
         })
         .sheet(isPresented: $isPresented, content: {
-            // ...
+            ImagePickerViewController(selectedImage: $avatar)
+                .frame(width: 0, height: 0)
         })
     }
 }
