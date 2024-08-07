@@ -41,6 +41,7 @@ struct AvatarUploader: View {
             }
         })
         .buttonStyle(PlainButtonStyle())
+        #if os(macOS)
         .onHover(perform: { hovering in
             isHovered = hovering
             
@@ -51,6 +52,7 @@ struct AvatarUploader: View {
                 NSCursor.pop()
             }
         })
+        #endif
         .sheet(isPresented: $isPresented, content: {
             ImagePickerViewController(selectedImage: $avatar)
                 .frame(width: 0, height: 0)
