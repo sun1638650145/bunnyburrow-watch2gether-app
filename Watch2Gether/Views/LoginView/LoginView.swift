@@ -22,6 +22,8 @@ struct LoginView: View {
                 .padding(10)
             
             AvatarUploader($avatar)
+            
+            LoginButton($isLoggedIn)
         }
     }
 }
