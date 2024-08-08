@@ -149,11 +149,12 @@
 			};
 			buildConfigurationList = 39042D7C2C5E060300125248 /* Build configuration list for PBXProject "Watch2Gether" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 39042D782C5E060300125248;
 			productRefGroup = 39042D822C5E060300125248 /* Products */;
