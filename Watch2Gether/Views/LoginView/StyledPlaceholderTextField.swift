@@ -35,7 +35,7 @@ struct StyledPlaceholderTextField: View {
                     text = newValue.isEmpty ? nil : newValue
                 }
             ))
-            .foregroundColor(Color(hex: "#F9F9F9"))
+            .foregroundStyle(Color(hex: "#F9F9F9"))
             .textFieldStyle(PlainTextFieldStyle())
             .padding(.leading, 5)
         })

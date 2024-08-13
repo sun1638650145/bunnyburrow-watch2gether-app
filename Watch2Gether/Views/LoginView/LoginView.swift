@@ -22,7 +22,7 @@ struct LoginView: View {
             Text("一起看电影")
                 .bold()
                 .font(.largeTitle)
-                .foregroundColor(Color(hex: "#F9F9F9"))
+                .foregroundStyle(Color(hex: "#F9F9F9"))
                 .padding(10)
             
             AvatarUploader($avatar)

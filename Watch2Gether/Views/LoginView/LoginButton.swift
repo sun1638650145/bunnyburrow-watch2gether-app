@@ -43,7 +43,7 @@ struct LoginButton: View {
         .buttonStyle(PlainButtonStyle())
         .cornerRadius(5)
         .font(.title2)
-        .foregroundColor(Color(hex: "#F9F9F9"))
+        .foregroundStyle(Color(hex: "#F9F9F9"))
         .onHover(perform: { hovering in
             isHovered = hovering
         })
