@@ -41,7 +41,7 @@ struct LoginButton: View {
         /// 在macOS上光标悬停时, 使用110%的亮度.
         .brightness(isHovered ? 0.1 : 0)
         .buttonStyle(PlainButtonStyle())
-        .cornerRadius(5)
+        .clipShape(RoundedRectangle(cornerRadius: 5))
         .font(.title2)
         .foregroundStyle(Color(hex: "#F9F9F9"))
         .onHover(perform: { hovering in
