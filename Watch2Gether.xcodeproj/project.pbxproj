@@ -16,6 +16,7 @@
 		3988491F2C60A5590015D413 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3988491E2C60A5590015D413 /* User.swift */; };
 		398849282C60B68B0015D413 /* AvatarUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398849272C60B68B0015D413 /* AvatarUploader.swift */; };
 		3998252E2C649B3A00B433E7 /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3998252D2C649B3A00B433E7 /* LoginButton.swift */; };
+		39ADBB392C6B01CE00071DCE /* StyledPlaceholderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39ADBB382C6B01CE00071DCE /* StyledPlaceholderTextField.swift */; };
 		39B58F6F2C620565006F23F5 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B58F6E2C620565006F23F5 /* Image.swift */; };
 		39FEFC3E2C634F5300B9BBC9 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FEFC3D2C634F5300B9BBC9 /* ImagePickerViewController.swift */; };
 /* End PBXBuildFile section */
@@ -31,6 +32,7 @@
 		3988491E2C60A5590015D413 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		398849272C60B68B0015D413 /* AvatarUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarUploader.swift; sourceTree = "<group>"; };
 		3998252D2C649B3A00B433E7 /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
+		39ADBB382C6B01CE00071DCE /* StyledPlaceholderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledPlaceholderTextField.swift; sourceTree = "<group>"; };
 		39B58F6E2C620565006F23F5 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		39FEFC3D2C634F5300B9BBC9 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,6 +100,7 @@
 				3988491C2C60A0A90015D413 /* LoginView.swift */,
 				398849272C60B68B0015D413 /* AvatarUploader.swift */,
 				39FEFC3D2C634F5300B9BBC9 /* ImagePickerViewController.swift */,
+				39ADBB382C6B01CE00071DCE /* StyledPlaceholderTextField.swift */,
 				3998252D2C649B3A00B433E7 /* LoginButton.swift */,
 			);
 			path = LoginView;
@@ -183,6 +186,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39ADBB392C6B01CE00071DCE /* StyledPlaceholderTextField.swift in Sources */,
 				39B58F6F2C620565006F23F5 /* Image.swift in Sources */,
 				3998252E2C649B3A00B433E7 /* LoginButton.swift in Sources */,
 				39042DB82C5F333C00125248 /* Color.swift in Sources */,
