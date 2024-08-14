@@ -9,13 +9,15 @@ import SwiftUI
 
 struct LoginButton: View {
     @Binding var isLoggedIn: Bool
-    let name: String?
     
     /// 按钮悬停状态.
     @State private var isHovered = false
 
     /// 按钮按压状态.
     @State private var isPressed = false
+    
+    /// 用户昵称, 用于设置登录状态.
+    private let name: String?
     
     init(_ isLoggedIn: Binding<Bool>, name: String?) {
         self._isLoggedIn = isLoggedIn
@@ -24,7 +26,7 @@ struct LoginButton: View {
     
     var body: some View {
         Button(action: {
-            /// 昵称不为空时, 设置登陆状态.
+            /// 昵称不为空时, 设置登录状态.
             if let name = name, !name.isEmpty {
                 isLoggedIn = true
             }
