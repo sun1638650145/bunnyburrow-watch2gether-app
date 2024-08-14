@@ -31,17 +31,17 @@ struct LoginButton: View {
         }, label: {
             Text("加入")
                 .frame(width: 350, height: 50)
+                .background(
+                    Group {
+                        /// 在iOS上按下按钮时, 使用90%的透明度.
+                        #if os(iOS)
+                        isPressed ? Color(hex: "#0682F0").opacity(0.9) : Color(hex: "#0682F0")
+                        #elseif os(macOS)
+                        Color(hex: "#0682F0")
+                        #endif
+                    }
+                )
         })
-        .background(
-            Group {
-                /// 在iOS上按下按钮时, 使用90%的透明度.
-                #if os(iOS)
-                isPressed ? Color(hex: "#0682F0").opacity(0.9) : Color(hex: "#0682F0")
-                #elseif os(macOS)
-                Color(hex: "#0682F0")
-                #endif
-            }
-        )
         .bold()
         /// 在macOS上光标悬停时, 使用110%的亮度.
         .brightness(isHovered ? 0.1 : 0)
