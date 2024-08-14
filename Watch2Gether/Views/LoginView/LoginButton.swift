@@ -24,7 +24,7 @@ struct LoginButton: View {
     
     var body: some View {
         Button(action: {
-            /// 昵称不为空时 , 设置登陆状态.
+            /// 昵称不为空时, 设置登陆状态.
             if let name = name, !name.isEmpty {
                 isLoggedIn = true
             }
