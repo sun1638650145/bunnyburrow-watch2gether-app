@@ -41,7 +41,7 @@ struct LoginView: View {
             LoginButton($isLoggedIn, name: name)
                 .onChange(of: isLoggedIn, {
                     if let name = name, !name.isEmpty {
-                        user = User(avatar: avatar, name: name)
+                        user = User(avatar, name)
                         
                         if let user = user {
                             print(

@@ -23,7 +23,7 @@ struct User: Identifiable {
         return clientID
     }
     
-    init(avatar: PlatformImage? = nil, name: String) {
+    init(_ avatar: PlatformImage? = nil, _ name: String) {
         self.avatar = avatar
         // TODO: 目前使用时间戳生成, 未来改进为使用UUID; 同时兼容Web客户端的实现(Steve).
         self.clientID = Int(Date().timeIntervalSince1970 * 1000)
