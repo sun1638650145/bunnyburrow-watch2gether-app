@@ -38,7 +38,22 @@ struct LoginView: View {
             .clipShape(RoundedRectangle(cornerRadius: 5))
             .padding(10)
             
-            LoginButton($isLoggedIn)
+            LoginButton($isLoggedIn, name: name)
+                .onChange(of: isLoggedIn, {
+                    if let name = name, !name.isEmpty {
+                        user = User(avatar: avatar, name: name)
+                        
+                        if let user = user {
+                            print(
+                                """
+                                头像: \(String(describing: user.avatar))
+                                客户端ID: \(user.clientID)
+                                昵称: \(user.name)
+                                """
+                            )
+                        }
+                    }
+                })
         }
     }
 }

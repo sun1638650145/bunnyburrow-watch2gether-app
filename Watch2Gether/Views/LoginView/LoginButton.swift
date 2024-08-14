@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginButton: View {
     @Binding var isLoggedIn: Bool
+    let name: String?
     
     /// 按钮悬停状态.
     @State private var isHovered = false
@@ -16,13 +17,17 @@ struct LoginButton: View {
     /// 按钮按压状态.
     @State private var isPressed = false
     
-    init(_ isLoggedIn: Binding<Bool>) {
+    init(_ isLoggedIn: Binding<Bool>, name: String?) {
         self._isLoggedIn = isLoggedIn
+        self.name = name
     }
     
     var body: some View {
         Button(action: {
-            isLoggedIn = true
+            /// 昵称不为空时 , 设置登陆状态.
+            if let name = name, !name.isEmpty {
+                isLoggedIn = true
+            }
         }, label: {
             Text("加入")
                 .frame(width: 350, height: 50)
@@ -57,6 +62,7 @@ struct LoginButton: View {
 
 #Preview {
     @State var isLoggedIn = false
+    let name = ""
     
-    return LoginButton($isLoggedIn)
+    return LoginButton($isLoggedIn, name: name)
 }
