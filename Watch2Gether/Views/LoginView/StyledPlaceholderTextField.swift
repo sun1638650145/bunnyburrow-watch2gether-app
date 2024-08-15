@@ -19,7 +19,12 @@ struct StyledPlaceholderTextField: View {
     /// 占位符文本的颜色.
     private let placeholderColor: Color
     
-    init(_ placeholder: String, text: Binding<String?>, placeholderColor: Color = .secondary, isInvalid: Bool = false) {
+    init(
+        _ placeholder: String,
+        text: Binding<String?>,
+        placeholderColor: Color = .secondary,
+        isInvalid: Bool = false
+    ) {
         self.placeholder = placeholder
         self._text = text
         self.placeholderColor = placeholderColor
@@ -45,7 +50,10 @@ struct StyledPlaceholderTextField: View {
         })
         .font(.title3)
         .frame(width: 350, height: 50)
-        .overlay(RoundedRectangle(cornerRadius: 5).stroke(isInvalid ? Color(hex: "#FF554C") : Color.clear, lineWidth: 1))
+        .overlay(
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(isInvalid ? Color(hex: "#FF554C") : Color.clear, lineWidth: 1)
+        )
     }
 }
 
