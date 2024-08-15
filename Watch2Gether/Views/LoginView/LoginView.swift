@@ -38,22 +38,27 @@ struct LoginView: View {
             .clipShape(RoundedRectangle(cornerRadius: 5))
             .padding(10)
             
-            LoginButton($isLoggedIn, name: name)
-                .onChange(of: isLoggedIn, {
-                    if let name = name, !name.isEmpty {
-                        user = User(avatar, name)
-                        
-                        if let user = user {
-                            print(
-                                """
-                                头像: \(String(describing: user.avatar))
-                                客户端ID: \(user.clientID)
-                                昵称: \(user.name)
-                                """
-                            )
-                        }
+            Button(action: {
+                if let name = name, !name.isEmpty {
+                    user = User(avatar, name)
+                    
+                    if let user = user {
+                        print(
+                            """
+                            头像: \(String(describing: user.avatar))
+                            客户端ID: \(user.clientID)
+                            昵称: \(user.name)
+                            """
+                        )
                     }
-                })
+                    
+                    /// 昵称不为空时, 设置登录状态.
+                    isLoggedIn = true
+                }
+            }, label: {
+                Text("加入")
+            })
+            .buttonStyle(LoginButtonStyle())
         }
     }
 }
