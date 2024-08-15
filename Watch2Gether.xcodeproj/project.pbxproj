@@ -18,6 +18,7 @@
 		3998252E2C649B3A00B433E7 /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3998252D2C649B3A00B433E7 /* LoginButton.swift */; };
 		39ADBB392C6B01CE00071DCE /* StyledPlaceholderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39ADBB382C6B01CE00071DCE /* StyledPlaceholderTextField.swift */; };
 		39B58F6F2C620565006F23F5 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B58F6E2C620565006F23F5 /* Image.swift */; };
+		39C6B9A12C6DAF2800579E49 /* LoginButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C6B9A02C6DAF2800579E49 /* LoginButtonStyle.swift */; };
 		39FEFC3E2C634F5300B9BBC9 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FEFC3D2C634F5300B9BBC9 /* ImagePickerViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,7 @@
 		3998252D2C649B3A00B433E7 /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
 		39ADBB382C6B01CE00071DCE /* StyledPlaceholderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledPlaceholderTextField.swift; sourceTree = "<group>"; };
 		39B58F6E2C620565006F23F5 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		39C6B9A02C6DAF2800579E49 /* LoginButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonStyle.swift; sourceTree = "<group>"; };
 		39FEFC3D2C634F5300B9BBC9 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -102,6 +104,7 @@
 				39FEFC3D2C634F5300B9BBC9 /* ImagePickerViewController.swift */,
 				39ADBB382C6B01CE00071DCE /* StyledPlaceholderTextField.swift */,
 				3998252D2C649B3A00B433E7 /* LoginButton.swift */,
+				39C6B9A02C6DAF2800579E49 /* LoginButtonStyle.swift */,
 			);
 			path = LoginView;
 			sourceTree = "<group>";
@@ -196,6 +199,7 @@
 				3988491F2C60A5590015D413 /* User.swift in Sources */,
 				398849282C60B68B0015D413 /* AvatarUploader.swift in Sources */,
 				39042D852C5E060300125248 /* Watch2GetherApp.swift in Sources */,
+				39C6B9A12C6DAF2800579E49 /* LoginButtonStyle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
