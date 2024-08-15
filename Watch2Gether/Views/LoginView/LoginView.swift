@@ -30,17 +30,12 @@ struct LoginView: View {
             
             AvatarUploader($avatar)
             
-            Group {
-                StyledPlaceholderTextField(
-                    "请输入昵称",
-                    text: $name,
-                    placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
-                    isInvalid: isNameEmpty
-                )
-            }
-            .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.1))
-            .clipShape(RoundedRectangle(cornerRadius: 5))
-            .padding(10)
+            StyledPlaceholderTextField(
+                "请输入昵称",
+                text: $name,
+                placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
+                isInvalid: isNameEmpty
+            )
             
             if isNameEmpty {
                 Text("昵称不能为空, 请输入昵称并重试.")

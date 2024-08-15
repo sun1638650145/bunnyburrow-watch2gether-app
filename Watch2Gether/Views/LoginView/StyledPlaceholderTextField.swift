@@ -48,12 +48,15 @@ struct StyledPlaceholderTextField: View {
             .textFieldStyle(PlainTextFieldStyle())
             .padding(.leading, 5)
         })
-        .font(.title3)
         .frame(width: 350, height: 50)
+        .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.1))
+        .clipShape(RoundedRectangle(cornerRadius: 5))
+        .font(.title3)
         .overlay(
             RoundedRectangle(cornerRadius: 5)
                 .stroke(isInvalid ? Color(hex: "#FF554C") : Color.clear, lineWidth: 1)
         )
+        .padding(10)
     }
 }
 
@@ -65,7 +68,4 @@ struct StyledPlaceholderTextField: View {
         text: $name,
         placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255)
     )
-    .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.1))
-    .clipShape(RoundedRectangle(cornerRadius: 5))
-    .padding(10)
 }
