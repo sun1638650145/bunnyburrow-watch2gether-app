@@ -17,6 +17,9 @@ struct LoginView: View {
     /// 用户的昵称.
     @State private var name: String?
     
+    /// 昵称为空变量.
+    @State private var isNameEmpty = false
+    
     var body: some View {
         VStack {
             Text("一起看电影")
@@ -31,12 +34,19 @@ struct LoginView: View {
                 StyledPlaceholderTextField(
                     "请输入昵称",
                     text: $name,
-                    placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255)
+                    placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
+                    isInvalid: isNameEmpty
                 )
             }
             .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.1))
             .clipShape(RoundedRectangle(cornerRadius: 5))
             .padding(10)
+            
+            if isNameEmpty {
+                Text("昵称不能为空, 请输入昵称并重试.")
+                    .font(.callout)
+                    .foregroundStyle(Color(hex: "#FF554C"))
+            }
             
             Button(action: {
                 if let name = name, !name.isEmpty {
@@ -54,6 +64,8 @@ struct LoginView: View {
                     
                     /// 昵称不为空时, 设置登录状态.
                     isLoggedIn = true
+                } else {
+                    isNameEmpty = true
                 }
             }, label: {
                 Text("加入")

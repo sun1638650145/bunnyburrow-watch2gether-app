@@ -10,16 +10,20 @@ import SwiftUI
 struct StyledPlaceholderTextField: View {
     @Binding var text: String?
     
+    /// 是否处于无效状态.
+    private let isInvalid: Bool
+    
     /// 占位符文本.
     private let placeholder: String
     
     /// 占位符文本的颜色.
     private let placeholderColor: Color
     
-    init(_ placeholder: String, text: Binding<String?>, placeholderColor: Color = .secondary) {
+    init(_ placeholder: String, text: Binding<String?>, placeholderColor: Color = .secondary, isInvalid: Bool = false) {
         self.placeholder = placeholder
         self._text = text
         self.placeholderColor = placeholderColor
+        self.isInvalid = isInvalid
     }
     
     var body: some View {
@@ -41,6 +45,7 @@ struct StyledPlaceholderTextField: View {
         })
         .font(.title3)
         .frame(width: 350, height: 50)
+        .overlay(RoundedRectangle(cornerRadius: 5).stroke(isInvalid ? Color(hex: "#FF554C") : Color.clear, lineWidth: 1))
     }
 }
 
