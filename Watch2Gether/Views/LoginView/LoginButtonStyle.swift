@@ -12,9 +12,6 @@ struct LoginButtonStyle: ButtonStyle {
     /// 按钮悬停状态.
     @State private var isHovered = false
     
-    /// 按钮按压状态.
-    @State private var isPressed = false
-    
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(width: 350, height: 50)
@@ -22,9 +19,9 @@ struct LoginButtonStyle: ButtonStyle {
                 Group {
                     /// 在iOS上按下按钮时, 使用90%的透明度; 在macOS上光标悬停时, 使用110%的亮度.
                     #if os(iOS)
-                    Color(hex: "#0682F0").opacity(isPressed ? 0.9 : 1)
+                    Color(hex: "#0682F0").opacity(configuration.isPressed ? 0.9 : 1)
                     #elseif os(macOS)
-                    Color(hex: "#0682F0").brightness(isHovered ? 0.1: 0)
+                    Color(hex: "#0682F0").brightness(isHovered ? 0.1 : 0)
                     #endif
                 }
             )
@@ -34,9 +31,6 @@ struct LoginButtonStyle: ButtonStyle {
             .foregroundStyle(Color(hex: "#F9F9F9"))
             .onHover(perform: { hovering in
                 isHovered = hovering
-            })
-            .onLongPressGesture(perform: {}, onPressingChanged: { pressing in
-                isPressed = pressing
             })
             .padding(10)
             .tracking(5)
