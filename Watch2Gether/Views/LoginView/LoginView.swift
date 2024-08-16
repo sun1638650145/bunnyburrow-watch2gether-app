@@ -34,14 +34,8 @@ struct LoginView: View {
                 "请输入昵称",
                 text: $name,
                 placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
-                isInvalid: isNameEmpty
+                errorMessage: isNameEmpty ? "昵称不能为空, 请输入昵称并重试." : nil
             )
-            
-            if isNameEmpty {
-                Text("昵称不能为空, 请输入昵称并重试.")
-                    .font(.callout)
-                    .foregroundStyle(Color(hex: "#FF554C"))
-            }
             
             Button(action: {
                 if let name = name, !name.isEmpty {

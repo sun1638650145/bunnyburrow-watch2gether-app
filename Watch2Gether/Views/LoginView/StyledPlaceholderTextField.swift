@@ -10,8 +10,8 @@ import SwiftUI
 struct StyledPlaceholderTextField: View {
     @Binding var text: String?
     
-    /// 是否处于无效状态.
-    private let isInvalid: Bool
+    /// 错误信息文本.
+    private let errorMessage: String?
     
     /// 占位符文本.
     private let placeholder: String
@@ -23,49 +23,65 @@ struct StyledPlaceholderTextField: View {
         _ placeholder: String,
         text: Binding<String?>,
         placeholderColor: Color = .secondary,
-        isInvalid: Bool = false
+        errorMessage: String? = nil
     ) {
         self.placeholder = placeholder
         self._text = text
         self.placeholderColor = placeholderColor
-        self.isInvalid = isInvalid
+        self.errorMessage = errorMessage
     }
     
     var body: some View {
-        ZStack(alignment: .leading, content: {
-            if (text ?? "").isEmpty {
-                Text(placeholder)
-                    .foregroundStyle(placeholderColor)
-                    .padding(.leading, 5)
-            }
-            TextField("", text: Binding<String>(
-                get: { text ?? "" },
-                set: { newValue in
-                    text = newValue.isEmpty ? nil : newValue
+        VStack {
+            ZStack(alignment: .leading, content: {
+                if (text ?? "").isEmpty {
+                    Text(placeholder)
+                        .foregroundStyle(placeholderColor)
+                        .padding(.leading, 5)
                 }
-            ))
-            .foregroundStyle(Color(hex: "#F9F9F9"))
-            .textFieldStyle(PlainTextFieldStyle())
-            .padding(.leading, 5)
-        })
-        .frame(width: 350, height: 50)
-        .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.1))
-        .clipShape(RoundedRectangle(cornerRadius: 5))
-        .font(.title3)
-        .overlay(
-            RoundedRectangle(cornerRadius: 5)
-                .stroke(isInvalid ? Color(hex: "#FF554C") : Color.clear, lineWidth: 1)
-        )
+                TextField("", text: Binding<String>(
+                    get: { text ?? "" },
+                    set: { newValue in
+                        text = newValue.isEmpty ? nil : newValue
+                    }
+                ))
+                .foregroundStyle(Color(hex: "#F9F9F9"))
+                .textFieldStyle(PlainTextFieldStyle())
+                .padding(.leading, 5)
+            })
+            .frame(width: 350, height: 50)
+            .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.1))
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .font(.title3)
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(
+                        errorMessage != nil
+                            ? Color(hex: "#FF554C")
+                            : Color.clear,
+                        lineWidth: 1.2
+                    )
+            )
+            
+            if let errorMessage = errorMessage {
+                Text(errorMessage)
+                    .font(.callout)
+                    .foregroundStyle(Color(hex: "#FF554C"))
+                    .padding(.top, 1)
+            }
+        }
         .padding(10)
     }
 }
 
 #Preview {
     @State var name: String?
+    @State var isNameEmpty = true
     
     return StyledPlaceholderTextField(
         "请输入昵称",
         text: $name,
-        placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255)
+        placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
+        errorMessage: isNameEmpty ? "昵称不能为空, 请输入昵称并重试." : nil
     )
 }
