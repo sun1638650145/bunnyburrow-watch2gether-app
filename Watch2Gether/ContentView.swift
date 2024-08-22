@@ -24,7 +24,7 @@ struct ContentView: View {
             #endif
             
             if isLoggedIn {
-                // ...
+                HomeView()
             } else {
                 LoginView(isLoggedIn: $isLoggedIn, user: $user)
             }
