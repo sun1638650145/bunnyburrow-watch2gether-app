@@ -5,11 +5,13 @@
 //  Created by Steve R. Sun on 2024/8/5.
 //
 
+import Foundation
 import SwiftUI
 
 struct LoginView: View {
     @Binding var isLoggedIn: Bool
     @Binding var user: User?
+    @Binding var streaming: Streaming?
     
     /// 用户的头像.
     @State private var avatar: PlatformImage?
@@ -17,7 +19,7 @@ struct LoginView: View {
     /// 用户的昵称.
     @State private var name: String?
     
-    /// 流媒体视频源.
+    /// 视频源url.
     @State private var url: String?
     
     /// 昵称为空变量.
@@ -62,18 +64,23 @@ struct LoginView: View {
         isNameEmpty = name?.isEmpty ?? true
         
         /// 检查流媒体视频源是否合法.
-        // TODO: 当前为了实现代码逻辑仅检查不为空(Steve).
-        isStreamingInvalid = url?.isEmpty ?? true
+        if let url = url, let url = URL(string: url), url.scheme != nil, url.host() != nil {
+            isStreamingInvalid = false
+        } else {
+            isStreamingInvalid = true
+        }
         
-        if !isNameEmpty {
+        if !isNameEmpty && !isStreamingInvalid {
             user = User(avatar, name!)
+            streaming = Streaming(url: URL(string: url!)!)
 
-            if let user = user {
+            if let user = user, let streaming = streaming {
                 print(
                     """
                     头像: \(String(describing: user.avatar))
                     客户端ID: \(user.clientID)
                     昵称: \(user.name)
+                    流媒体视频源: \(streaming.url)
                     """
                 )
             }
@@ -87,6 +94,7 @@ struct LoginView: View {
 #Preview {
     @State var isLoggedIn = false
     @State var user: User?
+    @State var streaming: Streaming?
     
-    return LoginView(isLoggedIn: $isLoggedIn, user: $user)
+    return LoginView(isLoggedIn: $isLoggedIn, user: $user, streaming: $streaming)
 }

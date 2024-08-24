@@ -10,8 +10,12 @@ import SwiftUI
 struct ContentView: View {
     /// 登陆状态.
     @State private var isLoggedIn = false
+    
     /// 用户信息.
     @State private var user: User?
+    
+    /// 流媒体视频源.
+    @State private var streaming: Streaming?
     
     var body: some View {
         ZStack {
@@ -24,9 +28,9 @@ struct ContentView: View {
             #endif
             
             if isLoggedIn {
-                HomeView()
+                HomeView(streaming: $streaming)
             } else {
-                LoginView(isLoggedIn: $isLoggedIn, user: $user)
+                LoginView(isLoggedIn: $isLoggedIn, user: $user, streaming: $streaming)
             }
         }
     }

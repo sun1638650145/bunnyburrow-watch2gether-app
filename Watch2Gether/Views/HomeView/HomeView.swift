@@ -8,13 +8,17 @@
 import SwiftUI
 
 struct HomeView: View {
-    let url = URL(string: "http://127.0.0.1:8000/video/flower/")
+    @Binding var streaming: Streaming?
     
     var body: some View {
-        VideoPlayer(url: url!)
+        VideoPlayer(url: streaming!.url)
     }
 }
 
 #Preview {
-    HomeView()
+    @State var streaming: Streaming? = Streaming(
+        url: URL(string: "http://127.0.0.1:8000/video/flower/")!
+    )
+    
+    return HomeView(streaming: $streaming)
 }
