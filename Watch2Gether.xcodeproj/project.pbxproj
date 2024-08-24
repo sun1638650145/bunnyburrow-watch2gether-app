@@ -74,7 +74,6 @@
 			isa = PBXGroup;
 			children = (
 				39042D842C5E060300125248 /* Watch2GetherApp.swift */,
-				39042D862C5E060300125248 /* ContentView.swift */,
 				39B58F6C2C61F9A1006F23F5 /* Views */,
 				39B58F702C620A71006F23F5 /* Extensions */,
 				3950EDE12C78745500DC4D07 /* Model */,
@@ -104,6 +103,7 @@
 		39B58F6C2C61F9A1006F23F5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				39042D862C5E060300125248 /* ContentView.swift */,
 				39B859152C7718F9000558FA /* HomeView */,
 				39B58F6D2C61FA2B006F23F5 /* LoginView */,
 			);
