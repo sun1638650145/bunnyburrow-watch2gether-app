@@ -67,10 +67,10 @@ struct StyledPlaceholderTextField: View {
                 Text(errorMessage)
                     .font(.callout)
                     .foregroundStyle(Color(hex: "#FF554C"))
-                    .padding(.top, 1)
+                    .padding(.top, 3)
             }
         }
-        .padding(10)
+        .padding(EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
     }
 }
 

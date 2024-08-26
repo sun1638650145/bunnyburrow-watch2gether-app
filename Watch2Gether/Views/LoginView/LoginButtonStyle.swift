@@ -32,7 +32,7 @@ struct LoginButtonStyle: ButtonStyle {
             .onHover(perform: { hovering in
                 isHovered = hovering
             })
-            .padding(10)
+            .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
             .tracking(5)
     }
 }
