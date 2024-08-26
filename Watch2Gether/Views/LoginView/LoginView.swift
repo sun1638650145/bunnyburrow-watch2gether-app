@@ -22,11 +22,17 @@ struct LoginView: View {
     /// 视频源url.
     @State private var url: String?
     
+    /// WebSocket服务地址.
+    @State private var websocketUrl: String?
+    
     /// 昵称为空变量.
     @State private var isNameEmpty = false
     
     /// 流媒体视频源不合法变量.
     @State private var isStreamingInvalid = false
+    
+    /// WebSocket服务地址不合法变量.
+    @State private var isWebSocketInvalid = false
     
     var body: some View {
         VStack {
@@ -52,6 +58,13 @@ struct LoginView: View {
                 errorMessage: isStreamingInvalid ? "流媒体视频源为空或者不合法, 请重新输入视频源并重试." : nil
             )
             
+            StyledPlaceholderTextField(
+                "请输入WebSocket服务地址",
+                text: $websocketUrl,
+                placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
+                errorMessage: isWebSocketInvalid ? "WebSocket服务地址为空或者不合法, 请重新输入地址并重试." : nil
+            )
+
             Button(action: handleLogin, label: {
                 Text("加入")
             })
@@ -70,7 +83,15 @@ struct LoginView: View {
             isStreamingInvalid = true
         }
         
-        if !isNameEmpty && !isStreamingInvalid {
+        /// 检查WebSocket服务地址是否合法.
+        if let url = websocketUrl, let url = URL(string: url),
+           url.scheme != nil, url.host() != nil {
+            isWebSocketInvalid = false
+        } else {
+            isWebSocketInvalid = true
+        }
+        
+        if !isNameEmpty && !isStreamingInvalid && !isWebSocketInvalid {
             user = User(avatar, name!)
             streaming = Streaming(url: URL(string: url!)!)
 
