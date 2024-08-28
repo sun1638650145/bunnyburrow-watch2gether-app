@@ -30,7 +30,9 @@ struct AvatarUploader: View {
                     .aspectRatio(contentMode: .fill)
                     .clipShape(Circle())
                     .frame(width: 100, height: 100)
-                    .overlay(Circle().stroke(Color(hex: "#E5E7EB"), lineWidth: 2))
+                    .overlay(content: {
+                        Circle().stroke(Color(hex: "#E5E7EB"), lineWidth: 2)
+                    })
                     .padding(5)
             } else {
                 Image("AvatarUploader")

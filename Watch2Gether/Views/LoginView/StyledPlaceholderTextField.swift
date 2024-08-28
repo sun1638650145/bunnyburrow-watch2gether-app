@@ -53,7 +53,7 @@ struct StyledPlaceholderTextField: View {
             .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.1))
             .clipShape(RoundedRectangle(cornerRadius: 5))
             .font(.title3)
-            .overlay(
+            .overlay(content: {
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(
                         errorMessage != nil
@@ -61,7 +61,7 @@ struct StyledPlaceholderTextField: View {
                             : Color.clear,
                         lineWidth: 1.2
                     )
-            )
+            })
             
             if let errorMessage = errorMessage {
                 Text(errorMessage)
