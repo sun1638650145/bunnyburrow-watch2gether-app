@@ -18,7 +18,7 @@ import UniformTypeIdentifiers
 /// 在iOS上使用`PHPickerViewController`并委托`Coordinator`处理; 在macOS上使用`NSOpenPanel`.
 #if os(iOS)
 struct ImagePickerViewController: UIViewControllerRepresentable {
-    @Binding var selectedImage: PlatformImage?
+    @Binding var selectedImage: UIImage?
     
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var configuration = PHPickerConfiguration()
@@ -74,7 +74,7 @@ struct ImagePickerViewController: UIViewControllerRepresentable {
 }
 #elseif os(macOS)
 struct ImagePickerViewController: NSViewControllerRepresentable {
-    @Binding var selectedImage: PlatformImage?
+    @Binding var selectedImage: NSImage?
     @Environment(\.dismiss) private var dismiss
     
     func makeNSViewController(context: Context) -> NSViewController {
