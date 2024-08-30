@@ -28,7 +28,7 @@ struct ContentView: View {
             #endif
             
             if isLoggedIn {
-                HomeView(streaming: $streaming)
+                HomeView(streaming: streaming!)
             } else {
                 LoginView(isLoggedIn: $isLoggedIn, user: $user, streaming: $streaming)
             }
