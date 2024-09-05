@@ -51,7 +51,8 @@ struct ImagePickerViewController: UIViewControllerRepresentable {
         
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
             /// 获取上传图片的`itemProvider`.
-            guard let provider = results.first?.itemProvider else {
+            guard let provider = results.first?.itemProvider
+            else {
                 /// 不选择图片也能正常关闭弹出窗口.
                 return picker.dismiss(animated: true)
             }
