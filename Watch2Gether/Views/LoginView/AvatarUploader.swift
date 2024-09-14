@@ -42,6 +42,7 @@ struct AvatarUploader: View {
                     .padding(5)
             }
         })
+        .animation(.easeIn(duration: 1.2), value: avatar)
         .buttonStyle(PlainButtonStyle())
         #if os(macOS)
         .onHover(perform: { hovering in
