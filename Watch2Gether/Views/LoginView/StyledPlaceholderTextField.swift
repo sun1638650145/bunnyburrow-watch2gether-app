@@ -90,7 +90,7 @@ struct StyledPlaceholderTextField: View {
             "请输入流媒体视频源",
             text: $url,
             placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
-            errorMessage: ""
+            errorMessage: nil
         )
     }
 }
