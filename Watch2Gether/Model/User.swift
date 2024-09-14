@@ -5,10 +5,8 @@
 //  Created by Steve R. Sun on 2024/8/5.
 //
 
-#if os(macOS)
-import AppKit
-#endif
 import Foundation
+import SwiftUI
 
 /// 用户信息.
 struct User: Identifiable {
@@ -27,36 +25,9 @@ struct User: Identifiable {
     }
     
     init(_ avatar: PlatformImage? = nil, _ name: String) {
-        self.avatar = User.convertAvatarToBase64(avatar)
+        self.avatar = Image.convertToBase64(platformImage: avatar)
         // TODO: 目前使用时间戳生成, 未来改进为使用UUID; 同时兼容Web客户端的实现(Steve).
         self.clientID = UInt(Date().timeIntervalSince1970 * 1000)
         self.name = name
-    }
-    
-    /// 将用户的头像转换成Base-64编码的字符串.
-    ///
-    /// - Parameter avatar: 用户的头像.
-    /// - Returns: 头像的Base-64编码字符串.
-    private static func convertAvatarToBase64(_ avatar: PlatformImage?) -> String? {
-        /// 在iOS上, 使用`pngData()`将图片转换成数据.
-        #if os(iOS)
-        guard let image = avatar,
-              let data = image.pngData()
-        else {
-            return nil
-        }
-        
-        /// 在macOS上, 先将图片转换成tiff格式, 再转换为bitmap格式, 最后转换成数据.
-        #elseif os(macOS)
-        guard let image = avatar,
-              let tiff = image.tiffRepresentation,
-              let bitmap = NSBitmapImageRep(data: tiff),
-              let data = bitmap.representation(using: .png, properties: [:])
-        else {
-            return nil
-        }
-        #endif
-        
-        return "data:image/png;base64,\(data.base64EncodedString())"
     }
 }
