@@ -113,9 +113,8 @@ struct LoginView: View {
 }
 
 #Preview {
-    @State var isLoggedIn = false
     @State var user: User?
     @State var streaming: Streaming?
     
-    return LoginView(isLoggedIn: $isLoggedIn, user: $user, streaming: $streaming)
+    return LoginView(isLoggedIn: .constant(false), user: $user, streaming: $streaming)
 }
