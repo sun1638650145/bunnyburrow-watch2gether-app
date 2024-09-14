@@ -83,14 +83,14 @@ struct StyledPlaceholderTextField: View {
             "请输入昵称",
             text: $name,
             placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
-            errorMessage: true ? "昵称不能为空, 请输入昵称并重试." : nil
+            errorMessage: "昵称不能为空, 请输入昵称并重试."
         )
         
         StyledPlaceholderTextField(
             "请输入流媒体视频源",
             text: $url,
             placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
-            errorMessage: false ? "流媒体视频源为空或者不合法, 请重新输入视频源并重试." : nil
+            errorMessage: ""
         )
     }
 }
