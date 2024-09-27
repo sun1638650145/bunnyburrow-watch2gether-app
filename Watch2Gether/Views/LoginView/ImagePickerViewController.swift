@@ -112,7 +112,7 @@ struct ImagePickerViewController: NSViewControllerRepresentable {
 #endif
 
 #Preview {
-    @State var avatar: PlatformImage?
+    @Previewable @State var avatar: PlatformImage?
     
     return ImagePickerViewController(selectedImage: $avatar)
 }

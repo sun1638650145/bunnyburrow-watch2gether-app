@@ -65,7 +65,7 @@ struct AvatarUploader: View {
 }
 
 #Preview {
-    @State var avatar: PlatformImage?
+    @Previewable @State var avatar: PlatformImage?
     
     return AvatarUploader($avatar)
 }

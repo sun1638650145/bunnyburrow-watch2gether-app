@@ -113,8 +113,8 @@ struct LoginView: View {
 }
 
 #Preview {
-    @State var user: User?
-    @State var streaming: Streaming?
+    @Previewable @State var user: User?
+    @Previewable @State var streaming: Streaming?
     
     return LoginView(isLoggedIn: .constant(false), user: $user, streaming: $streaming)
 }

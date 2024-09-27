@@ -75,8 +75,8 @@ struct StyledPlaceholderTextField: View {
 }
 
 #Preview {
-    @State var name: String?
-    @State var url: String?
+    @Previewable @State var name: String?
+    @Previewable @State var url: String?
     
     return Group {
         StyledPlaceholderTextField(
