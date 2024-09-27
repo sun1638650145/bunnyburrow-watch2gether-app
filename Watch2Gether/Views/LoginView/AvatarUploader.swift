@@ -35,10 +35,7 @@ struct AvatarUploader: View {
                     })
                     .padding(5)
             } else {
-                Image("AvatarUploader")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 100, height: 100)
+                AvatarUploaderIcon(size: 100, crossWidth: 35, crossHeight: 5)
                     .padding(5)
             }
         })
