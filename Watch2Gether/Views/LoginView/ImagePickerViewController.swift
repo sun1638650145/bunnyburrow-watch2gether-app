@@ -74,45 +74,35 @@ struct ImagePickerViewController: UIViewControllerRepresentable {
     }
 }
 #elseif os(macOS)
-struct ImagePickerViewController: NSViewControllerRepresentable {
+struct ImagePickerViewController {
     @Binding var selectedImage: NSImage?
-    @Environment(\.dismiss) private var dismiss
     
-    func makeNSViewController(context: Context) -> NSViewController {
+    /// 展示`NSOpenPanel`允许用户上传图片.
+    func present() {
         let openPanel = NSOpenPanel()
-        let viewController = NSViewController()
         
         /// 只允许用户选择媒体类型为图片的文件.
         openPanel.allowedContentTypes = [UTType.image]
         
-        /// 弹出的窗口位于标准窗口之上.
-        openPanel.level = .floating
+        /// 作为模态窗口展示.
+        let response = openPanel.runModal()
         
-        openPanel.begin { response in
-            /// 使用主线程执行, 提高稳定性.
-            DispatchQueue.main.async {
-                if response == .OK {
-                    if let url = openPanel.url {
-                        self.selectedImage = NSImage(contentsOf: url)
-                    }
+        /// 使用主线程执行, 提高稳定性.
+        DispatchQueue.main.async {
+            if response == .OK {
+                if let url = openPanel.url {
+                    self.selectedImage = NSImage(contentsOf: url)
                 }
-                
-                /// 关闭弹出窗口.
-                self.dismiss()
             }
         }
-        
-        return viewController
-    }
-    
-    func updateNSViewController(_ nsViewController: NSViewController, context: Context) {
-        // ...
     }
 }
 #endif
 
-#Preview {
+#if os(iOS)
+#Preview("iOS") {
     @Previewable @State var avatar: PlatformImage?
     
     return ImagePickerViewController(selectedImage: $avatar)
 }
+#endif

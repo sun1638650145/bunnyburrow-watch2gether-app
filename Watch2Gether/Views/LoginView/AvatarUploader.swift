@@ -22,7 +22,11 @@ struct AvatarUploader: View {
     
     var body: some View {
         Button(action: {
+            #if os(iOS)
             isPresented = true
+            #elseif os(macOS)
+            ImagePickerViewController(selectedImage: $avatar).present()
+            #endif
         }, label: {
             if let avatar = avatar {
                 Image(platformImage: avatar)
@@ -41,7 +45,11 @@ struct AvatarUploader: View {
         })
         .animation(.easeIn(duration: 1.2), value: avatar)
         .buttonStyle(PlainButtonStyle())
-        #if os(macOS)
+        #if os(iOS)
+        .sheet(isPresented: $isPresented, content: {
+            ImagePickerViewController(selectedImage: $avatar)
+        })
+        #elseif os(macOS)
         .onHover(perform: { hovering in
             isHovered = hovering
             
@@ -53,14 +61,6 @@ struct AvatarUploader: View {
             }
         })
         #endif
-        .sheet(isPresented: $isPresented, content: {
-            #if os(iOS)
-            ImagePickerViewController(selectedImage: $avatar)
-            #elseif os(macOS)
-            ImagePickerViewController(selectedImage: $avatar)
-                .frame(width: 0, height: 0)
-            #endif
-        })
     }
 }
 
