@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AvatarUploader: View {
     @Binding var avatar: PlatformImage?
+    @Binding var isMacOSImagePickerActive: Bool
     
     /// 按钮悬停状态.
     @State private var isHovered = false
@@ -16,8 +17,9 @@ struct AvatarUploader: View {
     /// 是否呈现`ImagePickerViewController`状态.
     @State private var isPresented = false
     
-    init(_ avatar: Binding<PlatformImage?>) {
+    init(_ avatar: Binding<PlatformImage?>, isMacOSImagePickerActive: Binding<Bool>) {
         self._avatar = avatar
+        self._isMacOSImagePickerActive = isMacOSImagePickerActive
     }
     
     var body: some View {
@@ -25,7 +27,9 @@ struct AvatarUploader: View {
             #if os(iOS)
             isPresented = true
             #elseif os(macOS)
+            isMacOSImagePickerActive = true
             ImagePicker(selectedImage: $avatar).present()
+            isMacOSImagePickerActive = false
             #endif
         }, label: {
             if let avatar = avatar {
@@ -67,5 +71,5 @@ struct AvatarUploader: View {
 #Preview {
     @Previewable @State var avatar: PlatformImage?
     
-    return AvatarUploader($avatar)
+    return AvatarUploader($avatar, isMacOSImagePickerActive: .constant(false))
 }

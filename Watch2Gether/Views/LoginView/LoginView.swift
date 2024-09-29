@@ -34,41 +34,52 @@ struct LoginView: View {
     /// WebSocket服务地址不合法变量.
     @State private var isWebSocketInvalid = false
     
+    /// 在macOS上激活`ImagePicker`后会提示登录页面禁用(灰白色遮罩), 须优先上传头像.
+    @State private var isMacOSImagePickerActive = false
+    
     var body: some View {
-        VStack {
-            Text("一起看电影")
-                .bold()
-                .font(.largeTitle)
-                .foregroundStyle(Color(hex: "#F9F9F9"))
-                .padding(10)
+        ZStack {
+            VStack {
+                Text("一起看电影")
+                    .bold()
+                    .font(.largeTitle)
+                    .foregroundStyle(Color(hex: "#F9F9F9"))
+                    .padding(10)
+                
+                AvatarUploader($avatar, isMacOSImagePickerActive: $isMacOSImagePickerActive)
+                
+                StyledPlaceholderTextField(
+                    "请输入昵称",
+                    text: $name,
+                    placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
+                    errorMessage: isNameEmpty ? "昵称不能为空, 请输入昵称并重试." : nil
+                )
+                
+                StyledPlaceholderTextField(
+                    "请输入流媒体视频源",
+                    text: $url,
+                    placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
+                    errorMessage: isStreamingInvalid ? "流媒体视频源为空或者不合法, 请重新输入视频源并重试." : nil
+                )
+                
+                StyledPlaceholderTextField(
+                    "请输入WebSocket服务地址",
+                    text: $websocketUrl,
+                    placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
+                    errorMessage: isWebSocketInvalid ? "WebSocket服务地址为空或者不合法, 请重新输入地址并重试." : nil
+                )
+                
+                Button(action: handleLogin, label: {
+                    Text("加入")
+                })
+                .buttonStyle(LoginButtonStyle())
+            }
             
-            AvatarUploader($avatar)
-            
-            StyledPlaceholderTextField(
-                "请输入昵称",
-                text: $name,
-                placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
-                errorMessage: isNameEmpty ? "昵称不能为空, 请输入昵称并重试." : nil
-            )
-            
-            StyledPlaceholderTextField(
-                "请输入流媒体视频源",
-                text: $url,
-                placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
-                errorMessage: isStreamingInvalid ? "流媒体视频源为空或者不合法, 请重新输入视频源并重试." : nil
-            )
-            
-            StyledPlaceholderTextField(
-                "请输入WebSocket服务地址",
-                text: $websocketUrl,
-                placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
-                errorMessage: isWebSocketInvalid ? "WebSocket服务地址为空或者不合法, 请重新输入地址并重试." : nil
-            )
-
-            Button(action: handleLogin, label: {
-                Text("加入")
-            })
-            .buttonStyle(LoginButtonStyle())
+            #if os(macOS)
+            if isMacOSImagePickerActive {
+                Color(.white).opacity(0.3)
+            }
+            #endif
         }
     }
     
