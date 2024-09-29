@@ -1,5 +1,5 @@
 //
-//  ImagePickerViewController.swift
+//  ImagePicker.swift
 //  Watch2Gether
 //
 //  Created by Steve R. Sun on 2024/8/7.
@@ -14,10 +14,10 @@ import AppKit
 import SwiftUI
 import UniformTypeIdentifiers
 
-/// `ImagePickerViewController`是一个通用视图控制器, 允许用户在iOS和macOS上上传图片;
+/// `ImagePicker`是一个通用视图控制器, 允许用户在iOS和macOS上上传图片;
 /// 在iOS上使用`PHPickerViewController`并委托`Coordinator`处理; 在macOS上使用`NSOpenPanel`.
 #if os(iOS)
-struct ImagePickerViewController: UIViewControllerRepresentable {
+struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?
     
     func makeUIViewController(context: Context) -> PHPickerViewController {
@@ -43,9 +43,9 @@ struct ImagePickerViewController: UIViewControllerRepresentable {
     
     /// 用于处理上传图片后操作的协调器.
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
-        var parent: ImagePickerViewController
+        var parent: ImagePicker
         
-        init(_ parent: ImagePickerViewController) {
+        init(_ parent: ImagePicker) {
             self.parent = parent
         }
         
@@ -74,7 +74,7 @@ struct ImagePickerViewController: UIViewControllerRepresentable {
     }
 }
 #elseif os(macOS)
-struct ImagePickerViewController {
+struct ImagePicker {
     @Binding var selectedImage: NSImage?
     
     /// 展示`NSOpenPanel`允许用户上传图片.
@@ -103,6 +103,6 @@ struct ImagePickerViewController {
 #Preview("iOS") {
     @Previewable @State var avatar: PlatformImage?
     
-    return ImagePickerViewController(selectedImage: $avatar)
+    return ImagePicker(selectedImage: $avatar)
 }
 #endif

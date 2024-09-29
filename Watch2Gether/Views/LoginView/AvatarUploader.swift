@@ -25,7 +25,7 @@ struct AvatarUploader: View {
             #if os(iOS)
             isPresented = true
             #elseif os(macOS)
-            ImagePickerViewController(selectedImage: $avatar).present()
+            ImagePicker(selectedImage: $avatar).present()
             #endif
         }, label: {
             if let avatar = avatar {
@@ -47,7 +47,7 @@ struct AvatarUploader: View {
         .buttonStyle(PlainButtonStyle())
         #if os(iOS)
         .sheet(isPresented: $isPresented, content: {
-            ImagePickerViewController(selectedImage: $avatar)
+            ImagePicker(selectedImage: $avatar)
         })
         #elseif os(macOS)
         .onHover(perform: { hovering in

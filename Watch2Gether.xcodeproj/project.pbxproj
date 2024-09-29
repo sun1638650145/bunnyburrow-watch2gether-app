@@ -23,7 +23,7 @@
 		39B859172C77193F000558FA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B859162C77193F000558FA /* HomeView.swift */; };
 		39B859192C771BA8000558FA /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B859182C771BA8000558FA /* VideoPlayer.swift */; };
 		39C6B9A12C6DAF2800579E49 /* LoginButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C6B9A02C6DAF2800579E49 /* LoginButtonStyle.swift */; };
-		39FEFC3E2C634F5300B9BBC9 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FEFC3D2C634F5300B9BBC9 /* ImagePickerViewController.swift */; };
+		39FEFC3E2C634F5300B9BBC9 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FEFC3D2C634F5300B9BBC9 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +44,7 @@
 		39B859162C77193F000558FA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		39B859182C771BA8000558FA /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
 		39C6B9A02C6DAF2800579E49 /* LoginButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonStyle.swift; sourceTree = "<group>"; };
-		39FEFC3D2C634F5300B9BBC9 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
+		39FEFC3D2C634F5300B9BBC9 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,7 +129,7 @@
 			children = (
 				3988491C2C60A0A90015D413 /* LoginView.swift */,
 				398849272C60B68B0015D413 /* AvatarUploader.swift */,
-				39FEFC3D2C634F5300B9BBC9 /* ImagePickerViewController.swift */,
+				39FEFC3D2C634F5300B9BBC9 /* ImagePicker.swift */,
 				39ADBB382C6B01CE00071DCE /* StyledPlaceholderTextField.swift */,
 				39C6B9A02C6DAF2800579E49 /* LoginButtonStyle.swift */,
 			);
@@ -228,7 +228,7 @@
 				39ADBB392C6B01CE00071DCE /* StyledPlaceholderTextField.swift in Sources */,
 				39B58F6F2C620565006F23F5 /* Image.swift in Sources */,
 				39042DB82C5F333C00125248 /* Color.swift in Sources */,
-				39FEFC3E2C634F5300B9BBC9 /* ImagePickerViewController.swift in Sources */,
+				39FEFC3E2C634F5300B9BBC9 /* ImagePicker.swift in Sources */,
 				39042D872C5E060300125248 /* ContentView.swift in Sources */,
 				39B859172C77193F000558FA /* HomeView.swift in Sources */,
 				3950EDE32C78748200DC4D07 /* Streaming.swift in Sources */,
