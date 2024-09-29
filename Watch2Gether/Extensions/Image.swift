@@ -5,8 +5,6 @@
 //  Created by Steve R. Sun on 2024/8/6.
 //
 
-import SwiftUI
-
 #if os(iOS)
 import UIKit
 typealias PlatformImage = UIImage
@@ -14,6 +12,7 @@ typealias PlatformImage = UIImage
 import AppKit
 typealias PlatformImage = NSImage
 #endif
+import SwiftUI
 
 extension Image {
     /// 从特定平台的图片初始化`Image`.
