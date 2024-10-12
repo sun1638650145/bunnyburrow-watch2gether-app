@@ -88,15 +88,16 @@ struct LoginView: View {
         isNameEmpty = name?.isEmpty ?? true
         
         /// 检查流媒体视频源是否合法.
-        if let url = url, let url = URL(string: url), url.scheme != nil, url.host() != nil {
+        if let url = url?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines),
+           let url = URL(string: url), url.scheme != nil, url.host() != nil {
             isStreamingInvalid = false
         } else {
             isStreamingInvalid = true
         }
         
         /// 检查WebSocket服务地址是否合法.
-        if let url = websocketUrl, let url = URL(string: url),
-           url.scheme != nil, url.host() != nil {
+        if let url = websocketUrl?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines),
+           let url = URL(string: url), url.scheme != nil, url.host() != nil {
             isWebSocketInvalid = false
         } else {
             isWebSocketInvalid = true
@@ -104,7 +105,9 @@ struct LoginView: View {
         
         if !isNameEmpty && !isStreamingInvalid && !isWebSocketInvalid {
             user = User(avatar, name!)
-            streaming = Streaming(url: URL(string: url!)!)
+            streaming = Streaming(
+                url: URL(string: url!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))!
+            )
 
             if let user = user, let streaming = streaming {
                 print(
@@ -119,7 +122,7 @@ struct LoginView: View {
         }
         
         /// 设置登录状态.
-        isLoggedIn = !isNameEmpty && !isStreamingInvalid
+        isLoggedIn = !isNameEmpty && !isStreamingInvalid && !isWebSocketInvalid
     }
 }
 
