@@ -112,7 +112,7 @@ struct LoginView: View {
             if let user = user, let streaming = streaming {
                 print(
                     """
-                    头像: \(String(describing: user.avatar))
+                    头像: \(String(describing: user.avatar).dropFirst(10).prefix(64))
                     客户端ID: \(user.clientID)
                     昵称: \(user.name)
                     流媒体视频源: \(streaming.url)
