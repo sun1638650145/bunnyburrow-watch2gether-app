@@ -6,26 +6,27 @@
 //
 
 import Foundation
-import SwiftUI
+import Observation
 
 /// 用户信息.
-struct User: Identifiable {
+@Observable
+class User: Identifiable {
     /// 头像的Base-64.
-    let avatar: String?
+    var avatar: String?
     
     /// 客户端ID.
-    let clientID: UInt
+    var clientID: UInt
     
     /// 昵称.
-    let name: String
+    var name: String
     
     /// 遵循`Identifiable`协议要求.
     var id: UInt {
         return clientID
     }
     
-    init(_ avatar: PlatformImage? = nil, _ name: String) {
-        self.avatar = Image.convertToBase64(platformImage: avatar)
+    init(_ avatar: String? = nil, _ name: String) {
+        self.avatar = avatar
         // TODO: 目前使用时间戳生成, 未来改进为使用UUID; 同时兼容Web客户端的实现(Steve).
         self.clientID = UInt(Date().timeIntervalSince1970 * 1000)
         self.name = name

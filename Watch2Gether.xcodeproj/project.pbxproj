@@ -3,52 +3,58 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		39042D852C5E060300125248 /* Watch2GetherApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39042D842C5E060300125248 /* Watch2GetherApp.swift */; };
-		39042D872C5E060300125248 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39042D862C5E060300125248 /* ContentView.swift */; };
-		39042D892C5E060400125248 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39042D882C5E060400125248 /* Assets.xcassets */; };
-		39042D8C2C5E060400125248 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 39042D8B2C5E060400125248 /* Preview Assets.xcassets */; };
-		39042DB82C5F333C00125248 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39042DB72C5F333C00125248 /* Color.swift */; };
-		3950EDE32C78748200DC4D07 /* Streaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3950EDE22C78748200DC4D07 /* Streaming.swift */; };
-		3988491D2C60A0A90015D413 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3988491C2C60A0A90015D413 /* LoginView.swift */; };
-		3988491F2C60A5590015D413 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3988491E2C60A5590015D413 /* User.swift */; };
-		398849282C60B68B0015D413 /* AvatarUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398849272C60B68B0015D413 /* AvatarUploader.swift */; };
-		3998DE572CA660AD00749693 /* AvatarUploaderIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3998DE562CA660A100749693 /* AvatarUploaderIcon.swift */; };
-		3998DE592CA660C600749693 /* CrossShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3998DE582CA660C200749693 /* CrossShape.swift */; };
-		39ADBB392C6B01CE00071DCE /* StyledPlaceholderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39ADBB382C6B01CE00071DCE /* StyledPlaceholderTextField.swift */; };
-		39B58F6F2C620565006F23F5 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B58F6E2C620565006F23F5 /* Image.swift */; };
-		39B859172C77193F000558FA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B859162C77193F000558FA /* HomeView.swift */; };
-		39B859192C771BA8000558FA /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B859182C771BA8000558FA /* VideoPlayer.swift */; };
-		39C6B9A12C6DAF2800579E49 /* LoginButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C6B9A02C6DAF2800579E49 /* LoginButtonStyle.swift */; };
-		39FEFC3E2C634F5300B9BBC9 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FEFC3D2C634F5300B9BBC9 /* ImagePicker.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
-		39042D812C5E060300125248 /* Watch2Gether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watch2Gether.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		39042D842C5E060300125248 /* Watch2GetherApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watch2GetherApp.swift; sourceTree = "<group>"; };
-		39042D862C5E060300125248 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		39042D882C5E060400125248 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		39042D8B2C5E060400125248 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		39042DB72C5F333C00125248 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
-		3950EDE22C78748200DC4D07 /* Streaming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Streaming.swift; sourceTree = "<group>"; };
-		3988491C2C60A0A90015D413 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		3988491E2C60A5590015D413 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		398849272C60B68B0015D413 /* AvatarUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarUploader.swift; sourceTree = "<group>"; };
-		3998DE562CA660A100749693 /* AvatarUploaderIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarUploaderIcon.swift; sourceTree = "<group>"; };
-		3998DE582CA660C200749693 /* CrossShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossShape.swift; sourceTree = "<group>"; };
-		39ADBB382C6B01CE00071DCE /* StyledPlaceholderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledPlaceholderTextField.swift; sourceTree = "<group>"; };
-		39B58F6E2C620565006F23F5 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
-		39B859162C77193F000558FA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		39B859182C771BA8000558FA /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
-		39C6B9A02C6DAF2800579E49 /* LoginButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButtonStyle.swift; sourceTree = "<group>"; };
-		39FEFC3D2C634F5300B9BBC9 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		390FA68B2CDC93B8005329D9 /* MacWatch2Gether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacWatch2Gether.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		392DB2922CD4BA25006CA9A2 /* Watch2Gether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watch2Gether.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		390FA69B2CDC9483005329D9 /* Exceptions for "Watch2Gether" folder in "MacWatch2Gether" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Extensions/Color.swift,
+				Extensions/Image.swift,
+				Extensions/View.swift,
+				Model/Streaming.swift,
+				Model/User.swift,
+				Views/Icons/AvatarUploaderIcon.swift,
+				Views/Icons/CrossShape.swift,
+				Views/Styles/LoginButtonStyle.swift,
+				Views/ViewModifiers/Copyright.swift,
+				Watch2GetherApp.swift,
+			);
+			target = 390FA68A2CDC93B8005329D9 /* MacWatch2Gether */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		390FA68C2CDC93B8005329D9 /* MacWatch2Gether */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MacWatch2Gether;
+			sourceTree = "<group>";
+		};
+		392DB2942CD4BA25006CA9A2 /* Watch2Gether */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				390FA69B2CDC9483005329D9 /* Exceptions for "Watch2Gether" folder in "MacWatch2Gether" target */,
+			);
+			path = Watch2Gether;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
-		39042D7E2C5E060300125248 /* Frameworks */ = {
+		390FA6882CDC93B8005329D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		392DB28F2CD4BA25006CA9A2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -58,139 +64,90 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		39042D782C5E060300125248 = {
+		392DB2892CD4BA25006CA9A2 = {
 			isa = PBXGroup;
 			children = (
-				39042D832C5E060300125248 /* Watch2Gether */,
-				39042D822C5E060300125248 /* Products */,
+				392DB2942CD4BA25006CA9A2 /* Watch2Gether */,
+				390FA68C2CDC93B8005329D9 /* MacWatch2Gether */,
+				392DB2932CD4BA25006CA9A2 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		39042D822C5E060300125248 /* Products */ = {
+		392DB2932CD4BA25006CA9A2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				39042D812C5E060300125248 /* Watch2Gether.app */,
+				392DB2922CD4BA25006CA9A2 /* Watch2Gether.app */,
+				390FA68B2CDC93B8005329D9 /* MacWatch2Gether.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		39042D832C5E060300125248 /* Watch2Gether */ = {
-			isa = PBXGroup;
-			children = (
-				39042D842C5E060300125248 /* Watch2GetherApp.swift */,
-				39B58F6C2C61F9A1006F23F5 /* Views */,
-				39B58F702C620A71006F23F5 /* Extensions */,
-				3950EDE12C78745500DC4D07 /* Model */,
-				39042D882C5E060400125248 /* Assets.xcassets */,
-				39042D8A2C5E060400125248 /* Preview Content */,
-			);
-			path = Watch2Gether;
-			sourceTree = "<group>";
-		};
-		39042D8A2C5E060400125248 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				39042D8B2C5E060400125248 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		3950EDE12C78745500DC4D07 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				3950EDE22C78748200DC4D07 /* Streaming.swift */,
-				3988491E2C60A5590015D413 /* User.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		3998DE552CA6608800749693 /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				3998DE562CA660A100749693 /* AvatarUploaderIcon.swift */,
-				3998DE582CA660C200749693 /* CrossShape.swift */,
-			);
-			path = Icons;
-			sourceTree = "<group>";
-		};
-		39B58F6C2C61F9A1006F23F5 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				39042D862C5E060300125248 /* ContentView.swift */,
-				39B859152C7718F9000558FA /* HomeView */,
-				39B58F6D2C61FA2B006F23F5 /* LoginView */,
-				3998DE552CA6608800749693 /* Icons */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		39B58F6D2C61FA2B006F23F5 /* LoginView */ = {
-			isa = PBXGroup;
-			children = (
-				3988491C2C60A0A90015D413 /* LoginView.swift */,
-				398849272C60B68B0015D413 /* AvatarUploader.swift */,
-				39FEFC3D2C634F5300B9BBC9 /* ImagePicker.swift */,
-				39ADBB382C6B01CE00071DCE /* StyledPlaceholderTextField.swift */,
-				39C6B9A02C6DAF2800579E49 /* LoginButtonStyle.swift */,
-			);
-			path = LoginView;
-			sourceTree = "<group>";
-		};
-		39B58F702C620A71006F23F5 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				39042DB72C5F333C00125248 /* Color.swift */,
-				39B58F6E2C620565006F23F5 /* Image.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		39B859152C7718F9000558FA /* HomeView */ = {
-			isa = PBXGroup;
-			children = (
-				39B859162C77193F000558FA /* HomeView.swift */,
-				39B859182C771BA8000558FA /* VideoPlayer.swift */,
-			);
-			path = HomeView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		39042D802C5E060300125248 /* Watch2Gether */ = {
+		390FA68A2CDC93B8005329D9 /* MacWatch2Gether */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 39042D8F2C5E060400125248 /* Build configuration list for PBXNativeTarget "Watch2Gether" */;
+			buildConfigurationList = 390FA6992CDC93BA005329D9 /* Build configuration list for PBXNativeTarget "MacWatch2Gether" */;
 			buildPhases = (
-				39042D7D2C5E060300125248 /* Sources */,
-				39042D7E2C5E060300125248 /* Frameworks */,
-				39042D7F2C5E060300125248 /* Resources */,
+				390FA6872CDC93B8005329D9 /* Sources */,
+				390FA6882CDC93B8005329D9 /* Frameworks */,
+				390FA6892CDC93B8005329D9 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				390FA68C2CDC93B8005329D9 /* MacWatch2Gether */,
+			);
+			name = MacWatch2Gether;
+			packageProductDependencies = (
+			);
+			productName = MacWatch2Gether;
+			productReference = 390FA68B2CDC93B8005329D9 /* MacWatch2Gether.app */;
+			productType = "com.apple.product-type.application";
+		};
+		392DB2912CD4BA25006CA9A2 /* Watch2Gether */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 392DB2A02CD4BA26006CA9A2 /* Build configuration list for PBXNativeTarget "Watch2Gether" */;
+			buildPhases = (
+				392DB28E2CD4BA25006CA9A2 /* Sources */,
+				392DB28F2CD4BA25006CA9A2 /* Frameworks */,
+				392DB2902CD4BA25006CA9A2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				392DB2942CD4BA25006CA9A2 /* Watch2Gether */,
+			);
 			name = Watch2Gether;
+			packageProductDependencies = (
+			);
 			productName = Watch2Gether;
-			productReference = 39042D812C5E060300125248 /* Watch2Gether.app */;
+			productReference = 392DB2922CD4BA25006CA9A2 /* Watch2Gether.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		39042D792C5E060300125248 /* Project object */ = {
+		392DB28A2CD4BA25006CA9A2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
 				TargetAttributes = {
-					39042D802C5E060300125248 = {
-						CreatedOnToolsVersion = 15.4;
+					390FA68A2CDC93B8005329D9 = {
+						CreatedOnToolsVersion = 16.1;
+					};
+					392DB2912CD4BA25006CA9A2 = {
+						CreatedOnToolsVersion = 16.1;
 					};
 				};
 			};
-			buildConfigurationList = 39042D7C2C5E060300125248 /* Build configuration list for PBXProject "Watch2Gether" */;
-			compatibilityVersion = "Xcode 14.0";
+			buildConfigurationList = 392DB28D2CD4BA25006CA9A2 /* Build configuration list for PBXProject "Watch2Gether" */;
 			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -198,55 +155,113 @@
 				Base,
 				"zh-Hans",
 			);
-			mainGroup = 39042D782C5E060300125248;
-			productRefGroup = 39042D822C5E060300125248 /* Products */;
+			mainGroup = 392DB2892CD4BA25006CA9A2;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 392DB2932CD4BA25006CA9A2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				39042D802C5E060300125248 /* Watch2Gether */,
+				392DB2912CD4BA25006CA9A2 /* Watch2Gether */,
+				390FA68A2CDC93B8005329D9 /* MacWatch2Gether */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		39042D7F2C5E060300125248 /* Resources */ = {
+		390FA6892CDC93B8005329D9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39042D8C2C5E060400125248 /* Preview Assets.xcassets in Resources */,
-				39042D892C5E060400125248 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		392DB2902CD4BA25006CA9A2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		39042D7D2C5E060300125248 /* Sources */ = {
+		390FA6872CDC93B8005329D9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39ADBB392C6B01CE00071DCE /* StyledPlaceholderTextField.swift in Sources */,
-				39B58F6F2C620565006F23F5 /* Image.swift in Sources */,
-				39042DB82C5F333C00125248 /* Color.swift in Sources */,
-				39FEFC3E2C634F5300B9BBC9 /* ImagePicker.swift in Sources */,
-				39042D872C5E060300125248 /* ContentView.swift in Sources */,
-				39B859172C77193F000558FA /* HomeView.swift in Sources */,
-				3950EDE32C78748200DC4D07 /* Streaming.swift in Sources */,
-				3988491D2C60A0A90015D413 /* LoginView.swift in Sources */,
-				3988491F2C60A5590015D413 /* User.swift in Sources */,
-				3998DE572CA660AD00749693 /* AvatarUploaderIcon.swift in Sources */,
-				39B859192C771BA8000558FA /* VideoPlayer.swift in Sources */,
-				3998DE592CA660C600749693 /* CrossShape.swift in Sources */,
-				398849282C60B68B0015D413 /* AvatarUploader.swift in Sources */,
-				39042D852C5E060300125248 /* Watch2GetherApp.swift in Sources */,
-				39C6B9A12C6DAF2800579E49 /* LoginButtonStyle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		392DB28E2CD4BA25006CA9A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		39042D8D2C5E060400125248 /* Debug */ = {
+		390FA6972CDC93BA005329D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MacWatch2Gether/MacWatch2Gether.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MacWatch2Gether/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "一起看电影";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.MacWatch2Gether;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		390FA6982CDC93BA005329D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MacWatch2Gether/MacWatch2Gether.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"MacWatch2Gether/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "一起看电影";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.1;
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.MacWatch2Gether;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		392DB29E2CD4BA26006CA9A2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -298,7 +313,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -309,7 +324,7 @@
 			};
 			name = Debug;
 		};
-		39042D8E2C5E060400125248 /* Release */ = {
+		392DB29F2CD4BA26006CA9A2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -355,7 +370,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -365,7 +380,7 @@
 			};
 			name = Release;
 		};
-		39042D902C5E060400125248 /* Debug */ = {
+		392DB2A12CD4BA26006CA9A2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -389,17 +404,17 @@
 				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Watch2Gether;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
-		39042D912C5E060400125248 /* Release */ = {
+		392DB2A22CD4BA26006CA9A2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -423,38 +438,47 @@
 				MARKETING_VERSION = 0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Watch2Gether;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		39042D7C2C5E060300125248 /* Build configuration list for PBXProject "Watch2Gether" */ = {
+		390FA6992CDC93BA005329D9 /* Build configuration list for PBXNativeTarget "MacWatch2Gether" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				39042D8D2C5E060400125248 /* Debug */,
-				39042D8E2C5E060400125248 /* Release */,
+				390FA6972CDC93BA005329D9 /* Debug */,
+				390FA6982CDC93BA005329D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		39042D8F2C5E060400125248 /* Build configuration list for PBXNativeTarget "Watch2Gether" */ = {
+		392DB28D2CD4BA25006CA9A2 /* Build configuration list for PBXProject "Watch2Gether" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				39042D902C5E060400125248 /* Debug */,
-				39042D912C5E060400125248 /* Release */,
+				392DB29E2CD4BA26006CA9A2 /* Debug */,
+				392DB29F2CD4BA26006CA9A2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		392DB2A02CD4BA26006CA9A2 /* Build configuration list for PBXNativeTarget "Watch2Gether" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				392DB2A12CD4BA26006CA9A2 /* Debug */,
+				392DB2A22CD4BA26006CA9A2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 39042D792C5E060300125248 /* Project object */;
+	rootObject = 392DB28A2CD4BA25006CA9A2 /* Project object */;
 }

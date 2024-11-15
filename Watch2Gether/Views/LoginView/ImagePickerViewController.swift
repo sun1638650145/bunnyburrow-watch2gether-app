@@ -5,20 +5,12 @@
 //  Created by Steve R. Sun on 2024/8/7.
 //
 
-#if os(iOS)
 import PhotosUI
-import UIKit
-#elseif os(macOS)
-import AppKit
-#endif
 import SwiftUI
-import UniformTypeIdentifiers
+import UIKit
 
-/// `ImagePicker`是一个通用视图控制器, 允许用户在iOS和macOS上上传图片;
-/// 在iOS上使用`PHPickerViewController`并委托`Coordinator`处理; 在macOS上使用`NSOpenPanel`.
-#if os(iOS)
-struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var selectedImage: UIImage?
+struct ImagePickerViewController: UIViewControllerRepresentable {
+    @Binding var selectedImage: String?
     
     func makeUIViewController(context: Context) -> PHPickerViewController {
         var configuration = PHPickerConfiguration()
@@ -33,7 +25,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         
         /// 委托`Coordinator`处理.
         viewController.delegate = context.coordinator
-        
+    
         return viewController
     }
     
@@ -41,11 +33,10 @@ struct ImagePicker: UIViewControllerRepresentable {
         // ...
     }
     
-    /// 用于处理上传图片后操作的协调器.
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
-        var parent: ImagePicker
+        var parent: ImagePickerViewController
         
-        init(_ parent: ImagePicker) {
+        init(_ parent: ImagePickerViewController) {
             self.parent = parent
         }
         
@@ -60,7 +51,16 @@ struct ImagePicker: UIViewControllerRepresentable {
             provider.loadObject(ofClass: UIImage.self, completionHandler: { image, error in
                 /// 使用主线程执行, 提高稳定性.
                 DispatchQueue.main.async {
-                    self.parent.selectedImage = image as? UIImage
+                    guard let image = image as? UIImage
+                    else {
+                        /// 转换失败关闭弹出窗口.
+                        return picker.dismiss(animated: true)
+                    }
+                    
+                    /// 调整到350x350像素以内的大小并转换成Base-64编码的字符串.
+                    self.parent.selectedImage = image
+                        .resize(within: CGSize(width: 350, height: 350))
+                        .toBase64()
                 }
             })
             
@@ -73,36 +73,9 @@ struct ImagePicker: UIViewControllerRepresentable {
         return Coordinator(self)
     }
 }
-#elseif os(macOS)
-struct ImagePicker {
-    @Binding var selectedImage: NSImage?
-    
-    /// 展示`NSOpenPanel`允许用户上传图片.
-    func present() {
-        let openPanel = NSOpenPanel()
-        
-        /// 只允许用户选择媒体类型为图片的文件.
-        openPanel.allowedContentTypes = [UTType.image]
-        
-        /// 作为模态窗口展示.
-        let response = openPanel.runModal()
-        
-        /// 使用主线程执行, 提高稳定性.
-        DispatchQueue.main.async {
-            if response == .OK {
-                if let url = openPanel.url {
-                    self.selectedImage = NSImage(contentsOf: url)
-                }
-            }
-        }
-    }
-}
-#endif
 
-#if os(iOS)
-#Preview("iOS") {
-    @Previewable @State var avatar: PlatformImage?
+#Preview {
+    @Previewable @State var selectedImage: String?
     
-    return ImagePicker(selectedImage: $avatar)
+    ImagePickerViewController(selectedImage: $selectedImage)
 }
-#endif

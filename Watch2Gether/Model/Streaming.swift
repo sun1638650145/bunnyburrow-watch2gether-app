@@ -6,9 +6,15 @@
 //
 
 import Foundation
+import Observation
 
 /// 流媒体视频源.
-struct Streaming {
-    /// 视频源url.
-    let url: URL
+@Observable
+class Streaming {
+    /// 视频源URL.
+    var url: URL
+    
+    init(url: URL) {
+        self.url = url
+    }
 }

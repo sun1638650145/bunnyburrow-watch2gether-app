@@ -1,14 +1,28 @@
 //
 //  StyledPlaceholderTextField.swift
-//  Watch2Gether
+//  MacWatch2Gether
 //
-//  Created by Steve R. Sun on 2024/8/13.
+//  Created by Steve R. Sun on 2024/11/8.
 //
 
 import SwiftUI
 
 struct StyledPlaceholderTextField: View {
     @Binding var text: String?
+    
+    /// 获取焦点位置.
+    @FocusState private var isFocused: Bool
+    
+    /// 计算当前的边框颜色.
+    private var borderColor: Color {
+        if errorMessage != nil {
+            return Color(hex: "#FF554C")
+        } else if isFocused {
+            return Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.2)
+        } else {
+            return Color.clear
+        }
+    }
     
     /// 错误信息文本.
     private var errorMessage: String?
@@ -48,37 +62,27 @@ struct StyledPlaceholderTextField: View {
                     get: { text ?? "" },
                     set: { text = $0.isEmpty ? nil : $0 }
                 ))
+                .focused($isFocused)
                 .foregroundStyle(Color(hex: "#F9F9F9"))
                 .onChange(of: text, {
                     onTextChange?()
                 })
                 .padding(.leading, 5)
+                .textFieldStyle(PlainTextFieldStyle())
             })
             .frame(width: 350, height: 50)
             .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.1))
             .clipShape(RoundedRectangle(cornerRadius: 5))
-            .font(.headline)
+            .font(.title3)
             .overlay(content: {
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(
-                        errorMessage != nil
-                            ? Color(
-                                red: 249 / 255,
-                                green: 249 / 255,
-                                blue: 249 / 255,
-                                opacity: 0.3
-                            )
-                            : Color.clear,
-                        lineWidth: 1.2
-                    )
+                    .stroke(borderColor, lineWidth: 1.2)
             })
             
             if let errorMessage = errorMessage {
                 Text(errorMessage)
-                    .font(.footnote)
-                    .foregroundStyle(
-                        Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.3)
-                    )
+                    .font(.callout)
+                    .foregroundStyle(Color(hex: "#FF554C"))
                     .padding(.top, 3)
             }
         }
@@ -91,7 +95,7 @@ struct StyledPlaceholderTextField: View {
     @Previewable @State var name: String?
     @Previewable @State var url: String?
     
-    Group {
+    VStack {
         StyledPlaceholderTextField(
             "请输入昵称",
             text: $name,
@@ -109,4 +113,5 @@ struct StyledPlaceholderTextField: View {
             errorMessage: nil
         )
     }
+    .padding(20)
 }

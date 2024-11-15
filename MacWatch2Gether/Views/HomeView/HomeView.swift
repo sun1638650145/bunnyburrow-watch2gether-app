@@ -1,8 +1,8 @@
 //
 //  HomeView.swift
-//  Watch2Gether
+//  MacWatch2Gether
 //
-//  Created by Steve R. Sun on 2024/8/22.
+//  Created by Steve R. Sun on 2024/11/11.
 //
 
 import SwiftUI
@@ -13,19 +13,20 @@ struct HomeView: View {
     var body: some View {
         ZStack {
             Color(hex: "#1A1D29")
-                .ignoresSafeArea()
             
             GeometryReader(content: { geometry in
-                VStack(spacing: 0, content: {
+                HStack(spacing: 0, content: {
                     VideoPlayer(url: streaming.url)
-                        /// 固定视频播放器的高度为屏幕的1/3.
-                        .frame(height: geometry.size.height / 3)
+                        /// 固定视频播放器的宽度为窗口的70%.
+                        .frame(width: geometry.size.width * 0.7)
+                        .background(Color.black)
                     
-                    /// 用于临时模拟其他组件.
-//                    Color.green
-//                    
-//                    Color.blue
-//                        .ignoresSafeArea()
+                    VStack(spacing: 0, content: {
+                        /// 用于临时模拟其他组件.
+//                        Color.green
+//                        
+//                        Color.blue
+                    })
                 })
             })
         }

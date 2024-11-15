@@ -1,25 +1,26 @@
 //
 //  AvatarUploader.swift
-//  Watch2Gether
+//  MacWatch2Gether
 //
-//  Created by Steve R. Sun on 2024/8/5.
+//  Created by Steve R. Sun on 2024/11/7.
 //
 
 import SwiftUI
 
 struct AvatarUploader: View {
     @Binding var avatar: String?
+    @Binding var isImagePickerActive: Bool
     
-    /// 是否呈现`ImagePickerViewController`状态.
-    @State private var isPresented = false
-    
-    init(_ avatar: Binding<String?>) {
+    init(_ avatar: Binding<String?>, _ isImagePickerActive: Binding<Bool>) {
         self._avatar = avatar
+        self._isImagePickerActive = isImagePickerActive
     }
     
     var body: some View {
         Button(action: {
-            isPresented = true
+            isImagePickerActive = true
+            ImagePicker(selectedImage: $avatar).present()
+            isImagePickerActive = false
         }, label: {
             if let avatar = avatar {
                 Image(base64: avatar)
@@ -37,8 +38,14 @@ struct AvatarUploader: View {
             }
         })
         .animation(.easeIn(duration: 1.2), value: avatar)
-        .sheet(isPresented: $isPresented, content: {
-            ImagePickerViewController(selectedImage: $avatar)
+        .buttonStyle(PlainButtonStyle())
+        .onHover(perform: { hovering in
+            /// 在悬停时使用手形光标.
+            if hovering {
+                NSCursor.pointingHand.push()
+            } else {
+                NSCursor.pop()
+            }
         })
     }
 }
@@ -46,5 +53,5 @@ struct AvatarUploader: View {
 #Preview {
     @Previewable @State var avatar: String?
     
-    AvatarUploader($avatar)
+    AvatarUploader($avatar, .constant(false))
 }

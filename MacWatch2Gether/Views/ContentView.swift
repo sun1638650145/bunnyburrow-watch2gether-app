@@ -1,8 +1,8 @@
 //
 //  ContentView.swift
-//  Watch2Gether
+//  MacWatch2Gether
 //
-//  Created by Steve R. Sun on 2024/8/3.
+//  Created by Steve R. Sun on 2024/11/7.
 //
 
 import SwiftUI
@@ -10,16 +10,17 @@ import SwiftUI
 struct ContentView: View {
     /// 登录状态.
     @State private var isLoggedIn = false
-
+    
     var body: some View {
         ZStack {
             Color(hex: "#1A1D29")
-                .ignoresSafeArea()
             
             if isLoggedIn {
                 HomeView()
+                    .frame(minWidth: 800, minHeight: 600)
             } else {
                 LoginView(isLoggedIn: $isLoggedIn)
+                    .frame(minWidth: 600, minHeight: 600)
                     .transition(.move(edge: .top))
                     .zIndex(1)
             }

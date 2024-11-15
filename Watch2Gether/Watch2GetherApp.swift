@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct Watch2GetherApp: App {
+    /// 用户信息.
+    @State private var user = User(nil, "")
+    
+    /// 流媒体视频源.
+    @State private var streaming = Streaming(url: URL(string: "about:blank")!)
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(user)
+                .environment(streaming)
         }
     }
 }

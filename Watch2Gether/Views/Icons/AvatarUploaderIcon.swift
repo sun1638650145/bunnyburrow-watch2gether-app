@@ -29,11 +29,5 @@ struct AvatarUploaderIcon: View {
 }
 
 #Preview {
-    Button(action: {
-        // ...
-    }, label: {
-        AvatarUploaderIcon(size: 100, crossWidth: 35, crossHeight: 5)
-            .padding(5)
-    })
-    .buttonStyle(PlainButtonStyle())
+    AvatarUploaderIcon(size: 100, crossWidth: 35, crossHeight: 5)
 }
