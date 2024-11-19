@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		39B77B602CEC7241001B0A12 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 39B77B5F2CEC7241001B0A12 /* SwiftyJSON */; };
+		39B77CEC2CEC8A38001B0A12 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 39B77CEB2CEC8A38001B0A12 /* SwiftyJSON */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39B77CEC2CEC8A38001B0A12 /* SwiftyJSON in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +111,7 @@
 			);
 			name = MacWatch2Gether;
 			packageProductDependencies = (
+				39B77CEB2CEC8A38001B0A12 /* SwiftyJSON */,
 			);
 			productName = MacWatch2Gether;
 			productReference = 390FA68B2CDC93B8005329D9 /* MacWatch2Gether.app */;
@@ -504,6 +507,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		39B77B5F2CEC7241001B0A12 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39B77B5E2CEC7241001B0A12 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		39B77CEB2CEC8A38001B0A12 /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 39B77B5E2CEC7241001B0A12 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
