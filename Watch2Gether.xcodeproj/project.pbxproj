@@ -21,7 +21,7 @@
 			membershipExceptions = (
 				Extensions/Color.swift,
 				Extensions/Image.swift,
-				Extensions/User.swift,
+				Extensions/UserExtension.swift,
 				Extensions/View.swift,
 				Model/Streaming.swift,
 				Model/User.swift,

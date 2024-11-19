@@ -1,5 +1,5 @@
 //
-//  User.swift
+//  UserExtension.swift
 //  Watch2Gether
 //
 //  Created by Steve R. Sun on 2024/11/19.
