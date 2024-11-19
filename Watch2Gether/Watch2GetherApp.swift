@@ -15,11 +15,15 @@ struct Watch2GetherApp: App {
     /// 流媒体视频源.
     @State private var streaming = Streaming(url: URL(string: "about:blank")!)
     
+    /// WebSocket客户端.
+    @State private var websocketClient = WebSocketClient()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(user)
                 .environment(streaming)
+                .environment(websocketClient)
         }
     }
 }

@@ -25,6 +25,7 @@
 				Extensions/View.swift,
 				Model/Streaming.swift,
 				Model/User.swift,
+				Model/WebSocketClient.swift,
 				Views/Icons/AvatarUploaderIcon.swift,
 				Views/Icons/CrossShape.swift,
 				Views/Styles/LoginButtonStyle.swift,
