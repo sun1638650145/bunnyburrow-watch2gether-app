@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		39B77B602CEC7241001B0A12 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 39B77B5F2CEC7241001B0A12 /* SwiftyJSON */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		390FA68B2CDC93B8005329D9 /* MacWatch2Gether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacWatch2Gether.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		392DB2922CD4BA25006CA9A2 /* Watch2Gether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watch2Gether.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39B77B602CEC7241001B0A12 /* SwiftyJSON in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +129,7 @@
 			);
 			name = Watch2Gether;
 			packageProductDependencies = (
+				39B77B5F2CEC7241001B0A12 /* SwiftyJSON */,
 			);
 			productName = Watch2Gether;
 			productReference = 392DB2922CD4BA25006CA9A2 /* Watch2Gether.app */;
@@ -157,6 +163,9 @@
 			);
 			mainGroup = 392DB2892CD4BA25006CA9A2;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				39B77B5E2CEC7241001B0A12 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 392DB2932CD4BA25006CA9A2 /* Products */;
 			projectDirPath = "";
@@ -479,6 +488,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		39B77B5E2CEC7241001B0A12 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		39B77B5F2CEC7241001B0A12 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39B77B5E2CEC7241001B0A12 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 392DB28A2CD4BA25006CA9A2 /* Project object */;
 }
