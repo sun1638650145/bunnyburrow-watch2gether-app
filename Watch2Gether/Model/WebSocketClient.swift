@@ -8,11 +8,44 @@
 import Foundation
 import Observation
 
+import SwiftyJSON
+
 /// WebSocket客户端.
 @Observable
 class WebSocketClient {
     /// 当前的WebSocket任务.
     var socket: URLSessionWebSocketTask?
+    
+    /// 向WebSocket服务器广播数据.
+    ///
+    /// - Parameters:
+    ///   - data: 广播的数据.
+    ///
+    /// - Important:
+    ///   调用该方法前请确保WebSocket连接已建立, 否则会导致程序崩溃.
+    func broadcast(_ data: JSON) {
+        guard let socket = socket
+        else {
+            fatalError("尚未建立WebSocket连接!")
+        }
+        
+        let json = JSON([
+            "props": ["type": "websocket.broadcast"],
+            "data": data
+        ])
+        
+        guard let rawString = json.rawString()
+        else {
+            fatalError("无法将JSON数据转换成字符串!")
+        }
+        
+        let message = URLSessionWebSocketTask.Message.string(rawString)
+        socket.send(message) { error in
+            if let error = error {
+                print("广播消息失败: \(error.localizedDescription)")
+            }
+        }
+    }
     
     /// 建立WebSocket连接.
     ///
@@ -24,6 +57,13 @@ class WebSocketClient {
         
         /// 使用专属的WebSocket服务地址.
         self.socket = session.webSocketTask(with: URL(string: url + String(user.clientID) + "/")!)
+
+        /// WebSocket连接成功后, 自动向服务器发送登录用户的信息.
         self.socket?.resume()
+        self.broadcast([
+            "action": "connect",
+            "status": "login",
+            "user": user.toJSON()
+        ])
     }
 }
