@@ -12,6 +12,7 @@ struct LoginView: View {
     @Binding var isLoggedIn: Bool
     @Environment(User.self) var user
     @Environment(Streaming.self) var streaming
+    @Environment(WebSocketClient.self) var websocketClient
     
     /// 用户的头像的Base-64.
     @AppStorage("LoginView.avatar") private var avatar: String?
@@ -138,6 +139,7 @@ struct LoginView: View {
             streaming.url = URL(
                 string: url!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             )!
+            websocketClient.connect(websocketUrl!, user)
             
             print(
                 """
@@ -197,8 +199,10 @@ struct LoginView: View {
 #Preview {
     let user = User(nil, "")
     let streaming = Streaming(url: URL(string: "about:blank")!)
+    let websocketClient = WebSocketClient()
     
     LoginView(isLoggedIn: .constant(false))
         .environment(user)
         .environment(streaming)
+        .environment(websocketClient)
 }
