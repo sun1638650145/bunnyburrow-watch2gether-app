@@ -2,33 +2,23 @@
 //  VideoPlayer.swift
 //  MacWatch2Gether
 //
-//  Created by Steve R. Sun on 2024/11/11.
+//  Created by Steve R. Sun on 2024/11/20.
 //
 
-import AVKit
-import AppKit
 import Foundation
 import SwiftUI
 
-struct VideoPlayer: NSViewRepresentable {
+struct VideoPlayer: View {
     /// 视频源URL.
     var url: URL
     
-    func makeNSView(context: Context) -> NSView {
-        let player = AVPlayer(url: url)
-        
-        let playerLayer = AVPlayerLayer(player: player)
-        
-        let view = NSView()
-        
-        /// 将`AVPlayerLayer`设置为`NSView`的图层.
-        view.layer = playerLayer
-        
-        return view
-    }
-    
-    func updateNSView(_ nsView: NSView, context: Context) {
-        // ...
+    var body: some View {
+        ZStack {
+            /// 使得视频播放器有更好的一体性.
+            Color.black
+            
+            VideoPlayerView(url: url)
+        }
     }
 }
 

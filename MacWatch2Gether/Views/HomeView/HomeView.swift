@@ -19,7 +19,6 @@ struct HomeView: View {
                     VideoPlayer(url: streaming.url)
                         /// 固定视频播放器的宽度为窗口的70%.
                         .frame(width: geometry.size.width * 0.7)
-                        .background(Color.black)
                     
                     VStack(spacing: 0, content: {
                         /// 用于临时模拟其他组件.
