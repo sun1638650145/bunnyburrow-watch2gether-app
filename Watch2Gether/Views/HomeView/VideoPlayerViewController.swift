@@ -1,5 +1,5 @@
 //
-//  VideoPlayerController.swift
+//  VideoPlayerViewController.swift
 //  Watch2Gether
 //
 //  Created by Steve R. Sun on 2024/11/11.
@@ -9,7 +9,7 @@ import AVKit
 import Foundation
 import SwiftUI
 
-struct VideoPlayerController: UIViewControllerRepresentable {
+struct VideoPlayerViewController: UIViewControllerRepresentable {
     /// 视频源URL.
     var url: URL
     
@@ -30,5 +30,5 @@ struct VideoPlayerController: UIViewControllerRepresentable {
 }
 
 #Preview {
-    VideoPlayerController(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    VideoPlayerViewController(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
 }

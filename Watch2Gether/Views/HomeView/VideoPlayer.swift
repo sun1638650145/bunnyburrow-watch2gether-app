@@ -18,7 +18,7 @@ struct VideoPlayer: View {
             Color.black
                 .ignoresSafeArea(edges: .top)
             
-            VideoPlayerController(url: url)
+            VideoPlayerViewController(url: url)
         }
     }
 }
