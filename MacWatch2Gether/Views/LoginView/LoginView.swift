@@ -160,7 +160,8 @@ struct LoginView: View {
     private func validateStreaming(isStrict: Bool = true) {
         if isStrict {
             if let url = url?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines),
-               let url = URL(string: url), url.scheme != nil, url.host() != nil {
+               let url = URL(string: url), url.scheme != nil, url.host() != nil,
+               url.scheme == "http" || url.scheme == "https" {
                 isStreamingInvalid = false
             } else {
                 isStreamingInvalid = true
@@ -179,7 +180,8 @@ struct LoginView: View {
     private func validateWebSocket(isStrict: Bool = true) {
         if isStrict {
             if let url = websocketUrl?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines),
-               let url = URL(string: url), url.scheme != nil, url.host() != nil {
+               let url = URL(string: url), url.scheme != nil, url.host() != nil,
+               url.scheme == "ws" || url.scheme == "wss", url.path().hasSuffix("/ws/") {
                 isWebSocketInvalid = false
             } else {
                 isWebSocketInvalid = true
