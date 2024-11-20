@@ -9,6 +9,9 @@ import SwiftUI
 
 @main
 struct Watch2GetherApp: App {
+    /// 当前的生命周期状态.
+    @Environment(\.scenePhase) private var scenePhase
+    
     /// 用户信息.
     @State private var user = User(nil, "")
     
@@ -25,5 +28,12 @@ struct Watch2GetherApp: App {
                 .environment(streaming)
                 .environment(websocketClient)
         }
+        /// 监听App关闭, 主动断开WebSocket连接.
+        .onChange(of: scenePhase, { oldPhase, newPhase in
+            // TODO: 目前不能保持在后台中不断开(Steve).
+            if newPhase == .background {
+                websocketClient.disconnect()
+            }
+        })
     }
 }

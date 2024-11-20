@@ -16,6 +16,9 @@ class WebSocketClient {
     /// 当前的WebSocket任务.
     var socket: URLSessionWebSocketTask?
     
+    /// 用户信息.
+    var user: User?
+    
     /// 向WebSocket服务器广播数据.
     ///
     /// - Parameters:
@@ -57,7 +60,8 @@ class WebSocketClient {
         
         /// 使用专属的WebSocket服务地址.
         self.socket = session.webSocketTask(with: URL(string: url + String(user.clientID) + "/")!)
-
+        self.user = user
+        
         /// WebSocket连接成功后, 自动向服务器发送登录用户的信息.
         self.socket?.resume()
         self.broadcast([
@@ -65,5 +69,26 @@ class WebSocketClient {
             "status": "login",
             "user": user.toJSON()
         ])
+    }
+    
+    /// 断开与WebSocket服务器的连接.
+    func disconnect() {
+        guard let socket = socket
+        else {
+            print("没有可断开的WebSocket连接.")
+            return
+        }
+        
+        self.broadcast([
+            "action": "connect",
+            "status": "logout",
+            "user": [
+                /// 只发送客户端ID以减小网络开销.
+                "clientID": self.user?.clientID
+            ]
+        ])
+        
+        socket.cancel()
+        self.socket = nil
     }
 }
