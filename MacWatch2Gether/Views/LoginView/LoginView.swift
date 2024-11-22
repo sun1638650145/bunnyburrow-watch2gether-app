@@ -11,6 +11,7 @@ import SwiftUI
 struct LoginView: View {
     @Binding var isLoggedIn: Bool
     @Environment(User.self) var user
+    @Environment(FriendsViewModel.self) var friendsViewModel
     @Environment(Streaming.self) var streaming
     @Environment(WebSocketClient.self) var websocketClient
     
@@ -136,19 +137,14 @@ struct LoginView: View {
         if !isNameEmpty && !isStreamingInvalid && !isWebSocketInvalid {
             user.avatar = avatar
             user.name = name!
+            
+            /// 添加自己的用户信息.
+            friendsViewModel.addFriend(friend: user)
+            
             streaming.url = URL(
                 string: url!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             )!
             websocketClient.connect(websocketUrl!, user)
-            
-            print(
-                """
-                头像(大小): \(user.avatar?.count ?? 0)
-                客户端ID: \(user.clientID)
-                昵称: \(user.name)
-                流媒体视频源: \(streaming.url)
-                """
-            )
             
             /// 设置登录状态.
             withAnimation(.linear(duration: 1), {
@@ -200,11 +196,13 @@ struct LoginView: View {
 
 #Preview {
     let user = User(nil, "")
+    let friendsViewModel = FriendsViewModel()
     let streaming = Streaming(url: URL(string: "about:blank")!)
     let websocketClient = WebSocketClient()
     
     LoginView(isLoggedIn: .constant(false))
         .environment(user)
+        .environment(friendsViewModel)
         .environment(streaming)
         .environment(websocketClient)
 }
