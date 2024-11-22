@@ -21,11 +21,11 @@ struct HomeView: View {
                         /// 固定视频播放器的高度为屏幕的1/3.
                         .frame(height: geometry.size.height / 3)
                     
-                    /// 用于临时模拟其他组件.
-//                    Color.green
-//                    
-//                    Color.blue
-//                        .ignoresSafeArea()
+                    FriendsList()
+                    
+                    /// 用于临时模拟聊天室组件.
+                    Color.blue
+                        .ignoresSafeArea()
                 })
             })
         }
@@ -33,8 +33,10 @@ struct HomeView: View {
 }
 
 #Preview {
+    let friendsManager = FriendsManager()
     let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     
     HomeView()
+        .environment(friendsManager)
         .environment(streaming)
 }
