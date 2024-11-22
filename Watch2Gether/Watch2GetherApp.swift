@@ -15,6 +15,9 @@ struct Watch2GetherApp: App {
     /// 用户信息.
     @State private var user = User(nil, "")
     
+    /// 好友信息管理器.
+    @State private var friendsManager = FriendsManager()
+    
     /// 流媒体视频源.
     @State private var streaming = Streaming(url: URL(string: "about:blank")!)
     
@@ -25,6 +28,7 @@ struct Watch2GetherApp: App {
         WindowGroup {
             ContentView()
                 .environment(user)
+                .environment(friendsManager)
                 .environment(streaming)
                 .environment(websocketClient)
         }
