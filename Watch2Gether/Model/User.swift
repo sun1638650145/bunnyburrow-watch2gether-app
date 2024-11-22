@@ -31,4 +31,10 @@ class User: Identifiable {
         self.clientID = UInt(Date().timeIntervalSince1970 * 1000)
         self.name = name
     }
+    
+    init(avatar: String? = nil, clientID: UInt, name: String) {
+        self.avatar = avatar
+        self.clientID = clientID
+        self.name = name
+    }
 }
