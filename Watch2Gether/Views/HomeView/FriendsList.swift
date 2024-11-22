@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct FriendsList: View {
-    @Environment(FriendsManager.self) var friendsManager
+    @Environment(FriendsViewModel.self) var friendsViewModel
 
     var body: some View {
         VStack(alignment: .leading, content: {
-            Text("在线好友: \(friendsManager.friends.count)")
+            Text("在线好友: \(friendsViewModel.friends.count)")
                 .foregroundStyle(Color(hex: "#F9F9F9"))
                 .frame(height: 22)
                 .padding(10)
             
             ScrollView(.horizontal, content: {
                 HStack {
-                    ForEach(Array(friendsManager.friends.keys), id: \.self, content: { key in
-                        let (avatar, name) = friendsManager.friends[key]!
+                    ForEach(Array(friendsViewModel.friends.keys), id: \.self, content: { key in
+                        let (avatar, name) = friendsViewModel.friends[key]!
                         
                         VStack {
                             if let avatar = avatar {

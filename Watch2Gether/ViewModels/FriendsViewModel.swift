@@ -1,5 +1,5 @@
 //
-//  FriendsManager.swift
+//  FriendsViewModel.swift
 //  Watch2Gether
 //
 //  Created by Steve R. Sun on 2024/11/22.
@@ -7,9 +7,9 @@
 
 import Observation
 
-/// 好友信息管理器.
+/// 好友信息视图模型.
 @Observable
-class FriendsManager {
+class FriendsViewModel {
     /// 好友信息字典, 键为客户端ID, 值为头像的Base-64和昵称组成的元组.
     var friends: Dictionary<UInt, (String?, String)> = [:]
     

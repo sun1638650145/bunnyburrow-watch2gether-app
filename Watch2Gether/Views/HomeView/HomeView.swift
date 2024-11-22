@@ -33,10 +33,10 @@ struct HomeView: View {
 }
 
 #Preview {
-    let friendsManager = FriendsManager()
+    let friendsViewModel = FriendsViewModel()
     let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     
     HomeView()
-        .environment(friendsManager)
+        .environment(friendsViewModel)
         .environment(streaming)
 }
