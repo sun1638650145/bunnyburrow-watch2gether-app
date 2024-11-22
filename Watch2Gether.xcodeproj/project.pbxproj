@@ -28,6 +28,7 @@
 				Model/User.swift,
 				Model/WebSocketClient.swift,
 				ViewModels/FriendsViewModel.swift,
+				Views/HomeView/FriendsList.swift,
 				Views/Icons/AvatarUploaderIcon.swift,
 				Views/Icons/CrossShape.swift,
 				Views/Styles/LoginButtonStyle.swift,

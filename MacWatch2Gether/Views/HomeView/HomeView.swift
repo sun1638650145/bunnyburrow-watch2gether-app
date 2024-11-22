@@ -21,10 +21,11 @@ struct HomeView: View {
                         .frame(width: geometry.size.width * 0.7)
                     
                     VStack(spacing: 0, content: {
-                        /// 用于临时模拟其他组件.
-//                        Color.green
-//                        
-//                        Color.blue
+                        FriendsList()
+                        
+                        /// 用于临时模拟聊天室组件.
+                        Color.blue
+                            .ignoresSafeArea()
                     })
                 })
             })
@@ -33,8 +34,10 @@ struct HomeView: View {
 }
 
 #Preview {
+    let friendsViewModel = FriendsViewModel()
     let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     
     HomeView()
+        .environment(friendsViewModel)
         .environment(streaming)
 }
