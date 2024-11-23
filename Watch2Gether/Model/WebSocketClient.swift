@@ -14,10 +14,10 @@ import SwiftyJSON
 @Observable
 class WebSocketClient {
     /// 当前的WebSocket任务.
-    var socket: URLSessionWebSocketTask?
+    private var socket: URLSessionWebSocketTask?
     
     /// 用户信息.
-    var user: User?
+    private var user: User?
     
     /// 事件监听函数字典, 键为事件名称, 值为回调函数.
     private var eventListeners: [String: (Any) -> Void] = [:]
@@ -162,6 +162,10 @@ class WebSocketClient {
                             self.emit(eventName: "addFriend", params: user)
                         } else if data["status"] == "logout" {
                             /// 移除好友.
+                            self.emit(
+                                eventName: "removeFriend",
+                                params: data["user"]["clientID"].uIntValue
+                            )
                         }
                     default:
                         break

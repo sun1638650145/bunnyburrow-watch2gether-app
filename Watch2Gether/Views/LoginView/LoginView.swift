@@ -199,7 +199,9 @@ struct LoginView: View {
     
     private func initWebSocket() {
         websocketClient.connect(websocketUrl!, user)
-        websocketClient.on(eventName: "addFriend", listener: friendsViewModel.addFriend)
+        
+        websocketClient.on(eventName: "addFriend", listener: friendsViewModel.addFriend(friend:))
+        websocketClient.on(eventName: "removeFriend", listener: friendsViewModel.removeFriend(by:))
     }
     
     private func validateStreaming(isStrict: Bool = true) {
