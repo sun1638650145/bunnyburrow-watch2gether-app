@@ -69,6 +69,8 @@ class WebSocketClient {
             "status": "login",
             "user": user.toJSON()
         ])
+        
+        self.receiveMessage()
     }
     
     /// 断开与WebSocket服务器的连接.
@@ -90,5 +92,42 @@ class WebSocketClient {
         
         socket.cancel()
         self.socket = nil
+    }
+    
+    /// 处理WebSocket服务器的消息.
+    private func receiveMessage() {
+        guard let socket = socket
+        else {
+            fatalError("尚未建立WebSocket连接!")
+        }
+        
+        socket.receive { result in
+            switch result {
+            case .success(let message):
+                switch message {
+                case .string(let string):
+                    let data = JSON(string.data(using: .utf8)!)["data"]
+                    
+                    switch data["action"] {
+                    case "connect":
+                        if data["status"] == "ack" {
+                            /// 添加好友.
+                        } else if data["status"] == "login" {
+                            /// 添加好友并同时回应自己的用户信息.
+                        } else if data["status"] == "logout" {
+                            /// 移除好友.
+                        }
+                    default:
+                        break
+                    }
+                default:
+                    break
+                }
+            case .failure(let error):
+                print("接收消息失败:\(error.localizedDescription)")
+            }
+            
+            self.receiveMessage()
+        }
     }
 }
