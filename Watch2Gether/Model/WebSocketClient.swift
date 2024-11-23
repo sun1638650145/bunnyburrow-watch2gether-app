@@ -89,7 +89,7 @@ class WebSocketClient {
             "status": "logout",
             "user": [
                 /// 只发送客户端ID以减小网络开销.
-                "clientID": self.user?.clientID
+                "clientID": self.user!.clientID
             ]
         ])
         
@@ -160,6 +160,11 @@ class WebSocketClient {
                                 name: data["user"]["name"].rawString()!
                             )
                             self.emit(eventName: "addFriend", params: user)
+                            self.unicast([
+                                "action": "connect",
+                                "status": "ack",
+                                "user": self.user!.toJSON()
+                            ], to: data["user"]["clientID"].uIntValue)
                         } else if data["status"] == "logout" {
                             /// 移除好友.
                             self.emit(
@@ -178,6 +183,40 @@ class WebSocketClient {
             }
             
             self.receiveMessage()
+        }
+    }
+    
+    /// 向WebSocket服务器连接的指定客户端单播数据.
+    ///
+    /// - Parameters:
+    ///   - data: 单播的数据.
+    ///
+    /// - Important:
+    ///   调用该方法前请确保WebSocket连接已建立, 否则会导致程序崩溃.
+    private func unicast(_ data: JSON, to receivedClientID: UInt) {
+        guard let socket = socket
+        else {
+            fatalError("尚未建立WebSocket连接!")
+        }
+        
+        let json = JSON([
+            "props": [
+                "type": "websocket.unicast",
+                "receivedClientID": receivedClientID
+            ],
+            "data": data
+        ])
+        
+        guard let rawString = json.rawString()
+        else {
+            fatalError("无法将JSON数据转换成字符串!")
+        }
+        
+        let message = URLSessionWebSocketTask.Message.string(rawString)
+        socket.send(message) { error in
+            if let error = error {
+                print("向客户端\(receivedClientID)单播消息失败: \(error.localizedDescription)")
+            }
         }
     }
 }
