@@ -137,20 +137,27 @@ struct LoginView: View {
         if !isNameEmpty && !isStreamingInvalid && !isWebSocketInvalid {
             user.avatar = avatar
             user.name = name!
+            streaming.url = URL(
+                string: url!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            )!
             
             /// 添加自己的用户信息.
             friendsViewModel.addFriend(friend: user)
             
-            streaming.url = URL(
-                string: url!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            )!
-            websocketClient.connect(websocketUrl!, user)
+            initWebSocket()
             
             /// 设置登录状态.
             withAnimation(.linear(duration: 1), {
                 isLoggedIn = true
             })
         }
+    }
+    
+    private func initWebSocket() {
+        websocketClient.connect(websocketUrl!, user)
+        
+        websocketClient.on(eventName: "addFriend", listener: friendsViewModel.addFriend(friend:))
+        websocketClient.on(eventName: "removeFriend", listener: friendsViewModel.removeFriend(by:))
     }
         
     private func validateStreaming(isStrict: Bool = true) {
