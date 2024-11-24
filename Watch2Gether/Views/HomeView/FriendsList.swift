@@ -21,20 +21,14 @@ struct FriendsList: View {
                 HStack {
                     ForEach(friendsViewModel.getFriendsList(), content: { friend in
                         VStack {
-                            if let avatar = friend.avatar {
-                                Image(base64: avatar)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .clipShape(Circle())
-                                    .frame(width: 50, height: 50)
-                                    .overlay(content: {
-                                        Circle().stroke(Color(hex: "#E5E7EB"), lineWidth: 2)
-                                    })
-                            } else {
-                                Circle()
-                                    .foregroundStyle(Color.white)
-                                    .frame(width: 50, height: 50)
-                            }
+                            Image(base64: friend.avatar ?? "")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .clipShape(Circle())
+                                .frame(width: 50, height: 50)
+                                .overlay(content: {
+                                    Circle().stroke(Color(hex: "#E5E7EB"), lineWidth: 2)
+                                })
                             
                             // TODO: 暂未添加用户昵称动画(Steve).
                             Text(friend.name)

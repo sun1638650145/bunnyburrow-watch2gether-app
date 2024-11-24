@@ -15,7 +15,7 @@ extension Image {
     init(base64: String) {
         /// 在iOS上使用`toUIImage`将字符串转换成`UIImage`.
         #if os(iOS)
-        self.init(uiImage: base64.toUIImage()!)
+        self.init(uiImage: base64.toUIImage())
         
         /// 在macOS上使用`toNSImage`将字符串转换成`NSImage`.
         #elseif os(macOS)
