@@ -7,11 +7,13 @@
 
 import Observation
 
+import OrderedCollections
+
 /// 好友信息视图模型.
 @Observable
 class FriendsViewModel {
     /// 好友信息字典, 键为客户端ID, 值为头像的Base-64和昵称组成的元组.
-    private var friends: Dictionary<UInt, (String?, String)> = [:]
+    private var friends: OrderedDictionary<UInt, (String?, String)> = [:]
     
     /// 向好友字典添加好友.
     ///

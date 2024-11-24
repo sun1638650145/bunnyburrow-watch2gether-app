@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		397714A72CF3243900D20BB6 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 397714A62CF3243900D20BB6 /* OrderedCollections */; };
 		39B77B602CEC7241001B0A12 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 39B77B5F2CEC7241001B0A12 /* SwiftyJSON */; };
 		39B77CEC2CEC8A38001B0A12 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 39B77CEB2CEC8A38001B0A12 /* SwiftyJSON */; };
 /* End PBXBuildFile section */
@@ -68,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				397714A72CF3243900D20BB6 /* OrderedCollections in Frameworks */,
 				39B77B602CEC7241001B0A12 /* SwiftyJSON in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,6 +139,7 @@
 			name = Watch2Gether;
 			packageProductDependencies = (
 				39B77B5F2CEC7241001B0A12 /* SwiftyJSON */,
+				397714A62CF3243900D20BB6 /* OrderedCollections */,
 			);
 			productName = Watch2Gether;
 			productReference = 392DB2922CD4BA25006CA9A2 /* Watch2Gether.app */;
@@ -172,6 +175,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				39B77B5E2CEC7241001B0A12 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				397714A52CF3243900D20BB6 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 392DB2932CD4BA25006CA9A2 /* Products */;
@@ -497,6 +501,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		397714A52CF3243900D20BB6 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.1.4;
+			};
+		};
 		39B77B5E2CEC7241001B0A12 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
@@ -508,6 +520,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		397714A62CF3243900D20BB6 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 397714A52CF3243900D20BB6 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
 		39B77B5F2CEC7241001B0A12 /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 39B77B5E2CEC7241001B0A12 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
