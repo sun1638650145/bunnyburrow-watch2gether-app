@@ -27,6 +27,9 @@ struct FriendsList: View {
                                     .aspectRatio(contentMode: .fill)
                                     .clipShape(Circle())
                                     .frame(width: 50, height: 50)
+                                    .overlay(content: {
+                                        Circle().stroke(Color(hex: "#E5E7EB"), lineWidth: 2)
+                                    })
                             } else {
                                 Circle()
                                     .foregroundStyle(Color.white)
