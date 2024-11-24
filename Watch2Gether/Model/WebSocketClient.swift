@@ -145,21 +145,10 @@ class WebSocketClient {
                     case "connect":
                         if data["status"] == "ack" {
                             /// 添加好友.
-                            // TODO: 增加User的初始化器(Steve).
-                            let user = User(
-                                avatar: data["user"]["avatar"].rawString(),
-                                clientID: data["user"]["clientID"].uIntValue,
-                                name: data["user"]["name"].rawString()!
-                            )
-                            self.emit(eventName: "addFriend", params: user)
+                            self.emit(eventName: "addFriend", params: User(from: data["user"]))
                         } else if data["status"] == "login" {
                             /// 添加好友并同时回应自己的用户信息.
-                            let user = User(
-                                avatar: data["user"]["avatar"].rawString(),
-                                clientID: data["user"]["clientID"].uIntValue,
-                                name: data["user"]["name"].rawString()!
-                            )
-                            self.emit(eventName: "addFriend", params: user)
+                            self.emit(eventName: "addFriend", params: User(from: data["user"]))
                             self.unicast([
                                 "action": "connect",
                                 "status": "ack",

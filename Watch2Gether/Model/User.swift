@@ -8,6 +8,8 @@
 import Foundation
 import Observation
 
+import SwiftyJSON
+
 /// 用户信息.
 @Observable
 class User: Identifiable {
@@ -36,5 +38,13 @@ class User: Identifiable {
         self.avatar = avatar
         self.clientID = clientID
         self.name = name
+    }
+    
+    convenience init(from json: JSON) {
+        let avatar = json["avatar"].rawString()
+        let clientID = json["clientID"].uIntValue
+        let name = json["name"].rawString()!
+        
+        self.init(avatar: avatar, clientID: clientID, name: name)
     }
 }
