@@ -19,7 +19,7 @@ extension Image {
         
         /// 在macOS上使用`toNSImage`将字符串转换成`NSImage`.
         #elseif os(macOS)
-        self.init(nsImage: base64.toNSImage()!)
+        self.init(nsImage: base64.toNSImage())
         #endif
     }
 }

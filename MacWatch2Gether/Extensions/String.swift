@@ -9,11 +9,11 @@ import AppKit
 import Foundation
 
 extension String {
-    /// 将Base-64编码的字符串为`NSImage?`.
+    /// 将Base-64编码的字符串转换为`NSImage`.
     ///
-    /// - Returns: `NSImage?`图片实例.
-    func toNSImage() -> NSImage? {
-        /// 定义正则表达式并去除DataURL.
+    /// - Returns: `NSImage`图片实例.
+    func toNSImage() -> NSImage {
+        /// 定义正则表达式并去除`DataURL`.
         let regex = try! NSRegularExpression(
             /// 目前支持GIF, HEIC(HEIF), JEPG(JPG), PNG和SVG格式的图片.
             pattern: "^data:image/(gif|heic|heif|jpeg|png|svg);base64,",
@@ -26,12 +26,21 @@ extension String {
         )
         
         /// 先将字符串编码成`Data`, 然后初始化为`NSImage`.
-        guard let data = Data(base64Encoded: base64),
-              let image = NSImage(data: data)
-        else {
-            return nil
+        if let data = Data(base64Encoded: base64),
+           let image = NSImage(data: data) {
+            return image
+        } else {
+            /// 无法解码则返回纯白色图片.
+            return NSImage(
+                size: NSSize(width: 1, height: 1),
+                flipped: false,
+                drawingHandler: { rect in
+                    NSColor.white.setFill()
+                    rect.fill()
+                    
+                    return true
+                }
+            )
         }
-        
-        return image
     }
 }
