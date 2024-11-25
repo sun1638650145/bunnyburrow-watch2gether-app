@@ -5,6 +5,7 @@
 //  Created by Steve R. Sun on 2024/11/19.
 //
 
+import Combine
 import Foundation
 import Observation
 
@@ -19,8 +20,11 @@ class WebSocketClient {
     /// 用户信息.
     private var user: User?
     
-    /// 事件监听函数字典, 键为事件名称, 值为回调函数.
-    private var eventListeners: [String: (Any) -> Void] = [:]
+    /// 事件发布者字典, 键为事件名称, 值为`PassthroughSubject`.
+    private var eventPublishers: [String: PassthroughSubject<Any, Never>] = [:]
+    
+    /// 用于存储事件监听器的取消器集合.
+    private var cancellables = Set<AnyCancellable>()
     
     /// 向WebSocket服务器广播数据.
     ///
@@ -97,31 +101,40 @@ class WebSocketClient {
         self.socket = nil
     }
     
-    /// 添加事件监听函数.
+    /// 添加事件监听器.
     ///
     /// - Parameters:
     ///   - eventName: 事件名称.
     ///   - listener: 回调函数.
     func on<T>(eventName: String, listener: @escaping (T) -> Void) {
-        self.eventListeners[eventName] = { params in
-            if let params = params as? T {
-                return listener(params)
-            }
-        }
+        let publisher = PassthroughSubject<Any, Never>()
+        
+        publisher
+            /// 确保数据类型和回调函数的期望类型一致.
+            .compactMap({ $0 as? T })
+            
+            /// 将收到的数据传递给回调函数.
+            .sink(receiveValue: listener)
+                
+            /// 将事件监听器保存到取消器集合中.
+            .store(in: &cancellables)
+        
+        eventPublishers[eventName] = publisher
     }
     
-    /// 触发事件监听函数.
+    /// 触发事件监听器.
     ///
     /// - Parameters:
     ///   - eventName: 事件名称.
     ///   - params: 传递给回调函数的参数.
     private func emit<T>(eventName: String, params: T) {
-        guard let listener = self.eventListeners[eventName]
+        guard let publisher = self.eventPublishers[eventName]
         else {
             return
         }
         
-        listener(params)
+        /// 通过发布者发送参数.
+        publisher.send(params)
     }
     
     /// 处理WebSocket服务器的消息.
