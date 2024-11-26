@@ -34,6 +34,7 @@
 				Views/Icons/AvatarUploaderIcon.swift,
 				Views/Icons/CrossShape.swift,
 				Views/Styles/LoginButtonStyle.swift,
+				Views/Styles/SendButtonStyle.swift,
 				Views/ViewModifiers/Copyright.swift,
 				Watch2GetherApp.swift,
 			);
