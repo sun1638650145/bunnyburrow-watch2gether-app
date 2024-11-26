@@ -5,6 +5,7 @@
 //  Created by Steve R. Sun on 2024/11/7.
 //
 
+import AppKit
 import SwiftUI
 
 struct AvatarUploader: View {
