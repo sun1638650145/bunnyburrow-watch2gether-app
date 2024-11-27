@@ -30,6 +30,7 @@
 				Model/User.swift,
 				Model/WebSocketClient.swift,
 				ViewModels/FriendsViewModel.swift,
+				Views/HomeView/ChatRoom.swift,
 				Views/HomeView/FriendsList.swift,
 				Views/Icons/AvatarUploaderIcon.swift,
 				Views/Icons/CrossShape.swift,

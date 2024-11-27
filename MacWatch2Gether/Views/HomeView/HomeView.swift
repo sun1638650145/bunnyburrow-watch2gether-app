@@ -23,9 +23,7 @@ struct HomeView: View {
                     VStack(spacing: 0, content: {
                         FriendsList()
                         
-                        /// 用于临时模拟聊天室组件.
-                        Color.blue
-                            .ignoresSafeArea()
+                        ChatRoom()
                     })
                 })
             })
@@ -34,10 +32,14 @@ struct HomeView: View {
 }
 
 #Preview {
+    let user = User(nil, "")
     let friendsViewModel = FriendsViewModel()
     let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    let websocketClient = WebSocketClient()
     
     HomeView()
+        .environment(user)
         .environment(friendsViewModel)
         .environment(streaming)
+        .environment(websocketClient)
 }

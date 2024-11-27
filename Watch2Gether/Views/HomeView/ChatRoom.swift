@@ -26,11 +26,14 @@ struct ChatRoom: View {
         
         HStack {
             TextField("", text: $message)
-                .padding(.leading, 5)
                 .frame(height: 35)
+                .padding(.leading, 5)
                 .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .foregroundStyle(Color(hex: "#E5E7EB"))
+                #if os(macOS)
+                .textFieldStyle(PlainTextFieldStyle())
+                #endif
             
             Button(action: sendMessage, label: {
                 Text("发送")
