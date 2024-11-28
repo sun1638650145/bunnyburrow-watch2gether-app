@@ -31,7 +31,11 @@ struct ChatRoom: View {
                 .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.1))
                 .clipShape(RoundedRectangle(cornerRadius: 8))
                 .foregroundStyle(Color(hex: "#E5E7EB"))
-                #if os(macOS)
+                .onSubmit(sendMessage)
+                #if os(iOS)
+                /// 在iOS上设置提交按钮的标签为发送.
+                .submitLabel(.send)
+                #elseif os(macOS)
                 .textFieldStyle(PlainTextFieldStyle())
                 #endif
             
@@ -46,9 +50,14 @@ struct ChatRoom: View {
     }
     
     private func sendMessage() {
+        /// 聊天消息为空则直接返回.
+        if message.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty {
+            return
+        }
+        
         websocketClient.broadcast([
             "action": "chat",
-            "message": message.trimmingCharacters(in: CharacterSet.whitespaces),
+            "message": message,
             "user": [
                 /// 只发送客户端ID以减小网络开销.
                 "clientID": user.clientID
