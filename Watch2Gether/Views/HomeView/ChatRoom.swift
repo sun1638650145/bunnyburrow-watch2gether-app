@@ -57,7 +57,7 @@ struct ChatRoom: View {
         
         websocketClient.broadcast([
             "action": "chat",
-            "message": message,
+            "message": message.trimmingCharacters(in: CharacterSet.whitespaces),
             "user": [
                 /// 只发送客户端ID以减小网络开销.
                 "clientID": user.clientID
