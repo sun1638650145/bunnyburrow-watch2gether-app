@@ -40,6 +40,7 @@ struct ChatRoom: View {
                     .frame(width: 100, height: 35)
             })
             .buttonStyle(SendButtonStyle(isDisabled: isDisabled))
+            .disabled(isDisabled)
         }
         .padding(10)
     }

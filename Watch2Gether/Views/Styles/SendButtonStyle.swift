@@ -33,7 +33,6 @@ struct SendButtonStyle: ButtonStyle {
             )
             .bold()
             .clipShape(RoundedRectangle(cornerRadius: 8))
-            .disabled(isDisabled)
             .foregroundStyle(Color(hex: "#E5E7EB"))
             .grayscale(isDisabled ? 0.3 : 0)
             #if os(macOS)
