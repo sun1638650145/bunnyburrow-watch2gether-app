@@ -41,4 +41,5 @@ struct ChatInputTextField: View {
     @Previewable @State var message = ""
     
     ChatInputTextField(text: $message)
+        .padding(10)
 }
