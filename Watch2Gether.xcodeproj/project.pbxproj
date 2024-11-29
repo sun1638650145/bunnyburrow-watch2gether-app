@@ -26,6 +26,7 @@
 				Extensions/Image.swift,
 				Extensions/UserExtension.swift,
 				Extensions/View.swift,
+				Model/Message.swift,
 				Model/Streaming.swift,
 				Model/User.swift,
 				Model/WebSocketClient.swift,
