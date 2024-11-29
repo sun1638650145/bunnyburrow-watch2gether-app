@@ -115,26 +115,63 @@ class WebSocketClient {
             
             /// 将收到的数据传递给回调函数.
             .sink(receiveValue: listener)
-                
+            
             /// 将事件监听器保存到取消器集合中.
             .store(in: &cancellables)
         
         eventPublishers[eventName] = publisher
     }
     
-    /// 触发事件监听器.
+    /// 添加包含两个参数的事件监听器.
     ///
     /// - Parameters:
     ///   - eventName: 事件名称.
-    ///   - params: 传递给回调函数的参数.
-    private func emit<T>(eventName: String, params: T) {
+    ///   - listener: 回调函数.
+    func on<T, U>(eventName: String, listener: @escaping (T, U) -> Void) {
+        let publisher = PassthroughSubject<Any, Never>()
+        
+        publisher
+            /// 确保数据类型和回调函数的期望类型一致.
+            .compactMap({ $0 as? (T, U) })
+            
+            /// 将收到的数据传递给回调函数.
+            .sink(receiveValue: { listener($0.0, $0.1) })
+            
+            /// 将事件监听器保存到取消器集合中.
+            .store(in: &cancellables)
+        
+        eventPublishers[eventName] = publisher
+    }
+    
+    /// 触发包含两个参数的事件监听器.
+    ///
+    /// - Parameters:
+    ///   - eventName: 事件名称.
+    ///   - param: 传递给回调函数的参数.
+    private func emit<T>(eventName: String, param: T) {
         guard let publisher = self.eventPublishers[eventName]
         else {
             return
         }
         
         /// 通过发布者发送参数.
-        publisher.send(params)
+        publisher.send(param)
+    }
+    
+    /// 触发事件监听器.
+    ///
+    /// - Parameters:
+    ///   - eventName: 事件名称.
+    ///   - param0: 传递给回调函数的第一个参数.
+    ///   - param1: 传递给回调函数的第二个参数.
+    private func emit<T, U>(eventName: String, param0: T, param1: U) {
+        guard let publisher = self.eventPublishers[eventName]
+        else {
+            return
+        }
+        
+        /// 通过发布者发送参数.
+        publisher.send((param0, param1))
     }
     
     /// 处理WebSocket服务器的消息.
@@ -155,13 +192,20 @@ class WebSocketClient {
                     let data = JSON(string.data(using: .utf8)!)["data"]
                     
                     switch data["action"] {
+                    case "chat":
+                        /// 接收聊天消息.
+                        self.emit(
+                            eventName: "receiveMessage",
+                            param0: data["message"].stringValue,
+                            param1: data["user"]["clientID"].uIntValue
+                        )
                     case "connect":
                         if data["status"] == "ack" {
                             /// 添加好友.
-                            self.emit(eventName: "addFriend", params: User(from: data["user"]))
+                            self.emit(eventName: "addFriend", param: User(from: data["user"]))
                         } else if data["status"] == "login" {
                             /// 添加好友并同时回应自己的用户信息.
-                            self.emit(eventName: "addFriend", params: User(from: data["user"]))
+                            self.emit(eventName: "addFriend", param: User(from: data["user"]))
                             self.unicast([
                                 "action": "connect",
                                 "status": "ack",
@@ -171,7 +215,7 @@ class WebSocketClient {
                             /// 移除好友.
                             self.emit(
                                 eventName: "removeFriend",
-                                params: data["user"]["clientID"].uIntValue
+                                param: data["user"]["clientID"].uIntValue
                             )
                         }
                     default:

@@ -29,20 +29,33 @@ struct ChatRoom: View {
     }
     
     var body: some View {
-        /// 用于临时模拟聊天消息列表组件.
-        Color.blue
-        
-        HStack {
-            ChatInputTextField(text: $message, onTextSubmit: sendMessage)
+        VStack {
+            /// 用于临时模拟聊天消息列表组件.
+            Color.blue
             
-            Button(action: sendMessage, label: {
-                Text("发送")
-                    .frame(width: 100, height: 35)
-            })
-            .buttonStyle(SendButtonStyle(isDisabled: isDisabled))
-            .disabled(isDisabled)
+            HStack {
+                ChatInputTextField(text: $message, onTextSubmit: sendMessage)
+                
+                Button(action: sendMessage, label: {
+                    Text("发送")
+                        .frame(width: 100, height: 35)
+                })
+                .buttonStyle(SendButtonStyle(isDisabled: isDisabled))
+                .disabled(isDisabled)
+            }
+            .padding(10)
         }
-        .padding(10)
+        .onAppear(perform: {
+            /// 添加接收聊天消息事件监听函数给WebSocket客户端.
+            websocketClient.on(eventName: "receiveMessage", listener: {
+                receiveMessage(message: $0, clientID: $1)
+            })
+        })
+    }
+    
+    private func receiveMessage(message: String, clientID: UInt) {
+        /// 发送的聊天消息已经执行过`trimmingCharacters(in: CharacterSet.whitespaces)`.
+        messages.append(Message(content: message, clientID: clientID))
     }
     
     private func sendMessage() {
