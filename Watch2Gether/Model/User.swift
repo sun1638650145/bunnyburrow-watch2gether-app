@@ -41,9 +41,9 @@ class User: Identifiable {
     }
     
     convenience init(from json: JSON) {
-        let avatar = json["avatar"].rawString()
+        let avatar = json["avatar"].string
         let clientID = json["clientID"].uIntValue
-        let name = json["name"].rawString()!
+        let name = json["name"].stringValue
         
         self.init(avatar: avatar, clientID: clientID, name: name)
     }
