@@ -15,9 +15,17 @@ struct ChatRoom: View {
     /// 聊天消息变量.
     @State private var message: String = ""
     
+    /// 聊天消息列表变量.
+    @State private var messages: [Message] = []
+    
     /// 禁用发送按钮变量.
     private var isDisabled: Bool {
         return message.isEmpty
+    }
+    
+    /// 去除前后空格的聊天消息变量.
+    private var trimmedMessage: String {
+        return message.trimmingCharacters(in: CharacterSet.whitespaces)
     }
     
     var body: some View {
@@ -39,20 +47,23 @@ struct ChatRoom: View {
     
     private func sendMessage() {
         /// 聊天消息为空则直接返回.
-        if message.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty {
+        if trimmedMessage.isEmpty {
             return
         }
         
         websocketClient.broadcast([
             "action": "chat",
-            "message": message.trimmingCharacters(in: CharacterSet.whitespaces),
+            "message": trimmedMessage,
             "user": [
                 /// 只发送客户端ID以减小网络开销.
                 "clientID": user.clientID
             ]
         ])
         
-        // 发送聊天消息后清空输入框.
+        /// 存储发送的聊天消息.
+        messages.append(Message(content: trimmedMessage, clientID: user.clientID))
+        
+        /// 发送聊天消息后清空输入框.
         message = ""
     }
 }
