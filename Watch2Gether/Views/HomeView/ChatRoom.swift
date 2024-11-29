@@ -30,8 +30,9 @@ struct ChatRoom: View {
     
     var body: some View {
         VStack {
-            /// 用于临时模拟聊天消息列表组件.
-            Color.blue
+            MessagesList(messages: messages)
+            
+            Spacer()
             
             HStack {
                 ChatInputTextField(text: $message, onTextSubmit: sendMessage)
