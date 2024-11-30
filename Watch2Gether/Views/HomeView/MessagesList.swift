@@ -9,18 +9,20 @@ import SwiftUI
 
 struct MessagesList: View {
     @Environment(User.self) var user
+    @Environment(FriendsViewModel.self) var friendsViewModel
     
     /// 聊天消息列表变量.
     var messages: [Message]
     
     var body: some View {
         List(messages.indices, id: \.self, rowContent: { index in
-            if messages[index].clientID == user.clientID {
-                MyMessage(content: messages[index].content, avatar: user.avatar)
+            let message = messages[index]
+            let friend = friendsViewModel.searchFriend(by: message.clientID)!
+            
+            if friend.clientID == user.clientID {
+                MyMessage(content: message.content, avatar: user.avatar)
             } else {
-                Text(messages[index].content)
-                    .listRowBackground(Color(hex: "#1A1D29"))
-                    .listRowSeparator(.hidden)
+                OtherMessage(content: message.content, avatar: friend.avatar, name: friend.name)
             }
         })
         .listStyle(PlainListStyle())
@@ -28,7 +30,7 @@ struct MessagesList: View {
 }
 
 #Preview {
-    let user = User(
+    let user0 = User(
         avatar: "/9j/2wCEAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ" +
                 "0Hyc5PTgyPC4zNDIBCQkJDAsMGA0NGDIhHCEyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj" +
                 "IyMjIyMjIyMjIyMjIyMjIyMv/AABEIABkAGQMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAA" +
@@ -46,11 +48,23 @@ struct MessagesList: View {
         clientID: 2023,
         name: "Steve"
     )
+    let user1 = User(avatar: nil, clientID: 2024, name: "A")
+    
+    var friendsViewModel: FriendsViewModel {
+        let friendsViewModel = FriendsViewModel()
+        
+        friendsViewModel.addFriend(friend: user0)
+        friendsViewModel.addFriend(friend: user1)
+        
+        return friendsViewModel
+    }
+    
     let messages = [
         Message(content: "你好", clientID: 2023),
         Message(content: "Hi!", clientID: 2024)
     ]
     
     MessagesList(messages: messages)
-        .environment(user)
+        .environment(user0)
+        .environment(friendsViewModel)
 }

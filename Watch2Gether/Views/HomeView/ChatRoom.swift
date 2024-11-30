@@ -84,9 +84,11 @@ struct ChatRoom: View {
 
 #Preview {
     let user = User(nil, "")
+    let friendsViewModel = FriendsViewModel()
     let websocketClient = WebSocketClient()
     
     ChatRoom()
         .environment(user)
+        .environment(friendsViewModel)
         .environment(websocketClient)
 }
