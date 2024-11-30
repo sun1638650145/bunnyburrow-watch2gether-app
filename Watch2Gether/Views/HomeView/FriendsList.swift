@@ -9,17 +9,22 @@ import SwiftUI
 
 struct FriendsList: View {
     @Environment(FriendsViewModel.self) var friendsViewModel
+    
+    /// 在线好友列表.
+    private var onlineFriends: [User] {
+        return friendsViewModel.getOnlineFriendsList()
+    }
 
     var body: some View {
         VStack(alignment: .leading, content: {
-            Text("在线好友: \(friendsViewModel.getFriendsList().count)")
+            Text("在线好友: \(onlineFriends.count)")
                 .foregroundStyle(Color(hex: "#F9F9F9"))
                 .frame(height: 22)
                 .padding(10)
             
             ScrollView(.horizontal, content: {
                 HStack {
-                    ForEach(friendsViewModel.getFriendsList(), content: { friend in
+                    ForEach(onlineFriends, content: { friend in
                         VStack {
                             Image(base64: friend.avatar ?? "")
                                 .resizable()

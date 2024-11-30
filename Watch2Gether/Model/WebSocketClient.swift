@@ -212,9 +212,9 @@ class WebSocketClient {
                                 "user": self.user!.toJSON()
                             ], to: data["user"]["clientID"].uIntValue)
                         } else if data["status"] == "logout" {
-                            /// 移除好友.
+                            /// 使好友离线.
                             self.emit(
-                                eventName: "removeFriend",
+                                eventName: "offlineFriend",
                                 param: data["user"]["clientID"].uIntValue
                             )
                         }
