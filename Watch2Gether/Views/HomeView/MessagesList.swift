@@ -26,6 +26,7 @@ struct MessagesList: View {
             }
         })
         .listStyle(PlainListStyle())
+        .scrollIndicators(.hidden)
         #if os(macOS)
         /// 在macOS上隐藏列表内可滚动视图的背景.
         .scrollContentBackground(.hidden)
