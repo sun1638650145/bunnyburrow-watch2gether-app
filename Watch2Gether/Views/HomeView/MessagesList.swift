@@ -15,22 +15,32 @@ struct MessagesList: View {
     var messages: [Message]
     
     var body: some View {
-        List(messages.indices, id: \.self, rowContent: { index in
-            let message = messages[index]
-            let friend = friendsViewModel.searchFriend(by: message.clientID)!
-            
-            if friend.clientID == user.clientID {
-                MyMessage(content: message.content, avatar: user.avatar)
-            } else {
-                OtherMessage(content: message.content, avatar: friend.avatar, name: friend.name)
-            }
-        })
-        .listStyle(PlainListStyle())
-        .scrollIndicators(.hidden)
-        #if os(macOS)
-        /// 在macOS上隐藏列表内可滚动视图的背景.
-        .scrollContentBackground(.hidden)
-        #endif
+        ScrollViewReader { proxy in
+            List(messages.indices, id: \.self, rowContent: { index in
+                let message = messages[index]
+                let friend = friendsViewModel.searchFriend(by: message.clientID)!
+                
+                if friend.clientID == user.clientID {
+                    MyMessage(content: message.content, avatar: user.avatar)
+                } else {
+                    OtherMessage(content: message.content, avatar: friend.avatar, name: friend.name)
+                }
+            })
+            .listStyle(PlainListStyle())
+            .onChange(of: messages.count, {
+                withAnimation(.linear, {
+                    if let last = messages.indices.last {
+                        /// 当有新聊天消息时, 始终将消息流保持在底部.
+                        proxy.scrollTo(last, anchor: .bottom)
+                    }
+                })
+            })
+            .scrollIndicators(.hidden)
+            #if os(macOS)
+            /// 在macOS上隐藏列表内可滚动视图的背景.
+            .scrollContentBackground(.hidden)
+            #endif
+        }
     }
 }
 
