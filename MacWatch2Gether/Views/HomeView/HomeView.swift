@@ -8,15 +8,13 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Environment(Streaming.self) var streaming
-    
     var body: some View {
         ZStack {
             Color(hex: "#1A1D29")
             
             GeometryReader(content: { geometry in
                 HStack(spacing: 0, content: {
-                    VideoPlayer(url: streaming.url)
+                    VideoPlayer()
                         /// 固定视频播放器的宽度为窗口的70%.
                         .frame(width: geometry.size.width * 0.7)
                     
