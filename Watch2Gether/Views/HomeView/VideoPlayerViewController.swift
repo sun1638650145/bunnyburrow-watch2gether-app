@@ -10,11 +10,10 @@ import Foundation
 import SwiftUI
 
 struct VideoPlayerViewController: UIViewControllerRepresentable {
-    /// 视频源URL.
-    var url: URL
+    @Environment(Streaming.self) var streaming
     
     func makeUIViewController(context: Context) -> AVPlayerViewController {
-        let player = AVPlayer(url: url)
+        let player = AVPlayer(url: streaming.url)
         
         let viewController = AVPlayerViewController()
         
@@ -30,5 +29,8 @@ struct VideoPlayerViewController: UIViewControllerRepresentable {
 }
 
 #Preview {
-    VideoPlayerViewController(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    
+    VideoPlayerViewController()
+        .environment(streaming)
 }
