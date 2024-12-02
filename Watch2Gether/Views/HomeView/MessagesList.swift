@@ -23,23 +23,26 @@ struct MessagesList: View {
                 if friend.clientID == user.clientID {
                     MyMessage(content: message.content, avatar: user.avatar)
                 } else {
-                    OtherMessage(content: message.content, avatar: friend.avatar, name: friend.name)
+                    OtherMessage(
+                        content: message.content,
+                        avatar: friend.avatar,
+                        name: friend.name
+                    )
                 }
             })
             .listStyle(PlainListStyle())
             .onChange(of: messages.count, {
-                withAnimation(.linear, {
-                    if let last = messages.indices.last {
-                        /// 当有新聊天消息时, 始终将消息流保持在底部.
-                        proxy.scrollTo(last, anchor: .bottom)
-                    }
-                })
+                // TODO: 添加动画会导致macOS上聊天消息显示异常(Steve).
+                if let last = messages.indices.last {
+                    /// 当有新聊天消息时, 动画滚动到最新消息.
+                    proxy.scrollTo(last, anchor: .bottom)
+                }
             })
-            .scrollIndicators(.hidden)
             #if os(macOS)
             /// 在macOS上隐藏列表内可滚动视图的背景.
             .scrollContentBackground(.hidden)
             #endif
+            .scrollIndicators(.hidden)
         }
     }
 }
