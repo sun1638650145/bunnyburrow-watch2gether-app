@@ -143,7 +143,7 @@ class WebSocketClient {
         eventPublishers[eventName] = publisher
     }
     
-    /// 触发包含两个参数的事件监听器.
+    /// 触发事件监听器.
     ///
     /// - Parameters:
     ///   - eventName: 事件名称.
@@ -158,7 +158,7 @@ class WebSocketClient {
         publisher.send(param)
     }
     
-    /// 触发事件监听器.
+    /// 触发包含两个参数的事件监听器.
     ///
     /// - Parameters:
     ///   - eventName: 事件名称.
@@ -218,6 +218,12 @@ class WebSocketClient {
                                 param: data["user"]["clientID"].uIntValue
                             )
                         }
+                    case "player":
+                        /// 接收播放器状态同步.
+                        self.emit(
+                            eventName: "receivePlayerSync",
+                            param: data["command"].stringValue
+                        )
                     default:
                         break
                     }
