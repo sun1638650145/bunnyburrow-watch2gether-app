@@ -220,10 +220,7 @@ class WebSocketClient {
                         }
                     case "player":
                         /// 接收播放器状态同步.
-                        self.emit(
-                            eventName: "receivePlayerSync",
-                            param: data["command"].stringValue
-                        )
+                        self.emit(eventName: "receivePlayerSync", param: data["command"])
                     default:
                         break
                     }

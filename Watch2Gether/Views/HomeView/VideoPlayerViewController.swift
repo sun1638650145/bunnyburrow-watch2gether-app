@@ -9,7 +9,9 @@ import AVKit
 import Foundation
 import SwiftUI
 
-struct VideoPlayerViewController: UIViewControllerRepresentable {    
+import SwiftyJSON
+
+struct VideoPlayerViewController: UIViewControllerRepresentable {
     @Environment(Streaming.self) var streaming
     @Environment(WebSocketClient.self) var websocketClient
     
@@ -29,6 +31,9 @@ struct VideoPlayerViewController: UIViewControllerRepresentable {
     class Coordinator: NSObject {
         /// `AVPlayer`播放器加载并控制视频播放.
         var player: AVPlayer
+        
+        /// 当前的播放速率.
+        private var currentPlaybackRate: Float = 1.0
         
         /// WebSocket客户端.
         private var websocketClient: WebSocketClient
@@ -50,13 +55,27 @@ struct VideoPlayerViewController: UIViewControllerRepresentable {
         ///
         /// - Parameters:
         ///   - command: 状态同步命令字段.
-        private func receivePlayerSync(command: String) {
-            if command == "play" {
-                /// 播放视频.
-                player.play()
-            } else if command == "pause" {
-                /// 暂停视频.
-                player.pause()
+        private func receivePlayerSync(command: JSON) {
+            if let command = command.string {
+                if command == "play" {
+                    /// 播放视频.
+                    /// 不使用`player.play()`, 使用修改播放速率触发播放.
+                    player.rate = currentPlaybackRate
+                } else if command == "pause" {
+                    /// 暂停视频.
+                    player.pause()
+                }
+            } else if let newProgress = command["newProgress"].double {
+                /// 修改播放进度.
+                player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+            } else if let playbackRate = command["playbackRate"].float {
+                /// 调整播放速率.
+                currentPlaybackRate = playbackRate
+                
+                /// 修改播放速率会导致播放器立刻播放, 所以只能在播放器本身为播放状态时立刻修改.
+                if player.timeControlStatus == .playing {
+                    player.rate = currentPlaybackRate
+                }
             }
         }
     }
