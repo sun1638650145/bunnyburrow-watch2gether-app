@@ -21,7 +21,9 @@ struct VideoPlayer: View {
 
 #Preview {
     let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    let websocketClient = WebSocketClient()
     
     VideoPlayer()
         .environment(streaming)
+        .environment(websocketClient)
 }
