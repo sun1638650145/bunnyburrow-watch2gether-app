@@ -5,9 +5,17 @@
 //  Created by Steve R. Sun on 2024/8/22.
 //
 
+import AVKit
 import SwiftUI
 
 struct HomeView: View {
+    @Environment(Streaming.self) var streaming
+    
+    /// `AVPlayer`播放器加载并控制视频播放.
+    var player: AVPlayer {
+        return AVPlayer(url: streaming.url)
+    }
+    
     var body: some View {
         ZStack {
             Color(hex: "#1A1D29")
@@ -15,7 +23,7 @@ struct HomeView: View {
             
             GeometryReader(content: { geometry in
                 VStack(spacing: 0, content: {
-                    VideoPlayer()
+                    VideoPlayer(player: player)
                         /// 固定视频播放器的高度为屏幕的1/3.
                         .frame(height: geometry.size.height / 3)
                     
