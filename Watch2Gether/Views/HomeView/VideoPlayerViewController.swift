@@ -47,7 +47,7 @@ struct VideoPlayerViewController: UIViewControllerRepresentable {
             
             self.websocketClient.on(
                 eventName: "receivePlayerSync",
-                listener: receivePlayerSync(command:)
+                listener: self.receivePlayerSync(command:)
             )
         }
         

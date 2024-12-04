@@ -49,7 +49,7 @@ struct ChatRoom: View {
         .onAppear(perform: {
             /// 添加接收聊天消息事件监听函数给WebSocket客户端.
             websocketClient.on(eventName: "receiveMessage", listener: {
-                receiveMessage(message: $0, clientID: $1)
+                self.receiveMessage(message: $0, clientID: $1)
             })
         })
     }
