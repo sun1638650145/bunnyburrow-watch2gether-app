@@ -17,6 +17,9 @@ struct VideoPlayer: View {
     /// 当前的播放速率.
     @State private var currentPlaybackRate: Float = 1.0
     
+    /// 视频是否播放状态变量.
+    @State private var isPlaying: Bool = false
+    
     /// `AVPlayer`播放器加载并控制视频播放.
     let player: AVPlayer
     
@@ -27,6 +30,14 @@ struct VideoPlayer: View {
                 .ignoresSafeArea(edges: .top)
             
             VideoPlayerViewController(player: player)
+            
+            VStack {
+                /// 使得播放控制栏在视图底部.
+                Spacer()
+                
+                PlaybackControls(player: player, isPlaying: $isPlaying)
+                    .padding(10)
+            }
         }
         .onAppear(perform: {
             /// 添加播放器状态同步事件监听函数给WebSocket客户端.
@@ -47,9 +58,15 @@ struct VideoPlayer: View {
                 /// 播放视频.
                 /// 不使用`player.play()`, 使用修改播放速率触发播放.
                 player.rate = currentPlaybackRate
+                
+                /// 设置为播放状态.
+                isPlaying = true
             } else if command == "pause" {
                 /// 暂停视频.
                 player.pause()
+                
+                /// 设置为暂停状态.
+                isPlaying = false
             }
         } else if let newProgress = command["newProgress"].double {
             /// 修改播放进度.
@@ -67,9 +84,11 @@ struct VideoPlayer: View {
 }
 
 #Preview {
+    let user = User(nil, "")
     let websocketClient = WebSocketClient()
     let player = AVPlayer(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     
     VideoPlayer(player: player)
+        .environment(user)
         .environment(websocketClient)
 }
