@@ -9,6 +9,8 @@ import AVKit
 import Foundation
 import SwiftUI
 
+import SwiftyJSON
+
 struct PlaybackControls: View {
     @Binding var isPlaying: Bool
     @Environment(User.self) var user
@@ -54,10 +56,14 @@ struct PlaybackControls: View {
                 }
                 
                 /// 根据当前位置和视频总时长计算修改后的时间.
-                let targetTime = seekPosition * currentVideo.duration.seconds
+                let currentTime = seekPosition * currentVideo.duration.seconds
                 
                 /// 修改播放进度.
-                player.seek(to: CMTime(seconds: targetTime, preferredTimescale: 1000))
+                player.seek(to: CMTime(seconds: currentTime, preferredTimescale: 1000))
+                
+                sendPlayerSync(command: [
+                    "newProgress": currentTime
+                ])
             })
             .onAppear(perform: {
                 observePlayerProgress()
@@ -79,7 +85,9 @@ struct PlaybackControls: View {
                 }
                 
                 /// 计算新的进度条位置.
-                seekPosition = time.seconds / currentVideo.duration.seconds
+                if currentVideo.duration.isNumeric {
+                    seekPosition = time.seconds / currentVideo.duration.seconds
+                }
             }
         )
     }
@@ -88,7 +96,7 @@ struct PlaybackControls: View {
     ///
     /// - Parameters:
     ///   - command: 状态同步命令字段.
-    private func sendPlayerSync(command: String) {
+    private func sendPlayerSync(command: JSON) {
         websocketClient.broadcast([
             "action": "player",
             "command": command,
