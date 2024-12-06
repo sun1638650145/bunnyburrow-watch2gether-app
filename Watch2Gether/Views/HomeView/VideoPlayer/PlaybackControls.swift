@@ -16,8 +16,8 @@ struct PlaybackControls: View {
     @Environment(User.self) var user
     @Environment(WebSocketClient.self) var websocketClient
     
-    /// 用于存储事件监听器的取消器集合.
-    @State private var cancellables = Set<AnyCancellable>()
+    /// 播放器状态变化监听器的取消器.
+    @State private var playerStatusCancellable: AnyCancellable?
     
     /// 视频是否播放状态变量.
     @State private var isPlaying: Bool = false
@@ -70,7 +70,7 @@ struct PlaybackControls: View {
         }
         .onAppear(perform: {
             observePlayerProgress()
-            observePlayerState()
+            observePlayerStatus()
         })
     }
     
@@ -96,16 +96,12 @@ struct PlaybackControls: View {
     }
     
     /// 观察播放器的播放状态.
-    private func observePlayerState() {
-        player.publisher(for: \.timeControlStatus)
-            
+    private func observePlayerStatus() {
+        playerStatusCancellable = player.publisher(for: \.timeControlStatus)
             /// 将收到的状态传递给`isPlaying`.
             .sink(receiveValue: { status in
                 isPlaying = (status == .playing)
             })
-            
-            /// 将事件监听器保存到取消器集合中.
-            .store(in: &cancellables)
     }
     
     /// 发送播放器状态同步.
