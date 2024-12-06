@@ -80,7 +80,7 @@ struct PlaybackControls: View {
             /// 每隔0.5秒获取一次新的播放进度.
             forInterval: CMTime(seconds: 0.5, preferredTimescale: 1000),
             queue: nil,
-            using: { time in
+            using: { _ in
                 /// 获取当前播放的视频.
                 guard let currentVideo = player.currentItem
                 else {
@@ -89,7 +89,8 @@ struct PlaybackControls: View {
                 
                 /// 计算新的进度条位置.
                 if currentVideo.duration.isNumeric {
-                    seekPosition = time.seconds / currentVideo.duration.seconds
+                    let currentTime = player.currentTime().seconds
+                    seekPosition = currentTime / currentVideo.duration.seconds
                 }
             }
         )
