@@ -17,9 +17,6 @@ struct VideoPlayer: View {
     /// 当前的播放速率.
     @State private var currentPlaybackRate: Float = 1.0
     
-    /// 视频是否播放状态变量.
-    @State private var isPlaying: Bool = false
-    
     /// `AVPlayer`播放器加载并控制视频播放.
     let player: AVPlayer
     
@@ -35,7 +32,7 @@ struct VideoPlayer: View {
                 /// 使得播放控制栏在视图底部.
                 Spacer()
                 
-                PlaybackControls(player: player, isPlaying: $isPlaying)
+                PlaybackControls(player: player)
                     .padding(10)
             }
         }
@@ -58,15 +55,9 @@ struct VideoPlayer: View {
                 /// 播放视频.
                 /// 不使用`player.play()`, 使用修改播放速率触发播放.
                 player.rate = currentPlaybackRate
-                
-                /// 设置为播放状态.
-                isPlaying = true
             } else if command == "pause" {
                 /// 暂停视频.
                 player.pause()
-                
-                /// 设置为暂停状态.
-                isPlaying = false
             }
         } else if let newProgress = command["newProgress"].double {
             /// 修改播放进度.

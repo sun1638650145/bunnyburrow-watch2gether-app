@@ -6,15 +6,21 @@
 //
 
 import AVKit
+import Combine
 import Foundation
 import SwiftUI
 
 import SwiftyJSON
 
 struct PlaybackControls: View {
-    @Binding var isPlaying: Bool
     @Environment(User.self) var user
     @Environment(WebSocketClient.self) var websocketClient
+    
+    /// 用于存储事件监听器的取消器集合.
+    @State private var cancellables = Set<AnyCancellable>()
+    
+    /// 视频是否播放状态变量.
+    @State private var isPlaying: Bool = false
     
     /// 播放器进度条当前的位置.
     @State private var seekPosition: Double = 0.0
@@ -22,9 +28,8 @@ struct PlaybackControls: View {
     /// `AVPlayer`播放器加载并控制视频播放.
     let player: AVPlayer
     
-    init(player: AVPlayer, isPlaying: Binding<Bool>) {
+    init(player: AVPlayer) {
         self.player = player
-        self._isPlaying = isPlaying
     }
     
     var body: some View {
@@ -32,14 +37,11 @@ struct PlaybackControls: View {
             Button(action: {
                 if isPlaying {
                     player.pause()
+                    sendPlayerSync(command: "pause")
                 } else {
                     player.play()
+                    sendPlayerSync(command: "play")
                 }
-                
-                /// 设置播放状态.
-                isPlaying.toggle()
-                
-                sendPlayerSync(command: isPlaying ? "play": "pause")
             }, label: {
                 Image(systemName: isPlaying ? "pause.fill": "play.fill")
                     .resizable()
@@ -65,10 +67,11 @@ struct PlaybackControls: View {
                     "newProgress": currentTime
                 ])
             })
-            .onAppear(perform: {
-                observePlayerProgress()
-            })
         }
+        .onAppear(perform: {
+            observePlayerProgress()
+            observePlayerState()
+        })
     }
     
     /// 观察播放器的播放进度.
@@ -92,6 +95,19 @@ struct PlaybackControls: View {
         )
     }
     
+    /// 观察播放器的播放状态.
+    private func observePlayerState() {
+        player.publisher(for: \.timeControlStatus)
+            
+            /// 将收到的状态传递给`isPlaying`.
+            .sink(receiveValue: { status in
+                isPlaying = (status == .playing)
+            })
+            
+            /// 将事件监听器保存到取消器集合中.
+            .store(in: &cancellables)
+    }
+    
     /// 发送播放器状态同步.
     ///
     /// - Parameters:
@@ -113,7 +129,7 @@ struct PlaybackControls: View {
     let websocketClient = WebSocketClient()
     let player = AVPlayer(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
 
-    PlaybackControls(player: player, isPlaying: .constant(false))
+    PlaybackControls(player: player)
         .environment(user)
         .environment(websocketClient)
 }
