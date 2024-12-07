@@ -17,6 +17,9 @@ struct VideoPlayer: View {
     /// 当前的播放速率.
     @State private var currentPlaybackRate: Float = 1.0
     
+    /// 播放器进度条当前的位置.
+    @State private var seekPosition: Double = 0.0
+    
     /// 显示播放控制组件变量.
     @State private var showPlaybackControls: Bool = true
     
@@ -36,8 +39,7 @@ struct VideoPlayer: View {
                 Spacer()
                     
                 if showPlaybackControls {
-                    // TODO: 暂停隐藏后播放控制重新渲染进度条位置导致归零(Steve).
-                    PlaybackControls(player: player)
+                    PlaybackControls(player: player, seekPosition: $seekPosition)
                         .padding(10)
                 }
             }
@@ -50,7 +52,7 @@ struct VideoPlayer: View {
             )
         })
         .onTapGesture(perform: {
-            // TODO: 设计定时器无操作后自动消失(Steve).
+            // TODO: 定时器无操作后自动消失(Steve).
             showPlaybackControls.toggle()
         })
     }
