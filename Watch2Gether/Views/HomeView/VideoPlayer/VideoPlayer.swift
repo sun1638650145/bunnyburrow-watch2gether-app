@@ -17,6 +17,9 @@ struct VideoPlayer: View {
     /// 当前的播放速率.
     @State private var currentPlaybackRate: Float = 1.0
     
+    /// 显示播放控制组件变量.
+    @State private var showPlaybackControls: Bool = true
+    
     /// `AVPlayer`播放器加载并控制视频播放.
     let player: AVPlayer
     
@@ -31,9 +34,12 @@ struct VideoPlayer: View {
             VStack {
                 /// 使得播放控制栏在视图底部.
                 Spacer()
-                
-                PlaybackControls(player: player)
-                    .padding(10)
+                    
+                if showPlaybackControls {
+                    // TODO: 暂停隐藏后播放控制重新渲染进度条位置导致归零(Steve).
+                    PlaybackControls(player: player)
+                        .padding(10)
+                }
             }
         }
         .onAppear(perform: {
@@ -42,6 +48,10 @@ struct VideoPlayer: View {
                 eventName: "receivePlayerSync",
                 listener: self.receivePlayerSync(command:)
             )
+        })
+        .onTapGesture(perform: {
+            // TODO: 设计定时器无操作后自动消失(Steve).
+            showPlaybackControls.toggle()
         })
     }
     
