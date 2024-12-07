@@ -17,11 +17,14 @@ struct PlaybackControls: View {
     @Environment(User.self) var user
     @Environment(WebSocketClient.self) var websocketClient
     
-    /// 播放器状态变化监听器的取消器.
-    @State private var playerStatusCancellable: AnyCancellable?
-    
+    /// 当前的播放时间.
+    @State private var currentTime: Double = 0.0
+        
     /// 视频是否播放状态变量.
     @State private var isPlaying: Bool = false
+    
+    /// 播放器状态变化监听器的取消器.
+    @State private var playerStatusCancellable: AnyCancellable?
     
     /// `AVPlayer`播放器加载并控制视频播放.
     let player: AVPlayer
@@ -49,28 +52,66 @@ struct PlaybackControls: View {
                     .foregroundStyle(Color(hex: "#F9F9F9"))
             })
             
-            Slider(value: $seekPosition, in: 0...1, onEditingChanged: { _ in
-                /// 获取当前播放的视频.
-                guard let currentVideo = player.currentItem
-                else {
-                    return
-                }
+            HStack {
+                Text(formatTime(currentTime))
+                    .bold()
+                    .font(.footnote)
+                    .foregroundStyle(Color(hex: "#F9F9F9"))
                 
-                /// 根据当前位置和视频总时长计算修改后的时间.
-                let currentTime = seekPosition * currentVideo.duration.seconds
+                Slider(value: $seekPosition, in: 0...1, onEditingChanged: { isEditing in
+                    if !isEditing {
+                        /// 修改播放进度.
+                        player.seek(to: CMTime(seconds: currentTime, preferredTimescale: 1000))
+
+                        sendPlayerSync(command: [
+                            "newProgress": currentTime
+                        ])
+                    }
+                })
+                /// 实时更新显示的当前播放时间.
+                .onChange(of: seekPosition, {
+                    /// 获取当前播放的视频.
+                    guard let currentVideo = player.currentItem
+                    else {
+                        return
+                    }
+                    
+                    /// 根据当前位置和视频总时长计算修改后的时间.
+                    currentTime = seekPosition * currentVideo.duration.seconds
+                })
+                .tint(Color(hex: "#F9F9F9"))
                 
-                /// 修改播放进度.
-                player.seek(to: CMTime(seconds: currentTime, preferredTimescale: 1000))
-                
-                sendPlayerSync(command: [
-                    "newProgress": currentTime
-                ])
-            })
+                Text(formatTime(player.currentItem?.duration.seconds))
+                    .bold()
+                    .font(.footnote)
+                    .foregroundStyle(Color(hex: "#F9F9F9"))
+            }
         }
         .onAppear(perform: {
             observePlayerProgress()
             observePlayerStatus()
         })
+    }
+    
+    /// 格式化时间.
+    private func formatTime(_ time: Double?) -> String {
+        guard let time = time, !time.isNaN
+        else {
+            /// 如果时间无效则返回`--:--`.
+            return "--:--"
+        }
+        
+        let totalSeconds = Int(time)
+        
+        let hours = totalSeconds / 3600
+        let minutes = totalSeconds % 3600 / 60
+        let seconds = totalSeconds % 60
+        
+        if hours > 0 {
+            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+        } else {
+            return String(format: "%02d:%02d", minutes, seconds)
+        }
     }
     
     /// 观察播放器的播放进度.
