@@ -47,7 +47,7 @@ struct PlaybackControls: View {
                 Image(systemName: isPlaying ? "pause.fill": "play.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 20, height: 20)
+                    .frame(width: 18, height: 18)
                     .foregroundStyle(Color(hex: "#F9F9F9"))
             })
             
@@ -62,6 +62,16 @@ struct PlaybackControls: View {
                     ])
                 }
             )
+            
+            Button(action: {
+                // ...
+            }, label: {
+                Image(systemName: "arrow.up.left.and.arrow.down.right")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 18, height: 18)
+                    .foregroundStyle(Color(hex: "#F9F9F9"))
+            })
         }
         .onAppear(perform: {
             observePlayerStatus()
