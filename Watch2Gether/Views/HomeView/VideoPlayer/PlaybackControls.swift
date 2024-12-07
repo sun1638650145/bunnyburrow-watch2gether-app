@@ -13,13 +13,11 @@ import SwiftUI
 import SwiftyJSON
 
 struct PlaybackControls: View {
+    @Binding var currentTime: Double
     @Binding var seekPosition: Double
     @Environment(User.self) var user
     @Environment(WebSocketClient.self) var websocketClient
     
-    /// 当前的播放时间.
-    @State private var currentTime: Double = 0.0
-        
     /// 视频是否播放状态变量.
     @State private var isPlaying: Bool = false
     
@@ -29,8 +27,9 @@ struct PlaybackControls: View {
     /// `AVPlayer`播放器加载并控制视频播放.
     let player: AVPlayer
     
-    init(player: AVPlayer, seekPosition: Binding<Double>) {
+    init(player: AVPlayer, currentTime: Binding<Double>, seekPosition: Binding<Double>) {
         self.player = player
+        self._currentTime = currentTime
         self._seekPosition = seekPosition
     }
     
@@ -95,13 +94,14 @@ struct PlaybackControls: View {
 }
 
 #Preview {
+    @Previewable @State var currentTime: Double = 0.0
     @Previewable @State var seekPosition: Double = 0.0
     
     let user = User(nil, "")
     let websocketClient = WebSocketClient()
     let player = AVPlayer(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
 
-    PlaybackControls(player: player, seekPosition: $seekPosition)
+    PlaybackControls(player: player, currentTime: $currentTime, seekPosition: $seekPosition)
         .environment(user)
         .environment(websocketClient)
 }

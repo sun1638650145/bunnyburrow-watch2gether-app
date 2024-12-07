@@ -17,6 +17,9 @@ struct VideoPlayer: View {
     /// 当前的播放速率.
     @State private var currentPlaybackRate: Float = 1.0
     
+    /// 当前的播放时间.
+    @State private var currentTime: Double = 0.0
+    
     /// 播放器进度条当前的位置.
     @State private var seekPosition: Double = 0.0
     
@@ -39,8 +42,12 @@ struct VideoPlayer: View {
                 Spacer()
                     
                 if showPlaybackControls {
-                    PlaybackControls(player: player, seekPosition: $seekPosition)
-                        .padding(10)
+                    PlaybackControls(
+                        player: player,
+                        currentTime: $currentTime,
+                        seekPosition: $seekPosition
+                    )
+                    .padding(10)
                 }
             }
         }
