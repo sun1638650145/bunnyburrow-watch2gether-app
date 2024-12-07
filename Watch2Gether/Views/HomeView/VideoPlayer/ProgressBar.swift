@@ -41,7 +41,7 @@ struct ProgressBar: View {
             
             Slider(value: $seekPosition, in: 0...1, onEditingChanged: { isEditing in
                 if !isEditing {
-                    /// 修改播放进度.
+                    /// 使用`onChange`计算出的时间, 修改播放进度.
                     player.seek(to: CMTime(seconds: currentTime, preferredTimescale: 1000))
                     
                     onSeekCompleted?()
