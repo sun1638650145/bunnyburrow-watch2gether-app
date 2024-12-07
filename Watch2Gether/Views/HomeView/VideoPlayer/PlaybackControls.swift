@@ -52,88 +52,21 @@ struct PlaybackControls: View {
                     .foregroundStyle(Color(hex: "#F9F9F9"))
             })
             
-            HStack {
-                Text(formatTime(currentTime))
-                    .bold()
-                    .font(.footnote)
-                    .foregroundStyle(Color(hex: "#F9F9F9"))
-                
-                Slider(value: $seekPosition, in: 0...1, onEditingChanged: { isEditing in
-                    if !isEditing {
-                        /// 修改播放进度.
-                        player.seek(to: CMTime(seconds: currentTime, preferredTimescale: 1000))
-
-                        sendPlayerSync(command: [
-                            "newProgress": currentTime
-                        ])
-                    }
-                })
-                /// 实时更新显示的当前播放时间.
-                .onChange(of: seekPosition, {
-                    /// 获取当前播放的视频.
-                    guard let currentVideo = player.currentItem
-                    else {
-                        return
-                    }
-                    
-                    /// 根据当前位置和视频总时长计算修改后的时间.
-                    currentTime = seekPosition * currentVideo.duration.seconds
-                })
-                .tint(Color(hex: "#F9F9F9"))
-                
-                Text(formatTime(player.currentItem?.duration.seconds))
-                    .bold()
-                    .font(.footnote)
-                    .foregroundStyle(Color(hex: "#F9F9F9"))
-            }
+            ProgressBar(
+                player: player,
+                currentTime: $currentTime,
+                seekPosition: $seekPosition,
+                totalDuration: player.currentItem?.duration.seconds,
+                onSeekCompleted: {
+                    sendPlayerSync(command: [
+                        "newProgress": currentTime
+                    ])
+                }
+            )
         }
         .onAppear(perform: {
-            observePlayerProgress()
             observePlayerStatus()
         })
-    }
-    
-    /// 格式化时间.
-    private func formatTime(_ time: Double?) -> String {
-        guard let time = time, !time.isNaN
-        else {
-            /// 如果时间无效则返回`--:--`.
-            return "--:--"
-        }
-        
-        let totalSeconds = Int(time)
-        
-        let hours = totalSeconds / 3600
-        let minutes = totalSeconds % 3600 / 60
-        let seconds = totalSeconds % 60
-        
-        if hours > 0 {
-            return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-        } else {
-            return String(format: "%02d:%02d", minutes, seconds)
-        }
-    }
-    
-    /// 观察播放器的播放进度.
-    private func observePlayerProgress() {
-        player.addPeriodicTimeObserver(
-            /// 每隔0.5秒获取一次新的播放进度.
-            forInterval: CMTime(seconds: 0.5, preferredTimescale: 1000),
-            queue: nil,
-            using: { _ in
-                /// 获取当前播放的视频.
-                guard let currentVideo = player.currentItem
-                else {
-                    return
-                }
-                
-                /// 计算新的进度条位置.
-                if currentVideo.duration.isNumeric {
-                    let currentTime = player.currentTime().seconds
-                    seekPosition = currentTime / currentVideo.duration.seconds
-                }
-            }
-        )
     }
     
     /// 观察播放器的播放状态.
