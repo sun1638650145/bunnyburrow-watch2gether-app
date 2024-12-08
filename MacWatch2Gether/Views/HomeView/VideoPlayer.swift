@@ -23,7 +23,7 @@ struct VideoPlayer: View {
             /// 使得视频播放器有更好的一体性.
             Color.black
             
-            VideoPlayerView(player: streaming.player)
+            VideoPlayerView()
         }
         .onAppear(perform: {
             /// 添加播放器状态同步事件监听函数给WebSocket客户端.

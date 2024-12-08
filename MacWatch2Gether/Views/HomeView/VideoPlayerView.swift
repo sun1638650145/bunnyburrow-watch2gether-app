@@ -11,11 +11,10 @@ import Foundation
 import SwiftUI
 
 struct VideoPlayerView: NSViewRepresentable {
-    /// `AVPlayer`播放器加载并控制视频播放.
-    let player: AVPlayer
+    @Environment(Streaming.self) var streaming
     
     func makeNSView(context: Context) -> NSView {
-        let playerLayer = AVPlayerLayer(player: player)
+        let playerLayer = AVPlayerLayer(player: streaming.player)
         
         let view = NSView()
         
@@ -31,7 +30,8 @@ struct VideoPlayerView: NSViewRepresentable {
 }
 
 #Preview {
-    let player = AVPlayer(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
+    let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     
-    VideoPlayerView(player: player)
+    VideoPlayerView()
+        .environment(streaming)
 }
