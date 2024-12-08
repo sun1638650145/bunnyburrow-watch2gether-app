@@ -34,7 +34,7 @@ struct VideoPlayer: View {
             Color.black
                 .ignoresSafeArea()
             
-            VideoPlayerViewController(player: streaming.player)
+            VideoPlayerViewController()
             
             VStack {
                 /// 使得播放控制栏在视图底部.
