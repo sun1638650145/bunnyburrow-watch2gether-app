@@ -37,9 +37,9 @@ struct VideoPlayer: View {
     
     var body: some View {
         ZStack {
-            /// 忽略顶部安全区使得视频播放器有更好的一体性.
+            /// 忽略安全区使得视频播放器有更好的一体性.
             Color.black
-                .ignoresSafeArea(edges: .top)
+                .ignoresSafeArea()
             
             VideoPlayerViewController(player: player)
             
