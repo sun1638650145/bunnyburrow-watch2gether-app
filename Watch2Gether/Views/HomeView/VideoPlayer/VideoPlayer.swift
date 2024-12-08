@@ -12,6 +12,7 @@ import SwiftUI
 import SwiftyJSON
 
 struct VideoPlayer: View {
+    @Binding var isFullScreen: Bool
     @Environment(WebSocketClient.self) var websocketClient
     
     /// 当前的播放速率.
@@ -29,6 +30,11 @@ struct VideoPlayer: View {
     /// `AVPlayer`播放器加载并控制视频播放.
     let player: AVPlayer
     
+    init(player: AVPlayer, isFullScreen: Binding<Bool>) {
+        self.player = player
+        self._isFullScreen = isFullScreen
+    }
+    
     var body: some View {
         ZStack {
             /// 忽略顶部安全区使得视频播放器有更好的一体性.
@@ -45,7 +51,8 @@ struct VideoPlayer: View {
                     PlaybackControls(
                         player: player,
                         currentTime: $currentTime,
-                        seekPosition: $seekPosition
+                        seekPosition: $seekPosition,
+                        isFullScreen: $isFullScreen
                     )
                     .padding(10)
                 }
@@ -98,7 +105,7 @@ struct VideoPlayer: View {
     let websocketClient = WebSocketClient()
     let player = AVPlayer(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     
-    VideoPlayer(player: player)
+    VideoPlayer(player: player, isFullScreen: .constant(false))
         .environment(user)
         .environment(websocketClient)
 }

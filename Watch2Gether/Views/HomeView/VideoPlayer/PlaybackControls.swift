@@ -14,6 +14,7 @@ import SwiftyJSON
 
 struct PlaybackControls: View {
     @Binding var currentTime: Double
+    @Binding var isFullScreen: Bool
     @Binding var seekPosition: Double
     @Environment(User.self) var user
     @Environment(WebSocketClient.self) var websocketClient
@@ -27,10 +28,16 @@ struct PlaybackControls: View {
     /// `AVPlayer`播放器加载并控制视频播放.
     let player: AVPlayer
     
-    init(player: AVPlayer, currentTime: Binding<Double>, seekPosition: Binding<Double>) {
+    init(
+        player: AVPlayer,
+        currentTime: Binding<Double>,
+        seekPosition: Binding<Double>,
+        isFullScreen: Binding<Bool>
+    ) {
         self.player = player
         self._currentTime = currentTime
         self._seekPosition = seekPosition
+        self._isFullScreen = isFullScreen
     }
     
     var body: some View {
@@ -64,13 +71,17 @@ struct PlaybackControls: View {
             )
             
             Button(action: {
-                // ...
+                isFullScreen.toggle()
             }, label: {
-                Image(systemName: "arrow.up.left.and.arrow.down.right")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 18, height: 18)
-                    .foregroundStyle(Color(hex: "#F9F9F9"))
+                Image(
+                    systemName: isFullScreen
+                    ? "arrow.down.right.and.arrow.up.left"
+                    : "arrow.up.left.and.arrow.down.right"
+                )
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 18, height: 18)
+                .foregroundStyle(Color(hex: "#F9F9F9"))
             })
         }
         .onAppear(perform: {
@@ -106,12 +117,18 @@ struct PlaybackControls: View {
 #Preview {
     @Previewable @State var currentTime: Double = 0.0
     @Previewable @State var seekPosition: Double = 0.0
+    @Previewable @State var isFullScreen: Bool = false
     
     let user = User(nil, "")
     let websocketClient = WebSocketClient()
     let player = AVPlayer(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
 
-    PlaybackControls(player: player, currentTime: $currentTime, seekPosition: $seekPosition)
-        .environment(user)
-        .environment(websocketClient)
+    PlaybackControls(
+        player: player,
+        currentTime: $currentTime,
+        seekPosition: $seekPosition,
+        isFullScreen: $isFullScreen
+    )
+    .environment(user)
+    .environment(websocketClient)
 }

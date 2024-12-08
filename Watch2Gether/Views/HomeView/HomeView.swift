@@ -11,6 +11,9 @@ import SwiftUI
 struct HomeView: View {
     @Environment(Streaming.self) var streaming
     
+    /// 全屏状态.
+    @State private var isFullScreen = false
+    
     /// `AVPlayer`播放器加载并控制视频播放.
     var player: AVPlayer {
         return AVPlayer(url: streaming.url)
@@ -21,17 +24,21 @@ struct HomeView: View {
             Color(hex: "#1A1D29")
                 .ignoresSafeArea()
             
-            GeometryReader(content: { geometry in
-                VStack(spacing: 0, content: {
-                    VideoPlayer(player: player)
-                        /// 固定视频播放器的高度为屏幕的1/3.
-                        .frame(height: geometry.size.height / 3)
-                    
-                    FriendsList()
-                    
-                    ChatRoom()
+            if isFullScreen {
+                VideoPlayer(player: player, isFullScreen: $isFullScreen)
+            } else {
+                GeometryReader(content: { geometry in
+                    VStack(spacing: 0, content: {
+                        VideoPlayer(player: player, isFullScreen: $isFullScreen)
+                            /// 固定视频播放器的高度为屏幕的1/3.
+                            .frame(height: geometry.size.height / 3)
+                        
+                        FriendsList()
+                        
+                        ChatRoom()
+                    })
                 })
-            })
+            }
         }
     }
 }
