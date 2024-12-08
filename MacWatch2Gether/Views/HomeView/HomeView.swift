@@ -11,18 +11,13 @@ import SwiftUI
 struct HomeView: View {
     @Environment(Streaming.self) var streaming
     
-    /// `AVPlayer`播放器加载并控制视频播放.
-    var player: AVPlayer {
-        return AVPlayer(url: streaming.url)
-    }
-    
     var body: some View {
         ZStack {
             Color(hex: "#1A1D29")
             
             GeometryReader(content: { geometry in
                 HStack(spacing: 0, content: {
-                    VideoPlayer(player: player)
+                    VideoPlayer(player: streaming.player)
                         /// 固定视频播放器的宽度为窗口的70%.
                         .frame(width: geometry.size.width * 0.7)
                     
