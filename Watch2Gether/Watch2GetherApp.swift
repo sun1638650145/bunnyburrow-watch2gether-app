@@ -18,7 +18,7 @@ struct Watch2GetherApp: App {
     /// 好友信息视图模型.
     @State private var friendsViewModel = FriendsViewModel()
     
-    /// 流媒体视频源.
+    /// 流媒体视频.
     @State private var streaming = Streaming(url: URL(string: "about:blank")!)
     
     /// WebSocket客户端.
