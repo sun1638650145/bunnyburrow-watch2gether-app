@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Environment(Streaming.self) var streaming
-    
     /// 全屏状态.
     @State private var isFullScreen = false
     
@@ -19,11 +17,11 @@ struct HomeView: View {
                 .ignoresSafeArea()
             
             if isFullScreen {
-                VideoPlayer(player: streaming.player, isFullScreen: $isFullScreen)
+                VideoPlayer(isFullScreen: $isFullScreen)
             } else {
                 GeometryReader(content: { geometry in
                     VStack(spacing: 0, content: {
-                        VideoPlayer(player: streaming.player, isFullScreen: $isFullScreen)
+                        VideoPlayer(isFullScreen: $isFullScreen)
                             /// 固定视频播放器的高度为屏幕的1/3.
                             .frame(height: geometry.size.height / 3)
                         

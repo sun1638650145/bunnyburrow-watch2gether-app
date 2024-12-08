@@ -13,6 +13,7 @@ import SwiftyJSON
 
 struct VideoPlayer: View {
     @Binding var isFullScreen: Bool
+    @Environment(Streaming.self) var streaming
     @Environment(WebSocketClient.self) var websocketClient
     
     /// 当前的播放速率.
@@ -27,21 +28,13 @@ struct VideoPlayer: View {
     /// 显示播放控制组件变量.
     @State private var showPlaybackControls: Bool = true
     
-    /// `AVPlayer`播放器加载并控制视频播放.
-    let player: AVPlayer
-    
-    init(player: AVPlayer, isFullScreen: Binding<Bool>) {
-        self.player = player
-        self._isFullScreen = isFullScreen
-    }
-    
     var body: some View {
         ZStack {
             /// 忽略安全区使得视频播放器有更好的一体性.
             Color.black
                 .ignoresSafeArea()
             
-            VideoPlayerViewController(player: player)
+            VideoPlayerViewController(player: streaming.player)
             
             VStack {
                 /// 使得播放控制栏在视图底部.
@@ -49,7 +42,7 @@ struct VideoPlayer: View {
                     
                 if showPlaybackControls {
                     PlaybackControls(
-                        player: player,
+                        player: streaming.player,
                         currentTime: $currentTime,
                         seekPosition: $seekPosition,
                         isFullScreen: $isFullScreen
@@ -80,21 +73,21 @@ struct VideoPlayer: View {
             if command == "play" {
                 /// 播放视频.
                 /// 不使用`player.play()`, 使用修改播放速率触发播放.
-                player.rate = currentPlaybackRate
+                streaming.player.rate = currentPlaybackRate
             } else if command == "pause" {
                 /// 暂停视频.
-                player.pause()
+                streaming.player.pause()
             }
         } else if let newProgress = command["newProgress"].double {
             /// 修改播放进度.
-            player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+            streaming.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
         } else if let playbackRate = command["playbackRate"].float {
             /// 调整播放速率.
             currentPlaybackRate = playbackRate
             
             /// 修改播放速率会导致播放器立刻播放, 所以只能在播放器本身为播放状态时立刻修改.
-            if player.timeControlStatus == .playing {
-                player.rate = currentPlaybackRate
+            if streaming.player.timeControlStatus == .playing {
+                streaming.player.rate = currentPlaybackRate
             }
         }
     }
@@ -102,10 +95,11 @@ struct VideoPlayer: View {
 
 #Preview {
     let user = User(nil, "")
+    let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     let websocketClient = WebSocketClient()
-    let player = AVPlayer(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     
-    VideoPlayer(player: player, isFullScreen: .constant(false))
+    VideoPlayer(isFullScreen: .constant(false))
         .environment(user)
+        .environment(streaming)
         .environment(websocketClient)
 }
