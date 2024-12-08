@@ -55,7 +55,6 @@ struct PlaybackControls: View {
             })
             
             ProgressBar(
-                player: streaming.player,
                 currentTime: $currentTime,
                 seekPosition: $seekPosition,
                 totalDuration: streaming.player.currentItem?.duration.seconds,
@@ -118,6 +117,7 @@ struct PlaybackControls: View {
     let user = User(nil, "")
     let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     let websocketClient = WebSocketClient()
+    
     PlaybackControls(
         currentTime: $currentTime,
         seekPosition: $seekPosition,

@@ -11,6 +11,7 @@ import SwiftUI
 struct ProgressBar: View {
     @Binding var currentTime: Double
     @Binding var seekPosition: Double
+    @Environment(Streaming.self) var streaming
     
     /// 进度调整完成时调用的闭包.
     private var onSeekCompleted: (() -> Void)?
@@ -18,17 +19,12 @@ struct ProgressBar: View {
     /// 视频总时长.
     let totalDuration: Double?
     
-    /// `AVPlayer`播放器加载并控制视频播放.
-    let player: AVPlayer
-    
     init(
-        player: AVPlayer,
         currentTime: Binding<Double>,
         seekPosition: Binding<Double>,
         totalDuration: Double?,
         onSeekCompleted: (() -> Void)? = nil
     ) {
-        self.player = player
         self._currentTime = currentTime
         self._seekPosition = seekPosition
         self.totalDuration = totalDuration
@@ -42,14 +38,16 @@ struct ProgressBar: View {
             Slider(value: $seekPosition, in: 0...1, onEditingChanged: { isEditing in
                 if !isEditing {
                     /// 使用`onChange`计算出的时间, 修改播放进度.
-                    player.seek(to: CMTime(seconds: currentTime, preferredTimescale: 1000))
+                    streaming.player.seek(
+                        to: CMTime(seconds: currentTime, preferredTimescale: 1000)
+                    )
                     
                     onSeekCompleted?()
                 }
             })
             .onChange(of: seekPosition, {
                 /// 获取当前播放的视频.
-                guard let currentVideo = player.currentItem
+                guard let currentVideo = streaming.player.currentItem
                 else {
                     return
                 }
@@ -96,20 +94,20 @@ struct ProgressBar: View {
     
     /// 观察播放器的播放进度.
     private func observePlayerProgress() {
-        player.addPeriodicTimeObserver(
+        streaming.player.addPeriodicTimeObserver(
             /// 每隔0.5秒获取一次新的播放进度.
             forInterval: CMTime(seconds: 0.5, preferredTimescale: 1000),
             queue: nil,
             using: { _ in
                 /// 获取当前播放的视频.
-                guard let currentVideo = player.currentItem
+                guard let currentVideo = streaming.player.currentItem
                 else {
                     return
                 }
                 
                 /// 计算新的进度条位置.
                 if currentVideo.duration.isNumeric {
-                    let currentTime = player.currentTime().seconds
+                    let currentTime = streaming.player.currentTime().seconds
                     seekPosition = currentTime / currentVideo.duration.seconds
                 }
             }
@@ -121,13 +119,13 @@ struct ProgressBar: View {
     @Previewable @State var currentTime: Double = 0.0
     @Previewable @State var seekPosition: Double = 0.0
     
-    let player = AVPlayer(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
+    let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     let totalDuration: Double = 165
     
     ProgressBar(
-        player: player,
         currentTime: $currentTime,
         seekPosition: $seekPosition,
         totalDuration: totalDuration
     )
+    .environment(streaming)
 }
