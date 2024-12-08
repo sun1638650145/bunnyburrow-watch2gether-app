@@ -42,7 +42,6 @@ struct VideoPlayer: View {
                     
                 if showPlaybackControls {
                     PlaybackControls(
-                        player: streaming.player,
                         currentTime: $currentTime,
                         seekPosition: $seekPosition,
                         isFullScreen: $isFullScreen
