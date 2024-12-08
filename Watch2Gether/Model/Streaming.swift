@@ -16,7 +16,7 @@ class Streaming {
     let player: AVPlayer
     
     /// 视频源URL.
-    var url: URL {
+    private var url: URL {
         didSet {
             /// 当URL被赋新值后更新播放器.
             player.replaceCurrentItem(with: AVPlayerItem(url: url))
@@ -26,5 +26,13 @@ class Streaming {
     init(url: URL) {
         self.url = url
         self.player = AVPlayer()
+    }
+    
+    /// 更新视频源URL.
+    ///
+    /// - Parameters:
+    ///   - newUrl: 新的视频源URL.
+    func updateURL(_ newUrl: URL) {
+        self.url = newUrl
     }
 }

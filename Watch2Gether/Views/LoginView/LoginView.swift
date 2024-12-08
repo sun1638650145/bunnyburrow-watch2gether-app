@@ -181,9 +181,9 @@ struct LoginView: View {
         if !isNameEmpty && !isStreamingInvalid && !isWebSocketInvalid {
             user.avatar = avatar
             user.name = name!
-            streaming.url = URL(
-                string: url!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-            )!
+            streaming.updateURL(
+                URL(string: url!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))!
+            )
             
             /// 添加自己的用户信息.
             friendsViewModel.addFriend(friend: user)
