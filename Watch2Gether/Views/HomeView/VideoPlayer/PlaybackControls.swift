@@ -13,8 +13,6 @@ import SwiftUI
 import SwiftyJSON
 
 struct PlaybackControls: View {
-    @Binding var currentTime: Double
-    @Binding var remainingTime: Double
     @Binding var isFullScreen: Bool
     @Binding var seekPosition: Double
     @Environment(User.self) var user
@@ -27,14 +25,7 @@ struct PlaybackControls: View {
     /// 播放器状态变化监听器的取消器.
     @State private var playerStatusCancellable: AnyCancellable?
     
-    init(
-        currentTime: Binding<Double>,
-        remainingTime: Binding<Double>,
-        seekPosition: Binding<Double>,
-        isFullScreen: Binding<Bool>
-    ) {
-        self._currentTime = currentTime
-        self._remainingTime = remainingTime
+    init(seekPosition: Binding<Double>, isFullScreen: Binding<Bool>) {
         self._seekPosition = seekPosition
         self._isFullScreen = isFullScreen
     }
@@ -57,16 +48,11 @@ struct PlaybackControls: View {
                     .foregroundStyle(Color(hex: "#F9F9F9"))
             })
             
-            ProgressBar(
-                currentTime: $currentTime,
-                remainingTime: $remainingTime,
-                seekPosition: $seekPosition,
-                onSeekCompleted: {
-                    sendPlayerSync(command: [
-                        "newProgress": currentTime
-                    ])
-                }
-            )
+            ProgressBar(seekPosition: $seekPosition, onSeekCompleted: {
+                sendPlayerSync(command: [
+                    "newProgress": streaming.currentTime
+                ])
+            })
             
             Button(action: {
                 isFullScreen.toggle()
@@ -113,7 +99,6 @@ struct PlaybackControls: View {
 }
 
 #Preview {
-    @Previewable @State var currentTime: Double = 0.0
     @Previewable @State var remainingTime: Double = 0.0
     @Previewable @State var seekPosition: Double = 0.0
     @Previewable @State var isFullScreen: Bool = false
@@ -122,13 +107,8 @@ struct PlaybackControls: View {
     let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     let websocketClient = WebSocketClient()
     
-    PlaybackControls(
-        currentTime: $currentTime,
-        remainingTime: $remainingTime,
-        seekPosition: $seekPosition,
-        isFullScreen: $isFullScreen
-    )
-    .environment(user)
-    .environment(streaming)
-    .environment(websocketClient)
+    PlaybackControls(seekPosition: $seekPosition, isFullScreen: $isFullScreen)
+        .environment(user)
+        .environment(streaming)
+        .environment(websocketClient)
 }

@@ -15,6 +15,15 @@ class Streaming {
     /// 视频播放器.
     let player: AVPlayer
     
+    /// 播放状态: 当前的播放速率.
+    var currentPlaybackRate: Float = 1.0
+    
+    /// 播放状态: 当前的播放时间.
+    var currentTime: Double = 0.0
+    
+    /// 播放状态: 剩余的播放时间.
+    var remainingTime: Double = 0.0
+    
     /// 视频源URL.
     private var url: URL {
         didSet {

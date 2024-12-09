@@ -16,15 +16,6 @@ struct VideoPlayer: View {
     @Environment(Streaming.self) var streaming
     @Environment(WebSocketClient.self) var websocketClient
     
-    /// 当前的播放速率.
-    @State private var currentPlaybackRate: Float = 1.0
-    
-    /// 当前的播放时间.
-    @State private var currentTime: Double = 0.0
-    
-    /// 剩余的播放时间.
-    @State private var remainingTime: Double = 0.0
-    
     /// 播放器进度条当前的位置.
     @State private var seekPosition: Double = 0.0
     
@@ -44,13 +35,8 @@ struct VideoPlayer: View {
                 Spacer()
                     
                 if showPlaybackControls {
-                    PlaybackControls(
-                        currentTime: $currentTime,
-                        remainingTime: $remainingTime,
-                        seekPosition: $seekPosition,
-                        isFullScreen: $isFullScreen
-                    )
-                    .padding(10)
+                    PlaybackControls(seekPosition: $seekPosition, isFullScreen: $isFullScreen)
+                        .padding(10)
                 }
             }
         }
@@ -76,7 +62,7 @@ struct VideoPlayer: View {
             if command == "play" {
                 /// 播放视频.
                 /// 不使用`player.play()`, 使用修改播放速率触发播放.
-                streaming.player.rate = currentPlaybackRate
+                streaming.player.rate = streaming.currentPlaybackRate
             } else if command == "pause" {
                 /// 暂停视频.
                 streaming.player.pause()
@@ -86,11 +72,11 @@ struct VideoPlayer: View {
             streaming.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
         } else if let playbackRate = command["playbackRate"].float {
             /// 调整播放速率.
-            currentPlaybackRate = playbackRate
+            streaming.currentPlaybackRate = playbackRate
             
             /// 修改播放速率会导致播放器立刻播放, 所以只能在播放器本身为播放状态时立刻修改.
             if streaming.player.timeControlStatus == .playing {
-                streaming.player.rate = currentPlaybackRate
+                streaming.player.rate = streaming.currentPlaybackRate
             }
         }
     }
