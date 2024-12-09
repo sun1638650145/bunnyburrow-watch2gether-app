@@ -99,7 +99,6 @@ struct PlaybackControls: View {
 }
 
 #Preview {
-    @Previewable @State var remainingTime: Double = 0.0
     @Previewable @State var seekPosition: Double = 0.0
     @Previewable @State var isFullScreen: Bool = false
     
