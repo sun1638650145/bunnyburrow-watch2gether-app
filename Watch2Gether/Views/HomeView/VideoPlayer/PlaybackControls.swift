@@ -14,6 +14,7 @@ import SwiftyJSON
 
 struct PlaybackControls: View {
     @Binding var currentTime: Double
+    @Binding var remainingTime: Double
     @Binding var isFullScreen: Bool
     @Binding var seekPosition: Double
     @Environment(User.self) var user
@@ -28,10 +29,12 @@ struct PlaybackControls: View {
     
     init(
         currentTime: Binding<Double>,
+        remainingTime: Binding<Double>,
         seekPosition: Binding<Double>,
         isFullScreen: Binding<Bool>
     ) {
         self._currentTime = currentTime
+        self._remainingTime = remainingTime
         self._seekPosition = seekPosition
         self._isFullScreen = isFullScreen
     }
@@ -56,8 +59,8 @@ struct PlaybackControls: View {
             
             ProgressBar(
                 currentTime: $currentTime,
+                remainingTime: $remainingTime,
                 seekPosition: $seekPosition,
-                totalDuration: streaming.player.currentItem?.duration.seconds,
                 onSeekCompleted: {
                     sendPlayerSync(command: [
                         "newProgress": currentTime
@@ -111,6 +114,7 @@ struct PlaybackControls: View {
 
 #Preview {
     @Previewable @State var currentTime: Double = 0.0
+    @Previewable @State var remainingTime: Double = 0.0
     @Previewable @State var seekPosition: Double = 0.0
     @Previewable @State var isFullScreen: Bool = false
     
@@ -120,6 +124,7 @@ struct PlaybackControls: View {
     
     PlaybackControls(
         currentTime: $currentTime,
+        remainingTime: $remainingTime,
         seekPosition: $seekPosition,
         isFullScreen: $isFullScreen
     )

@@ -22,6 +22,9 @@ struct VideoPlayer: View {
     /// 当前的播放时间.
     @State private var currentTime: Double = 0.0
     
+    /// 剩余的播放时间.
+    @State private var remainingTime: Double = 0.0
+    
     /// 播放器进度条当前的位置.
     @State private var seekPosition: Double = 0.0
     
@@ -43,6 +46,7 @@ struct VideoPlayer: View {
                 if showPlaybackControls {
                     PlaybackControls(
                         currentTime: $currentTime,
+                        remainingTime: $remainingTime,
                         seekPosition: $seekPosition,
                         isFullScreen: $isFullScreen
                     )

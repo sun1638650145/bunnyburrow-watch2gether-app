@@ -10,24 +10,22 @@ import SwiftUI
 
 struct ProgressBar: View {
     @Binding var currentTime: Double
+    @Binding var remainingTime: Double
     @Binding var seekPosition: Double
     @Environment(Streaming.self) var streaming
     
     /// 进度调整完成时调用的闭包.
     private var onSeekCompleted: (() -> Void)?
     
-    /// 视频总时长.
-    let totalDuration: Double?
-    
     init(
         currentTime: Binding<Double>,
+        remainingTime: Binding<Double>,
         seekPosition: Binding<Double>,
-        totalDuration: Double?,
         onSeekCompleted: (() -> Void)? = nil
     ) {
         self._currentTime = currentTime
+        self._remainingTime = remainingTime
         self._seekPosition = seekPosition
-        self.totalDuration = totalDuration
         self.onSeekCompleted = onSeekCompleted
     }
     
@@ -53,10 +51,13 @@ struct ProgressBar: View {
                 }
                 
                 /// 根据当前位置和视频总时长计算修改后的时间.
-                currentTime = seekPosition * currentVideo.duration.seconds
+                let totalDuration = currentVideo.duration.seconds
+                
+                currentTime = seekPosition * totalDuration
+                remainingTime = totalDuration - currentTime
             })
                 
-            Text(formatTime(totalDuration))
+            Text(formatTime(remainingTime))
         }
         .bold()
         .font(.footnote)
@@ -72,13 +73,7 @@ struct ProgressBar: View {
     /// - Parameters:
     ///   - time: 以秒为单位的时间.
     /// - Returns: 格式化后的字符串.
-    private func formatTime(_ time: Double?) -> String {
-        guard let time = time, !time.isNaN
-        else {
-            /// 如果时间无效则返回`--:--`.
-            return "--:--"
-        }
-        
+    private func formatTime(_ time: Double) -> String {
         let totalSeconds = Int(time)
         
         let hours = totalSeconds / 3600
@@ -117,15 +112,15 @@ struct ProgressBar: View {
 
 #Preview {
     @Previewable @State var currentTime: Double = 0.0
+    @Previewable @State var remainingTime: Double = 0.0
     @Previewable @State var seekPosition: Double = 0.0
     
     let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
-    let totalDuration: Double = 165
     
     ProgressBar(
         currentTime: $currentTime,
-        seekPosition: $seekPosition,
-        totalDuration: totalDuration
+        remainingTime: $remainingTime,
+        seekPosition: $seekPosition
     )
     .environment(streaming)
 }
