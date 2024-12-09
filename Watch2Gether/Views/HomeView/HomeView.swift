@@ -18,6 +18,7 @@ struct HomeView: View {
             
             if isFullScreen {
                 VideoPlayer(isFullScreen: $isFullScreen)
+                    .transition(.scale(scale: 1.1))
             } else {
                 GeometryReader(content: { geometry in
                     VStack(spacing: 0, content: {

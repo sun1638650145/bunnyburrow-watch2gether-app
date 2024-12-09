@@ -55,7 +55,9 @@ struct PlaybackControls: View {
             })
             
             Button(action: {
-                isFullScreen.toggle()
+                withAnimation(.easeOut(duration: 0.5), {
+                    isFullScreen.toggle()
+                })
             }, label: {
                 Image(
                     systemName: isFullScreen
