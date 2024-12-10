@@ -12,8 +12,12 @@ import SwiftUI
 import SwiftyJSON
 
 struct VideoPlayer: View {
+    @Binding var isFullScreen: Bool
     @Environment(Streaming.self) var streaming
     @Environment(WebSocketClient.self) var websocketClient
+    
+    /// 播放器进度条当前的位置.
+    @State private var seekPosition: Double = 0.0
     
     var body: some View {
         ZStack {
@@ -21,6 +25,14 @@ struct VideoPlayer: View {
             Color.black
             
             VideoPlayerView()
+            
+            VStack {
+                /// 使得播放控制栏在视图底部.
+                Spacer()
+                
+                PlaybackControls(seekPosition: $seekPosition, isFullScreen: $isFullScreen)
+                    .padding(15)
+            }
         }
         .onAppear(perform: {
             /// 添加播放器状态同步事件监听函数给WebSocket客户端.
@@ -61,10 +73,12 @@ struct VideoPlayer: View {
 }
 
 #Preview {
+    let user = User(nil, "")
     let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     let websocketClient = WebSocketClient()
     
-    VideoPlayer()
+    VideoPlayer(isFullScreen: .constant(false))
+        .environment(user)
         .environment(streaming)
         .environment(websocketClient)
 }

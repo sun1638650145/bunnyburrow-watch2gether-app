@@ -47,6 +47,9 @@ struct PlaybackControls: View {
                     .frame(width: 18, height: 18)
                     .foregroundStyle(Color(hex: "#F9F9F9"))
             })
+            #if os(macOS)
+            .buttonStyle(PlainButtonStyle())
+            #endif
             
             ProgressBar(seekPosition: $seekPosition, onSeekCompleted: {
                 sendPlayerSync(command: [
@@ -69,6 +72,9 @@ struct PlaybackControls: View {
                 .frame(width: 18, height: 18)
                 .foregroundStyle(Color(hex: "#F9F9F9"))
             })
+            #if os(macOS)
+            .buttonStyle(PlainButtonStyle())
+            #endif
         }
         .onAppear(perform: {
             observePlayerStatus()

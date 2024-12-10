@@ -37,6 +37,8 @@
 				Views/HomeView/ChatRoom/MyMessage.swift,
 				Views/HomeView/ChatRoom/OtherMessage.swift,
 				Views/HomeView/FriendsList.swift,
+				Views/HomeView/VideoPlayer/PlaybackControls.swift,
+				Views/HomeView/VideoPlayer/ProgressBar.swift,
 				Views/Icons/AvatarUploaderIcon.swift,
 				Views/Icons/CrossShape.swift,
 				Views/Styles/LoginButtonStyle.swift,

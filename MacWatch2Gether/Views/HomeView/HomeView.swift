@@ -8,24 +8,31 @@
 import AVKit
 import SwiftUI
 
-struct HomeView: View {    
+struct HomeView: View {
+    /// 全屏状态.
+    @State private var isFullScreen = false
+    
     var body: some View {
         ZStack {
             Color(hex: "#1A1D29")
             
-            GeometryReader(content: { geometry in
-                HStack(spacing: 0, content: {
-                    VideoPlayer()
-                        /// 固定视频播放器的宽度为窗口的70%.
-                        .frame(width: geometry.size.width * 0.7)
-                    
-                    VStack(spacing: 0, content: {
-                        FriendsList()
+            if isFullScreen {
+                VideoPlayer(isFullScreen: $isFullScreen)
+            } else {
+                GeometryReader(content: { geometry in
+                    HStack(spacing: 0, content: {
+                        VideoPlayer(isFullScreen: $isFullScreen)
+                            /// 固定视频播放器的宽度为窗口的70%.
+                            .frame(width: geometry.size.width * 0.7)
                         
-                        ChatRoom()
+                        VStack(spacing: 0, content: {
+                            FriendsList()
+                            
+                            ChatRoom()
+                        })
                     })
                 })
-            })
+            }
         }
     }
 }
