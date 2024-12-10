@@ -24,11 +24,18 @@ struct VideoPlayer: View {
     
     var body: some View {
         ZStack {
-            /// 忽略安全区使得视频播放器有更好的一体性.
+            /// 使得视频播放器有更好的一体性.
             Color.black
+                /// 在iOS上同时忽略安全区.
+                #if os(iOS)
                 .ignoresSafeArea()
+                #endif
             
+            #if os(iOS)
             VideoPlayerViewController()
+            #elseif os(macOS)
+            VideoPlayerView()
+            #endif
             
             VStack {
                 /// 使得播放控制栏在视图底部.

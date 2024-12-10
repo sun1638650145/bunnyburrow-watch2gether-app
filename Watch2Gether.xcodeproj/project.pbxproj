@@ -39,6 +39,7 @@
 				Views/HomeView/FriendsList.swift,
 				Views/HomeView/VideoPlayer/PlaybackControls.swift,
 				Views/HomeView/VideoPlayer/ProgressBar.swift,
+				Views/HomeView/VideoPlayer/VideoPlayer.swift,
 				Views/Icons/AvatarUploaderIcon.swift,
 				Views/Icons/CrossShape.swift,
 				Views/Styles/LoginButtonStyle.swift,
