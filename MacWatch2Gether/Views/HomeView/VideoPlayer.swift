@@ -19,6 +19,9 @@ struct VideoPlayer: View {
     /// 播放器进度条当前的位置.
     @State private var seekPosition: Double = 0.0
     
+    /// 显示播放控制组件变量.
+    @State private var showPlaybackControls: Bool = true
+    
     var body: some View {
         ZStack {
             /// 使得视频播放器有更好的一体性.
@@ -30,8 +33,10 @@ struct VideoPlayer: View {
                 /// 使得播放控制栏在视图底部.
                 Spacer()
                 
-                PlaybackControls(seekPosition: $seekPosition, isFullScreen: $isFullScreen)
-                    .padding(15)
+                if showPlaybackControls {
+                    PlaybackControls(seekPosition: $seekPosition, isFullScreen: $isFullScreen)
+                        .padding(15)
+                }
             }
         }
         .onAppear(perform: {
@@ -40,6 +45,9 @@ struct VideoPlayer: View {
                 eventName: "receivePlayerSync",
                 listener: self.receivePlayerSync(command:)
             )
+        })
+        .onTapGesture(perform: {
+            showPlaybackControls.toggle()
         })
     }
     
@@ -64,7 +72,7 @@ struct VideoPlayer: View {
             /// 调整播放速率.
             streaming.currentPlaybackRate = playbackRate
             
-            /// 修改播放速率会导致播放器立刻播放, 所以只能在播放器本身为播放状态时立刻播放.
+            /// 修改播放速率会导致播放器立刻播放, 所以只能在播放器本身为播放状态时立刻修改.
             if streaming.player.timeControlStatus == .playing {
                 streaming.player.rate = streaming.currentPlaybackRate
             }
