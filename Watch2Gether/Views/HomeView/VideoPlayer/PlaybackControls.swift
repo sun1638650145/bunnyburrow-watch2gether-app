@@ -68,7 +68,6 @@ struct PlaybackControls: View {
             })
             #if os(macOS)
             .buttonStyle(PlainButtonStyle())
-            .keyboardShortcut(.escape, modifiers: .command)
             #endif
         }
         .onAppear(perform: {

@@ -34,14 +34,7 @@ struct Watch2GetherApp: App {
         }
         #if os(macOS)
         .commands(content: {
-            CommandMenu("播放器控制", content: {
-                Button(action: {
-                    streamingViewModel.isFullScreen.toggle()
-                }, label: {
-                    Text(streamingViewModel.isFullScreen ? "退出全屏幕" : "进入全屏幕")
-                })
-                .keyboardShortcut(.escape, modifiers: .command)
-            })
+            VideoPlayerCommands(streamingViewModel: $streamingViewModel)
         })
         #endif
         /// 监听App关闭, 主动断开WebSocket连接.
