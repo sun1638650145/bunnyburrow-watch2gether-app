@@ -9,6 +9,9 @@ import SwiftUI
 
 struct VideoPlayerCommands: Commands {
     @Binding var streamingViewModel: StreamingViewModel
+
+    /// 显示彩蛋变量.
+    @State private var showEasterEgg: Bool = false
     
     /// 登录状态.
     let isLoggedIn: Bool
@@ -58,9 +61,9 @@ struct VideoPlayerCommands: Commands {
             Divider()
             
             Button(action: {
-                // ...
+                showEasterEgg = true
             }, label: {
-                Text("恭喜您发现彩蛋🎉")
+                Text(showEasterEgg ? "恭喜您发现彩蛋🎉" : "🤔")
             })
         })
     }
