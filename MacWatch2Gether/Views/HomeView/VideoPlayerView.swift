@@ -11,10 +11,10 @@ import Foundation
 import SwiftUI
 
 struct VideoPlayerView: NSViewRepresentable {
-    @Environment(Streaming.self) var streaming
+    @Environment(StreamingViewModel.self) var streamingViewModel
     
     func makeNSView(context: Context) -> NSView {
-        let playerLayer = AVPlayerLayer(player: streaming.player)
+        let playerLayer = AVPlayerLayer(player: streamingViewModel.player)
         
         let view = NSView()
         
@@ -30,8 +30,8 @@ struct VideoPlayerView: NSViewRepresentable {
 }
 
 #Preview {
-    let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    let streamingViewModel = StreamingViewModel(url: URL(string: "about:blank")!)
     
     VideoPlayerView()
-        .environment(streaming)
+        .environment(streamingViewModel)
 }

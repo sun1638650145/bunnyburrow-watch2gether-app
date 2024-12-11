@@ -9,19 +9,18 @@ import AVKit
 import SwiftUI
 
 struct HomeView: View {
-    /// 全屏状态.
-    @State private var isFullScreen = false
+    @Environment(StreamingViewModel.self) var streamingViewModel
     
     var body: some View {
         ZStack {
             Color(hex: "#1A1D29")
             
-            if isFullScreen {
-                VideoPlayer(isFullScreen: $isFullScreen)
+            if streamingViewModel.isFullScreen {
+                VideoPlayer()
             } else {
                 GeometryReader(content: { geometry in
                     HStack(spacing: 0, content: {
-                        VideoPlayer(isFullScreen: $isFullScreen)
+                        VideoPlayer()
                             /// 固定视频播放器的宽度为窗口的70%.
                             .frame(width: geometry.size.width * 0.7)
                         
@@ -40,12 +39,12 @@ struct HomeView: View {
 #Preview {
     let user = User(nil, "")
     let friendsViewModel = FriendsViewModel()
-    let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    let streamingViewModel = StreamingViewModel(url: URL(string: "about:blank")!)
     let websocketClient = WebSocketClient()
     
     HomeView()
         .environment(user)
         .environment(friendsViewModel)
-        .environment(streaming)
+        .environment(streamingViewModel)
         .environment(websocketClient)
 }

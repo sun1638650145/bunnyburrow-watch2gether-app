@@ -12,7 +12,7 @@ struct LoginView: View {
     @Binding var isLoggedIn: Bool
     @Environment(User.self) var user
     @Environment(FriendsViewModel.self) var friendsViewModel
-    @Environment(Streaming.self) var streaming
+    @Environment(StreamingViewModel.self) var streamingViewModel
     @Environment(WebSocketClient.self) var websocketClient
     
     /// 用户的头像的Base-64.
@@ -137,7 +137,7 @@ struct LoginView: View {
         if !isNameEmpty && !isStreamingInvalid && !isWebSocketInvalid {
             user.avatar = avatar
             user.name = name!
-            streaming.updateURL(
+            streamingViewModel.updateURL(
                 URL(string: url!.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))!
             )
             
@@ -204,12 +204,12 @@ struct LoginView: View {
 #Preview {
     let user = User(nil, "")
     let friendsViewModel = FriendsViewModel()
-    let streaming = Streaming(url: URL(string: "about:blank")!)
+    let streamingViewModel = StreamingViewModel(url: URL(string: "about:blank")!)
     let websocketClient = WebSocketClient()
     
     LoginView(isLoggedIn: .constant(false))
         .environment(user)
         .environment(friendsViewModel)
-        .environment(streaming)
+        .environment(streamingViewModel)
         .environment(websocketClient)
 }
