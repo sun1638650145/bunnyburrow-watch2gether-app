@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    /// 登录状态.
-    @State private var isLoggedIn = false
+    @Binding var isLoggedIn: Bool
     
     var body: some View {
         ZStack {
@@ -29,12 +28,14 @@ struct ContentView: View {
 }
 
 #Preview {
+    @Previewable @State var isLoggedIn = false
+    
     let user = User(nil, "")
     let friendsViewModel = FriendsViewModel()
     let streamingViewModel = StreamingViewModel(url: URL(string: "about:blank")!)
     let websocketClient = WebSocketClient()
     
-    ContentView()
+    ContentView(isLoggedIn: $isLoggedIn)
         .environment(user)
         .environment(friendsViewModel)
         .environment(streamingViewModel)

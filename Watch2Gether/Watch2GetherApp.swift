@@ -12,6 +12,9 @@ struct Watch2GetherApp: App {
     /// 当前的生命周期状态.
     @Environment(\.scenePhase) private var scenePhase
     
+    /// 登录状态.
+    @State private var isLoggedIn = false
+    
     /// 用户信息.
     @State private var user = User(nil, "")
     
@@ -26,7 +29,7 @@ struct Watch2GetherApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(isLoggedIn: $isLoggedIn)
                 .environment(user)
                 .environment(friendsViewModel)
                 .environment(streamingViewModel)
@@ -34,7 +37,7 @@ struct Watch2GetherApp: App {
         }
         #if os(macOS)
         .commands(content: {
-            VideoPlayerCommands(user, $streamingViewModel, websocketClient)
+            VideoPlayerCommands(isLoggedIn, user, $streamingViewModel, websocketClient)
         })
         #endif
         /// 监听App关闭, 主动断开WebSocket连接.

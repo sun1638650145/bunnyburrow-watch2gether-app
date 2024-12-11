@@ -10,13 +10,22 @@ import SwiftUI
 struct VideoPlayerCommands: Commands {
     @Binding var streamingViewModel: StreamingViewModel
     
+    /// 登录状态.
+    let isLoggedIn: Bool
+    
     /// 用户信息.
     let user: User
     
     /// WebSocket客户端.
     let websocketClient: WebSocketClient
     
-    init(_ user: User, _ streamingViewModel: Binding<StreamingViewModel>, _ websocketClient: WebSocketClient) {
+    init(
+        _ isLoggedIn: Bool,
+        _ user: User,
+        _ streamingViewModel: Binding<StreamingViewModel>,
+        _ websocketClient: WebSocketClient
+    ) {
+        self.isLoggedIn = isLoggedIn
         self.user = user
         self._streamingViewModel = streamingViewModel
         self.websocketClient = websocketClient
@@ -35,6 +44,7 @@ struct VideoPlayerCommands: Commands {
             }, label: {
                 Text(streamingViewModel.isPlaying ? "暂停" : "播放")
             })
+            .disabled(!isLoggedIn)
             .keyboardShortcut(.return, modifiers: .command)
             
             Button(action: {
@@ -42,6 +52,7 @@ struct VideoPlayerCommands: Commands {
             }, label: {
                 Text(streamingViewModel.isFullScreen ? "退出全屏幕" : "进入全屏幕")
             })
+            .disabled(!isLoggedIn)
             .keyboardShortcut(.escape, modifiers: .command)
             
             Divider()
