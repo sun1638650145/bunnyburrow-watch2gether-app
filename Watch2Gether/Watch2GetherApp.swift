@@ -32,6 +32,18 @@ struct Watch2GetherApp: App {
                 .environment(streamingViewModel)
                 .environment(websocketClient)
         }
+        #if os(macOS)
+        .commands(content: {
+            CommandMenu("播放器控制", content: {
+                Button(action: {
+                    streamingViewModel.isFullScreen.toggle()
+                }, label: {
+                    Text(streamingViewModel.isFullScreen ? "退出全屏幕" : "进入全屏幕")
+                })
+                .keyboardShortcut(.escape, modifiers: .command)
+            })
+        })
+        #endif
         /// 监听App关闭, 主动断开WebSocket连接.
         .onChange(of: scenePhase, { oldPhase, newPhase in
             // TODO: 目前不能保持在后台中不断开(Steve).
