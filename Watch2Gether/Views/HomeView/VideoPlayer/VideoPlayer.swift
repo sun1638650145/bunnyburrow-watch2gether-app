@@ -33,6 +33,7 @@ struct VideoPlayer: View {
             
             #if os(iOS)
             VideoPlayerViewController()
+                .ignoresSafeArea(edges: .bottom)
             #elseif os(macOS)
             VideoPlayerView()
             #endif
