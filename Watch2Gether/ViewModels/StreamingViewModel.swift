@@ -21,7 +21,7 @@ class StreamingViewModel {
     /// 播放状态: 当前的播放时间.
     var currentTime: Double = 0.0
     
-    /// 播放状态: 视频是否播放状态变量.
+    /// 播放状态: 是否正在播放.
     var isPlaying: Bool = false
     
     /// 播放状态: 剩余的播放时间.
