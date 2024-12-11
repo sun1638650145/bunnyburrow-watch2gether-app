@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ProgressBar: View {
     @Binding var seekPosition: Double
-    @Environment(Streaming.self) var streaming
+    @Environment(StreamingViewModel.self) var streamingViewModel
     
     /// 进度调整完成时调用的闭包.
     private var onSeekCompleted: (() -> Void)?
@@ -22,13 +22,16 @@ struct ProgressBar: View {
     
     var body: some View {
         HStack {
-            Text(formatTime(streaming.currentTime))
+            Text(formatTime(streamingViewModel.currentTime))
             
             Slider(value: $seekPosition, in: 0...1, onEditingChanged: { isEditing in
                 if !isEditing {
                     /// 使用`onChange`计算出的时间, 修改播放进度.
-                    streaming.player.seek(
-                        to: CMTime(seconds: streaming.currentTime, preferredTimescale: 1000)
+                    streamingViewModel.player.seek(
+                        to: CMTime(
+                            seconds: streamingViewModel.currentTime,
+                            preferredTimescale: 1000
+                        )
                     )
                     
                     onSeekCompleted?()
@@ -36,7 +39,7 @@ struct ProgressBar: View {
             })
             .onChange(of: seekPosition, {
                 /// 获取当前播放的视频.
-                guard let currentVideo = streaming.player.currentItem
+                guard let currentVideo = streamingViewModel.player.currentItem
                 else {
                     return
                 }
@@ -44,11 +47,11 @@ struct ProgressBar: View {
                 /// 根据当前位置和视频总时长计算修改后的时间.
                 let totalDuration = currentVideo.duration.seconds
                 
-                streaming.currentTime = seekPosition * totalDuration
-                streaming.remainingTime = totalDuration - streaming.currentTime
+                streamingViewModel.currentTime = seekPosition * totalDuration
+                streamingViewModel.remainingTime = totalDuration - streamingViewModel.currentTime
             })
                 
-            Text(formatTime(streaming.remainingTime))
+            Text(formatTime(streamingViewModel.remainingTime))
         }
         .bold()
         .font(.footnote)
@@ -80,20 +83,20 @@ struct ProgressBar: View {
     
     /// 观察播放器的播放进度.
     private func observePlayerProgress() {
-        streaming.player.addPeriodicTimeObserver(
+        streamingViewModel.player.addPeriodicTimeObserver(
             /// 每隔0.5秒获取一次新的播放进度.
             forInterval: CMTime(seconds: 0.5, preferredTimescale: 1000),
             queue: nil,
             using: { _ in
                 /// 获取当前播放的视频.
-                guard let currentVideo = streaming.player.currentItem
+                guard let currentVideo = streamingViewModel.player.currentItem
                 else {
                     return
                 }
                 
                 /// 计算新的进度条位置.
                 if currentVideo.duration.isNumeric {
-                    let currentTime = streaming.player.currentTime().seconds
+                    let currentTime = streamingViewModel.player.currentTime().seconds
                     seekPosition = currentTime / currentVideo.duration.seconds
                 }
             }
@@ -104,8 +107,8 @@ struct ProgressBar: View {
 #Preview {
     @Previewable @State var seekPosition: Double = 0.0
     
-    let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    let streamingViewModel = StreamingViewModel(url: URL(string: "about:blank")!)
     
     ProgressBar(seekPosition: $seekPosition)
-        .environment(streaming)
+        .environment(streamingViewModel)
 }

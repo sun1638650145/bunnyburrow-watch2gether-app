@@ -30,12 +30,12 @@ struct ContentView: View {
 #Preview {
     let user = User(nil, "")
     let friendsViewModel = FriendsViewModel()
-    let streaming = Streaming(url: URL(string: "about:blank")!)
+    let streamingViewModel = StreamingViewModel(url: URL(string: "about:blank")!)
     let websocketClient = WebSocketClient()
     
     ContentView()
         .environment(user)
         .environment(friendsViewModel)
-        .environment(streaming)
+        .environment(streamingViewModel)
         .environment(websocketClient)
 }

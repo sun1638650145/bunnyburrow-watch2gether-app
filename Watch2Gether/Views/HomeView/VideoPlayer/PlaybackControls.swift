@@ -13,10 +13,9 @@ import SwiftUI
 import SwiftyJSON
 
 struct PlaybackControls: View {
-    @Binding var isFullScreen: Bool
     @Binding var seekPosition: Double
     @Environment(User.self) var user
-    @Environment(Streaming.self) var streaming
+    @Environment(StreamingViewModel.self) var streamingViewModel
     @Environment(WebSocketClient.self) var websocketClient
     
     /// 视频是否播放状态变量.
@@ -25,19 +24,14 @@ struct PlaybackControls: View {
     /// 播放器状态变化监听器的取消器.
     @State private var playerStatusCancellable: AnyCancellable?
     
-    init(seekPosition: Binding<Double>, isFullScreen: Binding<Bool>) {
-        self._seekPosition = seekPosition
-        self._isFullScreen = isFullScreen
-    }
-    
     var body: some View {
         HStack {
             Button(action: {
                 if isPlaying {
-                    streaming.player.pause()
+                    streamingViewModel.player.pause()
                     sendPlayerSync(command: "pause")
                 } else {
-                    streaming.player.play()
+                    streamingViewModel.player.play()
                     sendPlayerSync(command: "play")
                 }
             }, label: {
@@ -53,17 +47,17 @@ struct PlaybackControls: View {
             
             ProgressBar(seekPosition: $seekPosition, onSeekCompleted: {
                 sendPlayerSync(command: [
-                    "newProgress": streaming.currentTime
+                    "newProgress": streamingViewModel.currentTime
                 ])
             })
             
             Button(action: {
                 withAnimation(.easeOut(duration: 0.5), {
-                    isFullScreen.toggle()
+                    streamingViewModel.isFullScreen.toggle()
                 })
             }, label: {
                 Image(
-                    systemName: isFullScreen
+                    systemName: streamingViewModel.isFullScreen
                     ? "arrow.down.right.and.arrow.up.left"
                     : "arrow.up.left.and.arrow.down.right"
                 )
@@ -83,7 +77,7 @@ struct PlaybackControls: View {
     
     /// 观察播放器的播放状态.
     private func observePlayerStatus() {
-        playerStatusCancellable = streaming.player.publisher(for: \.timeControlStatus)
+        playerStatusCancellable = streamingViewModel.player.publisher(for: \.timeControlStatus)
             /// 将收到的状态传递给`isPlaying`.
             .sink(receiveValue: { status in
                 isPlaying = (status == .playing)
@@ -108,14 +102,13 @@ struct PlaybackControls: View {
 
 #Preview {
     @Previewable @State var seekPosition: Double = 0.0
-    @Previewable @State var isFullScreen: Bool = false
     
     let user = User(nil, "")
-    let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    let streamingViewModel = StreamingViewModel(url: URL(string: "about:blank")!)
     let websocketClient = WebSocketClient()
     
-    PlaybackControls(seekPosition: $seekPosition, isFullScreen: $isFullScreen)
+    PlaybackControls(seekPosition: $seekPosition)
         .environment(user)
-        .environment(streaming)
+        .environment(streamingViewModel)
         .environment(websocketClient)
 }

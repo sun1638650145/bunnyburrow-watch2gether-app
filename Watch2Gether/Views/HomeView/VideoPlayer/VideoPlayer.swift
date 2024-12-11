@@ -12,8 +12,7 @@ import SwiftUI
 import SwiftyJSON
 
 struct VideoPlayer: View {
-    @Binding var isFullScreen: Bool
-    @Environment(Streaming.self) var streaming
+    @Environment(StreamingViewModel.self) var streamingViewModel
     @Environment(WebSocketClient.self) var websocketClient
     
     /// 播放器进度条当前的位置.
@@ -43,7 +42,7 @@ struct VideoPlayer: View {
                 Spacer()
                     
                 if showPlaybackControls {
-                    PlaybackControls(seekPosition: $seekPosition, isFullScreen: $isFullScreen)
+                    PlaybackControls(seekPosition: $seekPosition)
                         .padding(10)
                 }
             }
@@ -70,21 +69,23 @@ struct VideoPlayer: View {
             if command == "play" {
                 /// 播放视频.
                 /// 不使用`player.play()`, 使用修改播放速率触发播放.
-                streaming.player.rate = streaming.currentPlaybackRate
+                streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
             } else if command == "pause" {
                 /// 暂停视频.
-                streaming.player.pause()
+                streamingViewModel.player.pause()
             }
         } else if let newProgress = command["newProgress"].double {
             /// 修改播放进度.
-            streaming.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+            streamingViewModel.player.seek(
+                to: CMTime(seconds: newProgress, preferredTimescale: 1000)
+            )
         } else if let playbackRate = command["playbackRate"].float {
             /// 调整播放速率.
-            streaming.currentPlaybackRate = playbackRate
+            streamingViewModel.currentPlaybackRate = playbackRate
             
             /// 修改播放速率会导致播放器立刻播放, 所以只能在播放器本身为播放状态时立刻修改.
-            if streaming.player.timeControlStatus == .playing {
-                streaming.player.rate = streaming.currentPlaybackRate
+            if streamingViewModel.player.timeControlStatus == .playing {
+                streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
             }
         }
     }
@@ -92,11 +93,11 @@ struct VideoPlayer: View {
 
 #Preview {
     let user = User(nil, "")
-    let streaming = Streaming(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    let streamingViewModel = StreamingViewModel(url: URL(string: "about:blank")!)
     let websocketClient = WebSocketClient()
     
-    VideoPlayer(isFullScreen: .constant(false))
+    VideoPlayer()
         .environment(user)
-        .environment(streaming)
+        .environment(streamingViewModel)
         .environment(websocketClient)
 }
