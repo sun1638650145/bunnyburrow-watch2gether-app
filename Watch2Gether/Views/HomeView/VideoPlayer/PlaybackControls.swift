@@ -18,16 +18,13 @@ struct PlaybackControls: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
     @Environment(WebSocketClient.self) var websocketClient
     
-    /// 视频是否播放状态变量.
-    @State private var isPlaying: Bool = false
-    
     /// 播放器状态变化监听器的取消器.
     @State private var playerStatusCancellable: AnyCancellable?
     
     var body: some View {
         HStack {
             Button(action: {
-                if isPlaying {
+                if streamingViewModel.isPlaying {
                     streamingViewModel.player.pause()
                     sendPlayerSync(command: "pause")
                 } else {
@@ -35,7 +32,7 @@ struct PlaybackControls: View {
                     sendPlayerSync(command: "play")
                 }
             }, label: {
-                Image(systemName: isPlaying ? "pause.fill": "play.fill")
+                Image(systemName: streamingViewModel.isPlaying ? "pause.fill": "play.fill")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 18, height: 18)
@@ -80,7 +77,7 @@ struct PlaybackControls: View {
         playerStatusCancellable = streamingViewModel.player.publisher(for: \.timeControlStatus)
             /// 将收到的状态传递给`isPlaying`.
             .sink(receiveValue: { status in
-                isPlaying = (status == .playing)
+                streamingViewModel.isPlaying = (status == .playing)
             })
     }
     

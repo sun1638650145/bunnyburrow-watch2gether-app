@@ -34,7 +34,7 @@ struct Watch2GetherApp: App {
         }
         #if os(macOS)
         .commands(content: {
-            VideoPlayerCommands(streamingViewModel: $streamingViewModel)
+            VideoPlayerCommands(user, $streamingViewModel, websocketClient)
         })
         #endif
         /// 监听App关闭, 主动断开WebSocket连接.
