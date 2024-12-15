@@ -53,6 +53,13 @@ struct VideoPlayer: View {
                 eventName: "receivePlayerSync",
                 listener: self.receivePlayerSync(command:)
             )
+            
+            /// 在iOS上当播放器全屏时设置视图为横屏.
+            #if os(iOS)
+            AppDelegate.orientationLock = (
+                streamingViewModel.isFullScreen ? .landscape : .portrait
+            )
+            #endif
         })
         .onTapGesture(perform: {
             // TODO: 定时器无操作后自动消失(Steve).

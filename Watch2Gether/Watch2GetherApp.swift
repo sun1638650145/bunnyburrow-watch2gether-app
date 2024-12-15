@@ -9,6 +9,11 @@ import SwiftUI
 
 @main
 struct Watch2GetherApp: App {
+    #if os(iOS)
+    /// 添加`AppDelegate`到应用中.
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    #endif
+    
     /// 当前的生命周期状态.
     @Environment(\.scenePhase) private var scenePhase
     
