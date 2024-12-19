@@ -35,7 +35,7 @@ struct VideoPlayerCommands: Commands {
     }
 
     var body: some Commands {
-        CommandMenu("播放器", content: {
+        CommandMenu("控制", content: {
             Button(action: {
                 if streamingViewModel.isPlaying {
                     streamingViewModel.player.pause()
