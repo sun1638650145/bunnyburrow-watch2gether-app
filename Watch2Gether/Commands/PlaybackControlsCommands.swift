@@ -68,16 +68,11 @@ struct PlaybackControlsCommands: Commands {
             }, label: {
                 Text("快退30秒")
             })
-            .disabled(!appSettings.isLoggedIn)
+            .disabled(streamingViewModel.totalDuration <= 0)
             .keyboardShortcut(.leftArrow, modifiers: .shift)
 
             /// 快进30秒按钮.
             Button(action: {
-                // TODO: 可以把这个条件设置为禁用(Steve).
-                guard streamingViewModel.totalDuration > 0 else {
-                    return
-                }
-
                 /// 确保不超过视频总时长.
                 let newProgress = min(streamingViewModel.totalDuration, streamingViewModel.currentTime + 30)
 
@@ -86,7 +81,7 @@ struct PlaybackControlsCommands: Commands {
             }, label: {
                 Text("快进30秒")
             })
-            .disabled(!appSettings.isLoggedIn)
+            .disabled(streamingViewModel.totalDuration <= 0)
             .keyboardShortcut(.rightArrow, modifiers: .shift)
 
             Divider()
