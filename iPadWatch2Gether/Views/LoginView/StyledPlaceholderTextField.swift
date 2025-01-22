@@ -1,41 +1,44 @@
 //
-//  StyledPlaceholderTextField.swift
-//  MacWatch2Gether
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
 //
-//  Created by Steve R. Sun on 2024/11/8.
+//  StyledPlaceholderTextField.swift
+//  iPadWatch2Gether
+//
+//  Create by Steve R. Sun on 2024/12/23.
 //
 
 import SwiftUI
 
+/// `StyledPlaceholderTextField`是包含自定义样式占位文本的文本输入框视图.
 struct StyledPlaceholderTextField: View {
     @Binding var text: String?
-    
+
     /// 获取焦点位置.
     @FocusState private var isFocused: Bool
-    
+
     /// 计算当前的边框颜色.
     private var borderColor: Color {
-        if errorMessage != nil {
-            return Color(hex: "#FF554C")
+        if errorMesssage != nil {
+            return .alertError
         } else if isFocused {
-            return Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.2)
+            return .textFieldHighlight
         } else {
-            return Color.clear
+            return .clear
         }
     }
-    
+
     /// 错误信息文本.
-    private var errorMessage: String?
-    
+    private var errorMesssage: String?
+
     /// 输入文本值更改时调用的闭包.
     private var onTextChange: (() -> Void)?
-    
-    /// 占位符文本.
-    private var placeholder: String
-    
-    /// 占位符文本的颜色.
-    private var placeholderColor: Color
-    
+
+    /// 占位文本.
+    private let placeholder: String
+
+    /// 占位文本的颜色.
+    private let placeholderColor: Color
+
     init(
         _ placeholder: String,
         text: Binding<String?>,
@@ -46,10 +49,10 @@ struct StyledPlaceholderTextField: View {
         self.placeholder = placeholder
         self._text = text
         self.placeholderColor = placeholderColor
-        self.errorMessage = errorMessage
+        self.errorMesssage = errorMessage
         self.onTextChange = onTextChange
     }
-    
+
     var body: some View {
         VStack {
             ZStack(alignment: .leading, content: {
@@ -62,27 +65,30 @@ struct StyledPlaceholderTextField: View {
                     get: { text ?? "" },
                     set: { text = $0.isEmpty ? nil : $0 }
                 ))
+                .autocorrectionDisabled()
                 .focused($isFocused)
-                .foregroundStyle(Color(hex: "#F9F9F9"))
+                .foregroundStyle(Color.foreground)
                 .onChange(of: text, {
                     onTextChange?()
                 })
                 .padding(.leading, 5)
+                #if os(macOS)
                 .textFieldStyle(PlainTextFieldStyle())
+                #endif
             })
             .frame(width: 350, height: 50)
-            .background(Color(red: 249 / 255, green: 249 / 255, blue: 249 / 255, opacity: 0.1))
+            .background(Color.viewBackground)
             .clipShape(RoundedRectangle(cornerRadius: 5))
             .font(.title3)
             .overlay(content: {
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(borderColor, lineWidth: 1.2)
             })
-            
-            if let errorMessage = errorMessage {
-                Text(errorMessage)
+
+            if let errorMesssage = errorMesssage {
+                Text(errorMesssage)
                     .font(.callout)
-                    .foregroundStyle(Color(hex: "#FF554C"))
+                    .foregroundStyle(Color.alertError)
                     .padding(.top, 3)
             }
         }
@@ -94,24 +100,16 @@ struct StyledPlaceholderTextField: View {
     @Previewable @State var isNameEmpty = false
     @Previewable @State var name: String?
     @Previewable @State var url: String?
-    
-    VStack {
+
+    Group {
         StyledPlaceholderTextField(
             "请输入昵称",
             text: $name,
-            placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
             errorMessage: isNameEmpty ? "昵称不能为空, 请输入昵称并重试." : nil,
             onTextChange: {
                 isNameEmpty = name?.isEmpty ?? true
-            }
-        )
-        
-        StyledPlaceholderTextField(
-            "请输入流媒体视频源",
-            text: $url,
-            placeholderColor: Color(red: 169 / 255, green: 169 / 255, blue: 169 / 255),
-            errorMessage: nil
-        )
+            })
+
+        StyledPlaceholderTextField("请输入流媒体视频源", text: $url)
     }
-    .padding(20)
 }

@@ -1,0 +1,2 @@
+disabled_rules:
+  - todo # 禁用对TODO注释的检查.

@@ -1,67 +1,68 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  ProgressBar.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2024/12/7.
+//  Create by Steve R. Sun on 2024/12/7.
 //
 
 import AVKit
 import SwiftUI
 
+/// `ProgressBar`是视频播放进度条视图, 支持实时显示播放进度和用户交互.
 struct ProgressBar: View {
     @Binding var seekPosition: Double
     @Environment(StreamingViewModel.self) var streamingViewModel
-    
+
     /// 进度调整完成时调用的闭包.
     private var onSeekCompleted: (() -> Void)?
-    
+
     init(seekPosition: Binding<Double>, onSeekCompleted: (() -> Void)? = nil) {
         self._seekPosition = seekPosition
         self.onSeekCompleted = onSeekCompleted
     }
-    
+
     var body: some View {
         HStack {
             Text(formatTime(streamingViewModel.currentTime))
-            
+
             Slider(value: $seekPosition, in: 0...1, onEditingChanged: { isEditing in
                 if !isEditing {
-                    /// 使用`onChange`计算出的时间, 修改播放进度.
+                    /// 使用在`onChange(of: seekPosition)`中计算出的当前的播放时间, 修改播放进度.
                     streamingViewModel.player.seek(
-                        to: CMTime(
-                            seconds: streamingViewModel.currentTime,
-                            preferredTimescale: 1000
-                        )
+                        to: CMTime(seconds: streamingViewModel.currentTime, preferredTimescale: 1000)
                     )
-                    
+
                     onSeekCompleted?()
                 }
             })
             .onChange(of: seekPosition, {
-                /// 获取当前播放的视频.
-                guard let currentVideo = streamingViewModel.player.currentItem
-                else {
+                guard streamingViewModel.totalDuration > 0 else {
                     return
                 }
-                
-                /// 根据当前位置和视频总时长计算修改后的时间.
-                let totalDuration = currentVideo.duration.seconds
-                
-                streamingViewModel.currentTime = seekPosition * totalDuration
-                streamingViewModel.remainingTime = totalDuration - streamingViewModel.currentTime
+
+                /// 修改位置并根据视频总时长计算修改后的时间.
+                streamingViewModel.currentTime = seekPosition * streamingViewModel.totalDuration
+                streamingViewModel.remainingTime = streamingViewModel.totalDuration - streamingViewModel.currentTime
             })
-                
+            .onChange(of: streamingViewModel.currentTime, {
+                guard streamingViewModel.totalDuration > 0 else {
+                    return
+                }
+
+                /// 计算新的进度条位置.
+                seekPosition = streamingViewModel.currentTime / streamingViewModel.totalDuration
+            })
+
             Text(formatTime(streamingViewModel.remainingTime))
         }
         .bold()
         .font(.footnote)
-        .foregroundStyle(Color(hex: "#F9F9F9"))
-        .tint(Color(hex: "#F9F9F9"))
-        .onAppear(perform: {
-            observePlayerProgress()
-        })
+        .foregroundStyle(Color.foreground)
+        .tint(Color.foreground)
     }
-    
+
     /// 将时间格式化为`hh:mm:ss`或者`mm:ss`格式的字符串.
     ///
     /// - Parameters:
@@ -69,46 +70,24 @@ struct ProgressBar: View {
     /// - Returns: 格式化后的字符串.
     private func formatTime(_ time: Double) -> String {
         let totalSeconds = Int(time)
-        
+
         let hours = totalSeconds / 3600
         let minutes = totalSeconds % 3600 / 60
         let seconds = totalSeconds % 60
-        
+
         if hours > 0 {
             return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
         } else {
             return String(format: "%02d:%02d", minutes, seconds)
         }
     }
-    
-    /// 观察播放器的播放进度.
-    private func observePlayerProgress() {
-        streamingViewModel.player.addPeriodicTimeObserver(
-            /// 每隔0.5秒获取一次新的播放进度.
-            forInterval: CMTime(seconds: 0.5, preferredTimescale: 1000),
-            queue: nil,
-            using: { _ in
-                /// 获取当前播放的视频.
-                guard let currentVideo = streamingViewModel.player.currentItem
-                else {
-                    return
-                }
-                
-                /// 计算新的进度条位置.
-                if currentVideo.duration.isNumeric {
-                    let currentTime = streamingViewModel.player.currentTime().seconds
-                    seekPosition = currentTime / currentVideo.duration.seconds
-                }
-            }
-        )
-    }
 }
 
 #Preview {
     @Previewable @State var seekPosition: Double = 0.0
-    
-    let streamingViewModel = StreamingViewModel(url: URL(string: "about:blank")!)
-    
+
+    let streamingViewModel = StreamingViewModel()
+
     ProgressBar(seekPosition: $seekPosition)
         .environment(streamingViewModel)
 }

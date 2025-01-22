@@ -1,50 +1,40 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  SendButtonStyle.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2024/11/26.
+//  Create by Steve R. Sun on 2024/11/26.
 //
 
-#if os(macOS)
-import AppKit
-#endif
 import SwiftUI
 
 /// `SendButtonStyle`是发送按钮的样式.
 struct SendButtonStyle: ButtonStyle {
     /// 是否禁用按钮.
     var isDisabled: Bool = false
-    
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .background(
                 LinearGradient(
-                    gradient: Gradient(colors: [Color(hex: "#095AE6"), Color(hex: "#062794")]),
+                    gradient: Gradient(colors: [.sendButtonGradientStart, .sendButtonGradientEnd]),
                     /// 左侧中点.
                     startPoint: UnitPoint(x: 0, y: 0.5),
                     /// 右侧中点`UnitPoint(x: 1, y: 0.5)`往下3.87deg:
-                    /// 计算方式, 因为坐标原点在左上角, 所以右侧中点并不是CSS中的90deg, 而是90deg - 90deg,
+                    /// 计算方式, 因为坐标原点在左上角,  所以右侧中点并不是CSS中的90deg, 而是90deg - 90deg,
                     /// 因此93.87deg就是正半轴的3.87deg, 最后角度转换成弧度后归一化到[0, 1]区间.
                     endPoint: UnitPoint(
-                        x: cos((93.87 - 90) * .pi / 180) * 0.5 + 0.5,
+                        x: cos((93.87 - 90) * .pi / 100) * 0.5 + 0.5,
                         y: sin((93.87 - 90) * .pi / 180) * 0.5 + 0.5
                     )
                 )
             )
             .bold()
             .clipShape(RoundedRectangle(cornerRadius: 8))
-            .foregroundStyle(Color(hex: "#E5E7EB"))
+            .foregroundStyle(Color.foreground)
             .grayscale(isDisabled ? 0.3 : 0)
-            #if os(macOS)
-            .onHover(perform: { hovering in
-                /// 在悬停且禁用按钮时使用不能执行光标.
-                if hovering && isDisabled {
-                    NSCursor.operationNotAllowed.push()
-                } else {
-                    NSCursor.pop()
-                }
-            })
-            #endif
+            .multilineTextAlignment(.center)
             .tracking(2)
     }
 }
@@ -54,7 +44,7 @@ struct SendButtonStyle: ButtonStyle {
         // ...
     }, label: {
         Text("发送")
-            .frame(width: 100, height: 35)
+            .frame(width: 100, height: 40)
     })
     .buttonStyle(SendButtonStyle())
     .padding(10)
@@ -65,7 +55,7 @@ struct SendButtonStyle: ButtonStyle {
         // ...
     }, label: {
         Text("发送")
-            .frame(width: 100, height: 35)
+            .frame(width: 100, height: 40)
     })
     .buttonStyle(SendButtonStyle(isDisabled: true))
     .padding(10)

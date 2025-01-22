@@ -1,24 +1,26 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  ContentView.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2024/8/3.
+//  Create by Steve R. Sun on 2024/8/3.
 //
 
 import SwiftUI
 
 struct ContentView: View {
-    @Binding var isLoggedIn: Bool
+    @Environment(AppSettings.self) var appSettings
 
     var body: some View {
         ZStack {
-            Color(hex: "#1A1D29")
+            Color.background
                 .ignoresSafeArea()
-            
-            if isLoggedIn {
+
+            if appSettings.isLoggedIn {
                 HomeView()
             } else {
-                LoginView(isLoggedIn: $isLoggedIn)
+                LoginView()
                     .transition(.move(edge: .top))
                     .zIndex(1)
             }
@@ -27,16 +29,16 @@ struct ContentView: View {
 }
 
 #Preview {
-    @Previewable @State var isLoggedIn = false
-    
-    let user = User(nil, "")
+    let appSettings = AppSettings()
+    let user = User()
     let friendsViewModel = FriendsViewModel()
-    let streamingViewModel = StreamingViewModel(url: URL(string: "about:blank")!)
-    let websocketClient = WebSocketClient()
-    
-    ContentView(isLoggedIn: $isLoggedIn)
+    let streamingViewModel = StreamingViewModel()
+    let webSocketClient = WebSocketClient()
+
+    ContentView()
+        .environment(appSettings)
         .environment(user)
         .environment(friendsViewModel)
         .environment(streamingViewModel)
-        .environment(websocketClient)
+        .environment(webSocketClient)
 }

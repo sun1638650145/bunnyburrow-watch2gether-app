@@ -1,92 +1,157 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  PlaybackControls.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2024/12/4.
+//  Create by Steve R. Sun on 2024/12/4.
 //
 
 import AVKit
+#if os(macOS)
+import AppKit
+#endif
 import Combine
 import Foundation
 import SwiftUI
 
 import SwiftyJSON
 
+/// `PlaybackControls`是播放控制栏视图, 用于显示播放进度条和播放控制按钮.
 struct PlaybackControls: View {
     @Binding var seekPosition: Double
+    @Environment(AppSettings.self) var appSettings
     @Environment(User.self) var user
     @Environment(StreamingViewModel.self) var streamingViewModel
-    @Environment(WebSocketClient.self) var websocketClient
-    
-    /// 播放器状态变化监听器的取消器.
-    @State private var playerStatusCancellable: AnyCancellable?
-    
+    @Environment(WebSocketClient.self) var webSocketClient
+
     var body: some View {
-        HStack {
-            Button(action: {
-                if streamingViewModel.isPlaying {
-                    streamingViewModel.player.pause()
-                    sendPlayerSync(command: "pause")
-                } else {
-                    streamingViewModel.player.play()
-                    sendPlayerSync(command: "play")
+        VStack {
+            if appSettings.isFullScreen {
+                HStack {
+                    /// 退出视频播放器全屏按钮.
+                    Button(action: {
+                        appSettings.isFullScreen = false
+                    }, label: {
+                        Image(systemName: "chevron.backward")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 17, height: 17)
+                            .foregroundStyle(Color.foreground)
+                            .padding(10)
+                    })
+
+                    Spacer()
                 }
-            }, label: {
-                Image(systemName: streamingViewModel.isPlaying ? "pause.fill": "play.fill")
+            }
+
+            /// 使得播放控制栏在视图底部.
+            Spacer()
+
+            ProgressBar(seekPosition: $seekPosition, onSeekCompleted: {
+                sendPlayerSync(command: ["newProgress": streamingViewModel.currentTime])
+            })
+
+            HStack {
+                /// 快退30秒按钮.
+                Button(action: {
+                    /// 确保不小于0.
+                    let newProgress = max(0, streamingViewModel.currentTime - 30)
+
+                    streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+                    sendPlayerSync(command: ["newProgress": newProgress])
+                }, label: {
+                    Image(systemName: "30.arrow.trianglehead.counterclockwise")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 20, height: 20)
+                        .foregroundStyle(Color.foreground)
+                        .padding(5)
+                })
+
+                /// 播放控制按钮.
+                Button(action: {
+                    if streamingViewModel.isPlaying {
+                        streamingViewModel.player.pause()
+                        sendPlayerSync(command: "pause")
+                    } else {
+                        streamingViewModel.player.play()
+                        sendPlayerSync(command: "play")
+                    }
+                }, label: {
+                    Image(systemName: streamingViewModel.isPlaying ? "pause.fill" : "play.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 20, height: 20)
+                        .foregroundStyle(Color.foreground)
+                        .padding(5)
+                })
+
+                /// 快进30秒按钮.
+                Button(action: {
+                    guard streamingViewModel.totalDuration > 0 else {
+                        return
+                    }
+
+                    /// 确保不超过视频总时长.
+                    let newProgress = min(streamingViewModel.totalDuration, streamingViewModel.currentTime + 30)
+
+                    streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+                    sendPlayerSync(command: ["newProgress": newProgress])
+                }, label: {
+                    Image(systemName: "30.arrow.trianglehead.clockwise")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 20, height: 20)
+                        .foregroundStyle(Color.foreground)
+                        .padding(5)
+                })
+
+                Spacer()
+
+                /// 全屏控制按钮.
+                Button(action: {
+                    withAnimation(.easeInOut(duration: 0.5), {
+                        /// 在macOS上视频播放器进入窗口全屏状态.
+                        #if os(macOS)
+                        guard let window = NSApplication.shared.keyWindow
+                        else {
+                            return
+                        }
+
+                        /// 需要视频播放器视图和窗口状态一致时.
+                        if appSettings.isFullScreen == window.styleMask.contains(.fullScreen) {
+                            window.toggleFullScreen(nil)
+                        }
+                        #endif
+
+                        appSettings.isFullScreen.toggle()
+                    })
+                }, label: {
+                    Image(
+                        systemName: appSettings.isFullScreen
+                        ? "arrow.down.forward.and.arrow.up.backward.rectangle"
+                        : "arrow.up.backward.and.arrow.down.forward.rectangle"
+                    )
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 18, height: 18)
-                    .foregroundStyle(Color(hex: "#F9F9F9"))
-            })
-            #if os(macOS)
-            .buttonStyle(PlainButtonStyle())
-            #endif
-            
-            ProgressBar(seekPosition: $seekPosition, onSeekCompleted: {
-                sendPlayerSync(command: [
-                    "newProgress": streamingViewModel.currentTime
-                ])
-            })
-            
-            Button(action: {
-                withAnimation(.easeOut(duration: 0.5), {
-                    streamingViewModel.isFullScreen.toggle()
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(Color.foreground)
+                    .padding(5)
                 })
-            }, label: {
-                Image(
-                    systemName: streamingViewModel.isFullScreen
-                    ? "arrow.down.right.and.arrow.up.left"
-                    : "arrow.up.left.and.arrow.down.right"
-                )
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 18, height: 18)
-                .foregroundStyle(Color(hex: "#F9F9F9"))
-            })
-            #if os(macOS)
-            .buttonStyle(PlainButtonStyle())
-            #endif
+            }
         }
-        .onAppear(perform: {
-            observePlayerStatus()
-        })
+        #if os(macOS)
+        .buttonStyle(PlainButtonStyle())
+        #endif
     }
-    
-    /// 观察播放器的播放状态.
-    private func observePlayerStatus() {
-        playerStatusCancellable = streamingViewModel.player.publisher(for: \.timeControlStatus)
-            /// 将收到的状态传递给`isPlaying`.
-            .sink(receiveValue: { status in
-                streamingViewModel.isPlaying = (status == .playing)
-            })
-    }
-    
-    /// 发送播放器状态同步.
+
+    /// 发送播放器状态同步命令.
     ///
     /// - Parameters:
     ///   - command: 状态同步命令字段.
     private func sendPlayerSync(command: JSON) {
-        websocketClient.broadcast([
+        webSocketClient.broadcast([
             "action": "player",
             "command": command,
             "user": [
@@ -99,13 +164,15 @@ struct PlaybackControls: View {
 
 #Preview {
     @Previewable @State var seekPosition: Double = 0.0
-    
-    let user = User(nil, "")
-    let streamingViewModel = StreamingViewModel(url: URL(string: "about:blank")!)
-    let websocketClient = WebSocketClient()
-    
+
+    let appSettings = AppSettings()
+    let user = User()
+    let streamingViewModel = StreamingViewModel(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    let webSocketClient = WebSocketClient()
+
     PlaybackControls(seekPosition: $seekPosition)
         .environment(user)
+        .environment(appSettings)
         .environment(streamingViewModel)
-        .environment(websocketClient)
+        .environment(webSocketClient)
 }

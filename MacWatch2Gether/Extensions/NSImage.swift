@@ -1,8 +1,10 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  NSImage.swift
 //  MacWatch2Gether
 //
-//  Created by Steve R. Sun on 2024/11/7.
+//  Create by Steve R. Sun on 2024/11/7.
 //
 
 import AppKit
@@ -13,17 +15,17 @@ extension NSImage {
     ///
     /// - Parameters:
     ///   - maxSize: 包含宽度和高度的`NSSize`, 表示调整大小后的最大尺寸.
-    /// - Returns: 调整后的`NSImage`图片实例.
+    /// - Returns: 调整后的`UIImage`图片实例.
     func resize(within maxSize: NSSize) -> NSImage {
         let scale = min(maxSize.width / self.size.width, maxSize.height / self.size.height)
-        
+
         if scale < 1 {
             /// 计算调整大小后的新尺寸.
             let newSize = NSSize(width: scale * self.size.width, height: scale * self.size.height)
-            
+
             return NSImage(size: newSize, flipped: false, drawingHandler: { _ in
                 self.draw(in: NSRect(origin: .zero, size: newSize))
-                
+
                 return true
             })
         } else {
@@ -31,7 +33,7 @@ extension NSImage {
             return self
         }
     }
-    
+
     /// 转换成Base-64编码的字符串.
     ///
     /// - Returns: 图片的Base-64编码字符串.
@@ -43,7 +45,19 @@ extension NSImage {
         else {
             return nil
         }
-        
+
         return "data:image/png;base64,\(data.base64EncodedString())"
+    }
+
+    /// 创建纯白色的`NSImage`实例.
+    ///
+    /// - Returns: 返回大小为1x1像素的纯白色的`NSImage`.
+    static func whiteImage() -> NSImage {
+        return NSImage(size: NSSize(width: 1, height: 1), flipped: false, drawingHandler: { rect in
+            NSColor.white.setFill()
+            rect.fill()
+
+            return true
+        })
     }
 }

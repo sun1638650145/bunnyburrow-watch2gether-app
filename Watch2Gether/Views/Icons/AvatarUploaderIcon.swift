@@ -1,8 +1,10 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  AvatarUploaderIcon.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2024/9/27.
+//  Create by Steve R. Sun on 2024/9/27.
 //
 
 import SwiftUI
@@ -11,19 +13,17 @@ import SwiftUI
 struct AvatarUploaderIcon: View {
     /// 头像上传图标的大小.
     let size: Double
-    
+
     /// 十字图案的宽度.
     let crossWidth: Double
-    
+
     /// 十字图案的高度.
     let crossHeight: Double
-    
+
     var body: some View {
         Circle()
             .subtracting(CrossShape(width: crossWidth, height: crossHeight))
-            .foregroundStyle(
-                Color(red: 249.0 / 255, green: 249.0 / 255, blue: 249.0 / 255, opacity: 0.1)
-            )
+            .foregroundStyle(Color.viewBackground)
             .frame(width: size, height: size)
     }
 }

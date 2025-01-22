@@ -1,22 +1,25 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  AvatarUploader.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2024/8/5.
+//  Create by Steve R. Sun on 2024/8/5.
 //
 
 import SwiftUI
 
+/// `AvatarUploader`是用于头像上传的视图, 允许用户上传并展示头像.
 struct AvatarUploader: View {
     @Binding var avatar: String?
-    
-    /// 是否呈现`ImagePickerViewController`状态.
+
+    /// 是否呈现`ImagePickerViewController`.
     @State private var isPresented = false
-    
+
     init(_ avatar: Binding<String?>) {
         self._avatar = avatar
     }
-    
+
     var body: some View {
         Button(action: {
             isPresented = true
@@ -25,10 +28,11 @@ struct AvatarUploader: View {
                 Image(base64: avatar)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .clipShape(Circle())
                     .frame(width: 100, height: 100)
+                    /// 在`frame`之后应用, 解决动画过程中图片溢出边框的问题.
+                    .clipShape(Circle())
                     .overlay(content: {
-                        Circle().stroke(Color(hex: "#E5E7EB"), lineWidth: 2)
+                        Circle().stroke(Color.avatarBorder, lineWidth: 2)
                     })
                     .padding(5)
             } else {
@@ -45,6 +49,6 @@ struct AvatarUploader: View {
 
 #Preview {
     @Previewable @State var avatar: String?
-    
+
     AvatarUploader($avatar)
 }

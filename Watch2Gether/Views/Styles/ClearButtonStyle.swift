@@ -1,8 +1,10 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  ClearButtonStyle.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2024/11/6.
+//  Create by Steve R. Sun on 2024/11/6.
 //
 
 import SwiftUI
@@ -11,14 +13,12 @@ import SwiftUI
 struct ClearButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .background(
-                /// 按下按钮时, 使用90%的透明度.
-                Color(hex: "#FF554C").opacity(configuration.isPressed ? 0.9 : 1)
-            )
+            .background(Color.alertError.opacity(configuration.isPressed ? 0.9 : 1))
             .bold()
             .clipShape(RoundedRectangle(cornerRadius: 5))
             .font(.title2)
-            .foregroundStyle(Color(hex: "#F9F9F9"))
+            .foregroundStyle(Color.foreground)
+            .multilineTextAlignment(.center)
             .tracking(5)
     }
 }

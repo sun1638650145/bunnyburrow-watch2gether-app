@@ -1,8 +1,10 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  LoginButtonStyle.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2024/8/15.
+//  Create by Steve R. Sun on 2024/8/15.
 //
 
 import SwiftUI
@@ -11,23 +13,26 @@ import SwiftUI
 struct LoginButtonStyle: ButtonStyle {
     /// 按钮悬停状态.
     @State private var isHovered = false
-    
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .background(
-                /// 在iOS上按下按钮时, 使用90%的透明度; 在macOS上光标悬停时, 使用110%的亮度.
                 Group {
+                    /// 在iOS上按下按钮时, 使用90%的透明度.
                     #if os(iOS)
-                    Color(hex: "#0682F0").opacity(configuration.isPressed ? 0.9 : 1)
+                    Color.loginButtonBackground.opacity(configuration.isPressed ? 0.9 : 1)
+
+                    /// 在macOS上光标悬停时, 使用110%的亮度.
                     #elseif os(macOS)
-                    Color(hex: "#0682F0").brightness(isHovered ? 0.1 : 0)
+                    Color.loginButtonBackground.brightness(isHovered ? 0.1 : 0)
                     #endif
                 }
             )
             .bold()
             .clipShape(RoundedRectangle(cornerRadius: 5))
             .font(.title2)
-            .foregroundStyle(Color(hex: "#F9F9F9"))
+            .foregroundStyle(Color.foreground)
+            .multilineTextAlignment(.center)
             #if os(macOS)
             .onHover(perform: { hovering in
                 isHovered = hovering

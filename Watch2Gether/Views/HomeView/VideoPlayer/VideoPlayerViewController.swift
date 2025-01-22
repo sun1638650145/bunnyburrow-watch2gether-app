@@ -1,37 +1,40 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  VideoPlayerViewController.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2024/11/11.
+//  Create by Steve R. Sun on 2024/11/11.
 //
 
 import AVKit
 import Foundation
 import SwiftUI
 
+/// `VideoPlayerViewController`是使用`AVPlayerViewController`实现的视频播放视图控制器, 它提供视频播放的功能.
 struct VideoPlayerViewController: UIViewControllerRepresentable {
-    @Environment(StreamingViewModel.self) var streamingViewModel
-    
+    /// 视频播放器.
+    let player: AVPlayer
+
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let viewController = AVPlayerViewController()
-        
+
         /// 设置视频播放器.
-        viewController.player = streamingViewModel.player
-        
+        viewController.player = player
+
         /// 隐藏默认的播放控制组件.
         viewController.showsPlaybackControls = false
-        
+
         return viewController
     }
-    
+
     func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
         // ...
     }
 }
 
 #Preview {
-    let streamingViewModel = StreamingViewModel(url: URL(string: "about:blank")!)
-    
-    VideoPlayerViewController()
-        .environment(streamingViewModel)
+    let player = AVPlayer(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+
+    VideoPlayerViewController(player: player)
 }

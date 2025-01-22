@@ -1,8 +1,10 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  UserExtension.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2024/11/19.
+//  Create by Steve R. Sun on 2024/11/19.
 //
 
 import SwiftyJSON

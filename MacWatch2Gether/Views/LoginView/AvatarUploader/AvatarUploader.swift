@@ -1,36 +1,38 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  AvatarUploader.swift
 //  MacWatch2Gether
 //
-//  Created by Steve R. Sun on 2024/11/7.
+//  Create by Steve R. Sun on 2024/11/7.
 //
 
-import AppKit
 import SwiftUI
 
+/// `AvatarUploader`是用于头像上传的视图, 允许用户上传并展示头像.
 struct AvatarUploader: View {
     @Binding var avatar: String?
-    @Binding var isImagePickerActive: Bool
-    
-    init(_ avatar: Binding<String?>, _ isImagePickerActive: Binding<Bool>) {
+    @Environment(AppSettings.self) var appSettings
+
+    init(_ avatar: Binding<String?>) {
         self._avatar = avatar
-        self._isImagePickerActive = isImagePickerActive
     }
-    
+
     var body: some View {
         Button(action: {
-            isImagePickerActive = true
+            appSettings.isImagePickerActive = true
             ImagePicker(selectedImage: $avatar).present()
-            isImagePickerActive = false
+            appSettings.isImagePickerActive = false
         }, label: {
             if let avatar = avatar {
                 Image(base64: avatar)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .clipShape(Circle())
                     .frame(width: 100, height: 100)
+                    /// 在`frame`之后应用, 解决动画过程中图片溢出边框的问题.
+                    .clipShape(Circle())
                     .overlay(content: {
-                        Circle().stroke(Color(hex: "#E5E7EB"), lineWidth: 2)
+                        Circle().stroke(Color.avatarBorder, lineWidth: 2)
                     })
                     .padding(5)
             } else {
@@ -53,6 +55,9 @@ struct AvatarUploader: View {
 
 #Preview {
     @Previewable @State var avatar: String?
-    
-    AvatarUploader($avatar, .constant(false))
+
+    let appSettings = AppSettings()
+
+    AvatarUploader($avatar)
+        .environment(appSettings)
 }

@@ -1,8 +1,10 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  CrossShape.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2024/9/27.
+//  Create by Steve R. Sun on 2024/9/27.
 //
 
 import CoreGraphics
@@ -12,13 +14,13 @@ import SwiftUI
 struct CrossShape: Shape {
     /// 十字图案的宽度.
     let width: Double
-    
+
     /// 十字图案的高度.
     let height: Double
-    
+
     func path(in rect: CGRect) -> Path {
         var path = Path()
-        
+
         /// 添加水平放置的圆角矩形.
         path.addRoundedRect(
             in: CGRect(
@@ -27,7 +29,7 @@ struct CrossShape: Shape {
             ),
             cornerSize: CGSize(width: height / 2, height: height / 2)
         )
-        
+
         /// 添加垂直放置的圆角矩形.
         path.addRoundedRect(
             in: CGRect(
@@ -36,7 +38,7 @@ struct CrossShape: Shape {
             ),
             cornerSize: CGSize(width: height / 2, height: height / 2)
         )
-        
+
         return path
     }
 }

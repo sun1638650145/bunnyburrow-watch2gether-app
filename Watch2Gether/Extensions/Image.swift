@@ -1,8 +1,10 @@
 //
+//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//
 //  Image.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2024/8/6.
+//  Create by Steve R. Sun on 2024/8/6.
 //
 
 import SwiftUI
@@ -16,7 +18,7 @@ extension Image {
         /// 在iOS上使用`toUIImage`将字符串转换成`UIImage`.
         #if os(iOS)
         self.init(uiImage: base64.toUIImage())
-        
+
         /// 在macOS上使用`toNSImage`将字符串转换成`NSImage`.
         #elseif os(macOS)
         self.init(nsImage: base64.toNSImage())
