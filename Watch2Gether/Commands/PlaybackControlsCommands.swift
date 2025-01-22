@@ -101,20 +101,18 @@ struct PlaybackControlsCommands: Commands {
                         return
                     }
 
-                    /// 需要视频播放器视图和窗口状态一致.
+                    /// 需要视频播放器视图和窗口状态一致时.
                     if appSettings.isFullScreen == window.styleMask.contains(.fullScreen) {
                         window.toggleFullScreen(nil)
                     }
                     #endif
 
-                    /// 登录后视频播放器视图才会全屏.
-                    if appSettings.isLoggedIn {
-                        appSettings.isFullScreen.toggle()
-                    }
+                    appSettings.isFullScreen.toggle()
                 })
             }, label: {
                 Text(appSettings.isFullScreen ? "退出全屏幕" : "进入全屏幕")
             })
+            .disabled(!appSettings.isLoggedIn)
             .keyboardShortcut(.escape, modifiers: .command)
         })
     }
