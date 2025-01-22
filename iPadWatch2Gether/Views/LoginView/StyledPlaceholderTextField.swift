@@ -18,7 +18,7 @@ struct StyledPlaceholderTextField: View {
 
     /// 计算当前的边框颜色.
     private var borderColor: Color {
-        if errorMesssage != nil {
+        if errorMessage != nil {
             return .alertError
         } else if isFocused {
             return .textFieldHighlight
@@ -28,7 +28,7 @@ struct StyledPlaceholderTextField: View {
     }
 
     /// 错误信息文本.
-    private var errorMesssage: String?
+    private var errorMessage: String?
 
     /// 输入文本值更改时调用的闭包.
     private var onTextChange: (() -> Void)?
@@ -49,7 +49,7 @@ struct StyledPlaceholderTextField: View {
         self.placeholder = placeholder
         self._text = text
         self.placeholderColor = placeholderColor
-        self.errorMesssage = errorMessage
+        self.errorMessage = errorMessage
         self.onTextChange = onTextChange
     }
 
@@ -85,8 +85,8 @@ struct StyledPlaceholderTextField: View {
                     .stroke(borderColor, lineWidth: 1.2)
             })
 
-            if let errorMesssage = errorMesssage {
-                Text(errorMesssage)
+            if let errorMessage = errorMessage {
+                Text(errorMessage)
                     .font(.callout)
                     .foregroundStyle(Color.alertError)
                     .padding(.top, 3)

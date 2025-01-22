@@ -44,7 +44,7 @@ struct LoginView: View {
 
     /// 用于标记获取焦点的字段.
     private enum FocusedField: Hashable {
-        case name, url, websockeUrl
+        case name, url, websocketUrl
     }
 
     /// 检查用户是否已输入任何信息.
@@ -89,14 +89,14 @@ struct LoginView: View {
                     "请输入WebSocket服务地址",
                     text: $websocketUrl,
                     placeholderColor: .textFieldPlaceholder,
-                    errorMessage: isWebSocketInvalid && focusedField == .websockeUrl
+                    errorMessage: isWebSocketInvalid && focusedField == .websocketUrl
                     ? "WebSocket服务地址为空或者不合法, 请重新输入地址并重试."
                     : nil,
                     onTextChange: {
                         validateWebSocket(strictMode: false)
                     }
                 )
-                .focused($focusedField, equals: .websockeUrl)
+                .focused($focusedField, equals: .websocketUrl)
 
                 HStack(spacing: 0, content: {
                     Button(action: handleLogin, label: {
@@ -171,7 +171,7 @@ struct LoginView: View {
         } else if isStreamingInvalid {
             focusedField = .url
         } else if isWebSocketInvalid {
-            focusedField = .websockeUrl
+            focusedField = .websocketUrl
         } else {
             user.update(avatar, name!)
             streamingViewModel.updateURL(URL(string: url!.trimmingCharacters(in: .whitespacesAndNewlines))!)
