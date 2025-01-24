@@ -18,27 +18,39 @@ struct MyMessageBubbleShape: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
 
-        path.move(to: CGPoint(x: rect.minX + cornerRadius, y: rect.minY))
+        path.move(to: CGPoint(x: rect.minX + cornerRadius * 3 / 2, y: rect.minY))
 
-        /// 绘制顶部边.
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
-
-        /// 绘制右侧边和右下圆角.
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY - cornerRadius))
+        /// 绘制顶部边和右上圆角.
+        path.addLine(to: CGPoint(x: rect.maxX - cornerRadius * 3 / 2, y: rect.minY))
         path.addQuadCurve(
-            to: CGPoint(x: rect.maxX - cornerRadius, y: rect.maxY), control: CGPoint(x: rect.maxX, y: rect.maxY)
+            to: CGPoint(x: rect.maxX - cornerRadius / 2, y: rect.minY + cornerRadius),
+            control: CGPoint(x: rect.maxX - cornerRadius / 2, y: rect.minY)
+        )
+
+        /// 绘制右侧边(包括尖角部分).
+        path.addLine(to: CGPoint(x: rect.maxX - cornerRadius / 2, y: rect.minY + cornerRadius * 3 / 2))
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY + cornerRadius * 2))
+        path.addLine(to: CGPoint(x: rect.maxX - cornerRadius / 2, y: rect.minY + cornerRadius * 5 / 2))
+        path.addLine(to: CGPoint(x: rect.maxX - cornerRadius / 2, y: rect.maxY - cornerRadius))
+
+        /// 绘制右下圆角.
+        path.addQuadCurve(
+            to: CGPoint(x: rect.maxX - cornerRadius * 3 / 2, y: rect.maxY),
+            control: CGPoint(x: rect.maxX - cornerRadius / 2, y: rect.maxY)
         )
 
         /// 绘制底部边和左下圆角.
-        path.addLine(to: CGPoint(x: rect.minX + cornerRadius, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX + cornerRadius * 3 / 2, y: rect.maxY))
         path.addQuadCurve(
-            to: CGPoint(x: rect.minX, y: rect.maxY - cornerRadius), control: CGPoint(x: rect.minX, y: rect.maxY)
+            to: CGPoint(x: rect.minX + cornerRadius / 2, y: rect.maxY - cornerRadius),
+            control: CGPoint(x: rect.minX + cornerRadius / 2, y: rect.maxY)
         )
 
         /// 绘制左侧边和左上圆角.
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.minY + cornerRadius))
+        path.addLine(to: CGPoint(x: rect.minX + cornerRadius / 2, y: rect.minY + cornerRadius))
         path.addQuadCurve(
-            to: CGPoint(x: rect.minX + cornerRadius, y: rect.minY), control: CGPoint(x: rect.minX, y: rect.minY)
+            to: CGPoint(x: rect.minX + cornerRadius * 3 / 2, y: rect.minY),
+            control: CGPoint(x: rect.minX + cornerRadius / 2, y: rect.minY)
         )
 
         return path

@@ -24,7 +24,7 @@ struct MyMessageBubble: View {
 
             Text(content)
                 .frame(minWidth: 16)
-                .padding(10)
+                .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
                 .background(Color.myMessageBubbleBackground)
                 .clipShape(MyMessageBubbleShape())
                 .foregroundStyle(Color.foreground)
