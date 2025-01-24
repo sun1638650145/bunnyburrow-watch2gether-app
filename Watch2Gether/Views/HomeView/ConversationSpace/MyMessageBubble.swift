@@ -26,7 +26,7 @@ struct MyMessageBubble: View {
                 .frame(minWidth: 16)
                 .padding(10)
                 .background(Color.myMessageBubbleBackground)
-                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .clipShape(MyMessageBubbleShape())
                 .foregroundStyle(Color.foreground)
                 /// 调整自动换行的位置, 让出其他用户头像显示的宽度使得视觉上更加美观.
                 .padding(.leading, 40)
