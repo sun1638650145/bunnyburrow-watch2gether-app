@@ -28,15 +28,16 @@ struct OtherMessageBubble: View {
                 .frame(width: 40, height: 40)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
 
-            VStack(alignment: .leading, content: {
+            VStack(alignment: .leading, spacing: 2, content: {
                 Text(name)
                     .font(.caption)
+                    .padding(.leading, 5)
 
                 Text(content)
                     .frame(minWidth: 16)
-                    .padding(10)
+                    .padding(EdgeInsets(top: 10, leading: 15, bottom: 10, trailing: 15))
                     .background(Color.otherMessageBubbleBackground)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .clipShape(OtherMessageBubbleShape())
                     /// 调整自动换行的位置, 让出用户自己头像显示的宽度使得视觉上更加美观.
                     .padding(.trailing, 40)
             })

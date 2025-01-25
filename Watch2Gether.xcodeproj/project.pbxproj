@@ -70,6 +70,7 @@
 				Views/LoginView/StyledPlaceholderTextField.swift,
 				Views/Shapes/CrossShape.swift,
 				Views/Shapes/MyMessageBubbleShape.swift,
+				Views/Shapes/OtherMessageBubbleShape.swift,
 				Views/Styles/ClearButtonStyle.swift,
 				Views/Styles/LoginButtonStyle.swift,
 				Views/Styles/SendButtonStyle.swift,
@@ -138,6 +139,7 @@
 				Views/LoginView/LoginView.swift,
 				Views/LoginView/StyledPlaceholderTextField.swift,
 				Views/Shapes/MyMessageBubbleShape.swift,
+				Views/Shapes/OtherMessageBubbleShape.swift,
 				Views/Styles/ClearButtonStyle.swift,
 			);
 			target = 39EC676C2D16653E00518950 /* MacWatch2Gether */;
