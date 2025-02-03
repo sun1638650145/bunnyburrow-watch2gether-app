@@ -212,7 +212,7 @@ class WebSocketClient {
                     case "player":
                         /// 同步播放器状态并打开播放器模态框.
                         self.emit(eventName: "receivePlayerSync", params: data["command"])
-                        self.emit(eventName: "openModal", params: ())
+                        self.emit(eventName: "openModal", params: (data["command"], data["user"]["clientID"].uIntValue))
                     default:
                         break
                     }
