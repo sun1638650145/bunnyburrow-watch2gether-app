@@ -19,6 +19,9 @@ struct VideoPlayer: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
+    /// 模态框开关变量.
+    @State private var isModalOpen: Bool = false
+
     /// 视频播放进度条当前的位置(由`VideoPlayer`管理可以避免隐藏后重新显示播放控制栏时, 进度条位置被重置).
     @State private var seekPosition: Double = 0.0
 
@@ -38,13 +41,18 @@ struct VideoPlayer: View {
                 PlaybackControls(seekPosition: $seekPosition)
                     .padding(15)
             }
+            
+            if isModalOpen {
+                Text("同步状态.")
+            }
         }
         .onAppear(perform: {
             /// 当视频播放器全屏时设置视图为横屏(仅在iPhone上有效, iPad会保持原屏幕方向).
             AppDelegate.orientationLock = appSettings.isFullScreen ? .landscape : .portrait
 
-            /// 添加播放器状态同步事件监听器给WebSocket客户端.
+            /// 添加接收播放器状态同步和显示播放器模态框事件监听器给WebSocket客户端.
             webSocketClient.on(eventName: "receivePlayerSync", listener: self.receivePlayerSync(command:))
+            webSocketClient.on(eventName: "openModal", listener: self.openModal)
         })
         .onTapGesture(perform: {
             // TODO: 定时器无操作后自动消失(Steve).
@@ -77,6 +85,16 @@ struct VideoPlayer: View {
                 streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
             }
         }
+    }
+
+    /// 打开视频播放器模态框.
+    private func openModal() {
+        isModalOpen = true
+
+        /// 设置模态框1秒钟后自动关闭.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
+            isModalOpen = false
+        })
     }
 }
 

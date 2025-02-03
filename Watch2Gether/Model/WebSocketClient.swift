@@ -210,8 +210,9 @@ class WebSocketClient {
                             self.emit(eventName: "offlineFriend", params: data["user"]["clientID"].uIntValue)
                         }
                     case "player":
-                        /// 同步播放器状态.
+                        /// 同步播放器状态并打开播放器模态框.
                         self.emit(eventName: "receivePlayerSync", params: data["command"])
+                        self.emit(eventName: "openModal", params: ())
                     default:
                         break
                     }
