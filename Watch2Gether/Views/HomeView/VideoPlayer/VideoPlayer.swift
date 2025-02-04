@@ -20,10 +20,10 @@ struct VideoPlayer: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
-    /// 模态框开关变量.
+    /// 模态视图开关变量.
     @State private var isModalOpen: Bool = false
 
-    /// 模态框显示的通知信息变量.
+    /// 模态视图显示的通知信息变量.
     @State private var notificationMessage: String = ""
 
     /// 视频播放进度条当前的位置(由`VideoPlayer`管理可以避免隐藏后重新显示播放控制栏时, 进度条位置被重置).
@@ -46,9 +46,7 @@ struct VideoPlayer: View {
                     .padding(15)
             }
 
-            if isModalOpen {
-                Text(notificationMessage)
-            }
+            VideoPlayerModal(notificationMessage, isOpen: isModalOpen)
         }
         .onAppear(perform: {
             /// 当视频播放器全屏时设置视图为横屏(仅在iPhone上有效, iPad会保持原屏幕方向).
