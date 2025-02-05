@@ -111,7 +111,9 @@ struct PlaybackControls: View {
                 Spacer()
 
                 /// 播放速率菜单.
-                PlaybackRateMenu()
+                PlaybackRateMenu(playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 2], onPlaybackChange: { newRate in
+                    sendPlayerSync(command: ["playbackRate": newRate])
+                })
 
                 /// 全屏控制按钮.
                 Button(action: {

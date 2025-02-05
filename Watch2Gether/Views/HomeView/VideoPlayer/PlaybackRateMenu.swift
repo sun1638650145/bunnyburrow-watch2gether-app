@@ -13,8 +13,16 @@ import SwiftUI
 struct PlaybackRateMenu: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
 
+    /// 播放速率调整后调用的闭包.
+    private var onPlaybackChange: ((Float) -> Void)?
+
     /// 可供选择的播放速率.
-    private let playbackRates: [Float] = [0.5, 0.75, 1, 1.25, 1.5, 2]
+    private let playbackRates: [Float]
+
+    init(playbackRates: [Float], onPlaybackChange: ((Float) -> Void)? = nil) {
+        self.playbackRates = playbackRates
+        self.onPlaybackChange = onPlaybackChange
+    }
 
     var body: some View {
         Menu(content: {
@@ -27,10 +35,12 @@ struct PlaybackRateMenu: View {
                     if streamingViewModel.isPlaying {
                         streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
                     }
+
+                    onPlaybackChange?(rate)
                 }, label: {
                     Text("\(rate.formattedPlaybackRate())倍")
                 })
-                .disabled(streamingViewModel.currentPlaybackRate == rate)
+                .disabled(rate == streamingViewModel.currentPlaybackRate)
             })
         }, label: {
             Text("\(streamingViewModel.currentPlaybackRate.formattedPlaybackRate())倍")
@@ -43,6 +53,6 @@ struct PlaybackRateMenu: View {
 #Preview {
     let streamingViewModel = StreamingViewModel()
 
-    PlaybackRateMenu()
+    PlaybackRateMenu(playbackRates: [0.5, 1, 2])
         .environment(streamingViewModel)
 }
