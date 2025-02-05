@@ -109,6 +109,9 @@ struct PlaybackControls: View {
 
                 Spacer()
 
+                /// 播放速率菜单.
+                PlaybackRateMenu()
+
                 /// 全屏控制按钮.
                 Button(action: {
                     withAnimation(.easeInOut(duration: 0.5), {
