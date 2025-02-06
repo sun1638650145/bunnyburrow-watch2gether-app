@@ -49,7 +49,8 @@ struct PlaybackControlsCommands: Commands {
                     streamingViewModel.player.pause()
                     sendPlayerSync(command: "pause")
                 } else {
-                    streamingViewModel.player.play()
+                    /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
+                    streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
                     sendPlayerSync(command: "play")
                 }
             }, label: {
