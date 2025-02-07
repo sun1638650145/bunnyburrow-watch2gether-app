@@ -44,6 +44,7 @@ struct PlaybackRateMenu: View {
             })
         }, label: {
             Text("\(streamingViewModel.currentPlaybackRate.formattedPlaybackRate())倍")
+                .bold()
                 .foregroundStyle(Color.foreground)
                 .padding(5)
         })
