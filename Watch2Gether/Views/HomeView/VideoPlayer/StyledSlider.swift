@@ -9,7 +9,7 @@
 
 import SwiftUI
 
-/// `StyledSlider`是自定义的样式滑块视图.
+/// `StyledSlider`是自定义样式滑块视图.
 struct StyledSlider: View {
     @Binding var value: Double
 
@@ -30,8 +30,8 @@ struct StyledSlider: View {
     ) {
         self._value = value
         self.bounds = bounds
-        self.onEditingEnded = onEditingEnded
         self.thumbSize = thumbSize
+        self.onEditingEnded = onEditingEnded
     }
 
     var body: some View {
