@@ -13,6 +13,9 @@ import SwiftUI
 struct StyledSlider: View {
     @Binding var value: Double
 
+    /// 是否正在拖动滑块.
+    @State private var isDragging: Bool = false
+
     /// 有效值的范围.
     private let bounds: ClosedRange<Double>
 
@@ -51,6 +54,9 @@ struct StyledSlider: View {
                     )
 
                 Circle()
+                    #if os(macOS)
+                    .brightness(isDragging ? 0.3 : 0)
+                    #endif
                     .foregroundStyle(Color.foreground)
                     .frame(width: thumbSize, height: thumbSize)
                     .offset(x: self.calculateThumbPosition(for: geometry.size.width - thumbSize))
@@ -61,6 +67,16 @@ struct StyledSlider: View {
                             })
                             .onEnded({ _ in
                                 self.onEditingEnded()
+                            })
+                    )
+                    /// 监听滑块被点击和拖动.
+                    .simultaneousGesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged({ _ in
+                                isDragging = true
+                            })
+                            .onEnded({ _ in
+                                isDragging = false
                             })
                     )
             })
@@ -91,7 +107,7 @@ struct StyledSlider: View {
     ///   - trackWidth: 滑轨的宽度.
     private func updateValue(for locationX: Double, trackWidth: Double) {
         /// 进行线性映射.
-        var newValue = (bounds.lowerBound + locationX / trackWidth) * (bounds.upperBound - bounds.lowerBound)
+        var newValue = bounds.lowerBound + locationX / trackWidth * (bounds.upperBound - bounds.lowerBound)
 
         /// 确保值在有效范围内.
         newValue = min(bounds.upperBound, max(newValue, bounds.lowerBound))
