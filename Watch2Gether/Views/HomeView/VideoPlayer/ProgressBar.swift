@@ -58,7 +58,6 @@ struct ProgressBar: View {
         .bold()
         .font(.footnote)
         .foregroundStyle(Color.foreground)
-        .tint(Color.foreground)
     }
 
     /// 将时间格式化为`hh:mm:ss`或者`mm:ss`格式的字符串.

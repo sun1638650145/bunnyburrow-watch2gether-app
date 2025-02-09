@@ -14,7 +14,9 @@ struct StyledSlider: View {
     @Binding var value: Double
 
     /// 是否正在拖动滑块.
+    #if os(macOS)
     @State private var isDragging: Bool = false
+    #endif
 
     /// 有效值的范围.
     private let bounds: ClosedRange<Double>
@@ -69,7 +71,8 @@ struct StyledSlider: View {
                                 self.onEditingEnded()
                             })
                     )
-                    /// 监听滑块被点击和拖动.
+                    /// 在macOS上监听滑块被点击和拖动.
+                    #if os(macOS)
                     .simultaneousGesture(
                         DragGesture(minimumDistance: 0)
                             .onChanged({ _ in
@@ -79,6 +82,7 @@ struct StyledSlider: View {
                                 isDragging = false
                             })
                     )
+                    #endif
             })
             /// 扩大点击区域.
             .contentShape(Rectangle())
