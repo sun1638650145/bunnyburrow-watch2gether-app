@@ -104,7 +104,7 @@ struct StyledSlider: View {
         return (value - bounds.lowerBound) / (bounds.upperBound - bounds.lowerBound) * width
     }
 
-    /// 更新拖动过程中滑块的值.
+    /// 更新拖动或点击过程中滑块的值.
     ///
     /// - Parameters:
     ///   - locationX: 当前手势位置的水平坐标.
