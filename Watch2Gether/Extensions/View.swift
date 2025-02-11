@@ -8,7 +8,9 @@
 //
 
 import SwiftUI
+#if os(iOS)
 import UIKit
+#endif
 
 extension View {
     /// 为`View`添加版权信息的样式.
@@ -23,7 +25,9 @@ extension View {
     /// - Parameters:
     ///   - action: 设备旋转时调用的闭包.
     /// - Returns: 应用`onRotate`后的视图.
+    #if os(iOS)
     func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
         self.modifier(DeviceRotation(action: action))
     }
+    #endif
 }
