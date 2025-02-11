@@ -79,6 +79,7 @@
 				Views/Styles/LoginButtonStyle.swift,
 				Views/Styles/SendButtonStyle.swift,
 				Views/ViewModifiers/Copyright.swift,
+				Views/ViewModifiers/DeviceRotation.swift,
 				Watch2GetherApp.swift,
 			);
 			target = 395EF3322D165E0C0014D834 /* Watch2Gether */;
@@ -149,6 +150,7 @@
 				Views/LoginView/LoginView.swift,
 				Views/LoginView/StyledPlaceholderTextField.swift,
 				Views/Styles/ClearButtonStyle.swift,
+				Views/ViewModifiers/DeviceRotation.swift,
 			);
 			target = 39EC676C2D16653E00518950 /* MacWatch2Gether */;
 		};
