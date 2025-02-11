@@ -8,6 +8,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 extension View {
     /// 为`View`添加版权信息的样式.
@@ -15,5 +16,14 @@ extension View {
     /// - Returns: 应用`Copyright`样式后的视图.
     func copyright() -> some View {
         self.modifier(Copyright())
+    }
+    
+    /// 检测设备旋转并执行相应的操作.
+    ///
+    /// - Parameters:
+    ///   - action: 设备旋转时调用的闭包.
+    /// - Returns: 应用`onRotate`后的视图.
+    func onRotate(perform action: @escaping (UIDeviceOrientation) -> Void) -> some View {
+        self.modifier(DeviceRotation(action: action))
     }
 }
