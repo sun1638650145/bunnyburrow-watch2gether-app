@@ -28,25 +28,25 @@ struct DeviceRotation: ViewModifier {
 }
 
 #Preview {
-    @Previewable @State var orientationString = "未知"
+    @Previewable @State var currentOrientation: String = "未知"
 
-    Text("设备的当前方向是: \(orientationString)")
+    Text("设备的当前方向是: \(currentOrientation)")
         .modifier(DeviceRotation(action: { orientation in
             switch orientation {
             case .portrait:
-                orientationString = "纵向模式, 顶部朝上"
+                currentOrientation = "纵向模式, 顶部朝上"
             case .portraitUpsideDown:
-                orientationString = "纵向模式, 顶部朝下"
+                currentOrientation = "纵向模式, 顶部朝下"
             case .landscapeLeft:
-                orientationString = "横向模式, 音量按钮朝下"
+                currentOrientation = "横向模式, 音量按钮朝下"
             case .landscapeRight:
-                orientationString = "横向模式, 音量按钮朝上"
+                currentOrientation = "横向模式, 音量按钮朝上"
             case .faceUp:
-                orientationString = "设备平放, 屏幕朝上"
+                currentOrientation = "设备平放, 屏幕朝上"
             case .faceDown:
-                orientationString = "设备平放, 屏幕朝下"
+                currentOrientation = "设备平放, 屏幕朝下"
             default:
-                orientationString = "未知"
+                currentOrientation = "未知"
             }
         }))
 }
