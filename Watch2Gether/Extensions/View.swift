@@ -17,7 +17,7 @@ extension View {
     func copyright() -> some View {
         self.modifier(Copyright())
     }
-    
+
     /// 检测设备旋转并执行相应的操作.
     ///
     /// - Parameters:

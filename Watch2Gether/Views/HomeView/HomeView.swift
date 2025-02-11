@@ -15,22 +15,32 @@ struct HomeView: View {
     @Environment(AppSettings.self) var appSettings
 
     var body: some View {
-        if appSettings.isFullScreen {
-            VideoPlayer()
-                .transition(.scale(scale: 1.1))
-        } else {
-            GeometryReader(content: { geometry in
-                VStack(spacing: 0, content: {
-                    VideoPlayer()
-                        /// 固定视频播放器的高度为屏幕的1/3.
-                        .frame(height: geometry.size.height / 3)
+        Group {
+            if appSettings.isFullScreen {
+                VideoPlayer()
+                    .transition(.scale(scale: 1.1))
+            } else {
+                GeometryReader(content: { geometry in
+                    VStack(spacing: 0, content: {
+                        VideoPlayer()
+                            /// 固定视频播放器的高度为屏幕的1/3.
+                            .frame(height: geometry.size.height / 3)
 
-                    FriendsList()
+                        FriendsList()
 
-                    ConversationSpace()
+                        ConversationSpace()
+                    })
                 })
-            })
+            }
         }
+        /// 检测设备旋转自动设置视频播放器全屏.
+        .onRotate(perform: { orientation in
+            if orientation == .portrait {
+                appSettings.isFullScreen = false
+            } else if orientation.isLandscape {
+                appSettings.isFullScreen = true
+            }
+        })
     }
 }
 
