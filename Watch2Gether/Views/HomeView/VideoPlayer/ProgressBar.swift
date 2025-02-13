@@ -27,14 +27,16 @@ struct ProgressBar: View {
         HStack {
             Text(formatTime(streamingViewModel.currentTime))
 
-            StyledSlider(value: $seekPosition, in: 0...1, onEditingEnded: {
-                /// 使用滑块拖动后的位置计算出新的当前的播放时间并修改播放进度.
-                streamingViewModel.currentTime = seekPosition * streamingViewModel.totalDuration
-                streamingViewModel.player.seek(
-                    to: CMTime(seconds: streamingViewModel.currentTime, preferredTimescale: 1000)
-                )
+            StyledSlider(value: $seekPosition, in: 0...1, onEditingChanged: { isEditing in
+                if !isEditing {
+                    /// 使用滑块拖动后的位置计算出新的当前的播放时间并修改播放进度.
+                    streamingViewModel.currentTime = seekPosition * streamingViewModel.totalDuration
+                    streamingViewModel.player.seek(
+                        to: CMTime(seconds: streamingViewModel.currentTime, preferredTimescale: 1000)
+                    )
 
-                onSeekCompleted?()
+                    onSeekCompleted?()
+                }
             })
             .onChange(of: streamingViewModel.currentTime, {
                 guard streamingViewModel.totalDuration > 0 else {
