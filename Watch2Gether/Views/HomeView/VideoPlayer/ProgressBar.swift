@@ -29,14 +29,22 @@ struct ProgressBar: View {
 
             StyledSlider(value: $seekPosition, in: 0...1, onEditingChanged: { isEditing in
                 if !isEditing {
-                    /// 使用滑块拖动后的位置计算出新的当前的播放时间并修改播放进度.
-                    streamingViewModel.currentTime = seekPosition * streamingViewModel.totalDuration
+                    /// 拖动或点击滑块后, 修改播放进度.
                     streamingViewModel.player.seek(
-                        to: CMTime(seconds: streamingViewModel.currentTime, preferredTimescale: 1000)
+                        to: CMTime(seconds: seekPosition * streamingViewModel.totalDuration, preferredTimescale: 1000)
                     )
 
                     onSeekCompleted?()
                 }
+            })
+            .onChange(of: seekPosition, {
+                guard streamingViewModel.totalDuration > 0 else {
+                    return
+                }
+
+                /// 获取滑块拖动过程中, 实时的当前和剩余的播放时间.
+                streamingViewModel.currentTime = seekPosition * streamingViewModel.totalDuration
+                streamingViewModel.remainingTime = streamingViewModel.totalDuration - streamingViewModel.currentTime
             })
             .onChange(of: streamingViewModel.currentTime, {
                 guard streamingViewModel.totalDuration > 0 else {
