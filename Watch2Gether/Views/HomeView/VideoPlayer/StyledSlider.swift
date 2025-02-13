@@ -18,25 +18,28 @@ struct StyledSlider: View {
     @State private var isDragging: Bool = false
     #endif
 
+    /// 滑块是否正在编辑变量.
+    @State private var isEditing: Bool = false
+
     /// 有效值的范围.
     private let bounds: ClosedRange<Double>
 
     /// 滑块的大小.
     private let thumbSize: Double
 
-    /// 滑块拖动完成时调用的闭包.
-    private var onEditingEnded: () -> Void
+    /// 滑块拖动或点击时调用的闭包, 参数用于表示是否处于编辑状态.
+    private var onEditingChanged: (Bool) -> Void
 
     init(
         value: Binding<Double>,
         in bounds: ClosedRange<Double> = 0...1,
-        onEditingEnded: @escaping () -> Void = {},
+        onEditingChanged: @escaping (Bool) -> Void = { _ in },
         thumbSize: Double = 20.0
     ) {
         self._value = value
         self.bounds = bounds
         self.thumbSize = thumbSize
-        self.onEditingEnded = onEditingEnded
+        self.onEditingChanged = onEditingChanged
     }
 
     var body: some View {
@@ -47,7 +50,7 @@ struct StyledSlider: View {
                     .foregroundStyle(Color.foreground.opacity(0.2))
                     .frame(width: geometry.size.width, height: 4)
 
-                /// 滑轨的前景部分(经过的部分).
+                /// 滑轨的前景部分(已滑过的部分).
                 RoundedRectangle(cornerRadius: 2)
                     .foregroundStyle(Color.foreground)
                     .frame(
@@ -55,6 +58,7 @@ struct StyledSlider: View {
                         height: 4
                     )
 
+                /// 滑块手柄.
                 Circle()
                     #if os(macOS)
                     .brightness(isDragging ? 0.3 : 0)
@@ -65,10 +69,16 @@ struct StyledSlider: View {
                     .gesture(
                         DragGesture()
                             .onChanged({ gesture in
+                                if !isEditing {
+                                    isEditing = true
+                                    onEditingChanged(true)
+                                }
+
                                 self.updateValue(for: gesture.location.x, trackWidth: geometry.size.width - thumbSize)
                             })
                             .onEnded({ _ in
-                                self.onEditingEnded()
+                                isEditing = false
+                                onEditingChanged(false)
                             })
                     )
                     /// 在macOS上监听滑块被点击和拖动.
@@ -87,8 +97,9 @@ struct StyledSlider: View {
             /// 扩大点击区域.
             .contentShape(Rectangle())
             .onTapGesture(perform: { location in
+                self.onEditingChanged(true)
                 self.updateValue(for: location.x, trackWidth: geometry.size.width - thumbSize)
-                self.onEditingEnded()
+                self.onEditingChanged(false)
             })
         })
         .frame(height: thumbSize)
