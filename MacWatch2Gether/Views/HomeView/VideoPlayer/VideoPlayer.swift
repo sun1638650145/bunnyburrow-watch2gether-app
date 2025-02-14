@@ -29,9 +29,6 @@ struct VideoPlayer: View {
     /// 视频播放进度条当前的位置(由`VideoPlayer`管理可以避免隐藏后重新显示播放控制栏时, 进度条位置被重置).
     @State private var seekPosition: Double = 0.0
 
-    /// 显示播放控制栏变量.
-    @State private var showPlaybackControls: Bool = true
-
     var body: some View {
         ZStack {
             /// 使得视频播放器有更好的一体性.
@@ -39,7 +36,7 @@ struct VideoPlayer: View {
 
             VideoPlayerView(player: streamingViewModel.player)
 
-            if showPlaybackControls {
+            if streamingViewModel.showPlaybackControls {
                 PlaybackControls(seekPosition: $seekPosition)
                     .padding(10)
             }
@@ -55,7 +52,7 @@ struct VideoPlayer: View {
         })
         .onTapGesture(perform: {
             // TODO: 定时器无操作后自动消失(Steve).
-            showPlaybackControls.toggle()
+            streamingViewModel.showPlaybackControls.toggle()
         })
     }
 

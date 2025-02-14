@@ -30,6 +30,9 @@ class StreamingViewModel {
     /// 播放状态: 剩余的播放时间(秒).
     var remainingTime: Double = 0.0
 
+    /// 显示播放控制栏变量.
+    var showPlaybackControls: Bool = true
+
     /// 播放状态: 视频的总时长(秒).
     var totalDuration: Double = 0.0
 
