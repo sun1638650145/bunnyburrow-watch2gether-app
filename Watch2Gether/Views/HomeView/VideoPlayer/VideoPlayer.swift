@@ -56,7 +56,7 @@ struct VideoPlayer: View {
             })
         })
         .onTapGesture(perform: {
-            // TODO: 定时器无操作后自动消失(Steve).
+            streamingViewModel.resetHidePlaybackControlsTimer()
             streamingViewModel.showPlaybackControls.toggle()
         })
     }

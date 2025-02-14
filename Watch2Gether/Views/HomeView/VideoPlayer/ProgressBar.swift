@@ -28,9 +28,14 @@ struct ProgressBar: View {
             Text(formatTime(streamingViewModel.currentTime))
 
             StyledSlider(value: $seekPosition, in: 0...1, onEditingChanged: { isEditing in
+                /// 取消已有的隐藏播放控制栏的定时器.
+                streamingViewModel.hidePlaybackControlsTimer.invalidate()
+
                 if !isEditing {
                     /// 使用滑块拖动后的位置计算出新的当前的播放时间并修改播放进度.
                     streamingViewModel.currentTime = seekPosition * streamingViewModel.totalDuration
+
+                    streamingViewModel.resetHidePlaybackControlsTimer()
                     streamingViewModel.player.seek(
                         to: CMTime(seconds: streamingViewModel.currentTime, preferredTimescale: 1000)
                     )

@@ -24,6 +24,9 @@ class StreamingViewModel {
     /// 播放状态: 当前的播放时间(秒).
     var currentTime: Double = 0.0
 
+    /// 用于自动隐藏播放控制栏的定时器.
+    var hidePlaybackControlsTimer: Timer = Timer()
+
     /// 播放状态: 是否正在播放.
     var isPlaying: Bool = false
 
@@ -56,6 +59,19 @@ class StreamingViewModel {
 
     convenience init() {
         self.init(url: URL(string: "about:blank")!)
+    }
+
+    /// 重置隐藏播放控制栏的定时器.
+    ///
+    /// - Parameters:
+    ///   - seconds: 定时器延迟的秒数, 默认为5.0秒.
+    func resetHidePlaybackControlsTimer(seconds: TimeInterval = 5.0) {
+        /// 取消已有的定时器.
+        self.hidePlaybackControlsTimer.invalidate()
+
+        self.hidePlaybackControlsTimer = Timer.scheduledTimer(withTimeInterval: seconds, repeats: false, block: { _ in
+            self.showPlaybackControls = false
+        })
     }
 
     /// 更新视频源URL.

@@ -59,6 +59,8 @@ struct PlaybackControls: View {
                     let newProgress = max(0, streamingViewModel.currentTime - 30)
 
                     streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+                    streamingViewModel.resetHidePlaybackControlsTimer()
+
                     sendPlayerSync(command: ["newProgress": newProgress])
                 }, label: {
                     Image(systemName: "30.arrow.trianglehead.counterclockwise")
@@ -71,6 +73,8 @@ struct PlaybackControls: View {
 
                 /// 播放控制按钮.
                 Button(action: {
+                    streamingViewModel.resetHidePlaybackControlsTimer()
+
                     if streamingViewModel.isPlaying {
                         streamingViewModel.player.pause()
                         sendPlayerSync(command: "pause")
@@ -98,6 +102,8 @@ struct PlaybackControls: View {
                     let newProgress = min(streamingViewModel.totalDuration, streamingViewModel.currentTime + 30)
 
                     streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+                    streamingViewModel.resetHidePlaybackControlsTimer()
+
                     sendPlayerSync(command: ["newProgress": newProgress])
                 }, label: {
                     Image(systemName: "30.arrow.trianglehead.clockwise")
