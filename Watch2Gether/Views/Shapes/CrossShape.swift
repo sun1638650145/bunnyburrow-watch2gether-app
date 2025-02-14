@@ -4,7 +4,7 @@
 //  CrossShape.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/9/27.
+//  Created by Steve R. Sun on 2024/9/27.
 //
 
 import CoreGraphics

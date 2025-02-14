@@ -4,7 +4,7 @@
 //  Friend.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/12/26.
+//  Created by Steve R. Sun on 2024/12/26.
 //
 
 /// 好友信息.

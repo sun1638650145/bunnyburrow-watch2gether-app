@@ -4,7 +4,7 @@
 //  SendButtonStyle.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/11/26.
+//  Created by Steve R. Sun on 2024/11/26.
 //
 
 import SwiftUI

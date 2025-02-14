@@ -4,7 +4,7 @@
 //  VideoPlayer.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/8/2.
+//  Created by Steve R. Sun on 2024/8/2.
 //
 
 import AVKit

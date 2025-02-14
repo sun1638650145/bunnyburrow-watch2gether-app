@@ -4,7 +4,7 @@
 //  PlaybackControlsCommands.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2025/1/21.
+//  Created by Steve R. Sun on 2025/1/21.
 //
 
 import AVKit

@@ -4,7 +4,7 @@
 //  ClearButtonStyle.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/11/6.
+//  Created by Steve R. Sun on 2024/11/6.
 //
 
 import SwiftUI

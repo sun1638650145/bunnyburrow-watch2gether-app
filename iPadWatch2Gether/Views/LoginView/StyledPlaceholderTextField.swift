@@ -4,7 +4,7 @@
 //  StyledPlaceholderTextField.swift
 //  iPadWatch2Gether
 //
-//  Create by Steve R. Sun on 2024/12/23.
+//  Created by Steve R. Sun on 2024/12/23.
 //
 
 import SwiftUI

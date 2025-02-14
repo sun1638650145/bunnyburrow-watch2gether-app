@@ -4,7 +4,7 @@
 //  Copyright.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/11/8.
+//  Created by Steve R. Sun on 2024/11/8.
 //
 
 import SwiftUI

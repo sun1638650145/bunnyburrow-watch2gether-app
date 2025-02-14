@@ -4,7 +4,7 @@
 //  AppSettings.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/12/21.
+//  Created by Steve R. Sun on 2024/12/21.
 //
 
 import Observation

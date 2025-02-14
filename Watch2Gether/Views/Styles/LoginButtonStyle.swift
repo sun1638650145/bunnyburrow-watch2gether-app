@@ -4,7 +4,7 @@
 //  LoginButtonStyle.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/8/15.
+//  Created by Steve R. Sun on 2024/8/15.
 //
 
 import SwiftUI

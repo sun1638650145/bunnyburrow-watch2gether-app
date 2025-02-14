@@ -4,7 +4,7 @@
 //  HomeView.swift
 //  iPadWatch2Gether
 //
-//  Create by Steve R. Sun on 2025/1/5.
+//  Created by Steve R. Sun on 2025/1/5.
 //
 
 import Foundation

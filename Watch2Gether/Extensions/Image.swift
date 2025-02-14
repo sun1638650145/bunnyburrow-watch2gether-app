@@ -4,7 +4,7 @@
 //  Image.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/8/6.
+//  Created by Steve R. Sun on 2024/8/6.
 //
 
 import SwiftUI

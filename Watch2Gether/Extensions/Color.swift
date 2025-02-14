@@ -4,7 +4,7 @@
 //  Color.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/8/4.
+//  Created by Steve R. Sun on 2024/8/4.
 //
 
 import Foundation

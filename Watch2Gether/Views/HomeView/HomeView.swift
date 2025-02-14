@@ -4,7 +4,7 @@
 //  HomeView.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/8/22.
+//  Created by Steve R. Sun on 2024/8/22.
 //
 
 import Foundation

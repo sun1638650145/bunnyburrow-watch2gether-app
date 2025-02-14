@@ -4,7 +4,7 @@
 //  DeviceRotation.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2025/2/11.
+//  Created by Steve R. Sun on 2025/2/11.
 //
 
 import Foundation

@@ -4,7 +4,7 @@
 //  Float.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2025/2/5.
+//  Created by Steve R. Sun on 2025/2/5.
 //
 
 import Foundation

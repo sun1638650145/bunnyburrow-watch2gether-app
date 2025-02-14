@@ -4,7 +4,7 @@
 //  ContentView.swift
 //  MacWatch2Gether
 //
-//  Create by Steve R. Sun on 2024/11/7.
+//  Created by Steve R. Sun on 2024/11/7.
 //
 
 import SwiftUI

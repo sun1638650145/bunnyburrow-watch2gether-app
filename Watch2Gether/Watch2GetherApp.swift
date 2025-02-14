@@ -4,7 +4,7 @@
 //  Watch2GetherApp.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/8/3.
+//  Created by Steve R. Sun on 2024/8/3.
 //
 
 import SwiftUI

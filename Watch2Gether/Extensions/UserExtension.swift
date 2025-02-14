@@ -4,7 +4,7 @@
 //  UserExtension.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2024/11/19.
+//  Created by Steve R. Sun on 2024/11/19.
 //
 
 import SwiftyJSON

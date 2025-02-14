@@ -4,7 +4,7 @@
 //  MarqueeText.swift
 //  Watch2Gether
 //
-//  Create by Steve R. Sun on 2025/1/7.
+//  Created by Steve R. Sun on 2025/1/7.
 //
 
 import SwiftUI
