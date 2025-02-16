@@ -15,10 +15,11 @@ struct HomeView: View {
     @Environment(AppSettings.self) var appSettings
 
     var body: some View {
-        if appSettings.isFullScreen {
-            VideoPlayer()
-        } else {
-            GeometryReader(content: { geometry in
+        GeometryReader(content: { geometry in
+            if appSettings.isFullScreen {
+                VideoPlayer()
+                    .transition(.scale(scale: 1.1))
+            } else {
                 HStack(spacing: 0, content: {
                     VideoPlayer()
                         /// 固定视频播放器的宽度为窗口的2/3.
@@ -30,8 +31,8 @@ struct HomeView: View {
                         ConversationSpace()
                     })
                 })
-            })
-        }
+            }
+        })
     }
 }
 
