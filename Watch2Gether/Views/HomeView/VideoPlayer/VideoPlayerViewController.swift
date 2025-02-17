@@ -22,6 +22,9 @@ struct VideoPlayerViewController: UIViewControllerRepresentable {
         /// 设置视频播放器.
         viewController.player = player
 
+        /// 禁用实况文本(Live Text).
+        viewController.allowsVideoFrameAnalysis = false
+
         /// 隐藏默认的播放控制组件.
         viewController.showsPlaybackControls = false
 
