@@ -95,6 +95,7 @@ struct LoginView: View {
                     .copyright()
                     .padding(5)
             }
+            .ignoresSafeArea(.keyboard)
         }
     }
 
