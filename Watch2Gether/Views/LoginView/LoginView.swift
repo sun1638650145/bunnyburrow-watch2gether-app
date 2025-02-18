@@ -125,6 +125,7 @@ struct LoginView: View {
                 Text("Copyright © 2025 Steve R. Sun")
                     .copyright()
             }
+            .ignoresSafeArea(.keyboard)
         }
     }
 
