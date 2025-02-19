@@ -31,6 +31,7 @@ struct HomeView: View {
                         ConversationSpace()
                     })
                 })
+                .ignoresSafeArea(.keyboard)
             }
         }
         /// 检测设备旋转自动设置视频播放器全屏.
