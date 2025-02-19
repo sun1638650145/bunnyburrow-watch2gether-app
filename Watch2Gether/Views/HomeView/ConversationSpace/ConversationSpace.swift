@@ -48,6 +48,7 @@ struct ConversationSpace: View {
                 .buttonStyle(SendButtonStyle(isDisabled: isDisabled))
                 .disabled(isDisabled)
             }
+            .keyboardAdaptive()
             .padding(10)
         }
         .onAppear(perform: {
