@@ -15,9 +15,16 @@ import UIKit
 extension View {
     /// 为`View`添加版权信息的样式.
     ///
-    /// - Returns: 应用`Copyright`样式后的视图.
+    /// - Returns: 应用`copyright`样式后的视图.
     func copyright() -> some View {
         self.modifier(Copyright())
+    }
+
+    /// 为`View`添加键盘自适应的功能.
+    ///
+    /// - Returns: 应用`keyboardAdaptive`后的视图.
+    func keyboardAdaptive() -> some View {
+        self.modifier(KeyboardAdaptive())
     }
 
     /// 检测设备旋转并执行相应的操作.
