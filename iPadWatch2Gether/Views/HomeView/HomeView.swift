@@ -46,6 +46,7 @@ struct HomeView: View {
                     })
                 }
             })
+            .ignoresSafeArea(.keyboard)
         }
     }
 }

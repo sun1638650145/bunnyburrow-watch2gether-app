@@ -130,6 +130,7 @@
 				Views/Styles/SendButtonStyle.swift,
 				Views/ViewModifiers/Copyright.swift,
 				Views/ViewModifiers/DeviceRotation.swift,
+				Views/ViewModifiers/KeyboardAdaptive.swift,
 				Watch2GetherApp.swift,
 			);
 			target = 39EC675A2D1664E800518950 /* iPadWatch2Gether */;
