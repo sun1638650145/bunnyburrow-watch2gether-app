@@ -20,14 +20,16 @@ extension View {
         self.modifier(Copyright())
     }
 
-    /// 为`View`添加键盘自适应的功能.
+    /// 为`View`添加键盘自适应的功能(只适用于`iOS`平台).
     ///
     /// - Returns: 应用`keyboardAdaptive`后的视图.
+    #if os(iOS)
     func keyboardAdaptive() -> some View {
         self.modifier(KeyboardAdaptive())
     }
+    #endif
 
-    /// 检测设备旋转并执行相应的操作.
+    /// 检测设备旋转并执行相应的操作(只适用于`iOS`平台).
     ///
     /// - Parameters:
     ///   - action: 设备旋转时调用的闭包.

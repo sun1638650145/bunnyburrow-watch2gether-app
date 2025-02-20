@@ -48,7 +48,10 @@ struct ConversationSpace: View {
                 .buttonStyle(SendButtonStyle(isDisabled: isDisabled))
                 .disabled(isDisabled)
             }
+            /// 在iOS上设置键盘自适应.
+            #if os(iOS)
             .keyboardAdaptive()
+            #endif
             .padding(10)
         }
         .onAppear(perform: {
