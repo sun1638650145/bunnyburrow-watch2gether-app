@@ -51,8 +51,10 @@ struct ConversationSpace: View {
             /// 在iOS上设置键盘自适应.
             #if os(iOS)
             .keyboardAdaptive()
-            #endif
+            .padding(.horizontal, 10)
+            #elseif os(macOS)
             .padding(10)
+            #endif
         }
         .onAppear(perform: {
             /// 添加接收聊天消息事件监听器给WebSocket客户端.
