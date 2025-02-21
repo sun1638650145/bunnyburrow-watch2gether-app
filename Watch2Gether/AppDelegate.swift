@@ -7,9 +7,22 @@
 //  Created by Steve R. Sun on 2024/12/15.
 //
 
+import AVKit
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    /// 配置音频会话.
+    private func configureAudioSession() {
+        let audioSession = AVAudioSession.sharedInstance()
+
+        do {
+            /// 设置音频会话在静音或屏幕锁定仍然继续播放.
+            try audioSession.setCategory(.playback, mode: .moviePlayback)
+        } catch {
+            print("设置音频会话配置失败: \(error.localizedDescription)")
+        }
+    }
+
     /// 控制屏幕方向锁定, 默认为竖屏.
     static var orientationLock = UIInterfaceOrientationMask.portrait {
         didSet {
@@ -25,6 +38,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                 }
             })
         }
+    }
+
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) -> Bool {
+        configureAudioSession()
+
+        return true
     }
 
     func application(
