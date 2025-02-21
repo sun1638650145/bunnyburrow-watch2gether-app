@@ -40,7 +40,7 @@ struct VideoPlayer: View {
 
             if streamingViewModel.showPlaybackControls {
                 PlaybackControls(seekPosition: $seekPosition)
-                    .padding(15)
+                    .padding(10)
             }
 
             VideoPlayerModal(notificationMessage, isOpen: isModalOpen)
