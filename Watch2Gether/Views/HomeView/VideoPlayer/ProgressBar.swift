@@ -16,9 +16,9 @@ struct ProgressBar: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
 
     /// 进度调整完成时调用的闭包.
-    private var onSeekCompleted: (() -> Void)?
+    private var onSeekCompleted: () -> Void
 
-    init(seekPosition: Binding<Double>, onSeekCompleted: (() -> Void)? = nil) {
+    init(seekPosition: Binding<Double>, onSeekCompleted: @escaping () -> Void = {}) {
         self._seekPosition = seekPosition
         self.onSeekCompleted = onSeekCompleted
     }
@@ -40,7 +40,7 @@ struct ProgressBar: View {
                         to: CMTime(seconds: streamingViewModel.currentTime, preferredTimescale: 1000)
                     )
 
-                    onSeekCompleted?()
+                    onSeekCompleted()
                 }
             })
             .onChange(of: seekPosition, {

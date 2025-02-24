@@ -14,9 +14,9 @@ struct MessageField: View {
     @Binding var message: String
 
     /// 聊天消息提交时调用的闭包.
-    private var onMessageSubmit: (() -> Void)?
+    private var onMessageSubmit: () -> Void
 
-    init(_ message: Binding<String>, onMessageSubmit: (() -> Void)? = nil) {
+    init(_ message: Binding<String>, onMessageSubmit: @escaping () -> Void = {}) {
         self._message = message
         self.onMessageSubmit = onMessageSubmit
     }
@@ -28,9 +28,7 @@ struct MessageField: View {
             .background(Color.viewBackground)
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .foregroundStyle(Color.foreground)
-            .onSubmit({
-                onMessageSubmit?()
-            })
+            .onSubmit(onMessageSubmit)
             /// 在iOS上设置提交按钮的标签为发送.
             #if os(iOS)
             .submitLabel(.send)

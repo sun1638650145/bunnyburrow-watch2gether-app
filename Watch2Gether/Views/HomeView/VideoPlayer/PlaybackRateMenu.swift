@@ -14,12 +14,12 @@ struct PlaybackRateMenu: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
 
     /// 播放速率调整后调用的闭包.
-    private var onPlaybackChange: ((Float) -> Void)?
+    private var onPlaybackChange: (Float) -> Void
 
     /// 可供选择的播放速率.
     private let playbackRates: [Float]
 
-    init(playbackRates: [Float], onPlaybackChange: ((Float) -> Void)? = nil) {
+    init(playbackRates: [Float], onPlaybackChange: @escaping (Float) -> Void = { _ in }) {
         self.playbackRates = playbackRates
         self.onPlaybackChange = onPlaybackChange
     }
@@ -37,7 +37,7 @@ struct PlaybackRateMenu: View {
                     }
 
                     streamingViewModel.resetHidePlaybackControlsTimer()
-                    onPlaybackChange?(rate)
+                    onPlaybackChange(rate)
                 }, label: {
                     Text("\(rate.formattedPlaybackRate())倍")
                 })
