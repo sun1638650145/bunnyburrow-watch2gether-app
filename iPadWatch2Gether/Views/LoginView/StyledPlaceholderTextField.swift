@@ -31,7 +31,7 @@ struct StyledPlaceholderTextField: View {
     private var errorMessage: String?
 
     /// 输入文本值更改时调用的闭包.
-    private var onTextChange: (() -> Void)?
+    private var onTextChange: () -> Void
 
     /// 占位文本.
     private let placeholder: String
@@ -44,7 +44,7 @@ struct StyledPlaceholderTextField: View {
         text: Binding<String?>,
         placeholderColor: Color = .secondary,
         errorMessage: String? = nil,
-        onTextChange: (() -> Void)? = nil
+        onTextChange: @escaping () -> Void = {}
     ) {
         self.placeholder = placeholder
         self._text = text
@@ -68,9 +68,7 @@ struct StyledPlaceholderTextField: View {
                 .autocorrectionDisabled()
                 .focused($isFocused)
                 .foregroundStyle(Color.foreground)
-                .onChange(of: text, {
-                    onTextChange?()
-                })
+                .onChange(of: text, onTextChange)
                 .padding(.leading, 5)
                 #if os(macOS)
                 .textFieldStyle(PlainTextFieldStyle())
