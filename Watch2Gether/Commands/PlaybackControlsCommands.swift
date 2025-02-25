@@ -17,34 +17,20 @@ import SwiftyJSON
 
 /// `PlaybackControlsCommands`是自定义命令菜单, 用于实现视频播放器的播放控制.
 struct PlaybackControlsCommands: Commands {
-    /// 应用设置状态信息.
-    private let appSettings: AppSettings
-
-    /// 用户信息.
-    private let user: User
-
-    /// 流媒体视频视图模型.
-    private let streamingViewModel: StreamingViewModel
-
-    /// WebSocket客户端.
-    private let webSocketClient: WebSocketClient
-
-    init(
-        _ appSettings: AppSettings,
-        _ user: User,
-        _ streamingViewModel: StreamingViewModel,
-        _ webSocketClient: WebSocketClient
-    ) {
-        self.appSettings = appSettings
-        self.user = user
-        self.streamingViewModel = streamingViewModel
-        self.webSocketClient = webSocketClient
-    }
+    @FocusedValue(AppSettings.self) var appSettings
+    @FocusedValue(User.self) var user
+    @FocusedValue(StreamingViewModel.self) var streamingViewModel
+    @FocusedValue(WebSocketClient.self) var webSocketClient
 
     var body: some Commands {
         CommandMenu("控制", content: {
             /// 播放控制按钮.
             Button(action: {
+                guard let streamingViewModel = streamingViewModel
+                else {
+                    return
+                }
+
                 if streamingViewModel.isPlaying {
                     streamingViewModel.player.pause()
                     sendPlayerSync(command: "pause")
@@ -54,13 +40,18 @@ struct PlaybackControlsCommands: Commands {
                     sendPlayerSync(command: "play")
                 }
             }, label: {
-                Text(streamingViewModel.isPlaying ? "暂停" : "播放")
+                Text(streamingViewModel?.isPlaying == true ? "暂停" : "播放")
             })
-            .disabled(!appSettings.isLoggedIn)
+            .disabled(streamingViewModel?.totalDuration ?? 0 <= 0)
             .keyboardShortcut(.return, modifiers: .command)
 
             /// 快退30秒按钮.
             Button(action: {
+                guard let streamingViewModel = streamingViewModel
+                else {
+                    return
+                }
+
                 /// 确保不小于0.
                 let newProgress = max(0, streamingViewModel.currentTime - 30)
 
@@ -69,11 +60,16 @@ struct PlaybackControlsCommands: Commands {
             }, label: {
                 Text("快退30秒")
             })
-            .disabled(streamingViewModel.totalDuration <= 0)
+            .disabled(streamingViewModel?.totalDuration ?? 0 <= 0)
             .keyboardShortcut(.leftArrow, modifiers: .shift)
 
             /// 快进30秒按钮.
             Button(action: {
+                guard let streamingViewModel = streamingViewModel
+                else {
+                    return
+                }
+
                 /// 确保不超过视频总时长.
                 let newProgress = min(streamingViewModel.totalDuration, streamingViewModel.currentTime + 30)
 
@@ -82,7 +78,7 @@ struct PlaybackControlsCommands: Commands {
             }, label: {
                 Text("快进30秒")
             })
-            .disabled(streamingViewModel.totalDuration <= 0)
+            .disabled(streamingViewModel?.totalDuration ?? 0 <= 0)
             .keyboardShortcut(.rightArrow, modifiers: .shift)
 
             Divider()
@@ -92,7 +88,7 @@ struct PlaybackControlsCommands: Commands {
                 withAnimation(.easeInOut(duration: 0.5), {
                     /// 在macOS上视频播放器进入窗口全屏状态.
                     #if os(macOS)
-                    guard let window = NSApplication.shared.keyWindow
+                    guard let window = NSApplication.shared.keyWindow, let appSettings = appSettings
                     else {
                         return
                     }
@@ -106,9 +102,9 @@ struct PlaybackControlsCommands: Commands {
                     appSettings.isFullScreen.toggle()
                 })
             }, label: {
-                Text(appSettings.isFullScreen ? "退出全屏幕" : "进入全屏幕")
+                Text(appSettings?.isFullScreen == true ? "退出全屏幕" : "进入全屏幕")
             })
-            .disabled(!appSettings.isLoggedIn)
+            .disabled(appSettings?.isLoggedIn != true)
             .keyboardShortcut(.escape, modifiers: .command)
         })
     }
@@ -118,6 +114,11 @@ struct PlaybackControlsCommands: Commands {
     /// - Parameters:
     ///   - command: 状态同步命令字段.
     private func sendPlayerSync(command: JSON) {
+        guard let user = user, let webSocketClient = webSocketClient
+        else {
+            return
+        }
+
         webSocketClient.broadcast([
             "action": "player",
             "command": command,

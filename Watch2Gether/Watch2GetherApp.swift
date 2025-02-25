@@ -42,9 +42,13 @@ struct Watch2GetherApp: App {
                 .environment(friendsViewModel)
                 .environment(streamingViewModel)
                 .environment(webSocketClient)
+                .focusedSceneValue(appSettings)
+                .focusedSceneValue(user)
+                .focusedSceneValue(streamingViewModel)
+                .focusedSceneValue(webSocketClient)
         }
         .commands(content: {
-            PlaybackControlsCommands(appSettings, user, streamingViewModel, webSocketClient)
+            PlaybackControlsCommands()
         })
         /// 监听应用的生命周期状态.
         .onChange(of: scenePhase, { oldPhase, newPhase in
