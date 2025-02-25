@@ -17,10 +17,10 @@ import SwiftyJSON
 
 /// `PlaybackControlsCommands`是自定义命令菜单, 用于实现视频播放器的播放控制.
 struct PlaybackControlsCommands: Commands {
-    @FocusedValue(AppSettings.self) var appSettings
-    @FocusedValue(User.self) var user
-    @FocusedValue(StreamingViewModel.self) var streamingViewModel
-    @FocusedValue(WebSocketClient.self) var webSocketClient
+    @FocusedValue(AppSettings.self) private var appSettings
+    @FocusedValue(User.self) private var user
+    @FocusedValue(StreamingViewModel.self) private var streamingViewModel
+    @FocusedValue(WebSocketClient.self) private var webSocketClient
 
     var body: some Commands {
         CommandMenu("控制", content: {
@@ -86,9 +86,14 @@ struct PlaybackControlsCommands: Commands {
             /// 全屏控制按钮.
             Button(action: {
                 withAnimation(.easeInOut(duration: 0.5), {
+                    guard let appSettings = appSettings
+                    else {
+                        return
+                    }
+
                     /// 在macOS上视频播放器进入窗口全屏状态.
                     #if os(macOS)
-                    guard let window = NSApplication.shared.keyWindow, let appSettings = appSettings
+                    guard let window = NSApplication.shared.keyWindow
                     else {
                         return
                     }
