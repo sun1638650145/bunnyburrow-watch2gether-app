@@ -43,7 +43,7 @@ struct MessagesList: View {
                     })
                 }
             })
-            .padding(10)
+            .padding(.horizontal, 10)
             .scrollIndicators(.hidden)
         })
     }

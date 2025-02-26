@@ -33,13 +33,11 @@ struct ConversationSpace: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0, content: {
             MessagesList(messages)
 
-            Spacer()
-
             MessageInput($message, onMessageSend: sendMessage, isDisabled: isDisabled)
-        }
+        })
         .onAppear(perform: {
             /// 添加接收聊天消息事件监听器给WebSocket客户端.
             webSocketClient.on(eventName: "receiveMessage", listener: { message, clientID in
