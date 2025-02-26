@@ -38,6 +38,7 @@ struct ConversationSpace: View {
 
             MessageInput($message, onMessageSend: sendMessage, isDisabled: isDisabled)
         })
+        .ignoresSafeArea()
         .onAppear(perform: {
             /// 添加接收聊天消息事件监听器给WebSocket客户端.
             webSocketClient.on(eventName: "receiveMessage", listener: { message, clientID in
