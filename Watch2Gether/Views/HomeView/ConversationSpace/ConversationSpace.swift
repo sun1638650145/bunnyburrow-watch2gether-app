@@ -38,23 +38,7 @@ struct ConversationSpace: View {
 
             Spacer()
 
-            HStack {
-                MessageField($message, onMessageSubmit: sendMessage)
-
-                Button(action: sendMessage, label: {
-                    Text("发送")
-                        .frame(width: 100, height: 40)
-                })
-                .buttonStyle(SendButtonStyle(isDisabled: isDisabled))
-                .disabled(isDisabled)
-            }
-            /// 在iOS上设置键盘自适应.
-            #if os(iOS)
-            .keyboardAdaptive()
-            .padding(.horizontal, 10)
-            #elseif os(macOS)
-            .padding(10)
-            #endif
+            MessageInput($message, onMessageSend: sendMessage, isDisabled: isDisabled)
         }
         .onAppear(perform: {
             /// 添加接收聊天消息事件监听器给WebSocket客户端.
