@@ -39,8 +39,10 @@ struct MessageInput: View {
         /// 在iOS上设置键盘自适应.
         #if os(iOS)
         .keyboardAdaptive()
-        #endif
+        .padding(EdgeInsets(top: 10, leading: 10, bottom: 35, trailing: 10))
+        #elseif os(macOS)
         .padding(10)
+        #endif
         .background(Color.viewBackground.opacity(0.6))
     }
 }
