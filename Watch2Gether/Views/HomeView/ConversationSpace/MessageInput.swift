@@ -9,14 +9,14 @@
 
 import SwiftUI
 
-/// `MessageInput`是用于输入聊天消息并发送的视图.
+/// `MessageInput`是用于输入并发送聊天消息的视图.
 struct MessageInput: View {
     @Binding var message: String
 
     /// 聊天消息发送时调用的闭包.
     private var onMessageSend: () -> Void
 
-    /// 禁止发松按钮变量.
+    /// 禁止发送按钮变量.
     private let isDisabled: Bool
 
     init(_ message: Binding<String>, onMessageSend: @escaping () -> Void = {}, isDisabled: Bool = true) {
