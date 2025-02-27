@@ -16,6 +16,7 @@ import SwiftyJSON
 /// `VideoPlayer`是视频播放器视图, 显示视频内容并提供播放控制功能.
 struct VideoPlayer: View {
     @Environment(AppSettings.self) var appSettings
+    @Environment(User.self) var user
     @Environment(FriendsViewModel.self) var friendsViewModel
     @Environment(StreamingViewModel.self) var streamingViewModel
     @Environment(WebSocketClient.self) var webSocketClient
@@ -59,6 +60,17 @@ struct VideoPlayer: View {
             streamingViewModel.resetHidePlaybackControlsTimer()
             streamingViewModel.showPlaybackControls.toggle()
         })
+        ///
+        .onTapGesture(count: 2, perform: {
+            if streamingViewModel.isPlaying {
+                streamingViewModel.player.pause()
+                sendPlayerSync(command: "pause")
+            } else {
+                /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
+                streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                sendPlayerSync(command: "play")
+            }
+        })
     }
 
     /// 接收播放器状态同步命令.
@@ -86,6 +98,21 @@ struct VideoPlayer: View {
                 streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
             }
         }
+    }
+
+    /// 发送播放状态同步命令.
+    ///
+    /// - Parameters:
+    ///   - command: 状态同步命令字段.
+    private func sendPlayerSync(command: String) {
+        webSocketClient.broadcast([
+            "action": "player",
+            "command": command,
+            "user": [
+                /// 只发送客户端ID以减小网络开销.
+                "clientID": user.clientID
+            ]
+        ])
     }
 
     /// 打开视频播放器模态框.
