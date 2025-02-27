@@ -60,7 +60,6 @@ struct VideoPlayer: View {
             streamingViewModel.resetHidePlaybackControlsTimer()
             streamingViewModel.showPlaybackControls.toggle()
         })
-        ///
         .onTapGesture(count: 2, perform: {
             if streamingViewModel.isPlaying {
                 streamingViewModel.player.pause()
@@ -100,7 +99,7 @@ struct VideoPlayer: View {
         }
     }
 
-    /// 发送播放状态同步命令.
+    /// 发送播放器状态同步命令.
     ///
     /// - Parameters:
     ///   - command: 状态同步命令字段.
