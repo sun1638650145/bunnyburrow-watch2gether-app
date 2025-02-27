@@ -81,6 +81,7 @@
 				Views/Styles/SendButtonStyle.swift,
 				Views/ViewModifiers/Copyright.swift,
 				Views/ViewModifiers/DeviceRotation.swift,
+				Views/ViewModifiers/DoubleTapGesture.swift,
 				Views/ViewModifiers/KeyboardAdaptive.swift,
 				Watch2GetherApp.swift,
 			);
@@ -156,6 +157,7 @@
 				Views/LoginView/StyledPlaceholderTextField.swift,
 				Views/Styles/ClearButtonStyle.swift,
 				Views/ViewModifiers/DeviceRotation.swift,
+				Views/ViewModifiers/DoubleTapGesture.swift,
 				Views/ViewModifiers/KeyboardAdaptive.swift,
 			);
 			target = 39EC676C2D16653E00518950 /* MacWatch2Gether */;
