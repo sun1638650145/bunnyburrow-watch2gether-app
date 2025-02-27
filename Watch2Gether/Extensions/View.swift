@@ -29,6 +29,15 @@ extension View {
     }
     #endif
 
+    /// 为`View`添加识别到双击手势时执行的操作.
+    ///
+    /// - Parameters:
+    ///   - action: 识别到双击手势时调用的闭包.
+    /// - Returns: 应用`onDoubleTapGesture`后的视图.
+    func onDoubleTapGesture(perform action: @escaping () -> Void) -> some View {
+        self.modifier(DoubleTapGesture(action: action))
+    }
+
     /// 检测设备旋转并执行相应的操作(只适用于`iOS`平台).
     ///
     /// - Parameters:

@@ -9,9 +9,9 @@
 
 import SwiftUI
 
-/// `DoubleTapGesture`是一个用于触发双击手势的视图修饰符.
+/// `DoubleTapGesture`是一个用于识别双击手势的视图修饰符.
 struct DoubleTapGesture: ViewModifier {
-    /// 双击手势触发时调用的闭包.
+    /// 识别到双击手势时调用的闭包.
     var action: () -> Void
 
     func body(content: Content) -> some View {
