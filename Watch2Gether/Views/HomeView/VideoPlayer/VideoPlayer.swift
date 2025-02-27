@@ -60,7 +60,7 @@ struct VideoPlayer: View {
             streamingViewModel.resetHidePlaybackControlsTimer()
             streamingViewModel.showPlaybackControls.toggle()
         })
-        .onTapGesture(count: 2, perform: {
+        .onDoubleTapGesture(perform: {
             if streamingViewModel.isPlaying {
                 streamingViewModel.player.pause()
                 sendPlayerSync(command: "pause")
