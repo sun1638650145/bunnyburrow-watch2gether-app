@@ -23,8 +23,17 @@ struct DoubleTapGesture: ViewModifier {
 }
 
 #Preview {
-    Text("请尝试双击文本")
-        .modifier(DoubleTapGesture(action: {
-            print("文本被双击.")
-        }))
+    @Previewable @State var isBlue: Bool = true
+
+    VStack {
+        Rectangle()
+            .foregroundStyle(isBlue ? Color.blue : Color.black)
+            .frame(width: 200, height: 200)
+            .modifier(DoubleTapGesture(action: {
+                isBlue.toggle()
+            }))
+            .padding(10)
+
+        Text("双击方块切换颜色")
+    }
 }
