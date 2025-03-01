@@ -56,10 +56,6 @@ struct VideoPlayer: View {
                 self.openModal(command: command, clientID: clientID)
             })
         })
-        .onTapGesture(perform: {
-            streamingViewModel.resetHidePlaybackControlsTimer()
-            streamingViewModel.showPlaybackControls.toggle()
-        })
         .onDoubleTapGesture(perform: {
             if streamingViewModel.isPlaying {
                 streamingViewModel.player.pause()
@@ -69,6 +65,10 @@ struct VideoPlayer: View {
                 streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
                 sendPlayerSync(command: "play")
             }
+        })
+        .onTapGesture(perform: {
+            streamingViewModel.resetHidePlaybackControlsTimer()
+            streamingViewModel.showPlaybackControls.toggle()
         })
     }
 
