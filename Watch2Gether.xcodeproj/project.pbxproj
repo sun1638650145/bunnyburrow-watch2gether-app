@@ -83,6 +83,7 @@
 				Views/ViewModifiers/DeviceRotation.swift,
 				Views/ViewModifiers/DoubleTapGesture.swift,
 				Views/ViewModifiers/KeyboardAdaptive.swift,
+				Views/ViewModifiers/ScaleGesture.swift,
 				Watch2GetherApp.swift,
 			);
 			target = 395EF3322D165E0C0014D834 /* Watch2Gether */;
@@ -159,6 +160,7 @@
 				Views/Styles/ClearButtonStyle.swift,
 				Views/ViewModifiers/DeviceRotation.swift,
 				Views/ViewModifiers/KeyboardAdaptive.swift,
+				Views/ViewModifiers/ScaleGesture.swift,
 			);
 			target = 39EC676C2D16653E00518950 /* MacWatch2Gether */;
 		};
