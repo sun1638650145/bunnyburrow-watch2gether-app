@@ -9,12 +9,12 @@
 
 import SwiftUI
 
-/// `ScaleGesture`是一个用于识别缩放(包括放大和缩小)手势的视图修饰符.
+/// `ScaleGesture`是一个用于识别缩放(包括缩小和放大)手势的视图修饰符.
 struct ScaleGesture: ViewModifier {
-    /// 识别到放大手势时调用的闭包.
+    /// 识别到缩小手势时调用的闭包.
     var scaleDownAction: () -> Void
 
-    /// 识别到缩小手势时调用的闭包.
+    /// 识别到放大手势时调用的闭包.
     var scaleUpAction: () -> Void
 
     func body(content: Content) -> some View {
