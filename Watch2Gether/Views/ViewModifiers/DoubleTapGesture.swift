@@ -23,12 +23,8 @@ struct DoubleTapGesture: ViewModifier {
 }
 
 #Preview {
-    Button(action: {
-        // ...
-    }, label: {
-        Text("请尝试双击按钮")
-    })
-    .modifier(DoubleTapGesture(action: {
-        print("按钮被双击.")
-    }))
+    Text("请尝试双击文本")
+        .modifier(DoubleTapGesture(action: {
+            print("文本被双击.")
+        }))
 }

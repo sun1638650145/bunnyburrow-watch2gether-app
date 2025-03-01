@@ -8,6 +8,7 @@
 //
 
 import AVKit
+import AppKit
 import Foundation
 import SwiftUI
 
@@ -49,6 +50,20 @@ struct VideoPlayer: View {
             webSocketClient.on(eventName: "openModal", listener: { command, clientID in
                 self.openModal(command: command, clientID: clientID)
             })
+        })
+        .onDoubleTapGesture(perform: {
+            /// 视频播放器进入窗口全屏状态.
+            guard let window = NSApplication.shared.keyWindow
+            else {
+                return
+            }
+
+            /// 需要视频播放器视图和窗口状态一致时.
+            if appSettings.isFullScreen == window.styleMask.contains(.fullScreen) {
+                window.toggleFullScreen(nil)
+            }
+
+            appSettings.isFullScreen.toggle()
         })
         .onTapGesture(perform: {
             streamingViewModel.resetHidePlaybackControlsTimer()
