@@ -133,6 +133,7 @@
 				Views/Styles/SendButtonStyle.swift,
 				Views/ViewModifiers/Copyright.swift,
 				Views/ViewModifiers/DeviceRotation.swift,
+				Views/ViewModifiers/DoubleTapGesture.swift,
 				Views/ViewModifiers/KeyboardAdaptive.swift,
 				Watch2GetherApp.swift,
 			);
