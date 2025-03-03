@@ -26,16 +26,17 @@ struct DoubleTapGesture: ViewModifier {
     @Previewable @State var isBlue: Bool = true
 
     VStack {
-        Rectangle()
-            .fill(isBlue ? Color.blue : Color.indigo)
+        RoundedRectangle(cornerRadius: 20)
+            .fill(isBlue ? Color.blue.gradient : Color.indigo.gradient)
             .frame(width: 200, height: 200)
             .modifier(DoubleTapGesture(action: {
                 isBlue.toggle()
             }))
+            .shadow(radius: 5)
             .padding(10)
 
         Text("双击矩形切换颜色")
-            .font(.callout)
-            .foregroundStyle(.secondary)
+            .font(.headline)
+            .foregroundStyle(.primary)
     }
 }

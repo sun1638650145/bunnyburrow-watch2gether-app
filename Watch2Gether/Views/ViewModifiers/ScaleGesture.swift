@@ -21,11 +21,7 @@ struct ScaleGesture: ViewModifier {
         content
             .gesture(MagnifyGesture()
                 .onEnded({ value in
-                    if value.magnification < 1.0 {
-                        scaleDownAction()
-                    } else {
-                        scaleUpAction()
-                    }
+                    value.magnification < 1.0 ? scaleDownAction() : scaleUpAction()
                 })
             )
     }
@@ -35,8 +31,8 @@ struct ScaleGesture: ViewModifier {
     @Previewable @State var scale: CGFloat = 1.0
 
     VStack {
-        Rectangle()
-            .foregroundStyle(Color.blue)
+        RoundedRectangle(cornerRadius: 20)
+            .fill(Color.blue.gradient)
             .frame(width: 200, height: 200)
             .modifier(ScaleGesture(scaleDownAction: {
                 withAnimation(.default, {
@@ -45,7 +41,16 @@ struct ScaleGesture: ViewModifier {
             }, scaleUpAction: {}))
             .padding(10)
             .scaleEffect(scale)
+            .shadow(radius: scale * 5)
 
-        Text("请捏合方块")
+        VStack {
+            Text("捏合手势")
+                .font(.headline)
+                .foregroundStyle(.primary)
+
+            Text("当前比例: \(String(format: "%.1f", scale))")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
     }
 }
