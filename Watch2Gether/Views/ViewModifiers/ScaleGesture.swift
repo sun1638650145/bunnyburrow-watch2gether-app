@@ -19,10 +19,11 @@ struct ScaleGesture: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .gesture(MagnifyGesture()
-                .onEnded({ value in
-                    value.magnification < 1.0 ? scaleDownAction() : scaleUpAction()
-                })
+            .simultaneousGesture(
+                MagnifyGesture()
+                    .onEnded({ value in
+                        value.magnification < 1.0 ? scaleDownAction() : scaleUpAction()
+                    })
             )
     }
 }

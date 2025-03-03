@@ -66,6 +66,11 @@ struct VideoPlayer: View {
                 sendPlayerSync(command: "play")
             }
         })
+        .onScaleGesture(scaleDownPerform: {
+            appSettings.isFullScreen = false
+        }, scaleUpPerform: {
+            appSettings.isFullScreen = true
+        })
         .onTapGesture(perform: {
             streamingViewModel.resetHidePlaybackControlsTimer()
             streamingViewModel.showPlaybackControls.toggle()
