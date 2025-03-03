@@ -49,16 +49,18 @@ extension View {
     }
     #endif
 
-    /// 为`View`添加识别到缩放(包括缩小和放大)手势时执行的操作.
+    /// 为`View`添加识别到缩放(包括缩小和放大)手势时执行的操作(只适用于`iOS`平台).
     ///
     /// - Parameters:
     ///   - scaleDownAction: 识别到缩小手势时调用的闭包.
     ///   - scaleUpAction: 识别到放大手势时调用的闭包.
     /// - Returns: 应用`onScaleGesture`后的视图.
+    #if os(iOS)
     func onScaleGesture(
         scaleDownPerform scaleDownAction: @escaping () -> Void,
         scaleUpPerform scaleUpAction: @escaping () -> Void
     ) -> some View {
         self.modifier(ScaleGesture(scaleDownAction: scaleDownAction, scaleUpAction: scaleUpAction))
     }
+    #endif
 }
