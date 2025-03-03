@@ -27,13 +27,15 @@ struct DoubleTapGesture: ViewModifier {
 
     VStack {
         Rectangle()
-            .foregroundStyle(isBlue ? Color.blue : Color.black)
+            .fill(isBlue ? Color.blue : Color.indigo)
             .frame(width: 200, height: 200)
             .modifier(DoubleTapGesture(action: {
                 isBlue.toggle()
             }))
             .padding(10)
 
-        Text("双击方块切换颜色")
+        Text("双击矩形切换颜色")
+            .font(.callout)
+            .foregroundStyle(.secondary)
     }
 }
