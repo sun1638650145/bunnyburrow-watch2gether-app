@@ -83,6 +83,21 @@ struct PlaybackControlsCommands: Commands {
 
             Divider()
 
+            /// 静音控制按钮.
+            Button(action: {
+                guard let streamingViewModel = streamingViewModel
+                else {
+                    return
+                }
+
+                streamingViewModel.isMuted.toggle()
+            }, label: {
+                Text(streamingViewModel?.isMuted == true ? "取消静音" : "静音")
+            })
+            .keyboardShortcut("M", modifiers: .shift)
+
+            Divider()
+
             /// 全屏控制按钮.
             Button(action: {
                 withAnimation(.easeInOut(duration: 0.5), {

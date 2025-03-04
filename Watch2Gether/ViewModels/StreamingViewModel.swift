@@ -27,6 +27,14 @@ class StreamingViewModel {
     /// 用于自动隐藏播放控制栏的定时器.
     var hidePlaybackControlsTimer: Timer = Timer()
 
+    /// 播放状态: 是否静音.
+    var isMuted: Bool = false {
+        didSet {
+            /// 更新播放器的静音状态.
+            player.isMuted = isMuted
+        }
+    }
+
     /// 播放状态: 是否正在播放.
     var isPlaying: Bool = false
 
