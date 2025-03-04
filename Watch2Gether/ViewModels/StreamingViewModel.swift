@@ -96,9 +96,10 @@ class StreamingViewModel {
                     return
                 }
 
-                /// 计算当前和剩余的播放时间.
+                /// 计算当前, 剩余的播放时间和进度条的位置.
                 self.currentTime = self.player.currentTime().seconds
                 self.remainingTime = self.totalDuration - self.currentTime
+                self.seekPosition = self.currentTime / self.totalDuration
             }
         )
 

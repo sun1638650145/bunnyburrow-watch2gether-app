@@ -56,14 +56,6 @@ struct ProgressBar: View {
                 streamingViewModel.currentTime = streamingViewModel.seekPosition * streamingViewModel.totalDuration
                 streamingViewModel.remainingTime = streamingViewModel.totalDuration - streamingViewModel.currentTime
             })
-            .onChange(of: streamingViewModel.currentTime, {
-                guard streamingViewModel.totalDuration > 0 else {
-                    return
-                }
-
-                /// 计算新的进度条位置.
-                streamingViewModel.seekPosition = streamingViewModel.currentTime / streamingViewModel.totalDuration
-            })
 
             Text(formatTime(streamingViewModel.remainingTime))
         }
