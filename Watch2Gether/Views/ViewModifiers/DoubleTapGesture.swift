@@ -16,7 +16,7 @@ struct DoubleTapGesture: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .simultaneousGesture(
+            .highPriorityGesture(
                 TapGesture(count: 2)
                     .onEnded(action)
             )
