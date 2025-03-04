@@ -33,6 +33,9 @@ class StreamingViewModel {
     /// 播放状态: 剩余的播放时间(秒).
     var remainingTime: Double = 0.0
 
+    /// 播放状态: 视频播放进度条当前的位置.
+    var seekPosition: Double = 0.0
+
     /// 显示播放控制栏变量.
     var showPlaybackControls: Bool = true
 

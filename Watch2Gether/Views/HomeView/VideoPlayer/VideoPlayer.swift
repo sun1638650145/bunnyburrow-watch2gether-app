@@ -27,9 +27,6 @@ struct VideoPlayer: View {
     /// 模态视图显示的通知信息变量.
     @State private var notificationMessage: String = ""
 
-    /// 视频播放进度条当前的位置(由`VideoPlayer`管理可以避免隐藏后重新显示播放控制栏时, 进度条位置被重置).
-    @State private var seekPosition: Double = 0.0
-
     var body: some View {
         ZStack {
             /// 使得视频播放器有更好的一体性.
@@ -40,7 +37,7 @@ struct VideoPlayer: View {
                 .ignoresSafeArea(edges: .bottom)
 
             if streamingViewModel.showPlaybackControls {
-                PlaybackControls(seekPosition: $seekPosition)
+                PlaybackControls()
                     .padding(10)
             }
 

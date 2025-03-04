@@ -19,7 +19,6 @@ import SwiftyJSON
 
 /// `PlaybackControls`是播放控制栏视图, 用于显示播放进度条和播放控制按钮.
 struct PlaybackControls: View {
-    @Binding var seekPosition: Double
     @Environment(AppSettings.self) var appSettings
     @Environment(User.self) var user
     @Environment(StreamingViewModel.self) var streamingViewModel
@@ -48,7 +47,7 @@ struct PlaybackControls: View {
             /// 使得播放控制栏在视图底部.
             Spacer()
 
-            ProgressBar(seekPosition: $seekPosition, onSeekCompleted: {
+            ProgressBar(onSeekCompleted: {
                 sendPlayerSync(command: ["newProgress": streamingViewModel.currentTime])
             })
 
@@ -175,14 +174,12 @@ struct PlaybackControls: View {
 }
 
 #Preview {
-    @Previewable @State var seekPosition: Double = 0.0
-
     let appSettings = AppSettings()
     let user = User()
     let streamingViewModel = StreamingViewModel(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     let webSocketClient = WebSocketClient()
 
-    PlaybackControls(seekPosition: $seekPosition)
+    PlaybackControls()
         .environment(user)
         .environment(appSettings)
         .environment(streamingViewModel)
