@@ -57,6 +57,9 @@ class StreamingViewModel {
         self.url = url
         self.player = AVPlayer(url: url)
 
+        /// 初始化播放器音量为50%.
+        self.player.volume = 0.5
+
         self.observePlayerStatus()
     }
 
