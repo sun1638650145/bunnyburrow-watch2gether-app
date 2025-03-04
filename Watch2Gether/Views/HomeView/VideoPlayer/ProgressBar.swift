@@ -37,7 +37,8 @@ struct ProgressBar: View {
 
                     if !isEditing {
                         /// 使用滑块拖动后的位置计算出新的当前的播放时间并修改播放进度.
-                        streamingViewModel.currentTime = streamingViewModel.seekPosition * streamingViewModel.totalDuration
+                        streamingViewModel.currentTime = streamingViewModel.seekPosition
+                            * streamingViewModel.totalDuration
 
                         streamingViewModel.resetHidePlaybackControlsTimer()
                         streamingViewModel.player.seek(
