@@ -24,62 +24,62 @@ struct PlaybackControlsCommands: Commands {
 
     var body: some Commands {
         CommandMenu("控制", content: {
-            /// 播放控制按钮.
-            Button(action: {
-                guard let streamingViewModel = streamingViewModel
-                else {
-                    return
-                }
+            Group {
+                /// 播放控制按钮.
+                Button(action: {
+                    guard let streamingViewModel = streamingViewModel
+                    else {
+                        return
+                    }
 
-                if streamingViewModel.isPlaying {
-                    streamingViewModel.player.pause()
-                    sendPlayerSync(command: "pause")
-                } else {
-                    /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
-                    streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
-                    sendPlayerSync(command: "play")
-                }
-            }, label: {
-                Text(streamingViewModel?.isPlaying == true ? "暂停" : "播放")
-            })
+                    if streamingViewModel.isPlaying {
+                        streamingViewModel.player.pause()
+                        sendPlayerSync(command: "pause")
+                    } else {
+                        /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
+                        streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                        sendPlayerSync(command: "play")
+                    }
+                }, label: {
+                    Text(streamingViewModel?.isPlaying == true ? "暂停" : "播放")
+                })
+                .keyboardShortcut(.return, modifiers: .command)
+
+                /// 快退30秒按钮.
+                Button(action: {
+                    guard let streamingViewModel = streamingViewModel
+                    else {
+                        return
+                    }
+
+                    /// 确保不小于0.
+                    let newProgress = max(0, streamingViewModel.currentTime - 30)
+
+                    streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+                    sendPlayerSync(command: ["newProgress": newProgress])
+                }, label: {
+                    Text("快退30秒")
+                })
+                .keyboardShortcut(.leftArrow, modifiers: .shift)
+
+                /// 快进30秒按钮.
+                Button(action: {
+                    guard let streamingViewModel = streamingViewModel
+                    else {
+                        return
+                    }
+
+                    /// 确保不超过视频总时长.
+                    let newProgress = min(streamingViewModel.totalDuration, streamingViewModel.currentTime + 30)
+
+                    streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+                    sendPlayerSync(command: ["newProgress": newProgress])
+                }, label: {
+                    Text("快进30秒")
+                })
+                .keyboardShortcut(.rightArrow, modifiers: .shift)
+            }
             .disabled(streamingViewModel?.totalDuration ?? 0 <= 0)
-            .keyboardShortcut(.return, modifiers: .command)
-
-            /// 快退30秒按钮.
-            Button(action: {
-                guard let streamingViewModel = streamingViewModel
-                else {
-                    return
-                }
-
-                /// 确保不小于0.
-                let newProgress = max(0, streamingViewModel.currentTime - 30)
-
-                streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
-                sendPlayerSync(command: ["newProgress": newProgress])
-            }, label: {
-                Text("快退30秒")
-            })
-            .disabled(streamingViewModel?.totalDuration ?? 0 <= 0)
-            .keyboardShortcut(.leftArrow, modifiers: .shift)
-
-            /// 快进30秒按钮.
-            Button(action: {
-                guard let streamingViewModel = streamingViewModel
-                else {
-                    return
-                }
-
-                /// 确保不超过视频总时长.
-                let newProgress = min(streamingViewModel.totalDuration, streamingViewModel.currentTime + 30)
-
-                streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
-                sendPlayerSync(command: ["newProgress": newProgress])
-            }, label: {
-                Text("快进30秒")
-            })
-            .disabled(streamingViewModel?.totalDuration ?? 0 <= 0)
-            .keyboardShortcut(.rightArrow, modifiers: .shift)
 
             Divider()
 
