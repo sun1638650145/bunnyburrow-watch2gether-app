@@ -96,6 +96,20 @@ struct PlaybackControlsCommands: Commands {
             })
             .keyboardShortcut("M", modifiers: .shift)
 
+            /// 降低音量按钮.
+            Button(action: {
+                guard let streamingViewModel = streamingViewModel
+                else {
+                    return
+                }
+
+                streamingViewModel.volume = max(0, streamingViewModel.volume - 0.1)
+            }, label: {
+                Text("降低音量")
+            })
+            .disabled(streamingViewModel?.volume ?? 0 <= 0)
+            .keyboardShortcut(.downArrow, modifiers: .shift)
+
             Divider()
 
             /// 全屏控制按钮.
