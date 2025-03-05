@@ -96,7 +96,21 @@ struct PlaybackControlsCommands: Commands {
             })
             .keyboardShortcut("M", modifiers: .shift)
 
-            /// 降低音量按钮.
+            /// 增加音量按钮.
+            Button(action: {
+                guard let streamingViewModel = streamingViewModel
+                else {
+                    return
+                }
+
+                streamingViewModel.volume = min(streamingViewModel.volume + 0.1, 1)
+            }, label: {
+                Text("音量+")
+            })
+            .disabled(streamingViewModel?.volume ?? 0 >= 1)
+            .keyboardShortcut(.upArrow, modifiers: .shift)
+
+            /// 减少音量按钮.
             Button(action: {
                 guard let streamingViewModel = streamingViewModel
                 else {
@@ -105,7 +119,7 @@ struct PlaybackControlsCommands: Commands {
 
                 streamingViewModel.volume = max(0, streamingViewModel.volume - 0.1)
             }, label: {
-                Text("降低音量")
+                Text("音量-")
             })
             .disabled(streamingViewModel?.volume ?? 0 <= 0)
             .keyboardShortcut(.downArrow, modifiers: .shift)
