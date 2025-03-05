@@ -60,7 +60,7 @@ struct PlaybackControlsCommands: Commands {
                 }, label: {
                     Text("快退30秒")
                 })
-                .keyboardShortcut(.leftArrow, modifiers: .shift)
+                .keyboardShortcut("A", modifiers: [.command, .shift])
 
                 /// 快进30秒按钮.
                 Button(action: {
@@ -77,7 +77,7 @@ struct PlaybackControlsCommands: Commands {
                 }, label: {
                     Text("快进30秒")
                 })
-                .keyboardShortcut(.rightArrow, modifiers: .shift)
+                .keyboardShortcut("D", modifiers: [.command, .shift])
             }
             .disabled(streamingViewModel?.totalDuration ?? 0 <= 0)
 
@@ -94,7 +94,7 @@ struct PlaybackControlsCommands: Commands {
             }, label: {
                 Text(streamingViewModel?.isMuted == true ? "取消静音" : "静音")
             })
-            .keyboardShortcut("M", modifiers: .shift)
+            .keyboardShortcut("M", modifiers: [.command, .shift])
 
             /// 增加音量按钮.
             Button(action: {
@@ -108,7 +108,7 @@ struct PlaybackControlsCommands: Commands {
                 Text("音量+")
             })
             .disabled(streamingViewModel?.volume ?? 0 >= 1)
-            .keyboardShortcut(.upArrow, modifiers: .shift)
+            .keyboardShortcut("W", modifiers: [.command, .shift])
 
             /// 减少音量按钮.
             Button(action: {
@@ -122,7 +122,7 @@ struct PlaybackControlsCommands: Commands {
                 Text("音量-")
             })
             .disabled(streamingViewModel?.volume ?? 0 <= 0)
-            .keyboardShortcut(.downArrow, modifiers: .shift)
+            .keyboardShortcut("S", modifiers: [.command, .shift])
 
             Divider()
 
