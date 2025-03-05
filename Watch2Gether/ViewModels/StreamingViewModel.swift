@@ -30,7 +30,7 @@ class StreamingViewModel {
     /// 播放状态: 是否静音.
     var isMuted: Bool = false {
         didSet {
-            /// 更新播放器的静音状态.
+            /// 同步更新视频播放器的静音状态.
             player.isMuted = isMuted
         }
     }
@@ -50,6 +50,14 @@ class StreamingViewModel {
     /// 播放状态: 视频的总时长(秒).
     var totalDuration: Double = 0.0
 
+    /// 播放状态: 音频音量, 范围从0.0(静音)到1.0(最大音量).
+    var volume: Float = 0.5 {
+        didSet {
+            /// 同步更新视频播放器的音量.
+            player.volume = volume
+        }
+    }
+
     /// 用于存储事件监听器的取消器集合.
     private var cancellables = Set<AnyCancellable>()
 
@@ -65,8 +73,8 @@ class StreamingViewModel {
         self.url = url
         self.player = AVPlayer(url: url)
 
-        /// 初始化播放器音量为50%.
-        self.player.volume = 0.5
+        /// 初始化视频播放器的音量.
+        self.player.volume = self.volume
 
         self.observePlayerStatus()
     }
