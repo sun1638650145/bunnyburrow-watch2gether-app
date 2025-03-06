@@ -103,6 +103,8 @@ struct PlaybackControlsCommands: Commands {
                     return
                 }
 
+                /// 取消静音并增加10%的音量.
+                streamingViewModel.isMuted = false
                 streamingViewModel.volume = min(streamingViewModel.volume + 0.1, 1)
             }, label: {
                 Text("音量+")
@@ -117,6 +119,8 @@ struct PlaybackControlsCommands: Commands {
                     return
                 }
 
+                /// 取消静音并减少10%的音量.
+                streamingViewModel.isMuted = false
                 streamingViewModel.volume = max(0, streamingViewModel.volume - 0.1)
             }, label: {
                 Text("音量-")
