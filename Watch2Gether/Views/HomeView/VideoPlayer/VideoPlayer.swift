@@ -38,6 +38,7 @@ struct VideoPlayer: View {
 
             if streamingViewModel.showVolumeSlider {
                 VolumeSlider(volume: streamingViewModel.volume)
+                    .padding(10)
             }
 
             if streamingViewModel.showPlaybackControls {
