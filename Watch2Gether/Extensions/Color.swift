@@ -62,4 +62,7 @@ extension Color {
 
     /// 用于视图背景的颜色.
     public static let viewBackground = Color(red: 249.0 / 255, green: 249.0 / 255, blue: 249.0 / 255, opacity: 0.1)
+
+    /// 用于音量滑块前景的颜色.
+    public static let volumeSliderForeground = Color(red: 206.0 / 255, green: 227.0 / 255, blue: 246.0 / 255)
 }
