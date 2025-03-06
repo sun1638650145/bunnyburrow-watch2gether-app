@@ -156,7 +156,6 @@
 				Views/HomeView/HomeView.swift,
 				Views/HomeView/VideoPlayer/VideoPlayer.swift,
 				Views/HomeView/VideoPlayer/VideoPlayerViewController.swift,
-				Views/HomeView/VideoPlayer/VolumeSlider.swift,
 				Views/LoginView/AvatarUploader/AvatarUploader.swift,
 				Views/LoginView/AvatarUploader/ImagePickerViewController.swift,
 				Views/LoginView/LoginView.swift,
