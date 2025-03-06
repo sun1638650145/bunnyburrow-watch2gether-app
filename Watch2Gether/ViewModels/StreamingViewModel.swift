@@ -47,6 +47,9 @@ class StreamingViewModel {
     /// 显示播放控制栏变量.
     var showPlaybackControls: Bool = true
 
+    /// 显示音量滑块变量.
+    var showVolumeSlider: Bool = false
+
     /// 播放状态: 视频的总时长(秒).
     var totalDuration: Double = 0.0
 
