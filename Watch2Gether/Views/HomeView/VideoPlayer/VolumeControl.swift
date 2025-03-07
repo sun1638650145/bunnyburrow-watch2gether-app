@@ -13,6 +13,9 @@ import SwiftUI
 struct VolumeControl: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
 
+    /// 显示音量滑块变量.
+    @State private var showVolumeSlider: Bool = false
+
     var body: some View {
         GeometryReader(content: { geometry in
             HStack {
@@ -33,9 +36,18 @@ struct VolumeControl: View {
                     }))
             }
         })
+        .onChange(of: streamingViewModel.volume, {
+            showVolumeSlider = true
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: {
+                showVolumeSlider = false
+            })
+        })
         .overlay(content: {
-            VolumeSlider(volume: streamingViewModel.volume)
-                .padding(10)
+            if showVolumeSlider {
+                VolumeSlider(volume: streamingViewModel.volume)
+                    .padding(10)
+            }
         })
     }
 }

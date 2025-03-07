@@ -47,6 +47,7 @@ class StreamingViewModel {
     /// 显示播放控制栏变量.
     var showPlaybackControls: Bool = true
 
+    // TODO: 在macOS上实现`VolumeControl`的兼容后将会被移除(Steve).
     /// 显示音量滑块变量.
     var showVolumeSlider: Bool = false
 

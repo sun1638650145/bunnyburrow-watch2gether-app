@@ -36,10 +36,7 @@ struct VideoPlayer: View {
             VideoPlayerViewController(player: streamingViewModel.player)
                 .ignoresSafeArea(edges: .bottom)
 
-            if streamingViewModel.showVolumeSlider {
-                VolumeSlider(volume: streamingViewModel.volume)
-                    .padding(10)
-            }
+            VolumeControl()
 
             if streamingViewModel.showPlaybackControls {
                 PlaybackControls()
@@ -56,13 +53,6 @@ struct VideoPlayer: View {
             webSocketClient.on(eventName: "receivePlayerSync", listener: self.receivePlayerSync(command:))
             webSocketClient.on(eventName: "openModal", listener: { command, clientID in
                 self.openModal(command: command, clientID: clientID)
-            })
-        })
-        .onChange(of: streamingViewModel.volume, {
-            streamingViewModel.showVolumeSlider = true
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: {
-                streamingViewModel.showVolumeSlider = false
             })
         })
         .onDoubleTapGesture(perform: {
