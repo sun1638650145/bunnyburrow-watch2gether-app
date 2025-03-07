@@ -126,6 +126,7 @@
 				Views/HomeView/VideoPlayer/VideoPlayer.swift,
 				Views/HomeView/VideoPlayer/VideoPlayerModal.swift,
 				Views/HomeView/VideoPlayer/VideoPlayerViewController.swift,
+				Views/HomeView/VideoPlayer/VolumeControl.swift,
 				Views/HomeView/VideoPlayer/VolumeSlider.swift,
 				Views/Icons/AvatarUploaderIcon.swift,
 				Views/LoginView/AvatarUploader/AvatarUploader.swift,
