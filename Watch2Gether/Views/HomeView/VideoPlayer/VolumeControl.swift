@@ -33,9 +33,13 @@ struct VolumeControl: View {
                             .onChanged({ gesture in
                                 /// 向上滑动为负值.
                                 let deltaY = Float(-gesture.translation.height / geometry.size.height)
+
+                                /// 一次滑动手势过程中会产生多个`deltaY`, 避免累加音量且保证音量变化连续.
                                 let newVolume = previousVolume + deltaY
 
                                 withAnimation(.easeInOut, {
+                                    showVolumeSlider = true
+
                                     /// 确保音量值在有效范围内.
                                     streamingViewModel.volume = min(1, max(newVolume, 0))
                                 })
@@ -43,16 +47,14 @@ struct VolumeControl: View {
                             .onEnded({ _ in
                                 /// 更新之前的音频音量.
                                 previousVolume = streamingViewModel.volume
+
+                                /// 设置音量滑块在结束滑动1.5秒钟后自动关闭.
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                                    showVolumeSlider = false
+                                })
                             })
                     )
             }
-        })
-        .onChange(of: streamingViewModel.volume, {
-            showVolumeSlider = true
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: {
-                showVolumeSlider = false
-            })
         })
         .overlay(content: {
             if showVolumeSlider {
