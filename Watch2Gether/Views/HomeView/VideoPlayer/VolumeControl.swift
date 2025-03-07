@@ -13,6 +13,9 @@ import SwiftUI
 struct VolumeControl: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
 
+    /// 之前的音频音量.
+    @State private var previousVolume: Float = 0.5
+
     /// 显示音量滑块变量.
     @State private var showVolumeSlider: Bool = false
 
@@ -25,15 +28,23 @@ struct VolumeControl: View {
                     /// 设置透明的手势识别区域.
                     .contentShape(Rectangle())
                     .frame(width: geometry.size.width / 2)
-                    .gesture(DragGesture().onEnded({ gesture in
-                        /// 向上滑动为负值.
-                        let deltaY = Float(-gesture.translation.height / geometry.size.height)
+                    .gesture(
+                        DragGesture()
+                            .onChanged({ gesture in
+                                /// 向上滑动为负值.
+                                let deltaY = Float(-gesture.translation.height / geometry.size.height)
+                                let newVolume = previousVolume + deltaY
 
-                        withAnimation(.easeInOut, {
-                            /// 确保音量值在有效范围内.
-                            streamingViewModel.volume = min(1, max(streamingViewModel.volume + deltaY, 0))
-                        })
-                    }))
+                                withAnimation(.easeInOut, {
+                                    /// 确保音量值在有效范围内.
+                                    streamingViewModel.volume = min(1, max(newVolume, 0))
+                                })
+                            })
+                            .onEnded({ _ in
+                                /// 更新之前的音频音量.
+                                previousVolume = streamingViewModel.volume
+                            })
+                    )
             }
         })
         .onChange(of: streamingViewModel.volume, {
