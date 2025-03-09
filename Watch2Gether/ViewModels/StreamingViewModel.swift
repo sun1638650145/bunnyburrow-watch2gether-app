@@ -27,6 +27,9 @@ class StreamingViewModel {
     /// 用于自动隐藏播放控制栏的定时器.
     var hidePlaybackControlsTimer: Timer = Timer()
 
+    /// 用于自动隐藏音量滑块的定时器.
+    var hideVolumeSliderTimer: Timer = Timer()
+
     /// 播放状态: 是否静音.
     var isMuted: Bool = false {
         didSet {
@@ -47,7 +50,6 @@ class StreamingViewModel {
     /// 显示播放控制栏变量.
     var showPlaybackControls: Bool = true
 
-    // TODO: 在macOS上实现`VolumeControl`的兼容后将会被移除(Steve).
     /// 显示音量滑块变量.
     var showVolumeSlider: Bool = false
 
@@ -97,6 +99,19 @@ class StreamingViewModel {
 
         self.hidePlaybackControlsTimer = Timer.scheduledTimer(withTimeInterval: seconds, repeats: false, block: { _ in
             self.showPlaybackControls = false
+        })
+    }
+
+    /// 重置隐藏音量滑块的定时器.
+    ///
+    /// - Parameters:
+    ///   - seconds: 定时器延迟的秒数, 默认为1.5秒.
+    func resetHideVolumeSliderTimer(seconds: TimeInterval = 1.5) {
+        /// 取消已有的定时器.
+        self.hideVolumeSliderTimer.invalidate()
+
+        self.hideVolumeSliderTimer = Timer.scheduledTimer(withTimeInterval: seconds, repeats: false, block: { _ in
+            self.showVolumeSlider = false
         })
     }
 

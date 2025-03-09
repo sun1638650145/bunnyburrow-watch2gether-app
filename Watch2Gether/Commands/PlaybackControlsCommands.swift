@@ -103,6 +103,9 @@ struct PlaybackControlsCommands: Commands {
                     return
                 }
 
+                streamingViewModel.showVolumeSlider = true
+                streamingViewModel.resetHideVolumeSliderTimer()
+
                 /// 取消静音并增加10%的音量.
                 streamingViewModel.isMuted = false
                 streamingViewModel.volume = min(streamingViewModel.volume + 0.1, 1)
@@ -118,6 +121,9 @@ struct PlaybackControlsCommands: Commands {
                 else {
                     return
                 }
+
+                streamingViewModel.showVolumeSlider = true
+                streamingViewModel.resetHideVolumeSliderTimer()
 
                 /// 取消静音并减少10%的音量.
                 streamingViewModel.isMuted = false

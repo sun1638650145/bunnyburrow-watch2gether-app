@@ -27,9 +27,6 @@ struct VideoPlayer: View {
     /// 模态视图显示的通知信息变量.
     @State private var notificationMessage: String = ""
 
-    /// 显示音量滑块变量.
-    @State private var showVolumeSlider: Bool = false
-
     var body: some View {
         ZStack {
             /// 使得视频播放器有更好的一体性.
@@ -37,7 +34,7 @@ struct VideoPlayer: View {
 
             VideoPlayerView(player: streamingViewModel.player)
 
-            if showVolumeSlider {
+            if streamingViewModel.showVolumeSlider {
                 VolumeSlider(volume: streamingViewModel.volume)
                     .padding(10)
             }
@@ -56,7 +53,7 @@ struct VideoPlayer: View {
                 let deltaY = Float(-event.scrollingDeltaY / 200)
 
                 withAnimation(.easeInOut, {
-                    showVolumeSlider = true
+                    streamingViewModel.showVolumeSlider = true
 
                     /// 确保音量值在有效范围内.
                     streamingViewModel.volume = min(1, max(streamingViewModel.volume + deltaY, 0))
@@ -65,7 +62,7 @@ struct VideoPlayer: View {
                 if event.phase == .ended {
                     /// 设置音量滑块在结束滚动1.5秒钟后自动关闭.
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-                        showVolumeSlider = false
+                        streamingViewModel.showVolumeSlider = false
                     })
                 }
 
