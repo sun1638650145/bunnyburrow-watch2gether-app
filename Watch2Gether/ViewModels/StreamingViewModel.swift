@@ -24,12 +24,6 @@ class StreamingViewModel {
     /// 播放状态: 当前的播放时间(秒).
     var currentTime: Double = 0.0
 
-    /// 用于自动隐藏播放控制栏的定时器.
-    var hidePlaybackControlsTimer: Timer = Timer()
-
-    /// 用于自动隐藏音量滑块的定时器.
-    var hideVolumeSliderTimer: Timer = Timer()
-
     /// 播放状态: 是否静音.
     var isMuted: Bool = false {
         didSet {
@@ -66,6 +60,12 @@ class StreamingViewModel {
 
     /// 用于存储事件监听器的取消器集合.
     private var cancellables = Set<AnyCancellable>()
+
+    /// 用于自动隐藏播放控制栏的定时器.
+    private var hidePlaybackControlsTimer: Timer = Timer()
+
+    /// 用于自动隐藏音量滑块的定时器.
+    private var hideVolumeSliderTimer: Timer = Timer()
 
     /// 视频源URL.
     private var url: URL {
