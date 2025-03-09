@@ -16,9 +16,6 @@ struct VolumeControl: View {
     /// 之前的音频音量.
     @State private var previousVolume: Float = 0.5
 
-    /// 显示音量滑块变量.
-    @State private var showVolumeSlider: Bool = false
-
     var body: some View {
         GeometryReader(content: { geometry in
             HStack {
@@ -38,7 +35,7 @@ struct VolumeControl: View {
                                 let newVolume = previousVolume + deltaY
 
                                 withAnimation(.easeInOut, {
-                                    showVolumeSlider = true
+                                    streamingViewModel.showVolumeSlider = true
 
                                     /// 确保音量值在有效范围内.
                                     streamingViewModel.volume = min(1, max(newVolume, 0))
@@ -50,14 +47,14 @@ struct VolumeControl: View {
 
                                 /// 设置音量滑块在结束滑动1.5秒钟后自动关闭.
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-                                    showVolumeSlider = false
+                                    streamingViewModel.showVolumeSlider = false
                                 })
                             })
                     )
             }
         })
         .overlay(content: {
-            if showVolumeSlider {
+            if streamingViewModel.showVolumeSlider {
                 VolumeSlider(volume: streamingViewModel.volume)
                     .padding(10)
             }
