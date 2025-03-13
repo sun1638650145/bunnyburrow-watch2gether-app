@@ -34,10 +34,7 @@ struct VideoPlayer: View {
 
             VideoPlayerView(player: streamingViewModel.player)
 
-            if streamingViewModel.showVolumeSlider {
-                VolumeSlider(volume: streamingViewModel.volume)
-                    .padding(10)
-            }
+            VolumeControl()
 
             if streamingViewModel.showPlaybackControls {
                 PlaybackControls()
@@ -47,28 +44,6 @@ struct VideoPlayer: View {
             VideoPlayerModal(notificationMessage, isOpen: isModalOpen)
         }
         .onAppear(perform: {
-            /// 添加滚动事件监听器用以调整音量.
-            NSEvent.addLocalMonitorForEvents(matching: .scrollWheel, handler: { event in
-                /// 向上滑动为负值.
-                let deltaY = Float(-event.scrollingDeltaY / 200)
-
-                withAnimation(.easeInOut, {
-                    streamingViewModel.showVolumeSlider = true
-
-                    /// 确保音量值在有效范围内.
-                    streamingViewModel.volume = min(1, max(streamingViewModel.volume + deltaY, 0))
-                })
-
-                if event.phase == .ended {
-                    /// 设置音量滑块在结束滚动1.5秒钟后自动关闭.
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-                        streamingViewModel.showVolumeSlider = false
-                    })
-                }
-
-                return event
-            })
-
             /// 添加接收播放器状态同步和打开播放器模态框事件监听器给WebSocket客户端.
             webSocketClient.on(eventName: "receivePlayerSync", listener: self.receivePlayerSync(command:))
             webSocketClient.on(eventName: "openModal", listener: { command, clientID in

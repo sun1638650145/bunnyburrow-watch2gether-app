@@ -158,7 +158,6 @@
 				"Preview Content/Preview Assets.xcassets",
 				Views/ContentView.swift,
 				Views/HomeView/HomeView.swift,
-				Views/HomeView/VideoPlayer/MuteIndicator.swift,
 				Views/HomeView/VideoPlayer/VideoPlayer.swift,
 				Views/HomeView/VideoPlayer/VideoPlayerViewController.swift,
 				Views/HomeView/VideoPlayer/VolumeControl.swift,
