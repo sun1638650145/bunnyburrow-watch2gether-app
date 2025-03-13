@@ -37,6 +37,9 @@ struct VolumeControl: View {
                                 withAnimation(.easeInOut, {
                                     streamingViewModel.showVolumeDisplay = true
 
+                                    /// 取消静音.
+                                    streamingViewModel.isMuted = false
+
                                     /// 确保音量值在有效范围内.
                                     streamingViewModel.volume = min(1, max(newVolume, 0))
                                 })
