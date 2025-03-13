@@ -47,8 +47,8 @@ class StreamingViewModel {
     /// 显示播放控制栏变量.
     var showPlaybackControls: Bool = true
 
-    /// 显示音量滑块变量.
-    var showVolumeSlider: Bool = false
+    /// 显示音量相关视图变量.
+    var showVolumeDisplay: Bool = false
 
     /// 播放状态: 视频的总时长(秒).
     var totalDuration: Double = 0.0
@@ -64,8 +64,8 @@ class StreamingViewModel {
     /// 用于存储事件监听器的取消器集合.
     private var cancellables = Set<AnyCancellable>()
 
-    /// 用于自动隐藏音量滑块的定时器.
-    private var hideVolumeSliderTimer: Timer = Timer()
+    /// 用于自动隐藏音量相关视图的定时器.
+    private var hideVolumeDisplayTimer: Timer = Timer()
 
     /// 视频源URL.
     private var url: URL {
@@ -106,12 +106,12 @@ class StreamingViewModel {
     ///
     /// - Parameters:
     ///   - seconds: 定时器延迟的秒数, 默认为1.5秒.
-    func resetHideVolumeSliderTimer(seconds: TimeInterval = 1.5) {
+    func resetHideVolumeDisplayTimer(seconds: TimeInterval = 1.5) {
         /// 取消已有的定时器.
-        self.hideVolumeSliderTimer.invalidate()
+        self.hideVolumeDisplayTimer.invalidate()
 
-        self.hideVolumeSliderTimer = Timer.scheduledTimer(withTimeInterval: seconds, repeats: false, block: { _ in
-            self.showVolumeSlider = false
+        self.hideVolumeDisplayTimer = Timer.scheduledTimer(withTimeInterval: seconds, repeats: false, block: { _ in
+            self.showVolumeDisplay = false
         })
     }
 

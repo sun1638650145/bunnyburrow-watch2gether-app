@@ -90,6 +90,9 @@ struct PlaybackControlsCommands: Commands {
                     return
                 }
 
+                streamingViewModel.showVolumeDisplay = true
+                streamingViewModel.resetHideVolumeDisplayTimer()
+
                 streamingViewModel.isMuted.toggle()
             }, label: {
                 Text(streamingViewModel?.isMuted == true ? "取消静音" : "静音")
@@ -103,8 +106,8 @@ struct PlaybackControlsCommands: Commands {
                     return
                 }
 
-                streamingViewModel.showVolumeSlider = true
-                streamingViewModel.resetHideVolumeSliderTimer()
+                streamingViewModel.showVolumeDisplay = true
+                streamingViewModel.resetHideVolumeDisplayTimer()
 
                 /// 取消静音并增加10%的音量.
                 streamingViewModel.isMuted = false
@@ -122,8 +125,8 @@ struct PlaybackControlsCommands: Commands {
                     return
                 }
 
-                streamingViewModel.showVolumeSlider = true
-                streamingViewModel.resetHideVolumeSliderTimer()
+                streamingViewModel.showVolumeDisplay = true
+                streamingViewModel.resetHideVolumeDisplayTimer()
 
                 /// 取消静音并减少10%的音量.
                 streamingViewModel.isMuted = false

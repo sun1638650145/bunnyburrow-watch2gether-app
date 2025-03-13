@@ -120,6 +120,7 @@
 				Views/HomeView/ConversationSpace/OtherMessageBubble.swift,
 				Views/HomeView/FriendsList/FriendsList.swift,
 				Views/HomeView/FriendsList/MarqueeText.swift,
+				Views/HomeView/VideoPlayer/MuteIndicator.swift,
 				Views/HomeView/VideoPlayer/PlaybackControls.swift,
 				Views/HomeView/VideoPlayer/PlaybackRateMenu.swift,
 				Views/HomeView/VideoPlayer/ProgressBar.swift,

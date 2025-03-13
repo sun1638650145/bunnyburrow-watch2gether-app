@@ -35,7 +35,7 @@ struct VolumeControl: View {
                                 let newVolume = previousVolume + deltaY
 
                                 withAnimation(.easeInOut, {
-                                    streamingViewModel.showVolumeSlider = true
+                                    streamingViewModel.showVolumeDisplay = true
 
                                     /// 确保音量值在有效范围内.
                                     streamingViewModel.volume = min(1, max(newVolume, 0))
@@ -47,16 +47,22 @@ struct VolumeControl: View {
 
                                 /// 设置音量滑块在结束滑动1.5秒钟后自动关闭.
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-                                    streamingViewModel.showVolumeSlider = false
+                                    streamingViewModel.showVolumeDisplay = false
                                 })
                             })
                     )
             }
         })
         .overlay(content: {
-            if streamingViewModel.showVolumeSlider {
-                VolumeSlider(volume: streamingViewModel.volume)
-                    .padding(10)
+            if streamingViewModel.showVolumeDisplay {
+                Group {
+                    if streamingViewModel.isMuted {
+                        MuteIndicator()
+                    } else {
+                        VolumeSlider(volume: streamingViewModel.volume)
+                    }
+                }
+                .padding(10)
             }
         })
     }
