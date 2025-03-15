@@ -16,6 +16,9 @@ struct VolumeControl: View {
     /// 之前的音频音量.
     @State private var previousVolume: Float = 0.5
 
+    /// 滑动手势有效角度的识别范围.
+    private let validAngleRange: ClosedRange<CGFloat> = 75...105
+
     var body: some View {
         GeometryReader(content: { geometry in
             HStack {
@@ -28,6 +31,11 @@ struct VolumeControl: View {
                     .gesture(
                         DragGesture()
                             .onChanged({ gesture in
+                                /// 计算滑动手势的角度, 在有效范围内才能调整音量.
+                                guard validAngleRange.contains(calculateAngle(translation: gesture.translation)) else {
+                                    return
+                                }
+
                                 /// 向上滑动为负值.
                                 let deltaY = Float(-gesture.translation.height / geometry.size.height)
 
@@ -68,6 +76,18 @@ struct VolumeControl: View {
                 .padding(10)
             }
         })
+    }
+
+    /// 计算滑动手势的角度.
+    ///
+    /// - Parameters:
+    ///   - translation: 滑动手势的总位移量.
+    /// - Returns: 滑动手势角度的绝对值.
+    private func calculateAngle(translation: CGSize) -> CGFloat {
+        let radians = atan2(translation.height, translation.width)
+        let degrees = radians * 180 / .pi
+
+        return abs(degrees)
     }
 }
 
