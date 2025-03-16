@@ -83,15 +83,11 @@ struct StyledSlider: View {
                     )
                     /// 在macOS上监听滑块被点击和拖动.
                     #if os(macOS)
-                    .simultaneousGesture(
-                        DragGesture(minimumDistance: 0)
-                            .onChanged({ _ in
-                                isDragging = true
-                            })
-                            .onEnded({ _ in
-                                isDragging = false
-                            })
-                    )
+                    .onSimultaneousDragGesture(changedPerform: { _ in
+                        isDragging = true
+                    }, endedPerform: { _ in
+                        isDragging = false
+                    })
                     #endif
             })
             /// 扩大点击区域.

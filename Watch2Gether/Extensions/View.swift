@@ -63,4 +63,19 @@ extension View {
         self.modifier(ScaleGesture(scaleDownAction: scaleDownAction, scaleUpAction: scaleUpAction))
     }
     #endif
+
+    /// 为`View`添加同时识别到滑动手势时执行的操作(只适用于`macOS`平台).
+    ///
+    /// - Parameters:
+    ///   - changedAction: 识别到滑动手势变化时调用的闭包.
+    ///   - endedAction: 识别到滑动手势结束时调用的闭包.
+    /// - Returns: 应用`onSimultaneousDragGesture`后的视图.
+    #if os(macOS)
+    func onSimultaneousDragGesture(
+        changedPerform changedAction: @escaping (DragGesture.Value) -> Void,
+        endedPerform endedAction: @escaping (DragGesture.Value) -> Void
+    ) -> some View {
+        self.modifier(SimultaneousDragGesture(changedAction: changedAction, endedAction: endedAction))
+    }
+    #endif
 }
