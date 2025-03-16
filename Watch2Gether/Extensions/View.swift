@@ -38,6 +38,19 @@ extension View {
         self.modifier(DoubleTapGesture(action: action))
     }
 
+    /// 为`View`添加识别到滑动手势时执行的操作.
+    ///
+    /// - Parameters:
+    ///   - changedAction: 识别到滑动手势变化时调用的闭包.
+    ///   - endedAction: 识别到滑动手势结束时调用的闭包.
+    /// - Returns: 应用`onDragGesture`后的视图.
+    func onDragGesture(
+        changedPerform changedAction: @escaping (DragGesture.Value) -> Void,
+        endedPerform endedAction: @escaping (DragGesture.Value) -> Void
+    ) -> some View {
+        self.modifier(DragGestureModifier(changedAction: changedAction, endedAction: endedAction))
+    }
+
     /// 检测设备旋转并执行相应的操作(只适用于`iOS`平台).
     ///
     /// - Parameters:

@@ -66,21 +66,17 @@ struct StyledSlider: View {
                     .foregroundStyle(Color.foreground)
                     .frame(width: thumbSize, height: thumbSize)
                     .offset(x: self.calculateThumbPosition(for: geometry.size.width - thumbSize))
-                    .gesture(
-                        DragGesture()
-                            .onChanged({ gesture in
-                                if !isEditing {
-                                    isEditing = true
-                                    onEditingChanged(true)
-                                }
+                    .onDragGesture(changedPerform: { gesture in
+                        if !isEditing {
+                            isEditing = true
+                            onEditingChanged(true)
+                        }
 
-                                self.updateValue(for: gesture.location.x, trackWidth: geometry.size.width - thumbSize)
-                            })
-                            .onEnded({ _ in
-                                isEditing = false
-                                onEditingChanged(false)
-                            })
-                    )
+                        self.updateValue(for: gesture.location.x, trackWidth: geometry.size.width - thumbSize)
+                    }, endedPerform: { _ in
+                        isEditing = false
+                        onEditingChanged(false)
+                    })
                     /// 在macOS上监听滑块被点击和拖动.
                     #if os(macOS)
                     .onSimultaneousDragGesture(changedPerform: { _ in
