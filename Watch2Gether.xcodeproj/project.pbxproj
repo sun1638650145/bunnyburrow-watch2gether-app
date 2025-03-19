@@ -136,6 +136,8 @@
 				Views/Icons/AvatarUploaderIcon.swift,
 				Views/LoginView/AvatarUploader/AvatarUploader.swift,
 				Views/LoginView/AvatarUploader/ImagePickerViewController.swift,
+				Views/LoginView/VideoPicker/VideoPicker.swift,
+				Views/LoginView/VideoPicker/VideoPickerViewController.swift,
 				Views/Shapes/CrossShape.swift,
 				Views/Shapes/MyMessageBubbleShape.swift,
 				Views/Shapes/OtherMessageBubbleShape.swift,
