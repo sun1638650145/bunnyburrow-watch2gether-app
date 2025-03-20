@@ -153,6 +153,10 @@ class StreamingViewModel {
                         if status == .readyToPlay {
                             self.totalDuration = item.duration.seconds
                             self.remainingTime = self.totalDuration
+                        } else if status == .failed {
+                            if let error = item.error {
+                                print("播放失败: \(error.localizedDescription)")
+                            }
                         }
                     })
 
