@@ -11,6 +11,7 @@ import AVKit
 import Combine
 import Foundation
 import Observation
+import SwiftUI
 
 /// 流媒体视频视图模型.
 @Observable
@@ -155,7 +156,7 @@ class StreamingViewModel {
                             self.remainingTime = self.totalDuration
                         } else if status == .failed {
                             if let error = item.error {
-                                print("播放失败: \(error.localizedDescription)")
+                                print("应用初始化或播放失败: \(error.localizedDescription)")
                             }
                         }
                     })
