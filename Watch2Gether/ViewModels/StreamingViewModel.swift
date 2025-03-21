@@ -11,7 +11,6 @@ import AVKit
 import Combine
 import Foundation
 import Observation
-import SwiftUI
 
 /// 流媒体视频视图模型.
 @Observable
