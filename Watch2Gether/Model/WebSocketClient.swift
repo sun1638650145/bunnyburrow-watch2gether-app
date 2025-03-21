@@ -220,7 +220,7 @@ class WebSocketClient {
                     break
                 }
             case .failure(let error):
-                print("接收消息失败:\(error.localizedDescription)")
+                print("接收消息失败: \(error.localizedDescription)")
             }
 
             self.receiveMessage()
