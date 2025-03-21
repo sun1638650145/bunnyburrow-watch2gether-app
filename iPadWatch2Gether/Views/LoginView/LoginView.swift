@@ -161,14 +161,11 @@ struct LoginView: View {
     ///   - strictMode: 严格模式, 如果为`true`, 则立刻校验是否合法.
     private func validateStreaming(strictMode: Bool = true) {
         if strictMode {
-            if let url = url?.trimmingCharacters(in: .whitespacesAndNewlines), let url = URL(string: url) {
-                if url.scheme == "file" {
-                    isStreamingInvalid = false
-                } else if url.scheme == "http" || url.scheme == "https", url.host() != nil {
-                    isStreamingInvalid = false
-                } else {
-                    isStreamingInvalid = true
-                }
+            if let url = url?.trimmingCharacters(in: .whitespacesAndNewlines), let url = URL(string: url),
+               url.isFileURL || url.scheme == "http" || url.scheme == "https",
+               /// 如果是文件URL则主机地址可以为nil.
+               url.isFileURL || url.host() != nil {
+                isStreamingInvalid = false
             } else {
                 isStreamingInvalid = true
             }
