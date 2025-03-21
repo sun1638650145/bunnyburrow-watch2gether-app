@@ -76,10 +76,10 @@ struct LoginView: View {
 
                 ZStack(alignment: .trailing, content: {
                     StyledPlaceholderTextField(
-                        "请输入流媒体视频源",
+                        "请输入流媒体视频源或选择本地视频源",
                         text: $url,
                         placeholderColor: .textFieldPlaceholder,
-                        errorMessage: isStreamingInvalid && focusedField == .url ? "流媒体视频源为空或者不合法, 请重新输入视频源并重试." : nil,
+                        errorMessage: isStreamingInvalid && focusedField == .url ? "视频源为空或者不合法, 请重新输入视频源并重试." : nil,
                         onTextChange: {
                             validateStreaming(strictMode: false)
                         }

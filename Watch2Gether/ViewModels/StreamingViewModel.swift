@@ -71,6 +71,14 @@ class StreamingViewModel {
     /// 视频源URL.
     private var url: URL {
         didSet {
+            /// 选择本地视频源时, 获取访问安全域资源的权限.
+            let accessing = url.startAccessingSecurityScopedResource()
+            defer {
+                if accessing {
+                    url.stopAccessingSecurityScopedResource()
+                }
+            }
+
             /// 当URL被赋新值后更新播放器.
             player.replaceCurrentItem(with: AVPlayerItem(url: url))
         }
