@@ -7,7 +7,9 @@
 //  Created by Steve R. Sun on 2024/11/7.
 //
 
+import AppKit
 import SwiftUI
+import UniformTypeIdentifiers
 
 /// `AvatarUploader`是用于头像上传的视图, 允许用户上传并展示头像.
 struct AvatarUploader: View {
@@ -21,7 +23,7 @@ struct AvatarUploader: View {
     var body: some View {
         Button(action: {
             appSettings.isPanelActive = true
-            ImagePicker(selectedImage: $avatar).present()
+            present()
             appSettings.isPanelActive = false
         }, label: {
             if let avatar = avatar {
@@ -50,6 +52,30 @@ struct AvatarUploader: View {
                 NSCursor.pop()
             }
         })
+    }
+
+    /// 展示`NSOpenPanel`允许用户上传图片.
+    private func present() {
+        let openPanel = NSOpenPanel()
+
+        /// 目前允许用户选择GIF, HEIC(HEIF), JPEG(JPG), PNG和SVG格式的图片文件.
+        openPanel.allowedContentTypes = [.gif, .heic, .heif, .jpeg, .png, .svg]
+
+        /// 作为模态窗口展示.
+        let response = openPanel.runModal()
+
+        /// 使用主线程执行, 提高稳定性.
+        DispatchQueue.main.async {
+            if response == .OK {
+                if let url = openPanel.url,
+                   let image = NSImage(contentsOf: url) {
+                    /// 调整到350x350像素以内的大小并转换成Base-64编码的字符串.
+                    self.avatar = image
+                        .resize(within: NSSize(width: 350, height: 350))
+                        .toBase64()
+                }
+            }
+        }
     }
 }
 
