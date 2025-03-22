@@ -16,7 +16,8 @@ struct VideoPickerViewController: UIViewControllerRepresentable {
     @Binding var selectedVideo: String?
 
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
-        let viewController = UIDocumentPickerViewController(forOpeningContentTypes: [.movie])
+        /// 目前允许用户选择MPEG-4格式的视频.
+        let viewController = UIDocumentPickerViewController(forOpeningContentTypes: [.mpeg4Movie])
 
         /// 禁止用户选择多个文件.
         viewController.allowsMultipleSelection = false

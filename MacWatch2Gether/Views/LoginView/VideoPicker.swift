@@ -9,6 +9,7 @@
 
 import AppKit
 import SwiftUI
+import UniformTypeIdentifiers
 
 /// `VideoPicker`是用于视频选择的视图, 允许用户选择一个本地视频文件.
 struct VideoPicker: View {
@@ -43,8 +44,8 @@ struct VideoPicker: View {
     private func present() {
         let openPanel = NSOpenPanel()
 
-        /// 目前允许用户选择MPEG-4格式的视频.
-        openPanel.allowedContentTypes = [.mpeg4Movie]
+        /// 目前允许用户选择MPEG-2和MPEG-4格式的视频.
+        openPanel.allowedContentTypes = [.mpeg2TransportStream, .mpeg4Movie]
 
         /// 作为模态窗口展示.
         let response = openPanel.runModal()
