@@ -12,9 +12,9 @@ import Observation
 /// 应用设置状态信息.
 @Observable
 class AppSettings {
-    /// 状态信息: 激活`ImagePicker`后会提示登录页面禁用(灰白色遮罩), 须优先上传头像.
+    /// 状态信息: 激活`NSOpenPanel`后会提示当前页面禁用(灰白色遮罩), 须优先上传或者选择文件.
     #if os(macOS)
-    var isImagePickerActive: Bool = false
+    var isPanelActive: Bool = false
     #endif
 
     /// 状态信息: 视频播放器全屏状态.

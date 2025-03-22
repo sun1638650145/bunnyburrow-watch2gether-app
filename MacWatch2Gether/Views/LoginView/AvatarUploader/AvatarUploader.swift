@@ -20,9 +20,9 @@ struct AvatarUploader: View {
 
     var body: some View {
         Button(action: {
-            appSettings.isImagePickerActive = true
+            appSettings.isPanelActive = true
             ImagePicker(selectedImage: $avatar).present()
-            appSettings.isImagePickerActive = false
+            appSettings.isPanelActive = false
         }, label: {
             if let avatar = avatar {
                 Image(base64: avatar)

@@ -101,7 +101,7 @@ struct LoginView: View {
                     .padding(5)
             }
 
-            if appSettings.isImagePickerActive {
+            if appSettings.isPanelActive {
                 Color.white
                     .opacity(0.3)
             }

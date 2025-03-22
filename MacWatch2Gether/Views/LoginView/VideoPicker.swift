@@ -14,6 +14,7 @@ import UniformTypeIdentifiers
 /// `VideoPicker`是用于视频选择的视图, 允许用户选择一个本地视频文件.
 struct VideoPicker: View {
     @Binding var url: String?
+    @Environment(AppSettings.self) var appSettings
 
     init(_ url: Binding<String?>) {
         self._url = url
@@ -21,7 +22,9 @@ struct VideoPicker: View {
 
     var body: some View {
         Button(action: {
+            appSettings.isPanelActive = true
             present()
+            appSettings.isPanelActive = false
         }, label: {
             Image(systemName: "document.badge.plus.fill")
                 .resizable()
@@ -64,5 +67,8 @@ struct VideoPicker: View {
 #Preview {
     @Previewable @State var url: String?
 
+    let appSettings = AppSettings()
+
     VideoPicker($url)
+        .environment(appSettings)
 }
