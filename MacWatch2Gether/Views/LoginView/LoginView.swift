@@ -60,15 +60,20 @@ struct LoginView: View {
                     }
                 )
 
-                StyledPlaceholderTextField(
-                    "请输入流媒体视频视频源",
-                    text: $url,
-                    placeholderColor: .textFieldPlaceholder,
-                    errorMessage: isStreamingInvalid ? "流媒体视频源为空或者不合法, 请重新输入视频源并重试." : nil,
-                    onTextChange: {
-                        validateStreaming(strictMode: false)
-                    }
-                )
+                ZStack(alignment: .trailing, content: {
+                    StyledPlaceholderTextField(
+                        "请输入流媒体视频视频源或选择本地视频源",
+                        text: $url,
+                        placeholderColor: .textFieldPlaceholder,
+                        errorMessage: isStreamingInvalid ? "视频源为空或者不合法, 请重新输入视频源并重试." : nil,
+                        onTextChange: {
+                            validateStreaming(strictMode: false)
+                        }
+                    )
+
+                    VideoPicker($url)
+                        .padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 20))
+                })
 
                 StyledPlaceholderTextField(
                     "请输入WebSocket服务地址",
@@ -161,7 +166,9 @@ struct LoginView: View {
     private func validateStreaming(strictMode: Bool = true) {
         if strictMode {
             if let url = url?.trimmingCharacters(in: .whitespacesAndNewlines), let url = URL(string: url),
-               url.scheme == "http" || url.scheme == "https", url.host() != nil {
+               url.isFileURL || url.scheme == "http" || url.scheme == "https",
+               /// 如果是文件URL则主机地址可以为nil.
+               url.isFileURL || url.host() != nil {
                 isStreamingInvalid = false
             } else {
                 isStreamingInvalid = true
