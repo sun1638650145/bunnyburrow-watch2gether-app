@@ -14,13 +14,11 @@ import SwiftUI
 /// 负责显示聊天消息列表, 聊天消息输入框以及发送按钮.
 struct ConversationSpace: View {
     @Environment(User.self) var user
+    @Environment(MessageStoreViewModel.self) var messageStoreViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
     /// 聊天消息变量.
     @State private var message: String = ""
-
-    /// 聊天消息列表变量.
-    @State private var messages: [Message] = []
 
     /// 禁止发送按钮变量.
     private var isDisabled: Bool {
@@ -34,7 +32,7 @@ struct ConversationSpace: View {
 
     var body: some View {
         VStack(spacing: 0, content: {
-            MessagesList(messages)
+            MessagesList(messageStoreViewModel.messages)
 
             MessageInput($message, onMessageSend: sendMessage, isDisabled: isDisabled)
         })
@@ -54,7 +52,7 @@ struct ConversationSpace: View {
     ///   - clientID: 用户的客户端ID.
     private func receiveMessage(message: String, clientID: UInt) {
         /// 发送时聊天消息已经去除过首尾空格.
-        messages.append(Message(content: message, clientID: clientID))
+        messageStoreViewModel.addMessage(message: Message(content: message, clientID: clientID))
     }
 
     /// 发送聊天消息.
@@ -74,7 +72,7 @@ struct ConversationSpace: View {
         ])
 
         /// 存储发送的聊天消息.
-        messages.append(Message(content: trimmedMessage, clientID: user.clientID))
+        messageStoreViewModel.addMessage(message: Message(content: trimmedMessage, clientID: user.clientID))
 
         /// 发送聊天消息后清空输入框.
         message = ""
@@ -84,10 +82,12 @@ struct ConversationSpace: View {
 #Preview {
     let user = User()
     let friendsViewModel = FriendsViewModel()
+    let messageStoreViewModel = MessageStoreViewModel()
     let webSocketClient = WebSocketClient()
 
     ConversationSpace()
         .environment(user)
         .environment(friendsViewModel)
+        .environment(messageStoreViewModel)
         .environment(webSocketClient)
 }
