@@ -22,6 +22,9 @@ class WebSocketClient {
     /// 事件发布者字典, 键为事件名称, 值为`PassthroughSubject`.
     private var eventPublishers: [String: PassthroughSubject<Any, Never>] = [:]
 
+    /// 从WebSocket服务器接收到的消息的事件发布者.
+    private var messagePublisher = PassthroughSubject<URLSessionWebSocketTask.Message, Never>()
+
     /// 当前的WebSocket任务.
     private var socket: URLSessionWebSocketTask?
 
@@ -83,7 +86,9 @@ class WebSocketClient {
             "user": user.toJSON()
         ])
 
+        /// 接收并处理WebSocket服务器的消息.
         self.receiveMessage()
+        self.handleWebSocketMessage()
     }
 
     /// 断开与WebSocket服务器的连接.
@@ -215,17 +220,11 @@ class WebSocketClient {
         self.emit(eventName: "openModal", params: (data["command"], data["user"]["clientID"].uIntValue))
     }
 
-    /// 处理WebSocket服务器的消息.
-    private func receiveMessage() {
-        guard let socket = socket
-        else {
-            print("尚未建立WebSocket连接; 或WebSocket连接已断开不再继续处理消息.")
-            return
-        }
-
-        socket.receive(completionHandler: { result in
-            switch result {
-            case .success(let message):
+    /// 将收到的WebSocket消息分发处理(订阅`messagePublisher`).
+    private func handleWebSocketMessage() {
+        messagePublisher
+            /// 将收到的消息根据操作类型进行分发.
+            .sink(receiveValue: { message in
                 switch message {
                 case .string(let string):
                     let data = JSON(string.data(using: .utf8)!)["data"]
@@ -243,6 +242,24 @@ class WebSocketClient {
                 default:
                     break
                 }
+            })
+
+            /// 将消息事件发布者保存到取消器集合中.
+            .store(in: &cancellables)
+    }
+
+    /// 接收来自WebSocket服务器的消息(使用`messagePublisher`发布结果).
+    private func receiveMessage() {
+        guard let socket = socket
+        else {
+            print("尚未建立WebSocket连接; 或WebSocket连接已断开不再继续处理消息.")
+            return
+        }
+
+        socket.receive(completionHandler: { result in
+            switch result {
+            case .success(let message):
+                self.messagePublisher.send(message)
             case .failure(let error):
                 print("接收消息失败: \(error.localizedDescription)")
             }
