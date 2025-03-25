@@ -171,6 +171,50 @@ class WebSocketClient {
         publisher.send(params)
     }
 
+    /// 处理WebSocket服务器操作类型为`chat`的消息, `chat`操作用于处理聊天消息.
+    ///
+    /// - Parameters:
+    ///   - data: 收到的数据.
+    private func handleChatAction(_ data: JSON) {
+        /// 接收聊天消息.
+        self.emit(
+            eventName: "receiveMessage",
+            params: (data["message"].stringValue, data["user"]["clientID"].uIntValue)
+        )
+    }
+
+    /// 处理WebSocket服务器操作类型为`connect`的消息, `connect`操作用于管理WebSocket连接状态, 包括登录, 确认(回应)和登出.
+    ///
+    /// - Parameters:
+    ///   - data: 收到的数据.
+    private func handleConnectAction(_ data: JSON) {
+        if data["status"] == "ack" {
+            /// 添加好友.
+            self.emit(eventName: "addFriend", params: User(from: data["user"]))
+        } else if data["status"] == "login" {
+            /// 添加好友并同时回应自己的用户信息.
+            self.emit(eventName: "addFriend", params: User(from: data["user"]))
+            self.unicast([
+                "action": "connect",
+                "status": "ack",
+                "user": self.user!.toJSON()
+            ], to: data["user"]["clientID"].uIntValue)
+        } else if data["status"] == "logout" {
+            /// 标记好友离线.
+            self.emit(eventName: "offlineFriend", params: data["user"]["clientID"].uIntValue)
+        }
+    }
+
+    /// 处理WebSocket服务器操作类型为`player`的消息, `player`操作用于同步视频播放状态, 包括控制视频的播放/暂停, 修改播放进度和调整播放速率.
+    ///
+    /// - Parameters:
+    ///   - data: 收到的数据.
+    private func handlePlayerAction(_ data: JSON) {
+        /// 同步播放器状态并打开播放器模态框.
+        self.emit(eventName: "receivePlayerSync", params: data["command"])
+        self.emit(eventName: "openModal", params: (data["command"], data["user"]["clientID"].uIntValue))
+    }
+
     /// 处理WebSocket服务器的消息.
     private func receiveMessage() {
         guard let socket = socket
@@ -188,31 +232,11 @@ class WebSocketClient {
 
                     switch data["action"] {
                     case "chat":
-                        /// 接收聊天消息.
-                        self.emit(
-                            eventName: "receiveMessage",
-                            params: (data["message"].stringValue, data["user"]["clientID"].uIntValue)
-                        )
+                        self.handleChatAction(data)
                     case "connect":
-                        if data["status"] == "ack" {
-                            /// 添加好友.
-                            self.emit(eventName: "addFriend", params: User(from: data["user"]))
-                        } else if data["status"] == "login" {
-                            /// 添加好友并同时回应自己的用户信息.
-                            self.emit(eventName: "addFriend", params: User(from: data["user"]))
-                            self.unicast([
-                                "action": "connect",
-                                "status": "ack",
-                                "user": self.user!.toJSON()
-                            ], to: data["user"]["clientID"].uIntValue)
-                        } else if data["status"] == "logout" {
-                            /// 标记好友离线.
-                            self.emit(eventName: "offlineFriend", params: data["user"]["clientID"].uIntValue)
-                        }
+                        self.handleConnectAction(data)
                     case "player":
-                        /// 同步播放器状态并打开播放器模态框.
-                        self.emit(eventName: "receivePlayerSync", params: data["command"])
-                        self.emit(eventName: "openModal", params: (data["command"], data["user"]["clientID"].uIntValue))
+                        self.handlePlayerAction(data)
                     default:
                         break
                     }
