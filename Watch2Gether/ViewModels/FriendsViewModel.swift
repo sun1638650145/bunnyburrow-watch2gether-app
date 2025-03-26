@@ -7,6 +7,7 @@
 //  Created by Steve R. Sun on 2024/11/22.
 //
 
+import Foundation
 import Observation
 
 import OrderedCollections
@@ -25,9 +26,12 @@ class FriendsViewModel {
         if let existingFriend = self.friends[friend.clientID] {
             existingFriend.updateOnlineStatus(to: true)
 
-            /// 移除好友, 可以使得好友添加字典到末尾.
-            self.friends.removeValue(forKey: friend.clientID)
-            self.friends[friend.clientID] = existingFriend
+            /// 使用主线程执行, 避免在移除好友过程中UI更新导致应用崩溃.
+            DispatchQueue.main.async {
+                /// 移除好友, 可以使得好友添加字典到末尾.
+                self.friends.removeValue(forKey: friend.clientID)
+                self.friends[friend.clientID] = existingFriend
+            }
         } else {
             self.friends[friend.clientID] = Friend(friend.avatar, friend.name, onlineStatus: true)
         }
