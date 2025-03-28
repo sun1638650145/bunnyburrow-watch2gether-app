@@ -17,6 +17,8 @@ struct HomeView: View {
     var body: some View {
         if appSettings.isFullScreen {
             VideoPlayer()
+                /// 隐藏主页指示器(Home indicator).
+                .persistentSystemOverlays(.hidden)
                 .transition(.scale(scale: 1.1))
         } else {
             GeometryReader(content: { geometry in
