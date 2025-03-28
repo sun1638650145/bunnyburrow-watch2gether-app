@@ -17,8 +17,9 @@ struct HomeView: View {
     var body: some View {
         if appSettings.isFullScreen {
             VideoPlayer()
-                /// 隐藏主页指示器(Home indicator).
+                /// 隐藏主页指示器(Home indicator)和状态栏.
                 .persistentSystemOverlays(.hidden)
+                .statusBarHidden(true)
                 .transition(.scale(scale: 1.1))
         } else {
             GeometryReader(content: { geometry in
@@ -49,6 +50,8 @@ struct HomeView: View {
                 }
             })
             .ignoresSafeArea(.keyboard)
+            /// 显示状态栏.
+            .statusBarHidden(false)
         }
     }
 }
