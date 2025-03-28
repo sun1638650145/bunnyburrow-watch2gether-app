@@ -34,7 +34,7 @@ struct VideoPlayer: View {
                 .ignoresSafeArea()
 
             VideoPlayerViewController(player: streamingViewModel.player)
-                .ignoresSafeArea(edges: .bottom)
+                .ignoresSafeArea(edges: [.bottom, .horizontal])
 
             VolumeControl()
 
