@@ -152,10 +152,7 @@ class WebSocketClient {
         self.broadcast([
             "action": "connect",
             "status": "login",
-            "user": [
-                /// 只发送客户端ID以减小网络开销.
-                "clientID": user.clientID
-            ]
+            "user": user.toJSON()
         ])
 
         self.receiveMessage()
