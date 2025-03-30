@@ -64,6 +64,9 @@ struct Watch2GetherApp: App {
                 webSocketClient.disconnect()
             }
         })
+        /// 在macOS上隐藏标题栏.
+        #if os(macOS)
         .windowStyle(HiddenTitleBarWindowStyle())
+        #endif
     }
 }
