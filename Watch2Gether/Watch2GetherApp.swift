@@ -64,5 +64,6 @@ struct Watch2GetherApp: App {
                 webSocketClient.disconnect()
             }
         })
+        .windowStyle(HiddenTitleBarWindowStyle())
     }
 }
