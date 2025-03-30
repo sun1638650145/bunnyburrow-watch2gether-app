@@ -20,12 +20,14 @@ extension View {
         self.modifier(Copyright())
     }
 
-    /// 为`View`添加点击隐藏键盘的功能.
+    /// 为`View`添加点击隐藏键盘的功能(只适用于`iOS`平台).
     ///
     /// - Returns: 应用`hideKeyboard`后的视图.
+    #if os(iOS)
     func hideKeyboard() -> some View {
         self.modifier(HideKeyboard())
     }
+    #endif
 
     /// 为`View`添加键盘自适应的功能(只适用于`iOS`平台).
     ///
