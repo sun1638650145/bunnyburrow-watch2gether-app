@@ -151,6 +151,7 @@
 				Views/ViewModifiers/Gestures/DoubleTapGesture.swift,
 				Views/ViewModifiers/Gestures/DragGestureModifier.swift,
 				Views/ViewModifiers/Gestures/ScaleGesture.swift,
+				Views/ViewModifiers/HideKeyboard.swift,
 				Views/ViewModifiers/KeyboardAdaptive.swift,
 				Watch2GetherApp.swift,
 			);
