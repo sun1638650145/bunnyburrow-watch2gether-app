@@ -23,7 +23,7 @@ struct PlaybackControlsCommands: Commands {
     @FocusedValue(WebSocketClient.self) private var webSocketClient
 
     var body: some Commands {
-        CommandMenu("控制", content: {
+        CommandMenu("Controls", content: {
             Group {
                 /// 播放控制按钮.
                 Button(action: {
@@ -41,7 +41,7 @@ struct PlaybackControlsCommands: Commands {
                         sendPlayerSync(command: "play")
                     }
                 }, label: {
-                    Text(streamingViewModel?.isPlaying == true ? "暂停" : "播放")
+                    Text(streamingViewModel?.isPlaying == true ? "Pause" : "Play")
                 })
                 .keyboardShortcut(.return, modifiers: .command)
 
@@ -58,7 +58,7 @@ struct PlaybackControlsCommands: Commands {
                     streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
                     sendPlayerSync(command: ["newProgress": newProgress])
                 }, label: {
-                    Text("快退30秒")
+                    Text("Skip Back 30s")
                 })
                 .keyboardShortcut("A", modifiers: [.command, .shift])
 
@@ -75,7 +75,7 @@ struct PlaybackControlsCommands: Commands {
                     streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
                     sendPlayerSync(command: ["newProgress": newProgress])
                 }, label: {
-                    Text("快进30秒")
+                    Text("Skip Ahead 30s")
                 })
                 .keyboardShortcut("D", modifiers: [.command, .shift])
             }
@@ -95,7 +95,7 @@ struct PlaybackControlsCommands: Commands {
 
                 streamingViewModel.isMuted.toggle()
             }, label: {
-                Text(streamingViewModel?.isMuted == true ? "取消静音" : "静音")
+                Text(streamingViewModel?.isMuted == true ? "Unmute" : "Mute")
             })
             .keyboardShortcut("M", modifiers: [.command, .shift])
 
@@ -113,7 +113,7 @@ struct PlaybackControlsCommands: Commands {
                 streamingViewModel.isMuted = false
                 streamingViewModel.volume = min(streamingViewModel.volume + 0.1, 1)
             }, label: {
-                Text("音量+")
+                Text("Volume Up")
             })
             .disabled(streamingViewModel?.volume ?? 0 >= 1)
             .keyboardShortcut("W", modifiers: [.command, .shift])
@@ -132,7 +132,7 @@ struct PlaybackControlsCommands: Commands {
                 streamingViewModel.isMuted = false
                 streamingViewModel.volume = max(0, streamingViewModel.volume - 0.1)
             }, label: {
-                Text("音量-")
+                Text("Volume Down")
             })
             .disabled(streamingViewModel?.volume ?? 0 <= 0)
             .keyboardShortcut("S", modifiers: [.command, .shift])
@@ -163,7 +163,7 @@ struct PlaybackControlsCommands: Commands {
                     appSettings.isFullScreen.toggle()
                 })
             }, label: {
-                Text(appSettings?.isFullScreen == true ? "退出全屏幕" : "进入全屏幕")
+                Text(appSettings?.isFullScreen == true ? "Exit Full Screen" : "Full Screen")
             })
             .disabled(appSettings?.isLoggedIn != true)
             .keyboardShortcut(.escape, modifiers: .command)
