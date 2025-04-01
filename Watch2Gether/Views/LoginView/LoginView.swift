@@ -55,7 +55,7 @@ struct LoginView: View {
     var body: some View {
         ZStack {
             VStack {
-                Text("一起看电影")
+                Text("Watch2Gether")
                     .bold()
                     .font(.largeTitle)
                     .foregroundStyle(Color.foreground)
