@@ -1,13 +1,13 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
-    "%@x" : {
+    "%@×" : {
       "comment" : "视频播放器的播放速率.",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@x"
+            "value" : "%@×"
           }
         },
         "zh-Hans" : {
@@ -165,9 +165,21 @@
     "Online Friends: %lld" : {
       "localizations" : {
         "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Online Friends: %lld"
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Online Friend: %lld"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Online Friends: %lld"
+                }
+              }
+            }
           }
         },
         "zh-Hans" : {
