@@ -7,6 +7,7 @@
 //  Created by Steve R. Sun on 2024/12/23.
 //
 
+import Foundation
 import SwiftUI
 
 /// `StyledPlaceholderTextField`是包含自定义样式占位文本的文本输入框视图.
@@ -28,22 +29,22 @@ struct StyledPlaceholderTextField: View {
     }
 
     /// 错误信息文本.
-    private var errorMessage: String?
+    private var errorMessage: LocalizedStringResource?
 
     /// 输入文本值更改时调用的闭包.
     private var onTextChange: () -> Void
 
     /// 占位文本.
-    private let placeholder: String
+    private let placeholder: LocalizedStringResource
 
     /// 占位文本的颜色.
     private let placeholderColor: Color
 
     init(
-        _ placeholder: String,
+        _ placeholder: LocalizedStringResource,
         text: Binding<String?>,
         placeholderColor: Color = .secondary,
-        errorMessage: String? = nil,
+        errorMessage: LocalizedStringResource? = nil,
         onTextChange: @escaping () -> Void = {}
     ) {
         self.placeholder = placeholder
