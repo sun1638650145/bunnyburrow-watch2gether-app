@@ -25,7 +25,7 @@ struct VideoPlayer: View {
     @State private var isModalOpen: Bool = false
 
     /// 模态视图显示的通知信息变量.
-    @State private var notificationMessage: String = ""
+    @State private var notificationMessage: LocalizedStringResource = ""
 
     var body: some View {
         ZStack {
@@ -110,14 +110,14 @@ struct VideoPlayer: View {
 
         if let command = command.string {
             if command == "play" {
-                notificationMessage = "用户\(friend.name)播放了当前内容."
+                notificationMessage = "Playing for \(friend.name) now."
             } else if command == "pause" {
-                notificationMessage = "用户\(friend.name)暂停了当前内容."
+                notificationMessage = "\(friend.name) paused playback."
             }
         } else if command["newProgress"].double != nil {
-            notificationMessage = "用户\(friend.name)修改了播放进度."
+            notificationMessage = "\(friend.name) adjusted the playback."
         } else if command["playbackRate"].float != nil {
-            notificationMessage = "用户\(friend.name)修改了播放速率."
+            notificationMessage = "\(friend.name) changed the playback speed."
         }
 
         /// 设置模态框1秒钟后自动关闭.
