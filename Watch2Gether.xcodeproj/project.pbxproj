@@ -167,7 +167,6 @@
 				Extensions/Font.swift,
 				Extensions/String.swift,
 				Extensions/UIImage.swift,
-				Localizable.xcstrings,
 				"Preview Content/Preview Assets.xcassets",
 				Views/ContentView.swift,
 				Views/HomeView/HomeView.swift,
