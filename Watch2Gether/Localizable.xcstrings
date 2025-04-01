@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "zh-Hans",
   "strings" : {
+    "%@x" : {
+      "comment" : "视频播放器的播放速率.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@x"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@倍"
+          }
+        }
+      }
+    },
     "Clear" : {
       "localizations" : {
         "en" : {
@@ -141,6 +158,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "昵称不能为空, 请输入昵称并重试."
+          }
+        }
+      }
+    },
+    "Online Friends: %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Online Friends: %lld"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在线好友: %lld"
+          }
+        }
+      }
+    },
+    "Send" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "发送"
           }
         }
       }

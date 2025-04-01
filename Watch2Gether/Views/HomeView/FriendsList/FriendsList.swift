@@ -20,7 +20,7 @@ struct FriendsList: View {
 
     var body: some View {
         VStack(alignment: .leading, content: {
-            Text("在线好友: \(onlineFriends.count)")
+            Text("Online Friends: \(onlineFriends.count)")
                 .foregroundStyle(Color.foreground)
                 .frame(height: 22)
                 .padding(10)

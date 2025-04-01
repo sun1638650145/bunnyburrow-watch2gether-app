@@ -39,12 +39,12 @@ struct PlaybackRateMenu: View {
                     streamingViewModel.resetHidePlaybackControlsTimer()
                     onPlaybackChange(rate)
                 }, label: {
-                    Text("\(rate.formattedPlaybackRate())倍")
+                    Text("\(rate.formattedPlaybackRate())x")
                 })
                 .disabled(rate == streamingViewModel.currentPlaybackRate)
             })
         }, label: {
-            Text("\(streamingViewModel.currentPlaybackRate.formattedPlaybackRate())倍")
+            Text("\(streamingViewModel.currentPlaybackRate.formattedPlaybackRate())x")
                 .bold()
                 .foregroundStyle(Color.foreground)
                 .padding(5)

@@ -30,7 +30,7 @@ struct MessageInput: View {
             MessageField($message, onMessageSubmit: onMessageSend)
 
             Button(action: onMessageSend, label: {
-                Text("发送")
+                Text("Send")
                     .frame(width: 100, height: 40)
             })
             .buttonStyle(SendButtonStyle(isDisabled: isDisabled))
