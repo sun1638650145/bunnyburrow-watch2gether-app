@@ -64,10 +64,12 @@ struct LoginView: View {
                 AvatarUploader($avatar)
 
                 StyledPlaceholderTextField(
-                    "请输入昵称",
+                    "Enter your nickname",
                     text: $name,
                     placeholderColor: .textFieldPlaceholder,
-                    errorMessage: isNameEmpty && focusedField == .name ? "昵称不能为空, 请输入昵称并重试." : nil,
+                    errorMessage: isNameEmpty && focusedField == .name
+                    ? "Nickname cannot be empty. Please try again."
+                    : nil,
                     onTextChange: {
                         checkName(strictMode: false)
                     }
@@ -76,10 +78,12 @@ struct LoginView: View {
 
                 ZStack(alignment: .trailing, content: {
                     StyledPlaceholderTextField(
-                        "请输入流媒体视频源或选择本地视频源",
+                        "Enter streaming URL or select local file",
                         text: $url,
                         placeholderColor: .textFieldPlaceholder,
-                        errorMessage: isStreamingInvalid && focusedField == .url ? "视频源为空或者不合法, 请重新输入视频源并重试." : nil,
+                        errorMessage: isStreamingInvalid && focusedField == .url
+                        ? "Invalid or missing video source. Please try again."
+                        : nil,
                         onTextChange: {
                             validateStreaming(strictMode: false)
                         }
@@ -91,11 +95,11 @@ struct LoginView: View {
                 })
 
                 StyledPlaceholderTextField(
-                    "请输入WebSocket服务地址",
+                    "Enter WebSocket URL",
                     text: $websocketUrl,
                     placeholderColor: .textFieldPlaceholder,
                     errorMessage: isWebSocketInvalid && focusedField == .websocketUrl
-                    ? "WebSocket服务地址为空或者不合法, 请重新输入地址并重试."
+                    ? "Invalid WebSocket URL. Please try again."
                     : nil,
                     onTextChange: {
                         validateWebSocket(strictMode: false)
@@ -105,7 +109,7 @@ struct LoginView: View {
 
                 HStack(spacing: 0, content: {
                     Button(action: handleLogin, label: {
-                        Text("加入")
+                        Text("Login")
                             .frame(width: hasUserInput ? 170 : 350, height: 50)
                     })
                     .buttonStyle(LoginButtonStyle())
@@ -113,7 +117,7 @@ struct LoginView: View {
 
                     if hasUserInput {
                         Button(action: clearUserInput, label: {
-                            Text("清空")
+                            Text("Clear")
                                 .frame(width: 170, height: 50)
                         })
                         .buttonStyle(ClearButtonStyle())
