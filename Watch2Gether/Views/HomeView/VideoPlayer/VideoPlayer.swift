@@ -138,7 +138,7 @@ struct VideoPlayer: View {
         } else if command["newProgress"].double != nil {
             notificationMessage = "\(friend.name) adjusted the playback."
         } else if command["playbackRate"].float != nil {
-            notificationMessage = "\(friend.name) changed the playback speed."
+            notificationMessage = "\(friend.name) changed the playback rate."
         }
 
         /// 设置模态框1秒钟后自动关闭.

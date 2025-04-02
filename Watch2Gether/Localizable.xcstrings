@@ -17,12 +17,12 @@
         }
       }
     },
-    "%@ changed the playback speed." : {
+    "%@ changed the playback rate." : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ changed the playback speed."
+            "value" : "%@ changed the playback rate."
           }
         },
         "zh-Hans" : {
