@@ -33,6 +33,9 @@ struct FriendsList: View {
                         .frame(width: 13, height: 13)
                         .foregroundStyle(Color.foreground)
                 })
+                #if os(macOS)
+                .buttonStyle(PlainButtonStyle())
+                #endif
 
                 Text("Online Friends: \(onlineFriends.count)")
                     .foregroundStyle(Color.foreground)
