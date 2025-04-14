@@ -13,6 +13,9 @@ import SwiftUI
 struct FriendsList: View {
     @Environment(FriendsViewModel.self) var friendsViewModel
 
+    /// 显示在线好友列表详细信息的变量.
+    @State private var showFriendsListDetail: Bool = true
+
     /// 在线好友列表.
     private var onlineFriends: [User] {
         return friendsViewModel.getOnlineFriendsList()
@@ -20,31 +23,47 @@ struct FriendsList: View {
 
     var body: some View {
         VStack(alignment: .leading, content: {
-            Text("Online Friends: \(onlineFriends.count)")
-                .foregroundStyle(Color.foreground)
-                .frame(height: 22)
-                .padding(10)
+            HStack {
+                Button(action: {
+                    showFriendsListDetail.toggle()
+                }, label: {
+                    Image(systemName: showFriendsListDetail ? "arrowtriangle.down.fill" : "arrowtriangle.up.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 13, height: 13)
+                        .foregroundStyle(Color.foreground)
+                })
 
-            ScrollView(.horizontal, content: {
-                HStack {
-                    ForEach(onlineFriends, content: { friend in
-                        VStack {
-                            Image(base64: friend.avatar ?? "")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .clipShape(Circle())
-                                .frame(width: 50, height: 50)
-                                .overlay(content: {
-                                    Circle().stroke(Color.avatarBorder, lineWidth: 2)
-                                })
+                Text("Online Friends: \(onlineFriends.count)")
+                    .foregroundStyle(Color.foreground)
+                    .frame(height: 22)
 
-                            MarqueeText(friend.name, duration: 6.0, color: .foreground, font: .footnote)
-                        }
-                        .frame(width: 60, height: 80)
-                    })
-                }
-            })
-            .padding(.leading, 10)
+                Spacer()
+            }
+            .padding(EdgeInsets(top: 10, leading: 10, bottom: showFriendsListDetail ? 2 : 10, trailing: 10))
+
+            if showFriendsListDetail {
+                ScrollView(.horizontal, content: {
+                    HStack {
+                        ForEach(onlineFriends, content: { friend in
+                            VStack {
+                                Image(base64: friend.avatar ?? "")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .clipShape(Circle())
+                                    .frame(width: 50, height: 50)
+                                    .overlay(content: {
+                                        Circle().stroke(Color.avatarBorder, lineWidth: 2)
+                                    })
+
+                                MarqueeText(friend.name, duration: 6.0, color: .foreground, font: .footnote)
+                            }
+                            .frame(width: 60, height: 80)
+                        })
+                    }
+                })
+                .padding(.leading, 10)
+            }
         })
     }
 }
