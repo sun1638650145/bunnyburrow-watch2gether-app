@@ -25,7 +25,9 @@ struct FriendsList: View {
         VStack(alignment: .leading, content: {
             HStack {
                 Button(action: {
-                    showFriendsListDetail.toggle()
+                    withAnimation(.easeInOut(duration: 1), {
+                        showFriendsListDetail.toggle()
+                    })
                 }, label: {
                     Image(systemName: showFriendsListDetail ? "arrowtriangle.down.fill" : "arrowtriangle.up.fill")
                         .resizable()
@@ -66,6 +68,8 @@ struct FriendsList: View {
                     }
                 })
                 .padding(.leading, 10)
+
+                Divider()
             }
         })
     }
