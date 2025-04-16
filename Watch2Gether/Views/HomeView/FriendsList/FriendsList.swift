@@ -34,14 +34,14 @@ struct FriendsList: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 13, height: 13)
                         .foregroundStyle(Color.foreground)
+
+                    Text("Online Friends: \(onlineFriends.count)")
+                        .foregroundStyle(Color.foreground)
+                        .frame(height: 22)
                 })
                 #if os(macOS)
                 .buttonStyle(PlainButtonStyle())
                 #endif
-
-                Text("Online Friends: \(onlineFriends.count)")
-                    .foregroundStyle(Color.foreground)
-                    .frame(height: 22)
 
                 Spacer()
             }
@@ -103,6 +103,10 @@ struct FriendsList: View {
         return friendsViewModel
     }
 
-    FriendsList()
-        .environment(friendsViewModel)
+    VStack {
+        FriendsList()
+            .environment(friendsViewModel)
+
+        Spacer()
+    }
 }
