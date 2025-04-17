@@ -36,7 +36,15 @@ class StreamingViewModel {
     }
 
     /// 播放状态: 是否正在播放.
-    var isPlaying: Bool = false
+    var isPlaying: Bool = false {
+        didSet {
+            if isPlaying {
+                sleepAssertionManager.preventSleep(with: "视频正在播放")
+            } else {
+                sleepAssertionManager.enableSleep()
+            }
+        }
+    }
 
     /// 播放状态: 剩余的播放时间(秒).
     var remainingTime: Double = 0.0
@@ -66,6 +74,9 @@ class StreamingViewModel {
 
     /// 用于自动隐藏音量相关视图的定时器.
     private var hideVolumeDisplayTimer: Timer = Timer()
+
+    /// 系统休眠状态管理器.
+    private var sleepAssertionManager = SleepAssertionManager()
 
     /// 视频源URL.
     private var url: URL {
