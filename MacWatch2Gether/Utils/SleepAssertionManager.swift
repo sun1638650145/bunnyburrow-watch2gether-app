@@ -18,7 +18,7 @@ class SleepAssertionManager {
     /// 允许系统进入休眠状态.
     func enableSleep() {
         let result = IOPMAssertionRelease(assertionID)
-        
+
         if result == kIOReturnSuccess {
             print("启用系统休眠.")
         }
@@ -36,7 +36,7 @@ class SleepAssertionManager {
             reason as CFString,
             &assertionID
         )
-        
+
         if result == kIOReturnSuccess {
             print("阻止系统休眠.")
         }

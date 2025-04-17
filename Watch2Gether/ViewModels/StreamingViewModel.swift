@@ -38,11 +38,13 @@ class StreamingViewModel {
     /// 播放状态: 是否正在播放.
     var isPlaying: Bool = false {
         didSet {
+            #if os(macOS)
             if isPlaying {
                 sleepAssertionManager.preventSleep(with: "视频正在播放")
             } else {
                 sleepAssertionManager.enableSleep()
             }
+            #endif
         }
     }
 
@@ -76,7 +78,9 @@ class StreamingViewModel {
     private var hideVolumeDisplayTimer: Timer = Timer()
 
     /// 系统休眠状态管理器.
+    #if os(macOS)
     private var sleepAssertionManager = SleepAssertionManager()
+    #endif
 
     /// 视频源URL.
     private var url: URL {
