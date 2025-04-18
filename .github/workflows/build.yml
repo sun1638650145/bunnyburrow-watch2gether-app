@@ -1,0 +1,38 @@
+name: build
+
+on:
+  push:
+    branches: [ 'master' ]
+  pull_request:
+    branches: [ 'master' ]
+
+jobs:
+  build:
+    runs-on: macos-latest # macos-14
+
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Lint with SwiftLint
+        run: |
+          brew install swiftlint
+          swiftlint
+      - name: Build for iOS
+        run: |
+          xcodebuild \
+          -project Watch2Gether.xcodeproj \
+          -scheme Watch2Gether \
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+          clean build analyze
+      - name: Build for iPadOS
+        run: |
+          xcodebuild \
+          -project Watch2Gether.xcodeproj \
+          -scheme iPadWatch2Gether \
+          -destination 'platform=iOS Simulator,name=iPad Pro 11-inch (M4)' \
+          clean build analyze
+      - name: Build for macOS
+        run: |
+          xcodebuild \
+          -project Watch2Gether.xcodeproj \
+          -scheme MacWatch2Gether \
+          clean build analyze
