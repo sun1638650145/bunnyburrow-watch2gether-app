@@ -22,6 +22,7 @@ jobs:
           -project Watch2Gether.xcodeproj \
           -scheme Watch2Gether \
           -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+          -skipPackagePluginValidation \
           clean build analyze
       - name: Build for iPadOS
         run: |
