@@ -37,4 +37,5 @@ jobs:
           xcodebuild \
           -project Watch2Gether.xcodeproj \
           -scheme MacWatch2Gether \
+          -skipPackagePluginValidation \
           clean build analyze
