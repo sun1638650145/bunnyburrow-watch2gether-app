@@ -30,6 +30,7 @@ jobs:
           -project Watch2Gether.xcodeproj \
           -scheme iPadWatch2Gether \
           -destination 'platform=iOS Simulator,name=iPad Pro 11-inch (M4)' \
+          -skipPackagePluginValidation \
           clean build analyze
       - name: Build for macOS
         run: |
