@@ -14,8 +14,6 @@ import AppKit
 import Foundation
 import SwiftUI
 
-import SwiftyJSON
-
 /// `PlaybackControls`是播放控制栏视图, 用于显示播放进度条和播放控制按钮.
 struct PlaybackControls: View {
     @Environment(AppSettings.self) var appSettings

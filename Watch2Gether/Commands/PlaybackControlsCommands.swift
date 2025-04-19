@@ -13,8 +13,6 @@ import AppKit
 #endif
 import SwiftUI
 
-import SwiftyJSON
-
 /// `PlaybackControlsCommands`是自定义命令菜单, 用于实现视频播放器的播放控制.
 struct PlaybackControlsCommands: Commands {
     @FocusedValue(AppSettings.self) private var appSettings
