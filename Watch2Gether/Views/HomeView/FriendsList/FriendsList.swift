@@ -25,7 +25,7 @@ struct FriendsList: View {
         VStack(alignment: .leading, content: {
             HStack {
                 Button(action: {
-                    withAnimation(.easeInOut(duration: 1), {
+                    withAnimation(.easeInOut(duration: 0.5), {
                         showFriendsListDetail.toggle()
                     })
                 }, label: {
