@@ -39,7 +39,6 @@
     },
     "NSHumanReadableCopyright" : {
       "comment" : "Copyright (human-readable)",
-      "extractionState" : "extracted_with_value",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -49,8 +48,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Copyright © 2024-2025 Steve R. Sun.\nAll rights reserved."
+            "state" : "translated",
+            "value" : "Copyright © 2024-2025 Steve R. Sun.\n保留一切权利。"
           }
         }
       }
