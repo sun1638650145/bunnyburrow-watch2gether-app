@@ -16,6 +16,9 @@ import SwiftyJSON
 /// WebSocket客户端.
 @Observable
 class WebSocketClient {
+    /// 用户信息.
+    var user: User?
+
     /// 用于存储事件监听器的取消器集合.
     private var cancellables = Set<AnyCancellable>()
 
@@ -30,9 +33,6 @@ class WebSocketClient {
 
     /// WebSocket服务地址.
     private var url: String?
-
-    /// 用户信息.
-    private var user: User?
 
     /// 向WebSocket服务器广播数据.
     ///

@@ -47,7 +47,7 @@ struct PlaybackControls: View {
             Spacer()
 
             ProgressBar(onSeekCompleted: {
-                sendPlayerSync(command: ["newProgress": streamingViewModel.currentTime])
+                webSocketClient.sendPlayerSync(command: ["newProgress": streamingViewModel.currentTime])
             })
 
             HStack {
@@ -59,7 +59,7 @@ struct PlaybackControls: View {
                     streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
                     streamingViewModel.resetHidePlaybackControlsTimer()
 
-                    sendPlayerSync(command: ["newProgress": newProgress])
+                    webSocketClient.sendPlayerSync(command: ["newProgress": newProgress])
                 }, label: {
                     Image(systemName: "30.arrow.trianglehead.counterclockwise")
                         .resizable()
@@ -75,11 +75,11 @@ struct PlaybackControls: View {
 
                     if streamingViewModel.isPlaying {
                         streamingViewModel.player.pause()
-                        sendPlayerSync(command: "pause")
+                        webSocketClient.sendPlayerSync(command: "pause")
                     } else {
                         /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
                         streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
-                        sendPlayerSync(command: "play")
+                        webSocketClient.sendPlayerSync(command: "play")
                     }
                 }, label: {
                     Image(systemName: streamingViewModel.isPlaying ? "pause.fill" : "play.fill")
@@ -102,7 +102,7 @@ struct PlaybackControls: View {
                     streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
                     streamingViewModel.resetHidePlaybackControlsTimer()
 
-                    sendPlayerSync(command: ["newProgress": newProgress])
+                    webSocketClient.sendPlayerSync(command: ["newProgress": newProgress])
                 }, label: {
                     Image(systemName: "30.arrow.trianglehead.clockwise")
                         .resizable()
@@ -116,7 +116,7 @@ struct PlaybackControls: View {
 
                 /// 播放速率菜单.
                 PlaybackRateMenu(playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 2], onPlaybackChange: { newRate in
-                    sendPlayerSync(command: ["playbackRate": newRate])
+                    webSocketClient.sendPlayerSync(command: ["playbackRate": newRate])
                 })
 
                 /// 全屏控制按钮.
@@ -154,21 +154,6 @@ struct PlaybackControls: View {
         #if os(macOS)
         .buttonStyle(PlainButtonStyle())
         #endif
-    }
-
-    /// 发送播放器状态同步命令.
-    ///
-    /// - Parameters:
-    ///   - command: 状态同步命令字段.
-    private func sendPlayerSync(command: JSON) {
-        webSocketClient.broadcast([
-            "action": "player",
-            "command": command,
-            "user": [
-                /// 只发送客户端ID以减小网络开销.
-                "clientID": user.clientID
-            ]
-        ])
     }
 }
 

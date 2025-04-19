@@ -58,11 +58,11 @@ struct VideoPlayer: View {
         .onDoubleTapGesture(perform: {
             if streamingViewModel.isPlaying {
                 streamingViewModel.player.pause()
-                sendPlayerSync(command: "pause")
+                webSocketClient.sendPlayerSync(command: "pause")
             } else {
                 /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
                 streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
-                sendPlayerSync(command: "play")
+                webSocketClient.sendPlayerSync(command: "play")
             }
         })
         .onScaleGesture(scaleDownPerform: {
@@ -101,21 +101,6 @@ struct VideoPlayer: View {
                 streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
             }
         }
-    }
-
-    /// 发送播放器状态同步命令.
-    ///
-    /// - Parameters:
-    ///   - command: 状态同步命令字段.
-    private func sendPlayerSync(command: String) {
-        webSocketClient.broadcast([
-            "action": "player",
-            "command": command,
-            "user": [
-                /// 只发送客户端ID以减小网络开销.
-                "clientID": user.clientID
-            ]
-        ])
     }
 
     /// 打开视频播放器模态框.
