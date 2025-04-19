@@ -27,18 +27,18 @@ struct PlaybackControlsCommands: Commands {
             Group {
                 /// 播放控制按钮.
                 Button(action: {
-                    guard let streamingViewModel = streamingViewModel
+                    guard let streamingViewModel = streamingViewModel, let webSocketClient = webSocketClient
                     else {
                         return
                     }
 
                     if streamingViewModel.isPlaying {
                         streamingViewModel.player.pause()
-                        sendPlayerSync(command: "pause")
+                        webSocketClient.sendPlayerSync(command: "pause")
                     } else {
                         /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
                         streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
-                        sendPlayerSync(command: "play")
+                        webSocketClient.sendPlayerSync(command: "play")
                     }
                 }, label: {
                     Text(streamingViewModel?.isPlaying == true ? "Pause" : "Play")
@@ -47,7 +47,7 @@ struct PlaybackControlsCommands: Commands {
 
                 /// 快退30秒按钮.
                 Button(action: {
-                    guard let streamingViewModel = streamingViewModel
+                    guard let streamingViewModel = streamingViewModel, let webSocketClient = webSocketClient
                     else {
                         return
                     }
@@ -56,7 +56,7 @@ struct PlaybackControlsCommands: Commands {
                     let newProgress = max(0, streamingViewModel.currentTime - 30)
 
                     streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
-                    sendPlayerSync(command: ["newProgress": newProgress])
+                    webSocketClient.sendPlayerSync(command: ["newProgress": newProgress])
                 }, label: {
                     Text("Skip Back 30s")
                 })
@@ -64,7 +64,7 @@ struct PlaybackControlsCommands: Commands {
 
                 /// 快进30秒按钮.
                 Button(action: {
-                    guard let streamingViewModel = streamingViewModel
+                    guard let streamingViewModel = streamingViewModel, let webSocketClient = webSocketClient
                     else {
                         return
                     }
@@ -73,7 +73,7 @@ struct PlaybackControlsCommands: Commands {
                     let newProgress = min(streamingViewModel.totalDuration, streamingViewModel.currentTime + 30)
 
                     streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
-                    sendPlayerSync(command: ["newProgress": newProgress])
+                    webSocketClient.sendPlayerSync(command: ["newProgress": newProgress])
                 }, label: {
                     Text("Skip Ahead 30s")
                 })
@@ -168,25 +168,5 @@ struct PlaybackControlsCommands: Commands {
             .disabled(appSettings?.isLoggedIn != true)
             .keyboardShortcut(.escape, modifiers: .command)
         })
-    }
-
-    /// 发送播放器状态同步命令.
-    ///
-    /// - Parameters:
-    ///   - command: 状态同步命令字段.
-    private func sendPlayerSync(command: JSON) {
-        guard let user = user, let webSocketClient = webSocketClient
-        else {
-            return
-        }
-
-        webSocketClient.broadcast([
-            "action": "player",
-            "command": command,
-            "user": [
-                /// 只发送客户端ID以减小网络开销.
-                "clientID": user.clientID
-            ]
-        ])
     }
 }
