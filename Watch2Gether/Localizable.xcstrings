@@ -428,7 +428,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "音量-"
+            "value" : "降低音量"
           }
         }
       }
@@ -444,7 +444,7 @@
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "音量+"
+            "value" : "提高音量"
           }
         }
       }

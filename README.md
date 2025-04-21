@@ -1,5 +1,7 @@
 # 一起看电影(iOS客户端) 🎦
 
+[![build](https://github.com/sun1638650145/bunnyburrow-watch2gether-app/actions/workflows/build.yml/badge.svg)](https://github.com/sun1638650145/bunnyburrow-watch2gether-app/actions/workflows/build.yml)
+
 <b>一起看电影</b>是[Bunnyburrow Software Project(兔窝镇软件计划)](https://github.com/sun1638650145/bunnyburrow)的第3个项目, 旨在帮助你搭建流媒体服务, 与朋友们共享观影时光. 🍿🎥
 
 <b>一起看电影(iOS客户端)</b>是该项目的移动端子项目, 采用SwiftUI开发, 支持iPhone, iPad和Mac的原生运行, 为你带来流畅的跨设备观影体验. 此外, 你也可以选择使用[Web客户端](https://github.com/sun1638650145/bunnyburrow-watch2gether-web).
