@@ -16,6 +16,9 @@ import SwiftyJSON
 /// WebSocket客户端.
 @Observable
 class WebSocketClient {
+    /// 用于确认是否存在某个客户端ID的好友的回调函数.
+    var hasFriend: ((UInt) -> Bool)?
+
     /// 用户信息.
     var user: User?
 
@@ -33,6 +36,9 @@ class WebSocketClient {
 
     /// WebSocket服务地址.
     private var url: String?
+
+    /// WebSocket数据格式协议版本.
+    private var version: String = "1.1"
 
     /// 向WebSocket服务器广播数据.
     ///
@@ -80,10 +86,12 @@ class WebSocketClient {
 
         /// WebSocket连接成功后, 自动向服务器发送登录用户的信息.
         self.socket?.resume()
+        // TODO: 用于兼容Web客户端使用的旧版握手协议, 升级Web客户端后会只发送客户端ID以减小网络开销(Steve).
         self.broadcast([
             "action": "connect",
             "status": "login",
-            "user": user.toJSON()
+            "user": user.toJSON(),
+            "version": version
         ])
 
         /// 接收并处理WebSocket服务器的消息.
@@ -105,7 +113,8 @@ class WebSocketClient {
             "user": [
                 /// 只发送客户端ID以减小网络开销.
                 "clientID": self.user!.clientID
-            ]
+            ],
+            "version": version
         ])
 
         /// 将所有的好友标记为离线.
@@ -152,7 +161,8 @@ class WebSocketClient {
         self.broadcast([
             "action": "connect",
             "status": "login",
-            "user": user.toJSON()
+            "user": user.toJSON(),
+            "version": version
         ])
 
         self.receiveMessage()
@@ -207,6 +217,55 @@ class WebSocketClient {
         }
     }
 
+    /// 处理WebSocket服务器操作类型为`connect`的消息, `connect`操作用于管理WebSocket连接状态, 包括登录, 确认(回应), 登出和请求.
+    ///
+    /// - Parameters:
+    ///   - data: 收到的数据.
+    private func handleConnectAction2(_ data: JSON) {
+        if data["status"] == "ack" {
+            /// 添加好友或更新状态.
+            self.emit(eventName: "addFriend", params: User(from: data["user"]))
+        } else if data["status"] == "login" {
+            if self.hasFriend!(data["user"]["clientID"].uIntValue) {
+                /// 更新好友在线状态并回应自己的客户端ID.
+                self.emit(eventName: "addFriend", params: User(from: data["user"]))
+                self.unicast([
+                    "action": "connect",
+                    "status": "ack",
+                    "user": [
+                        /// 只发送客户端ID以减小网络开销.
+                        "clientID": self.user!.clientID
+                    ],
+                    "version": version
+                ], to: data["user"]["clientID"].uIntValue)
+            } else {
+                /// 请求好友的详细信息并回应自己的完整用户信息.
+                self.unicast([
+                    "action": "connect",
+                    "status": "request",
+                    "version": version
+                ], to: data["user"]["clientID"].uIntValue)
+                self.unicast([
+                    "action": "connect",
+                    "status": "ack",
+                    "user": self.user!.toJSON(),
+                    "version": version
+                ], to: data["user"]["clientID"].uIntValue)
+            }
+        } else if data["status"] == "logout" {
+            /// 标记好友离线.
+            self.emit(eventName: "offlineFriend", params: data["user"]["clientID"].uIntValue)
+        } else if data["status"] == "request" {
+            /// 收到好友对详细信息的请求回应自己的完整用户信息.
+            self.unicast([
+                "action": "connect",
+                "status": "ack",
+                "user": self.user!.toJSON(),
+                "version": version
+            ], to: data["user"]["clientID"].uIntValue)
+        }
+    }
+
     /// 处理WebSocket服务器操作类型为`player`的消息, `player`操作用于同步视频播放状态, 包括控制视频的播放/暂停, 修改播放进度和调整播放速率.
     ///
     /// - Parameters:
@@ -230,7 +289,15 @@ class WebSocketClient {
                     case "chat":
                         self.handleChatAction(data)
                     case "connect":
-                        self.handleConnectAction(data)
+                        /// 提取版本信息字段, 缺省则为`1.0`.
+                        let version = data["version"].string ?? "1.0"
+
+                        if version == "1.0" {
+                            // TODO: 用于兼容Web客户端使用的旧版握手协议, 升级Web客户端后会移除(Steve).
+                            self.handleConnectAction(data)
+                        } else {
+                            self.handleConnectAction2(data)
+                        }
                     case "player":
                         self.handlePlayerAction(data)
                     default:
