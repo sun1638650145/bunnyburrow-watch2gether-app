@@ -201,11 +201,10 @@ struct LoginView: View {
     private func setupWebSocketConnection() {
         webSocketClient.connect(websocketUrl!, user)
 
-        webSocketClient.hasFriend = { clientID in
-            return friendsViewModel.searchFriend(by: clientID) != nil
-        }
-
         webSocketClient.on(eventName: "addFriend", listener: friendsViewModel.addFriend(friend:))
+        webSocketClient.on(eventName: "hasFriend", listener: { (clientID: UInt) -> Bool in
+            return friendsViewModel.searchFriend(by: clientID) != nil
+        })
         webSocketClient.on(eventName: "offlineAllFriends", listener: friendsViewModel.offlineAllFriends)
         webSocketClient.on(eventName: "offlineFriend", listener: friendsViewModel.offlineFriend(by:))
     }

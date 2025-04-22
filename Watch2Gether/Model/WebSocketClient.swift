@@ -16,14 +16,14 @@ import SwiftyJSON
 /// WebSocket客户端.
 @Observable
 class WebSocketClient {
-    /// 用于确认是否存在某个客户端ID的好友的回调函数.
-    var hasFriend: ((UInt) -> Bool)?
-
     /// 用户信息.
     var user: User?
 
     /// 用于存储事件监听器的取消器集合.
     private var cancellables = Set<AnyCancellable>()
+
+    /// 事件监听器字典, 键为事件名称, 值为携带返回值的回调函数.
+    private var eventListeners: [String: (Any) -> Any] = [:]
 
     /// 事件发布者字典, 键为事件名称, 值为`PassthroughSubject`.
     private var eventPublishers: [String: PassthroughSubject<Any, Never>] = [:]
@@ -145,6 +145,22 @@ class WebSocketClient {
         eventPublishers[eventName] = publisher
     }
 
+    /// 添加事件监听器.
+    ///
+    /// - Parameters:
+    ///   - eventName: 事件名称.
+    ///   - listener: 回调函数.
+    func on<T, U>(eventName: String, listener: @escaping (T) -> U) {
+        eventListeners[eventName] = { params in
+            guard let params = params as? T
+            else {
+                fatalError("事件监听器\(eventName)的参数类型无效!")
+            }
+
+            return listener(params)
+        }
+    }
+
     /// 重新建立WebSocket连接.
     func reconnect() {
         guard let url = self.url, let user = self.user
@@ -181,6 +197,20 @@ class WebSocketClient {
 
         /// 通过发布者发送参数.
         publisher.send(params)
+    }
+
+    /// 触发事件监听器, 并返回结果.
+    ///
+    /// - Parameters:
+    ///   - eventName: 事件名称.
+    ///   - params: 传递给回调函数的参数.
+    private func emit<T, U>(eventName: String, params: T) -> U? {
+        guard let listener = self.eventListeners[eventName]
+        else {
+            return nil
+        }
+
+        return listener(params) as? U
     }
 
     /// 处理WebSocket服务器操作类型为`chat`的消息, `chat`操作用于处理聊天消息.
@@ -226,7 +256,8 @@ class WebSocketClient {
             /// 添加好友或更新状态.
             self.emit(eventName: "addFriend", params: User(from: data["user"]))
         } else if data["status"] == "login" {
-            if self.hasFriend!(data["user"]["clientID"].uIntValue) {
+            if let exists: Bool = self.emit(eventName: "hasFriend", params: data["user"]["clientID"].uIntValue),
+               exists {
                 /// 更新好友在线状态并回应自己的客户端ID.
                 self.emit(eventName: "addFriend", params: User(from: data["user"]))
                 self.unicast([
