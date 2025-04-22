@@ -37,7 +37,7 @@ class WebSocketClient {
     /// WebSocket服务地址.
     private var url: String?
 
-    /// WebSocket数据格式协议版本.
+    /// WebSocket数据格式版本.
     private var version: String = "1.1"
 
     /// 向WebSocket服务器广播数据.
@@ -145,11 +145,11 @@ class WebSocketClient {
         eventPublishers[eventName] = publisher
     }
 
-    /// 添加事件监听器.
+    /// 添加携带返回值的事件监听器.
     ///
     /// - Parameters:
     ///   - eventName: 事件名称.
-    ///   - listener: 回调函数.
+    ///   - listener: 携带返回值的回调函数.
     func on<T, U>(eventName: String, listener: @escaping (T) -> U) {
         eventListeners[eventName] = { params in
             guard let params = params as? T
@@ -204,6 +204,7 @@ class WebSocketClient {
     /// - Parameters:
     ///   - eventName: 事件名称.
     ///   - params: 传递给回调函数的参数.
+    /// - Returns: 回调函数返回的结果.
     private func emit<T, U>(eventName: String, params: T) -> U? {
         guard let listener = self.eventListeners[eventName]
         else {
