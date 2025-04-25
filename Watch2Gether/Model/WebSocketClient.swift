@@ -38,7 +38,7 @@ class WebSocketClient {
     private var url: String?
 
     /// WebSocket数据格式版本.
-    private var version: String = "1.1"
+    private var version = Version(major: 1, minor: 1, patch: 0)
 
     /// 向WebSocket服务器广播数据.
     ///
@@ -93,7 +93,7 @@ class WebSocketClient {
                 /// 只发送客户端ID以减小网络开销.
                 "clientID": user.clientID
             ],
-            "version": version
+            "version": version.description
         ])
 
         /// 接收并处理WebSocket服务器的消息.
@@ -116,7 +116,7 @@ class WebSocketClient {
                 /// 只发送客户端ID以减小网络开销.
                 "clientID": self.user!.clientID
             ],
-            "version": version
+            "version": version.description
         ])
 
         /// 将所有的好友标记为离线.
@@ -180,7 +180,7 @@ class WebSocketClient {
             "action": "connect",
             "status": "login",
             "user": user.toJSON(),
-            "version": version
+            "version": version.description
         ])
 
         self.receiveMessage()
@@ -248,20 +248,20 @@ class WebSocketClient {
                         /// 只发送客户端ID以减小网络开销.
                         "clientID": self.user!.clientID
                     ],
-                    "version": version
+                    "version": version.description
                 ], to: data["user"]["clientID"].uIntValue)
             } else {
                 /// 请求好友的详细信息并回应自己的完整用户信息.
                 self.unicast([
                     "action": "connect",
                     "status": "request",
-                    "version": version
+                    "version": version.description
                 ], to: data["user"]["clientID"].uIntValue)
                 self.unicast([
                     "action": "connect",
                     "status": "ack",
                     "user": self.user!.toJSON(),
-                    "version": version
+                    "version": version.description
                 ], to: data["user"]["clientID"].uIntValue)
             }
         } else if data["status"] == "logout" {
@@ -273,7 +273,7 @@ class WebSocketClient {
                 "action": "connect",
                 "status": "ack",
                 "user": self.user!.toJSON(),
-                "version": version
+                "version": version.description
             ], to: data["user"]["clientID"].uIntValue)
         }
     }
