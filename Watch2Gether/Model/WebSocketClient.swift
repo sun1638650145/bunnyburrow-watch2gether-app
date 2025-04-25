@@ -356,11 +356,10 @@ class WebSocketClient {
             switch result {
             case .success(let message):
                 self.messagePublisher.send(message)
+                self.receiveMessage()
             case .failure(let error):
                 print("接收消息失败: \(error.localizedDescription)")
             }
-
-            self.receiveMessage()
         })
     }
 
