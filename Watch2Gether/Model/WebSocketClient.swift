@@ -86,11 +86,13 @@ class WebSocketClient {
 
         /// WebSocket连接成功后, 自动向服务器发送登录用户的信息.
         self.socket?.resume()
-        // TODO: 用于兼容Web客户端使用的旧版握手协议, 升级Web客户端后会只发送客户端ID以减小网络开销(Steve).
         self.broadcast([
             "action": "connect",
             "status": "login",
-            "user": user.toJSON(),
+            "user": [
+                /// 只发送客户端ID以减小网络开销.
+                "clientID": user.clientID
+            ],
             "version": version
         ])
 
@@ -226,33 +228,11 @@ class WebSocketClient {
         )
     }
 
-    /// 处理WebSocket服务器操作类型为`connect`的消息, `connect`操作用于管理WebSocket连接状态, 包括登录, 确认(回应)和登出.
-    ///
-    /// - Parameters:
-    ///   - data: 收到的数据.
-    private func handleConnectAction(_ data: JSON) {
-        if data["status"] == "ack" {
-            /// 添加好友.
-            self.emit(eventName: "addFriend", params: User(from: data["user"]))
-        } else if data["status"] == "login" {
-            /// 添加好友并同时回应自己的用户信息.
-            self.emit(eventName: "addFriend", params: User(from: data["user"]))
-            self.unicast([
-                "action": "connect",
-                "status": "ack",
-                "user": self.user!.toJSON()
-            ], to: data["user"]["clientID"].uIntValue)
-        } else if data["status"] == "logout" {
-            /// 标记好友离线.
-            self.emit(eventName: "offlineFriend", params: data["user"]["clientID"].uIntValue)
-        }
-    }
-
     /// 处理WebSocket服务器操作类型为`connect`的消息, `connect`操作用于管理WebSocket连接状态, 包括登录, 确认(回应), 登出和请求.
     ///
     /// - Parameters:
     ///   - data: 收到的数据.
-    private func handleConnectAction2(_ data: JSON) {
+    private func handleConnectAction(_ data: JSON) {
         if data["status"] == "ack" {
             /// 添加好友或更新状态.
             self.emit(eventName: "addFriend", params: User(from: data["user"]))
@@ -321,15 +301,7 @@ class WebSocketClient {
                     case "chat":
                         self.handleChatAction(data)
                     case "connect":
-                        /// 提取版本信息字段, 缺省则为`1.0`.
-                        let version = data["version"].string ?? "1.0"
-
-                        if version == "1.0" {
-                            // TODO: 用于兼容Web客户端使用的旧版握手协议, 升级Web客户端后会移除(Steve).
-                            self.handleConnectAction(data)
-                        } else {
-                            self.handleConnectAction2(data)
-                        }
+                        self.handleConnectAction(data)
                     case "player":
                         self.handlePlayerAction(data)
                     default:
