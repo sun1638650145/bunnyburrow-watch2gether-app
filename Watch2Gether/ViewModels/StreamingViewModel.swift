@@ -163,7 +163,7 @@ class StreamingViewModel {
                 self.remainingTime = self.totalDuration - self.currentTime
                 self.seekPosition = self.currentTime / self.totalDuration
 
-                /// 更新锁屏界面和控制中心显示的正在播放信息.
+                /// 更新锁屏界面和控制中心的正在播放信息.
                 self.setupNowPlayingInfo()
             }
         )
@@ -204,7 +204,7 @@ class StreamingViewModel {
             .store(in: &cancellables)
     }
 
-    /// 配置并更新在锁屏界面和控制中心显示的正在播放信息.
+    /// 配置并更新锁屏界面和控制中心的正在播放信息.
     private func setupNowPlayingInfo() {
         let nowPlayingInfo: [String: Any] = [
             /// 使用应用名称作为艺术家.
