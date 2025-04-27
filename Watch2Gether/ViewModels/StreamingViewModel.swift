@@ -10,6 +10,7 @@
 import AVKit
 import Combine
 import Foundation
+import MediaPlayer
 import Observation
 
 /// 流媒体视频视图模型.
@@ -161,6 +162,9 @@ class StreamingViewModel {
                 self.currentTime = self.player.currentTime().seconds
                 self.remainingTime = self.totalDuration - self.currentTime
                 self.seekPosition = self.currentTime / self.totalDuration
+
+                /// 更新锁屏界面和控制中心显示的正在播放信息.
+                self.setupNowPlayingInfo()
             }
         )
 
@@ -198,5 +202,19 @@ class StreamingViewModel {
 
             /// 将事件监听器保存到取消器集合中.
             .store(in: &cancellables)
+    }
+
+    /// 配置并更新在锁屏界面和控制中心显示的正在播放信息.
+    private func setupNowPlayingInfo() {
+        let nowPlayingInfo: [String: Any] = [
+            /// 使用应用名称作为艺术家.
+            MPMediaItemPropertyArtist: Bundle.main.infoDictionary!["CFBundleDisplayName"]!,
+            /// 使用视频源URL的最后一个路径组成作为标题.
+            MPMediaItemPropertyTitle: url.lastPathComponent,
+            MPMediaItemPropertyPlaybackDuration: totalDuration,
+            MPNowPlayingInfoPropertyElapsedPlaybackTime: currentTime
+        ]
+
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
 }
