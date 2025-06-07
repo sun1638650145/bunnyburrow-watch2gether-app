@@ -12,6 +12,10 @@ import SwiftUI
 /// `VolumeControl`是音量控制视图, 通过滑动手势调整播放器的音频音量.
 struct VolumeControl: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
+    @Environment(WebSocketClient.self) var webSocketClient
+
+    /// 识别到长按手势变量.
+    @State private var isLongPressed: Bool = false
 
     /// 之前的音频音量.
     @State private var previousVolume: Float = 0.5
@@ -28,6 +32,31 @@ struct VolumeControl: View {
                     /// 设置透明的手势识别区域.
                     .contentShape(Rectangle())
                     .frame(width: geometry.size.width / 2)
+                    .onLongPressGesture(perform: {
+                        /// 当视频正在播放时, 长按2倍速播放.
+                        guard streamingViewModel.isPlaying else {
+                            return
+                        }
+
+                        /// 标记识别到长按手势.
+                        isLongPressed = true
+
+                        streamingViewModel.player.rate = 2.0
+                        webSocketClient.sendPlayerSync(command: ["playbackRate": 2.0])
+                    }, onPressingChanged: { isPressing in
+                        if isPressing {
+                            /// 重置识别到长按手势变量.
+                            isLongPressed = false
+                        } else {
+                            /// 松开长按手势时, 恢复原播放速率.
+                            if isLongPressed {
+                                streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                                webSocketClient.sendPlayerSync(
+                                    command: ["playbackRate": streamingViewModel.currentPlaybackRate]
+                                )
+                            }
+                        }
+                    })
                     .onDragGesture(changedPerform: { gesture in
                         /// 计算滑动手势的角度, 在有效范围内才能调整音量.
                         guard validAngleRange.contains(calculateAngle(translation: gesture.translation)) else {
@@ -89,7 +118,9 @@ struct VolumeControl: View {
 
 #Preview {
     let streamingViewModel = StreamingViewModel()
+    let webSocketClient = WebSocketClient()
 
     VolumeControl()
         .environment(streamingViewModel)
+        .environment(webSocketClient)
 }
