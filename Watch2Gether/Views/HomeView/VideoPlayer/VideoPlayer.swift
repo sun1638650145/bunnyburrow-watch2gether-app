@@ -36,7 +36,7 @@ struct VideoPlayer: View {
             VideoPlayerViewController(player: streamingViewModel.player)
                 .ignoresSafeArea(edges: [.bottom, .horizontal])
 
-            VolumeControl()
+            VolumeAndPlaybackControl()
 
             if streamingViewModel.showPlaybackControls {
                 PlaybackControls()

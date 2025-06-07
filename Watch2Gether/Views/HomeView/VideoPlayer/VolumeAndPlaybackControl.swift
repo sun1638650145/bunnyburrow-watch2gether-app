@@ -1,7 +1,7 @@
 //
 //  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
 //
-//  VolumeControl.swift
+//  VolumeAndPlaybackControl.swift
 //  Watch2Gether
 //
 //  Created by Steve R. Sun on 2025/3/7.
@@ -9,8 +9,9 @@
 
 import SwiftUI
 
-/// `VolumeControl`是音量控制视图, 通过滑动手势调整播放器的音频音量.
-struct VolumeControl: View {
+/// `VolumeAndPlaybackControl`是音量和播放速率控制视图,
+/// 通过滑动手势调整播放器的音频音量, 通过长按手势以2倍速播放视频.
+struct VolumeAndPlaybackControl: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
@@ -120,7 +121,7 @@ struct VolumeControl: View {
     let streamingViewModel = StreamingViewModel()
     let webSocketClient = WebSocketClient()
 
-    VolumeControl()
+    VolumeAndPlaybackControl()
         .environment(streamingViewModel)
         .environment(webSocketClient)
 }
