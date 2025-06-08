@@ -54,10 +54,7 @@ struct VolumeAndPlaybackControl: View {
                             command: ["playbackRate": streamingViewModel.currentPlaybackRate]
                         )
                     }, onPressingChanged: { isPressing in
-                        if isPressing {
-                            /// 重置识别到长按手势变量.
-                            isLongPressed = false
-                        } else {
+                        if !isPressing {
                             /// 松开长按手势时, 恢复原播放速率.
                             if isLongPressed {
                                 streamingViewModel.currentPlaybackRate = playbackRateBeforeLongPress
@@ -66,6 +63,9 @@ struct VolumeAndPlaybackControl: View {
                                     command: ["playbackRate": streamingViewModel.currentPlaybackRate]
                                 )
                             }
+
+                            /// 重置识别到长按手势变量.
+                            isLongPressed = false
                         }
                     })
                     .onDragGesture(changedPerform: { gesture in
