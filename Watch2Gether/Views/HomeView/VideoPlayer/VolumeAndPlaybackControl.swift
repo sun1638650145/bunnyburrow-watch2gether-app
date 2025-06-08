@@ -18,6 +18,9 @@ struct VolumeAndPlaybackControl: View {
     /// 识别到长按手势变量.
     @State private var isLongPressed: Bool = false
 
+    /// 长按手势前的播放速率.
+    @State private var playbackRateBeforeLongPress: Float = 1.0
+
     /// 之前的音频音量.
     @State private var previousVolume: Float = 0.5
 
@@ -42,8 +45,14 @@ struct VolumeAndPlaybackControl: View {
                         /// 标记识别到长按手势.
                         isLongPressed = true
 
-                        streamingViewModel.player.rate = 2.0
-                        webSocketClient.sendPlayerSync(command: ["playbackRate": 2.0])
+                        /// 记录长按手势前的播放速率.
+                        playbackRateBeforeLongPress = streamingViewModel.currentPlaybackRate
+
+                        streamingViewModel.currentPlaybackRate = 2.0
+                        streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                        webSocketClient.sendPlayerSync(
+                            command: ["playbackRate": streamingViewModel.currentPlaybackRate]
+                        )
                     }, onPressingChanged: { isPressing in
                         if isPressing {
                             /// 重置识别到长按手势变量.
@@ -51,6 +60,7 @@ struct VolumeAndPlaybackControl: View {
                         } else {
                             /// 松开长按手势时, 恢复原播放速率.
                             if isLongPressed {
+                                streamingViewModel.currentPlaybackRate = playbackRateBeforeLongPress
                                 streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
                                 webSocketClient.sendPlayerSync(
                                     command: ["playbackRate": streamingViewModel.currentPlaybackRate]
