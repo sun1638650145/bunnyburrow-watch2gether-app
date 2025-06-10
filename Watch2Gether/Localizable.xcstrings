@@ -181,6 +181,22 @@
         }
       }
     },
+    "Fast playback" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fast playback"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "倍速播放中"
+          }
+        }
+      }
+    },
     "Full Screen" : {
       "localizations" : {
         "en" : {
