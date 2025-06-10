@@ -101,7 +101,10 @@ struct VolumeAndPlaybackControl: View {
             }
         })
         .overlay(content: {
-            if streamingViewModel.showVolumeDisplay {
+            if isLongPressed {
+                FastPlaybackIndicator()
+                    .padding(10)
+            } else if streamingViewModel.showVolumeDisplay {
                 Group {
                     if streamingViewModel.isMuted {
                         MuteIndicator()
