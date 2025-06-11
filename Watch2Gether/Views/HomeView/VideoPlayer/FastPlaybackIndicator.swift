@@ -14,11 +14,7 @@ struct FastPlaybackIndicator: View {
     var body: some View {
         VStack {
             HStack {
-                HStack(spacing: -3, content: {
-                    Image(systemName: "play.fill")
-
-                    Image(systemName: "play.fill")
-                })
+                FastPlaybackIcon(duration: 0.5)
 
                 Text("Fast playback")
             }

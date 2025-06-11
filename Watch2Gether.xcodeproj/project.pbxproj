@@ -147,6 +147,7 @@
 				Views/HomeView/VideoPlayer/VolumeAndPlaybackControl.swift,
 				Views/HomeView/VideoPlayer/VolumeSlider.swift,
 				Views/Icons/AvatarUploaderIcon.swift,
+				Views/Icons/FastPlaybackIcon.swift,
 				Views/LoginView/AvatarUploader/AvatarUploader.swift,
 				Views/LoginView/AvatarUploader/ImagePickerViewController.swift,
 				Views/LoginView/VideoPicker/VideoPicker.swift,
