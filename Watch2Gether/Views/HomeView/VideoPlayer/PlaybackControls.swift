@@ -34,7 +34,7 @@ struct PlaybackControls: View {
                             .aspectRatio(contentMode: .fill)
                             .frame(width: 15, height: 15)
                             .foregroundStyle(Color.foreground)
-                            .padding(10)
+                            .padding(EdgeInsets(top: 20, leading: 10, bottom: 10, trailing: 10))
                     })
 
                     Spacer()

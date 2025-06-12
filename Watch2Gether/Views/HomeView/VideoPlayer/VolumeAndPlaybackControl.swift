@@ -103,7 +103,7 @@ struct VolumeAndPlaybackControl: View {
         .overlay(content: {
             if isLongPressed {
                 FastPlaybackIndicator()
-                    .padding(10)
+                    .padding(15)
             } else if streamingViewModel.showVolumeDisplay {
                 Group {
                     if streamingViewModel.isMuted {
@@ -112,7 +112,7 @@ struct VolumeAndPlaybackControl: View {
                         VolumeSlider(volume: streamingViewModel.volume)
                     }
                 }
-                .padding(10)
+                .padding(15)
             }
         })
     }
