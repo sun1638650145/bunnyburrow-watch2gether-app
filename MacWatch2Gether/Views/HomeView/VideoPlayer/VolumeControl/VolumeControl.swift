@@ -44,7 +44,7 @@ struct VolumeControl: View {
                         VolumeSlider(volume: streamingViewModel.volume)
                     }
                 }
-                .padding(10)
+                .padding(15)
             }
         })
     }
