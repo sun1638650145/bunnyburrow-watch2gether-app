@@ -34,7 +34,7 @@ struct DanmakuMessageBubble: View {
                     .clipShape(Circle())
                     .offset(x: 15, y: -15)
             })
-            /// 用以调整多个视图之间的间隔避免重叠遮挡.
+            /// 用于调整多个视图之间的间隔避免重叠遮挡.
             .padding(10)
     }
 }

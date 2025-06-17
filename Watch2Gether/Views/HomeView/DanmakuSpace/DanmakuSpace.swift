@@ -34,7 +34,7 @@ struct DanmakuSpace: View {
             handledMessageCount = messageStoreViewModel.messages.count
         })
         .onChange(of: appSettings.isFullScreen, {
-            /// 视频播放器退出全屏时, 清空当前的聊天消息, 避免重复显示.
+            /// 视频播放器退出全屏时, 清空当前的聊天消息列表, 避免重复显示.
             if !appSettings.isFullScreen {
                 messages.removeAll()
                 handledMessageCount = messageStoreViewModel.messages.count
