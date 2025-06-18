@@ -23,12 +23,14 @@ struct DanmakuSpace: View {
     @State private var handledMessageCount: Int = 0
 
     var body: some View {
-        ForEach(messages.indices, id: \.self, content: { index in
-            let message = messages[index]
-            let friend = friendsViewModel.searchFriend(by: message.clientID)!
+        ZStack {
+            ForEach(messages.indices, id: \.self, content: { index in
+                let message = messages[index]
+                let friend = friendsViewModel.searchFriend(by: message.clientID)!
 
-            DanmakuMessageBubble(content: message.content, avatar: friend.avatar)
-        })
+                DanmakuMessageBubble(content: message.content, avatar: friend.avatar)
+            })
+        }
         .onAppear(perform: {
             /// 仅展示全屏状态下收到聊天消息, 忽略进入全屏前的历史消息.
             handledMessageCount = messageStoreViewModel.messages.count
