@@ -39,6 +39,7 @@ struct DanmakuSpace: View {
             messages.append(
                 contentsOf: messageStoreViewModel.messages[historyMessageCount..<messageStoreViewModel.messages.count]
             )
+            historyMessageCount = messageStoreViewModel.messages.count
         })
     }
 }
