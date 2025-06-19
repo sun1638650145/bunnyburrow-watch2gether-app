@@ -16,11 +16,15 @@ struct HomeView: View {
 
     var body: some View {
         if appSettings.isFullScreen {
-            VideoPlayer()
+            ZStack {
+                VideoPlayer()
                 /// 隐藏主页指示器(Home indicator)和状态栏.
-                .persistentSystemOverlays(.hidden)
-                .statusBarHidden(true)
-                .transition(.scale(scale: 1.1))
+                    .persistentSystemOverlays(.hidden)
+                    .statusBarHidden(true)
+                    .transition(.scale(scale: 1.1))
+
+                DanmakuSpace()
+            }
         } else {
             GeometryReader(content: { geometry in
                 if geometry.size.width > geometry.size.height {
