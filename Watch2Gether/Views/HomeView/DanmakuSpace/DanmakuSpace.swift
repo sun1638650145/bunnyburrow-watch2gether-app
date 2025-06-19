@@ -28,7 +28,6 @@ struct DanmakuSpace: View {
                 let friend = friendsViewModel.searchFriend(by: message.clientID)!
 
                 DanmakuMessageBubble(content: message.content, avatar: friend.avatar)
-                    .rightToLeftSlide()
             })
         }
         .onAppear(perform: {

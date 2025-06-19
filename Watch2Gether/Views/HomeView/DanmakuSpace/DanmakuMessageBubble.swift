@@ -18,24 +18,28 @@ struct DanmakuMessageBubble: View {
     let avatar: String?
 
     var body: some View {
-        Text(content)
-            .frame(minWidth: 16)
-            .padding(12)
-            .background(.regularMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
-            .font(.callout)
-            .foregroundStyle(Color.foreground)
-            .lineLimit(1)
-            .overlay(alignment: .topTrailing, content: {
-                Image(base64: avatar ?? "")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 30, height: 30)
-                    .clipShape(Circle())
-                    .offset(x: 15, y: -15)
-            })
-            /// 用于调整多个视图之间的间隔避免重叠遮挡.
-            .padding(10)
+        GeometryReader(content: { geometry in
+            Text(content)
+                .frame(minWidth: 16)
+                .padding(12)
+                .background(.regularMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .font(.callout)
+                .foregroundStyle(Color.foreground)
+                .lineLimit(1)
+                .overlay(alignment: .topTrailing, content: {
+                    Image(base64: avatar ?? "")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 30, height: 30)
+                        .clipShape(Circle())
+                        .offset(x: 15, y: -15)
+                })
+                /// 用于调整多个视图之间的间隔避免重叠遮挡.
+                .padding(25)
+                /// 根据屏幕宽度设置持续时间, 保证弹幕以相同的速度滑过.
+                .rightToLeftSlide(duration: geometry.size.width / 80)
+        })
     }
 }
 
