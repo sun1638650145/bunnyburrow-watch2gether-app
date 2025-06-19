@@ -100,4 +100,13 @@ extension View {
         self.modifier(SimultaneousDragGesture(changedAction: changedAction, endedAction: endedAction))
     }
     #endif
+
+    /// 为`View`添加从右向左滑动的样式.
+    ///
+    /// - Parameters:
+    ///   - duration: 滑动动画持续的时间(秒).
+    /// - Returns: 应用`rightToLeftSlide`样式后的视图.
+    func rightToLeftSlide(duration: Double = 10.0) -> some View {
+        self.modifier(RightToLeftSlide(duration: duration))
+    }
 }
