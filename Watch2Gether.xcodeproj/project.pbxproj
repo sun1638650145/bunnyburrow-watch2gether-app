@@ -100,6 +100,7 @@
 				Views/ViewModifiers/Gestures/ScaleGesture.swift,
 				Views/ViewModifiers/HideKeyboard.swift,
 				Views/ViewModifiers/KeyboardAdaptive.swift,
+				Views/ViewModifiers/RightToLeftSlide.swift,
 				Watch2GetherApp.swift,
 			);
 			target = 395EF3322D165E0C0014D834 /* Watch2Gether */;
@@ -200,6 +201,7 @@
 				Views/ViewModifiers/Gestures/ScaleGesture.swift,
 				Views/ViewModifiers/HideKeyboard.swift,
 				Views/ViewModifiers/KeyboardAdaptive.swift,
+				Views/ViewModifiers/RightToLeftSlide.swift,
 			);
 			target = 39EC676C2D16653E00518950 /* MacWatch2Gether */;
 		};
