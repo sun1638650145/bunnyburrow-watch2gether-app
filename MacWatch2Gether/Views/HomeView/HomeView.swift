@@ -17,8 +17,12 @@ struct HomeView: View {
     var body: some View {
         GeometryReader(content: { geometry in
             if appSettings.isFullScreen {
-                VideoPlayer()
-                    .transition(.scale(scale: 1.1))
+                ZStack {
+                    VideoPlayer()
+                        .transition(.scale(scale: 1.1))
+
+                    DanmakuSpace()
+                }
             } else {
                 HStack(spacing: 0, content: {
                     VideoPlayer()

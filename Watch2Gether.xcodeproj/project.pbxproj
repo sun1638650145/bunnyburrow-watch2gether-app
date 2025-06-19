@@ -185,8 +185,6 @@
 				InfoPlist.xcstrings,
 				"Preview Content/Preview Assets.xcassets",
 				Views/ContentView.swift,
-				Views/HomeView/DanmakuSpace/DanmakuMessageBubble.swift,
-				Views/HomeView/DanmakuSpace/DanmakuSpace.swift,
 				Views/HomeView/HomeView.swift,
 				Views/HomeView/VideoPlayer/FastPlaybackIndicator.swift,
 				Views/HomeView/VideoPlayer/VideoPlayer.swift,
@@ -204,7 +202,6 @@
 				Views/ViewModifiers/Gestures/ScaleGesture.swift,
 				Views/ViewModifiers/HideKeyboard.swift,
 				Views/ViewModifiers/KeyboardAdaptive.swift,
-				Views/ViewModifiers/RightToLeftSlide.swift,
 			);
 			target = 39EC676C2D16653E00518950 /* MacWatch2Gether */;
 		};
