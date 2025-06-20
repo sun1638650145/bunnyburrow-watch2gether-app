@@ -38,7 +38,7 @@ struct DanmakuMessageBubble: View {
                 /// 用于调整多个视图之间的间隔避免重叠遮挡.
                 .padding(25)
                 /// 根据屏幕宽度设置持续时间, 保证弹幕以相同的速度滑过.
-                .rightToLeftFloatingSlide(duration: geometry.size.width / 80)
+                .rightToLeftFloatingSlide(duration: geometry.size.width / 60, verticalFloatRange: 0.2)
         })
     }
 }

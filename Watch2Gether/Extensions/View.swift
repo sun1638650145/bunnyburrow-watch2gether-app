@@ -105,7 +105,7 @@ extension View {
     ///
     /// - Parameters:
     ///   - duration: 滑动动画持续的时间(秒).
-    ///   - verticalFloatRange: 垂直方向上随机偏移漂浮的范围.
+    ///   - verticalFloatRange: 垂直方向上随机偏移漂浮的范围, 从0.0到1.0(整个容器高度范围内).
     /// - Returns: 应用`rightToLeftFloatingSlide`样式后的视图.
     func rightToLeftFloatingSlide(duration: Double = 10.0, verticalFloatRange: CGFloat = 1.0) -> some View {
         self.modifier(RightToLeftFloatingSlide(duration: duration, verticalFloatRange: verticalFloatRange))
