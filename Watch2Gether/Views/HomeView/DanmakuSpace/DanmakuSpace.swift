@@ -43,3 +43,21 @@ struct DanmakuSpace: View {
         })
     }
 }
+
+#Preview {
+    let messageStoreViewModel = MessageStoreViewModel()
+
+    var friendsViewModel: FriendsViewModel {
+        let friendsViewModel = FriendsViewModel()
+        friendsViewModel.addFriend(friend: User(clientID: 2025, name: "Steve"))
+
+        return friendsViewModel
+    }
+
+    DanmakuSpace()
+        .environment(friendsViewModel)
+        .environment(messageStoreViewModel)
+        .onAppear(perform: {
+            messageStoreViewModel.addMessage(message: Message(content: "你好", clientID: 2025))
+        })
+}
