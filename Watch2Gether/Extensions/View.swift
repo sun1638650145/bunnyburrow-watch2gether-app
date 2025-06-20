@@ -101,12 +101,13 @@ extension View {
     }
     #endif
 
-    /// 为`View`添加从右向左滑动的样式.
+    /// 为`View`添加从右向左滑动并在垂直方向上随机偏移漂浮的样式.
     ///
     /// - Parameters:
     ///   - duration: 滑动动画持续的时间(秒).
+    ///   - verticalFloatRange: 垂直方向上随机偏移漂浮的范围.
     /// - Returns: 应用`rightToLeftFloatingSlide`样式后的视图.
-    func rightToLeftFloatingSlide(duration: Double = 10.0) -> some View {
-        self.modifier(RightToLeftFloatingSlide(duration: duration))
+    func rightToLeftFloatingSlide(duration: Double = 10.0, verticalFloatRange: CGFloat = 1.0) -> some View {
+        self.modifier(RightToLeftFloatingSlide(duration: duration, verticalFloatRange: verticalFloatRange))
     }
 }

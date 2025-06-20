@@ -14,11 +14,14 @@ struct RightToLeftFloatingSlide: ViewModifier {
     /// 视图水平方向的偏移量.
     @State private var xOffset: CGFloat = 0.0
 
-    /// 视图垂直方向的偏移量, 为屏幕高度上1/3范围内的随机值.
+    /// 视图垂直方向的偏移量.
     @State private var yOffset: CGFloat = 0.0
 
     /// 滑动动画持续的时间(秒).
     var duration: Double = 10.0
+
+    /// 垂直方向上随机偏移漂浮的范围.
+    var verticalFloatRange: CGFloat = 1.0
 
     func body(content: Content) -> some View {
         GeometryReader(content: { geometry in
@@ -27,7 +30,7 @@ struct RightToLeftFloatingSlide: ViewModifier {
                 .onAppear(perform: {
                     /// 设置视图初始位置.
                     xOffset = geometry.size.width
-                    yOffset = CGFloat.random(in: 0.0...geometry.size.height / 3)
+                    yOffset = CGFloat.random(in: 0.0...geometry.size.height * verticalFloatRange)
 
                     withAnimation(.linear(duration: duration), {
                         xOffset = -geometry.size.width
