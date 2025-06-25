@@ -22,10 +22,15 @@ struct DanmakuSpace: View {
     @State private var historyMessageCount: Int = 0
 
     /// 弹幕轨道的数量.
-    private let trackCount: Int = 3
+    private let trackCount: Int
 
     /// 弹幕轨道的高度.
-    private let trackHeight: CGFloat = 55
+    private let trackHeight: CGFloat
+
+    init(trackCount: Int = 3, trackHeight: CGFloat = 58.0) {
+        self.trackCount = trackCount
+        self.trackHeight = trackHeight
+    }
 
     var body: some View {
         ZStack {
