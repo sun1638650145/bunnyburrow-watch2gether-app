@@ -21,13 +21,21 @@ struct DanmakuSpace: View {
     /// 历史聊天消息计数, 用于忽略视图出现前的聊天消息.
     @State private var historyMessageCount: Int = 0
 
+    /// 弹幕轨道的数量.
+    private let trackCount: Int = 3
+
+    /// 弹幕轨道的高度.
+    private let trackHeight: CGFloat = 55
+
     var body: some View {
         ZStack {
-            ForEach(messages.indices, id: \.self, content: { index in
-                let message = messages[index]
+            ForEach(Array(messages.enumerated()), id: \.offset, content: { index, message in
                 let friend = friendsViewModel.searchFriend(by: message.clientID)!
+                /// 为当前聊天消息分配弹幕轨道.
+                let trackIndex = index % trackCount
 
                 DanmakuMessageBubble(content: message.content, avatar: friend.avatar)
+                    .offset(y: CGFloat(trackIndex) * trackHeight)
             })
         }
         .onAppear(perform: {
