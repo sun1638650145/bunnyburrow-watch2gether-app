@@ -40,7 +40,7 @@ struct DanmakuSpace: View {
                     let friend = friendsViewModel.searchFriend(by: message.clientID)!
                     /// 为当前聊天消息分配弹幕轨道.
                     let trackIndex = index % trackCount
-                    
+
                     Button(action: {
                         appSettings.showDanmakuMessageInput = true
                     }, label: {
@@ -56,12 +56,12 @@ struct DanmakuSpace: View {
             })
             .onChange(of: messageStoreViewModel.messages.count, {
                 /// 将新的聊天消息添加到聊天消息列表中.
-                messages.append(
-                    contentsOf: messageStoreViewModel.messages[historyMessageCount..<messageStoreViewModel.messages.count]
-                )
+                messages.append(contentsOf: messageStoreViewModel.messages[
+                    historyMessageCount..<messageStoreViewModel.messages.count
+                ])
                 historyMessageCount = messageStoreViewModel.messages.count
             })
-            
+
             if appSettings.showDanmakuMessageInput {
                 Text("弹幕聊天消息输入视图")
             }
