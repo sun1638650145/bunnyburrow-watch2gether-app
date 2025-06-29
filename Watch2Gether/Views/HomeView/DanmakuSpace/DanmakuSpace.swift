@@ -13,8 +13,13 @@ import SwiftUI
 /// 它只显示在视图出现后(通常是视频播放器全屏时)收到的新聊天消息, 忽略历史消息.
 struct DanmakuSpace: View {
     @Environment(AppSettings.self) var appSettings
+    @Environment(User.self) var user
     @Environment(FriendsViewModel.self) var friendsViewModel
     @Environment(MessageStoreViewModel.self) var messageStoreViewModel
+    @Environment(WebSocketClient.self) var webSocketClient
+
+    /// 聊天消息变量.
+    @State private var message: String = ""
 
     /// 聊天消息列表变量.
     @State private var messages: [Message] = []
@@ -27,6 +32,16 @@ struct DanmakuSpace: View {
 
     /// 弹幕轨道的高度.
     private let trackHeight: CGFloat
+
+    /// 禁止发送按钮变量.
+    private var isDisabled: Bool {
+        return trimmedMessage.isEmpty
+    }
+
+    /// 去除首尾空格的聊天消息变量.
+    private var trimmedMessage: String {
+        return message.trimmingCharacters(in: .whitespaces)
+    }
 
     init(trackCount: Int = 3, trackHeight: CGFloat = 58.0) {
         self.trackCount = trackCount
@@ -63,28 +78,31 @@ struct DanmakuSpace: View {
             })
 
             if appSettings.showDanmakuMessageInput {
-                Text("弹幕聊天消息输入视图")
+                MessageInput($message, onMessageSend: sendMessage, isDisabled: isDisabled)
             }
         }
     }
-}
 
-#Preview {
-    let appSettings = AppSettings()
-    let messageStoreViewModel = MessageStoreViewModel()
+    /// 发送聊天消息.
+    private func sendMessage() {
+        /// 禁止发送则直接返回.
+        if isDisabled {
+            return
+        }
 
-    var friendsViewModel: FriendsViewModel {
-        let friendsViewModel = FriendsViewModel()
-        friendsViewModel.addFriend(friend: User(clientID: 2025, name: "Steve"))
+        webSocketClient.broadcast([
+            "action": "chat",
+            "message": trimmedMessage,
+            "user": [
+                /// 只发送客户端ID以减小网络开销.
+                "clientID": user.clientID
+            ]
+        ])
 
-        return friendsViewModel
+        /// 存储发送的聊天消息.
+        messageStoreViewModel.addMessage(message: Message(content: trimmedMessage, clientID: user.clientID))
+
+        /// 发送聊天消息后清空输入框.
+        message = ""
     }
-
-    DanmakuSpace()
-        .environment(appSettings)
-        .environment(friendsViewModel)
-        .environment(messageStoreViewModel)
-        .onAppear(perform: {
-            messageStoreViewModel.addMessage(message: Message(content: "你好", clientID: 2025))
-        })
 }
