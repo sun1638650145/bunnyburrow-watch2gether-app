@@ -102,7 +102,8 @@ struct DanmakuSpace: View {
         /// 存储发送的聊天消息.
         messageStoreViewModel.addMessage(message: Message(content: trimmedMessage, clientID: user.clientID))
 
-        /// 发送聊天消息后清空输入框.
+        /// 发送聊天消息后清空并关闭输入框.
         message = ""
+        appSettings.showDanmakuMessageInput = false
     }
 }
