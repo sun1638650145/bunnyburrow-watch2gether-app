@@ -22,4 +22,7 @@ class AppSettings {
 
     /// 状态信息: 登录状态.
     var isLoggedIn: Bool = false
+
+    /// 显示弹幕聊天消息输入视图.
+    var showDanmakuMessageInput: Bool = false
 }
