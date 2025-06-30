@@ -57,7 +57,9 @@ struct DanmakuSpace: View {
                     let trackIndex = index % trackCount
 
                     Button(action: {
-                        appSettings.showDanmakuMessageInput = true
+                        if friend.clientID != user.clientID {
+                            appSettings.showDanmakuMessageInput = true
+                        }
                     }, label: {
                         DanmakuMessageBubble(content: message.content, avatar: friend.avatar)
                             .offset(y: CGFloat(trackIndex) * trackHeight)
