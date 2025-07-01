@@ -48,7 +48,7 @@ struct RightToLeftSlide: ViewModifier {
         animationTimer = Timer.scheduledTimer(withTimeInterval: 1 / 120, repeats: true, block: { _ in
             offset -= distancePerFrame
 
-            /// 当视图完全移出屏幕后, 关闭定时器.
+            /// 当视图完全移出容器后, 关闭定时器.
             if offset < -containerWidth {
                 animationTimer?.invalidate()
             }
