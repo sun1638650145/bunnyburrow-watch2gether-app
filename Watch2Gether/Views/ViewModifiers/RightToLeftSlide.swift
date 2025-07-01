@@ -12,6 +12,8 @@ import SwiftUI
 
 /// `RightToLeftSlide`是用于使`View`从右向左滑动的视图修饰符.
 struct RightToLeftSlide: ViewModifier {
+    @Binding var isPaused: Bool
+
     /// 用于控制滑动动画帧率的定时器.
     @State private var animationTimer: Timer?
 
@@ -37,6 +39,14 @@ struct RightToLeftSlide: ViewModifier {
 
                     beginAnimation()
                 })
+                .onChange(of: isPaused, {
+                    if isPaused {
+                        /// 通过取消定时器实现动画暂停.
+                        animationTimer?.invalidate()
+                    } else {
+                        beginAnimation()
+                    }
+                })
         })
     }
 
@@ -57,6 +67,12 @@ struct RightToLeftSlide: ViewModifier {
 }
 
 #Preview {
-    Text("Hello, World!")
-        .modifier(RightToLeftSlide())
+    @Previewable @State var isPaused: Bool = false
+
+    Button(action: {
+        isPaused.toggle()
+    }, label: {
+        Text("Hello, World!")
+            .modifier(RightToLeftSlide(isPaused: $isPaused))
+    })
 }
