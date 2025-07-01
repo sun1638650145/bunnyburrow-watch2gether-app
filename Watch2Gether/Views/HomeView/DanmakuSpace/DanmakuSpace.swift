@@ -18,6 +18,9 @@ struct DanmakuSpace: View {
     @Environment(MessageStoreViewModel.self) var messageStoreViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
+    /// 控制弹幕动画是否暂停.
+    @State private var isPaused: Bool = false
+
     /// 聊天消息变量.
     @State private var message: String = ""
 
@@ -59,9 +62,10 @@ struct DanmakuSpace: View {
                     Button(action: {
                         if friend.clientID != user.clientID {
                             appSettings.showDanmakuMessageInput = true
+                            isPaused = true
                         }
                     }, label: {
-                        DanmakuMessageBubble(content: message.content, avatar: friend.avatar)
+                        DanmakuMessageBubble(content: message.content, avatar: friend.avatar, isPaused: $isPaused)
                             .offset(y: CGFloat(trackIndex) * trackHeight)
                     })
                     .buttonStyle(PlainButtonStyle())
@@ -107,5 +111,8 @@ struct DanmakuSpace: View {
         /// 发送聊天消息后清空并关闭输入框.
         message = ""
         appSettings.showDanmakuMessageInput = false
+
+        /// 恢复弹幕动画.
+        isPaused = false
     }
 }

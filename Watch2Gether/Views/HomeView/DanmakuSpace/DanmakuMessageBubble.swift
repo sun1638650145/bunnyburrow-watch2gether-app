@@ -11,11 +11,19 @@ import SwiftUI
 
 /// `DanmakuMessageBubble`是用于以弹幕形式显示聊天消息的视图.
 struct DanmakuMessageBubble: View {
+    @Binding var isPaused: Bool
+
     /// 聊天消息的内容.
-    let content: String
+    private let content: String
 
     /// 用户头像的Base-64.
-    let avatar: String?
+    private let avatar: String?
+
+    init(content: String, avatar: String?, isPaused: Binding<Bool> = .constant(false)) {
+        self.content = content
+        self.avatar = avatar
+        self._isPaused = isPaused
+    }
 
     var body: some View {
         GeometryReader(content: { geometry in
@@ -38,7 +46,7 @@ struct DanmakuMessageBubble: View {
                 /// 用于调整多个视图之间的间隔避免重叠遮挡.
                 .padding(25)
                 /// 根据屏幕宽度设置持续时间, 保证弹幕以相同的速度滑过.
-                .rightToLeftSlide(duration: geometry.size.width / 60)
+                .rightToLeftSlide(isPaused: $isPaused, duration: geometry.size.width / 60)
         })
     }
 }
