@@ -104,10 +104,10 @@ extension View {
     /// 为`View`添加从右向左滑动的样式.
     ///
     /// - Parameters:
-    ///   - isPaused: 控制滑动动画是否暂停的绑定值.
     ///   - duration: 滑动动画持续的时间(秒).
+    ///   - isPaused: 控制滑动动画是否暂停的绑定布尔值.
     /// - Returns: 应用`rightToLeftSlide`样式后的视图.
-    func rightToLeftSlide(isPaused: Binding<Bool> = .constant(false), duration: Double = 10.0) -> some View {
-        self.modifier(RightToLeftSlide(isPaused: isPaused, duration: duration))
+    func rightToLeftSlide(duration: Double = 10.0, isPaused: Binding<Bool> = .constant(false)) -> some View {
+        self.modifier(RightToLeftSlide(duration: duration, isPaused: isPaused))
     }
 }

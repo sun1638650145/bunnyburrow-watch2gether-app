@@ -24,7 +24,12 @@ struct RightToLeftSlide: ViewModifier {
     @State private var offset: CGFloat = 0.0
 
     /// 滑动动画持续的时间(秒).
-    var duration: Double = 10.0
+    private let duration: Double
+
+    init(duration: Double = 10.0, isPaused: Binding<Bool>) {
+        self.duration = duration
+        self._isPaused = isPaused
+    }
 
     func body(content: Content) -> some View {
         GeometryReader(content: { geometry in
