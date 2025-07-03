@@ -50,6 +50,10 @@ struct VideoPlayer: View {
                 self.openModal(command: command, clientID: clientID)
             })
         })
+        .onChange(of: appSettings.showDanmakuMessageInput, {
+            /// 显示弹幕聊天消息输入视图时, 关闭播放控制栏.
+            streamingViewModel.showPlaybackControls = false
+        })
         .onDoubleTapGesture(perform: {
             /// 视频播放器进入窗口全屏状态.
             guard let window = NSApplication.shared.keyWindow
@@ -65,6 +69,9 @@ struct VideoPlayer: View {
             appSettings.isFullScreen.toggle()
         })
         .onTapGesture(perform: {
+            /// 关闭弹幕聊天消息输入视图.
+            appSettings.showDanmakuMessageInput = false
+
             streamingViewModel.resetHidePlaybackControlsTimer()
             streamingViewModel.showPlaybackControls.toggle()
         })
