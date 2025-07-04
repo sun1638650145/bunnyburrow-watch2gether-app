@@ -91,6 +91,7 @@ struct DanmakuSpace: View {
                 MessageInput($message, onMessageSend: sendMessage, isDisabled: isDisabled)
             }
         }
+        .ignoresSafeArea()
     }
 
     /// 发送聊天消息.
