@@ -39,7 +39,7 @@ struct MessageInput: View {
         /// 在iOS上设置键盘自适应.
         #if os(iOS)
         .keyboardAdaptive()
-        // TODO: 为避免主页指示器(Home indicator)遮挡, 额外设置25的底部高度, 但未在键盘弹起后移出(Steve).
+        // TODO: 为避免主页指示器(Home indicator)遮挡, 额外设置25的底部高度, 但未在键盘弹起后移除(Steve).
         .padding(EdgeInsets(top: 10, leading: 10, bottom: 35, trailing: 10))
         #elseif os(macOS)
         .padding(10)
