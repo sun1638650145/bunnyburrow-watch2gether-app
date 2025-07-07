@@ -18,8 +18,8 @@ struct DanmakuSpace: View {
     @Environment(MessageStoreViewModel.self) var messageStoreViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
-    /// 控制弹幕动画是否暂停.
-    @State private var isDanmakuAnimationPaused: Bool = false
+    /// 历史聊天消息计数, 用于忽略视图出现前的聊天消息.
+    @State private var historyMessageCount: Int = 0
 
     /// 聊天消息变量.
     @State private var message: String = ""
@@ -27,8 +27,8 @@ struct DanmakuSpace: View {
     /// 聊天消息列表变量.
     @State private var messages: [Message] = []
 
-    /// 历史聊天消息计数, 用于忽略视图出现前的聊天消息.
-    @State private var historyMessageCount: Int = 0
+    /// 暂停滑动状态的聊天消息ID.
+    @State private var pausedMessageId: Message.ID?
 
     /// 弹幕轨道的数量.
     private let trackCount: Int
@@ -59,20 +59,28 @@ struct DanmakuSpace: View {
                     /// 为当前聊天消息分配弹幕轨道.
                     let trackIndex = index % trackCount
 
-                    Button(action: {
+                    DanmakuMessageBubble(
+                        content: message.content,
+                        avatar: friend.avatar,
+                        isPaused: Binding<Bool>(
+                            get: { pausedMessageId == message.id },
+                            set: {
+                                if $0 {
+                                    pausedMessageId = message.id
+                                /// 避免误清除其他消息的暂停状态.
+                                } else if pausedMessageId == message.id {
+                                    pausedMessageId = nil
+                                }
+                            }
+                        )
+                    )
+                    .offset(y: CGFloat(trackIndex) * trackHeight)
+                    .onTapGesture(perform: {
                         if friend.clientID != user.clientID {
                             appSettings.showDanmakuMessageInput = true
-                            isDanmakuAnimationPaused = true
+                            pausedMessageId = message.id
                         }
-                    }, label: {
-                        DanmakuMessageBubble(
-                            content: message.content,
-                            avatar: friend.avatar,
-                            isPaused: $isDanmakuAnimationPaused
-                        )
-                        .offset(y: CGFloat(trackIndex) * trackHeight)
                     })
-                    .buttonStyle(PlainButtonStyle())
                 })
             }
             .onAppear(perform: {
@@ -118,6 +126,6 @@ struct DanmakuSpace: View {
         appSettings.showDanmakuMessageInput = false
 
         /// 恢复弹幕动画.
-        isDanmakuAnimationPaused = false
+        pausedMessageId = nil
     }
 }
