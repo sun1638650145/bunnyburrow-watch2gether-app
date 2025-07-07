@@ -7,11 +7,16 @@
 //  Created by Steve R. Sun on 2024/11/29.
 //
 
+import Foundation
+
 /// 聊天消息.
-struct Message {
+struct Message: Identifiable {
     /// 聊天消息的内容.
     var content: String
 
     /// 消息所属的客户端ID.
     var clientID: UInt
+
+    /// 遵循`Identifiable`协议要求.
+    var id: UUID = UUID()
 }
