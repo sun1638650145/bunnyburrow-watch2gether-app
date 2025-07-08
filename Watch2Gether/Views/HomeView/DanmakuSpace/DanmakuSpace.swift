@@ -54,10 +54,10 @@ struct DanmakuSpace: View {
     var body: some View {
         VStack {
             ZStack {
-                ForEach(Array(messages.enumerated()), id: \.offset, content: { index, message in
+                ForEach(messages, content: { message in
                     let friend = friendsViewModel.searchFriend(by: message.clientID)!
                     /// 为当前聊天消息分配弹幕轨道.
-                    let trackIndex = index % trackCount
+                    let trackIndex = messages.firstIndex(where: { $0.id == message.id })! % trackCount
 
                     DanmakuMessageBubble(
                         content: message.content,
