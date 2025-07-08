@@ -24,8 +24,7 @@ struct MessagesList: View {
     var body: some View {
         ScrollViewReader(content: { proxy in
             ScrollView {
-                ForEach(messages.indices, id: \.self, content: { index in
-                    let message = messages[index]
+                ForEach(messages, content: { message in
                     let friend = friendsViewModel.searchFriend(by: message.clientID)!
 
                     if friend.clientID == user.clientID {
@@ -35,11 +34,11 @@ struct MessagesList: View {
                     }
                 })
             }
-            .onChange(of: messages.indices, {
-                if let last = messages.indices.last {
-                    /// 当新的聊天消息时, 动画滚动到最新消息的位置.
+            .onChange(of: messages.last?.id, { _, newId in
+                if let newId {
+                    /// 有新聊天消息时, 自动滚动至最新消息的位置.
                     withAnimation(.easeInOut, {
-                        proxy.scrollTo(last, anchor: .bottom)
+                        proxy.scrollTo(newId, anchor: .bottom)
                     })
                 }
             })
