@@ -22,7 +22,7 @@ struct VolumeAndPlaybackControl: View {
     @State private var playbackRateBeforeLongPress: Float = 1.0
 
     /// 之前的音频音量.
-    @State private var previousVolume: Float = 0.5
+    @State private var previousVolume: Float = 0.0
 
     /// 滑动手势有效角度的识别范围.
     private let validAngleRange: ClosedRange<CGFloat> = 75...105
@@ -36,6 +36,10 @@ struct VolumeAndPlaybackControl: View {
                     /// 设置透明的手势识别区域.
                     .contentShape(Rectangle())
                     .frame(width: geometry.size.width / 2)
+                    .onAppear(perform: {
+                        /// 设置当前的音频音量.
+                        previousVolume = streamingViewModel.volume
+                    })
                     .onLongPressGesture(perform: {
                         /// 当视频正在播放时, 长按2倍速播放.
                         guard streamingViewModel.isPlaying else {
