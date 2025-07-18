@@ -13,7 +13,6 @@ import SwiftUI
 /// 通过滑动手势调整播放器的音频音量, 通过长按手势以2倍速播放视频.
 struct VolumeAndPlaybackRateControl: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
-    @Environment(WebSocketClient.self) var webSocketClient
 
     /// 识别到长按手势变量.
     @State private var isLongPressed: Bool = false
@@ -26,6 +25,13 @@ struct VolumeAndPlaybackRateControl: View {
 
     /// 滑动手势有效角度的识别范围.
     private let validAngleRange: ClosedRange<CGFloat> = 75...105
+
+    /// 播放速率调整后调用的闭包.
+    private var onPlaybackRateChange: () -> Void
+
+    init(onPlaybackRateChange: @escaping () -> Void = {}) {
+        self.onPlaybackRateChange = onPlaybackRateChange
+    }
 
     var body: some View {
         GeometryReader(content: { geometry in
@@ -54,18 +60,14 @@ struct VolumeAndPlaybackRateControl: View {
 
                         streamingViewModel.currentPlaybackRate = 2.0
                         streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
-                        webSocketClient.sendPlayerSync(
-                            command: ["playbackRate": streamingViewModel.currentPlaybackRate]
-                        )
+                        onPlaybackRateChange()
                     }, onPressingChanged: { isPressing in
                         if !isPressing {
                             /// 松开长按手势时, 恢复原播放速率.
                             if isLongPressed {
                                 streamingViewModel.currentPlaybackRate = playbackRateBeforeLongPress
                                 streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
-                                webSocketClient.sendPlayerSync(
-                                    command: ["playbackRate": streamingViewModel.currentPlaybackRate]
-                                )
+                                onPlaybackRateChange()
                             }
 
                             /// 重置识别到长按手势变量.
@@ -136,9 +138,7 @@ struct VolumeAndPlaybackRateControl: View {
 
 #Preview {
     let streamingViewModel = StreamingViewModel()
-    let webSocketClient = WebSocketClient()
 
     VolumeAndPlaybackRateControl()
         .environment(streamingViewModel)
-        .environment(webSocketClient)
 }

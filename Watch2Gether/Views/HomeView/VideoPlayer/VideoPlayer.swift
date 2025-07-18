@@ -40,7 +40,11 @@ struct VideoPlayer: View {
                 webSocketClient.sendPlayerSync(command: ["newProgress": streamingViewModel.currentTime])
             })
 
-            VolumeAndPlaybackRateControl()
+            VolumeAndPlaybackRateControl(onPlaybackRateChange: {
+                webSocketClient.sendPlayerSync(
+                    command: ["playbackRate": streamingViewModel.currentPlaybackRate]
+                )
+            })
 
             if streamingViewModel.showPlaybackControls {
                 PlaybackControls()
