@@ -36,7 +36,9 @@ struct VideoPlayer: View {
             VideoPlayerViewController(player: streamingViewModel.player)
                 .ignoresSafeArea(edges: [.bottom, .horizontal])
 
-            ProgressControl()
+            ProgressControl(onSeekCompleted: {
+                webSocketClient.sendPlayerSync(command: ["newProgress": streamingViewModel.currentTime])
+            })
 
             VolumeAndPlaybackRateControl()
 
