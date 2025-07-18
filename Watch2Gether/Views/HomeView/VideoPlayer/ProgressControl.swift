@@ -16,7 +16,7 @@ struct ProgressControl: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
 
     /// 是否正在滑动.
-    @State private var isDragging: Bool = false
+    @State private var isSeeking: Bool = false
 
     /// 之前的播放进度(秒).
     @State private var previousProgress: Double = 0.0
@@ -26,6 +26,13 @@ struct ProgressControl: View {
 
     /// 滑动手势有效角度的识别范围.
     private let validAngleRange: ClosedRange<CGFloat> = 0...15
+
+    /// 进度调整完成时调用的闭包.
+    private var onSeekCompleted: () -> Void
+
+    init(onSeekCompleted: @escaping () -> Void = {}) {
+        self.onSeekCompleted = onSeekCompleted
+    }
 
     var body: some View {
         GeometryReader(content: { geometry in
@@ -38,7 +45,7 @@ struct ProgressControl: View {
                 })
                 .onChange(of: streamingViewModel.currentTime, {
                     /// 未滑动时同步之前的播放进度.
-                    if !isDragging {
+                    if !isSeeking {
                         previousProgress = streamingViewModel.currentTime
                     }
                 })
@@ -48,7 +55,7 @@ struct ProgressControl: View {
                         return
                     }
 
-                    isDragging = true
+                    isSeeking = true
 
                     let deltaX = gesture.translation.width / geometry.size.width
                     /// 一次滑动手势过程中会产生多个`deltaX`, 避免累加播放进度且保证进度变化连续.
@@ -68,7 +75,9 @@ struct ProgressControl: View {
                         to: CMTime(seconds: streamingViewModel.currentTime, preferredTimescale: 1000)
                     )
 
-                    isDragging = false
+                    onSeekCompleted()
+
+                    isSeeking = false
                     showProgressDisplay = false
                 })
         })
