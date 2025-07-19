@@ -23,7 +23,7 @@ struct ProgressBar: View {
 
     var body: some View {
         HStack {
-            Text(formatTime(streamingViewModel.currentTime))
+            Text(streamingViewModel.currentTime.formattedTime())
 
             StyledSlider(
                 value: Binding<Double>(
@@ -58,28 +58,11 @@ struct ProgressBar: View {
                 streamingViewModel.remainingTime = streamingViewModel.totalDuration - streamingViewModel.currentTime
             })
 
-            Text(formatTime(streamingViewModel.remainingTime))
+            Text(streamingViewModel.remainingTime.formattedTime())
         }
         .bold()
         .font(.footnote)
         .foregroundStyle(Color.foreground)
-    }
-
-    /// 将时间格式化为`hh:mm:ss`或者`mm:ss`格式的字符串.
-    ///
-    /// - Parameters:
-    ///   - time: 以秒为单位的时间.
-    /// - Returns: 格式化后的字符串.
-    private func formatTime(_ time: Double) -> String {
-        let totalSeconds = Int(time)
-
-        let hours = totalSeconds / 3600
-        let minutes = totalSeconds % 3600 / 60
-        let seconds = totalSeconds % 60
-
-        return hours > 0
-            ? String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-            : String(format: "%02d:%02d", minutes, seconds)
     }
 }
 

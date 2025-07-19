@@ -83,9 +83,13 @@ struct ProgressControl: View {
         })
         .overlay(content: {
             if showProgressDisplay {
-                Text(formatTime(streamingViewModel.currentTime) + "/" + formatTime(streamingViewModel.totalDuration))
-                    .font(.headline)
-                    .foregroundStyle(Color.foreground)
+                Text(
+                    streamingViewModel.currentTime.formattedTime()
+                    + "/"
+                    + streamingViewModel.totalDuration.formattedTime()
+                )
+                .font(.headline)
+                .foregroundStyle(Color.foreground)
             }
         })
     }
@@ -100,23 +104,6 @@ struct ProgressControl: View {
         let degress = abs(radians * 180 / .pi)
 
         return degress > 90 ? 180 - degress : degress
-    }
-
-    /// 将时间格式化为`hh:mm:ss`或者`mm:ss`格式的字符串.
-    ///
-    /// - Parameters:
-    ///   - time: 以秒为单位的时间.
-    /// - Returns: 格式化后的字符串.
-    private func formatTime(_ time: Double) -> String {
-        let totalSeconds = Int(time)
-
-        let hours = totalSeconds / 3600
-        let minutes = totalSeconds % 3600 / 60
-        let seconds = totalSeconds % 60
-
-        return hours > 0
-            ? String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-            : String(format: "%02d:%02d", minutes, seconds)
     }
 }
 
