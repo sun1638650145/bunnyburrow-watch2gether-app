@@ -83,13 +83,10 @@ struct ProgressControl: View {
         })
         .overlay(content: {
             if showProgressDisplay {
-                Text(
-                    streamingViewModel.currentTime.formattedTime()
-                    + "/"
-                    + streamingViewModel.totalDuration.formattedTime()
+                ProgressLabel(
+                    currentTime: streamingViewModel.currentTime,
+                    totalDuration: streamingViewModel.totalDuration
                 )
-                .font(.headline)
-                .foregroundStyle(Color.foreground)
             }
         })
     }
