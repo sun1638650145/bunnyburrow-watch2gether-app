@@ -4,6 +4,9 @@
     "" : {
       "shouldTranslate" : false
     },
+    "/" : {
+      "shouldTranslate" : false
+    },
     "%@ adjusted the playback." : {
       "localizations" : {
         "en" : {

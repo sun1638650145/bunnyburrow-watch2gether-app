@@ -45,7 +45,7 @@ struct VolumeSlider: View {
 
                     /// 滑轨的前景部分(已滑过的部分).
                     RoundedRectangle(cornerRadius: 2)
-                        .foregroundStyle(Color.volumeSliderForeground.gradient)
+                        .foregroundStyle(Color.volumeSliderForeground)
                         .frame(width: CGFloat(volume * 100), height: 4)
                 })
             }

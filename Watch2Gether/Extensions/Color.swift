@@ -48,6 +48,9 @@ extension Color {
     /// 用于其他用户的聊天消息气泡背景的颜色.
     public static let otherMessageBubbleBackground = Color(hex: "#2C2C2C")
 
+    /// 用于播放进度标签前景的颜色.
+    public static let progressLabelForeground = Color(hex: "#0682F0").gradient
+
     /// 用于发送按钮结束渐变背景的颜色.
     public static let sendButtonGradientEnd = Color(hex: "#062794")
 
@@ -64,5 +67,5 @@ extension Color {
     public static let viewBackground = Color(red: 249.0 / 255, green: 249.0 / 255, blue: 249.0 / 255, opacity: 0.1)
 
     /// 用于音量滑块前景的颜色.
-    public static let volumeSliderForeground = Color(red: 206.0 / 255, green: 227.0 / 255, blue: 246.0 / 255)
+    public static let volumeSliderForeground = Color(red: 206.0 / 255, green: 227.0 / 255, blue: 246.0 / 255).gradient
 }
