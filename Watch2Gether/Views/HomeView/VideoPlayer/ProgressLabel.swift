@@ -30,8 +30,8 @@ struct ProgressLabel: View {
             })
             .font(.title)
             .fontWeight(.bold)
-            .foregroundStyle(Color.foreground)
         }
+        .foregroundStyle(Color.foreground)
     }
 }
 
