@@ -23,7 +23,7 @@ class SwipeableNSView: NSView {
             return
         }
 
-        /// 仅在检测到纯水平滑动时触发.
+        /// 仅在检测到水平滑动时触发.
         if event.scrollingDeltaX != 0 && event.scrollingDeltaY == 0 {
             hasSwiped = true
 
