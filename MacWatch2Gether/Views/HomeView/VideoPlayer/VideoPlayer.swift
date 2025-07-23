@@ -34,6 +34,10 @@ struct VideoPlayer: View {
 
             VideoPlayerView(player: streamingViewModel.player)
 
+            ProgressControl(onSwipeCompleted: {
+                webSocketClient.sendPlayerSync(command: ["newProgress": streamingViewModel.currentTime])
+            })
+
             VolumeControl()
 
             if streamingViewModel.showPlaybackControls {
