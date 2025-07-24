@@ -18,15 +18,18 @@ struct VolumeControl: View {
             /// 向上滑动为负值.
             let deltaY = Float(-event.scrollingDeltaY / 200)
 
-            withAnimation(.easeInOut, {
-                streamingViewModel.showVolumeDisplay = true
+            /// 检测到滚动变化量不为0时.
+            if deltaY != 0 {
+                withAnimation(.easeInOut, {
+                    streamingViewModel.showVolumeDisplay = true
 
-                /// 取消静音.
-                streamingViewModel.isMuted = false
+                    /// 取消静音.
+                    streamingViewModel.isMuted = false
 
-                /// 确保音量值在有效范围内.
-                streamingViewModel.volume = min(1, max(streamingViewModel.volume + deltaY, 0))
-            })
+                    /// 确保音量值在有效范围内.
+                    streamingViewModel.volume = min(1, max(streamingViewModel.volume + deltaY, 0))
+                })
+            }
 
             if event.phase == .ended {
                 /// 设置音量滑块在结束滚动1.5秒后自动关闭.
