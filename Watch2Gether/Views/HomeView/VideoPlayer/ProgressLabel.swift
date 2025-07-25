@@ -17,9 +17,12 @@ struct ProgressLabel: View {
     /// 视频的总时长(秒).
     let totalDuration: Double
 
+    /// 是否反转图标的方向, 默认为`false`表示快进状态, 设置为`true`则表示快退状态.
+    var isIconFlipped: Bool = false
+
     var body: some View {
         HStack {
-            FastPlaybackIcon(duration: 0.5)
+            FastPlaybackIcon(duration: 0.5, isFlipped: isIconFlipped)
                 .scaleEffect(1.2)
 
             HStack(spacing: 0, content: {
