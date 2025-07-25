@@ -105,9 +105,9 @@ struct ProgressControl: View {
     /// - Returns: 滑动手势与水平轴之间的夹角.
     private func calculateAngle(translation: CGSize) -> CGFloat {
         let radians = atan2(translation.height, translation.width)
-        let degress = abs(radians * 180 / .pi)
+        let degrees = abs(radians * 180 / .pi)
 
-        return degress > 90 ? 180 - degress : degress
+        return degrees > 90 ? 180 - degrees : degrees
     }
 }
 
