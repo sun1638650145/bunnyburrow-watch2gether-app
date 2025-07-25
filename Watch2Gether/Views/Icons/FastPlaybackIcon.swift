@@ -17,6 +17,9 @@ struct FastPlaybackIcon: View {
     /// 动画持续的时间(秒).
     var duration: Double = 1.0
 
+    /// 是否反转图标的方向.
+    var isFlipped: Bool = false
+
     var body: some View {
         HStack(spacing: -3, content: {
             Image(systemName: "play.fill")
@@ -30,6 +33,7 @@ struct FastPlaybackIcon: View {
                 showFirstIcon = false
             })
         })
+        .rotationEffect(.degrees(isFlipped ? 180 : 0))
     }
 }
 
