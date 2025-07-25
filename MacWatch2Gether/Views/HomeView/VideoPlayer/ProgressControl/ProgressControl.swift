@@ -15,6 +15,9 @@ import SwiftUI
 struct ProgressControl: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
 
+    /// 是否正在快退.
+    @State private var isRewinding: Bool = false
+
     /// 显示播放进度视图变量.
     @State private var showProgressDisplay: Bool = false
 
@@ -30,6 +33,9 @@ struct ProgressControl: View {
             showProgressDisplay = true
 
             let newProgress = streamingViewModel.currentTime + event.scrollingDeltaX
+
+            /// 通过比较新进度值和当前的播放时间来判断滑动的方向, 即是否正在快退.
+            isRewinding = newProgress < streamingViewModel.currentTime
 
             /// 计算当前, 剩余的播放时间和进度条的位置.
             streamingViewModel.currentTime = min(streamingViewModel.totalDuration, max(newProgress, 0))
@@ -51,7 +57,8 @@ struct ProgressControl: View {
             if showProgressDisplay {
                 ProgressLabel(
                     currentTime: streamingViewModel.currentTime,
-                    totalDuration: streamingViewModel.totalDuration
+                    totalDuration: streamingViewModel.totalDuration,
+                    isIconFlipped: isRewinding
                 )
             }
         })
