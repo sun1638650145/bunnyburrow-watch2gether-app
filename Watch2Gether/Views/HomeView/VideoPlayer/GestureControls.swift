@@ -101,6 +101,7 @@ struct GestureControls: View {
                         if isLongPressing {
                             streamingViewModel.currentPlaybackRate = previousPlaybackRate
                             streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                            onPlaybackRateChange()
                         }
 
                         isLongPressing = false
