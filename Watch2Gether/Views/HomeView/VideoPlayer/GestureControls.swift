@@ -16,11 +16,17 @@ struct GestureControls: View {
     @Environment(AppSettings.self) var appSettings
     @Environment(StreamingViewModel.self) var streamingViewModel
 
+    /// 是否正在长按.
+    @State private var isLongPressing: Bool = false
+
     /// 是否正在快退.
     @State private var isRewinding: Bool = false
 
     /// 是否正在滑动.
     @State private var isSeeking: Bool = false
+
+    /// 之前的播放速率.
+    @State private var previousPlaybackRate: Float = 1.0
 
     /// 之前的播放进度(秒).
     @State private var previousProgress: Double = 0.0
@@ -31,14 +37,22 @@ struct GestureControls: View {
     /// 滑动手势有效角度的识别范围.
     private let validAngleRange: ClosedRange<CGFloat> = 0...15
 
+    /// 播放速率调整后调用的闭包.
+    private var onPlaybackRateChange: () -> Void
+
     /// 播放暂停切换时调用的闭包.
     private var onPlayPauseToggle: (Bool) -> Void
 
     /// 进度调整完成时调用的闭包.
     private var onSeekCompleted: () -> Void
 
-    init(onPlayPauseToggle: @escaping (Bool) -> Void = { _ in }, onSeekCompleted: @escaping () -> Void = {}) {
+    init(
+        onPlayPauseToggle: @escaping (Bool) -> Void = { _ in },
+        onPlaybackRateChange: @escaping () -> Void = {},
+        onSeekCompleted: @escaping () -> Void = {}
+    ) {
         self.onPlayPauseToggle = onPlayPauseToggle
+        self.onPlaybackRateChange = onPlaybackRateChange
         self.onSeekCompleted = onSeekCompleted
     }
 
@@ -65,6 +79,31 @@ struct GestureControls: View {
                     } else {
                         /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
                         streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                    }
+                })
+                .onLongPressGesture(perform: {
+                    /// 当视频正在播放时, 长按2倍速播放.
+                    guard streamingViewModel.isPlaying else {
+                        return
+                    }
+
+                    isLongPressing = true
+
+                    /// 记录之前的播放速率.
+                    previousPlaybackRate = streamingViewModel.currentPlaybackRate
+
+                    streamingViewModel.currentPlaybackRate = 2.0
+                    streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                    onPlaybackRateChange()
+                }, onPressingChanged: { isPressing in
+                    if !isPressing {
+                        /// 松开长按手势时, 恢复原播放速率.
+                        if isLongPressing {
+                            streamingViewModel.currentPlaybackRate = previousPlaybackRate
+                            streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                        }
+
+                        isLongPressing = false
                     }
                 })
                 .onDragGesture(changedPerform: { gesture in
@@ -121,6 +160,9 @@ struct GestureControls: View {
                     totalDuration: streamingViewModel.totalDuration,
                     isIconFlipped: isRewinding
                 )
+            } else if isLongPressing {
+                FastPlaybackIndicator()
+                    .padding(15)
             }
         })
     }
