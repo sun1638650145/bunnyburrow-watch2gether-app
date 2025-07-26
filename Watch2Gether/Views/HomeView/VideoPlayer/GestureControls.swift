@@ -57,13 +57,6 @@ struct GestureControls: View {
                         previousProgress = streamingViewModel.currentTime
                     }
                 })
-                .onTapGesture(perform: {
-                    /// 关闭弹幕聊天消息输入视图.
-                    appSettings.showDanmakuMessageInput = false
-
-                    streamingViewModel.resetHidePlaybackControlsTimer()
-                    streamingViewModel.showPlaybackControls.toggle()
-                })
                 .onDoubleTapGesture(perform: {
                     onPlayPauseToggle(streamingViewModel.isPlaying)
 
@@ -73,11 +66,6 @@ struct GestureControls: View {
                         /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
                         streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
                     }
-                })
-                .onScaleGesture(scaleDownPerform: {
-                    appSettings.isFullScreen = false
-                }, scaleUpPerform: {
-                    appSettings.isFullScreen = true
                 })
                 .onDragGesture(changedPerform: { gesture in
                     /// 计算滑动手势的角度, 在有效范围内才能调整播放进度.
@@ -101,7 +89,7 @@ struct GestureControls: View {
 
                     showProgressDisplay = true
                 }, endedPerform: { _ in
-                    // 更新之前的播放进度.
+                    /// 更新之前的播放进度.
                     previousProgress = streamingViewModel.currentTime
 
                     streamingViewModel.player.seek(
@@ -112,6 +100,18 @@ struct GestureControls: View {
 
                     isSeeking = false
                     showProgressDisplay = false
+                })
+                .onScaleGesture(scaleDownPerform: {
+                    appSettings.isFullScreen = false
+                }, scaleUpPerform: {
+                    appSettings.isFullScreen = true
+                })
+                .onTapGesture(perform: {
+                    /// 关闭弹幕聊天消息输入视图.
+                    appSettings.showDanmakuMessageInput = false
+
+                    streamingViewModel.resetHidePlaybackControlsTimer()
+                    streamingViewModel.showPlaybackControls.toggle()
                 })
         })
         .overlay(content: {
