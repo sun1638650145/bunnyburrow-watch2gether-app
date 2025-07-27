@@ -11,7 +11,15 @@ import AVKit
 import Foundation
 import SwiftUI
 
-/// `GestureControls`是手势控制视图, 用于处理播放暂停, 全屏切换等多种手势交互.
+/// `GestureControls`是手势控制视图, 用于处理多种手势交互.
+///
+/// 支持以下手势操作:
+///   - **单击手势**: 关闭弹幕聊天消息输入视图和切换显示播放控制栏.
+///   - **双击手势**: 切换视频播放暂停.
+///   - **长按手势**: 当视频正在播放时, 切换为2倍速播放; 松开恢复原播放速率.
+///   - **缩放手势**: 切换全屏状态.
+///   - **水平滑动手势**: 调整视频的播放进度.
+///   - **垂直滑动手势**: 调整播放器的音频音量.
 struct GestureControls: View {
     @Environment(AppSettings.self) var appSettings
     @Environment(StreamingViewModel.self) var streamingViewModel
