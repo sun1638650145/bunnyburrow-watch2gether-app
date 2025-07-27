@@ -34,8 +34,8 @@ struct GestureControls: View {
     /// 显示播放进度视图变量.
     @State private var showProgressDisplay: Bool = false
 
-    /// 滑动手势有效角度的识别范围.
-    private let validAngleRange: ClosedRange<CGFloat> = 0...15
+    /// 水平滑动手势有效角度的识别范围.
+    private let validHorizontalAngleRange: ClosedRange<CGFloat> = 0...15
 
     /// 播放速率调整后调用的闭包.
     private var onPlaybackRateChange: () -> Void
@@ -108,26 +108,12 @@ struct GestureControls: View {
                     }
                 })
                 .onDragGesture(changedPerform: { gesture in
-                    /// 计算滑动手势的角度, 在有效范围内才能调整播放进度.
-                    guard validAngleRange.contains(calculateAngle(translation: gesture.translation)) else {
-                        return
+                    let angle = calculateAngle(translation: gesture.translation)
+
+                    /// 计算水平滑动手势的角度, 在有效范围内才能调整播放进度.
+                    if validHorizontalAngleRange.contains(angle) {
+                        handleHorizontalDragGesture(gesture: gesture, geometry: geometry)
                     }
-
-                    isSeeking = true
-
-                    let deltaX = gesture.translation.width / geometry.size.width
-                    /// 一次滑动手势过程中会产生多个`deltaX`, 避免累加播放进度且保证进度变化连续.
-                    let newProgress = previousProgress + deltaX * streamingViewModel.totalDuration
-
-                    /// 通过比较新进度值和当前的播放时间来判断滑动的方向, 即是否正在快退(可实现滑动过程中实时更新).
-                    isRewinding = newProgress < streamingViewModel.currentTime
-
-                    /// 确保播放进度值在有效范围内.
-                    streamingViewModel.currentTime = min(streamingViewModel.totalDuration, max(newProgress, 0))
-                    streamingViewModel.remainingTime = streamingViewModel.totalDuration - streamingViewModel.currentTime
-                    streamingViewModel.seekPosition = streamingViewModel.currentTime / streamingViewModel.totalDuration
-
-                    showProgressDisplay = true
                 }, endedPerform: { _ in
                     /// 更新之前的播放进度.
                     previousProgress = streamingViewModel.currentTime
@@ -168,16 +154,39 @@ struct GestureControls: View {
         })
     }
 
-    /// 计算滑动手势与x轴之间的夹角.
+    /// 计算滑动手势的角度.
     ///
     /// - Parameters:
     ///   - translation: 滑动手势的总位移量.
-    /// - Returns: 滑动手势与x轴之间的夹角.
+    /// - Returns: 滑动手势的角度.
     private func calculateAngle(translation: CGSize) -> CGFloat {
-        let radians = atan2(translation.height, translation.width)
-        let degrees = abs(radians * 180 / .pi)
+        let radians = atan2(abs(translation.height), abs(translation.width))
+        let degrees = radians * 180 / .pi
 
-        return degrees > 90 ? 180 - degrees : degrees
+        return degrees
+    }
+
+    /// 处理水平滑动手势.
+    ///
+    /// - Parameters:
+    ///   - gesture: 滑动手势的属性.
+    ///   - geometry: 当前容器视图的大小和空间信息的代理.
+    private func handleHorizontalDragGesture(gesture: DragGesture.Value, geometry: GeometryProxy) {
+        isSeeking = true
+
+        let deltaX = gesture.translation.width / geometry.size.width
+        /// 一次滑动手势过程中会产生多个`deltaX`, 避免累加播放进度且保证进度变化连续.
+        let newProgress = previousProgress + deltaX * streamingViewModel.totalDuration
+
+        /// 通过比较新进度值和当前的播放时间来判断滑动的方向, 即是否正在快退(可实现滑动过程中实时更新).
+        isRewinding = newProgress < streamingViewModel.currentTime
+
+        /// 确保播放进度值在有效范围内.
+        streamingViewModel.currentTime = min(streamingViewModel.totalDuration, max(newProgress, 0))
+        streamingViewModel.remainingTime = streamingViewModel.totalDuration - streamingViewModel.currentTime
+        streamingViewModel.seekPosition = streamingViewModel.currentTime / streamingViewModel.totalDuration
+
+        showProgressDisplay = true
     }
 }
 
