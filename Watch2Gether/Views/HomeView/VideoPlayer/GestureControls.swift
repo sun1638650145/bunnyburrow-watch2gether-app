@@ -16,6 +16,9 @@ struct GestureControls: View {
     @Environment(AppSettings.self) var appSettings
     @Environment(StreamingViewModel.self) var streamingViewModel
 
+    /// 是否正在调整音量.
+    @State private var isAdjustingVolume: Bool = false
+
     /// 是否正在长按.
     @State private var isLongPressing: Bool = false
 
@@ -31,11 +34,17 @@ struct GestureControls: View {
     /// 之前的播放进度(秒).
     @State private var previousProgress: Double = 0.0
 
+    /// 之前的音频音量.
+    @State private var previousVolume: Float = 0.0
+
     /// 显示播放进度视图变量.
     @State private var showProgressDisplay: Bool = false
 
     /// 水平滑动手势有效角度的识别范围.
     private let validHorizontalAngleRange: ClosedRange<CGFloat> = 0...15
+
+    /// 垂直滑动手势有效角度的识别范围.
+    private let validVerticalAngleRange: ClosedRange<CGFloat> = 75...90
 
     /// 播放速率调整后调用的闭包.
     private var onPlaybackRateChange: () -> Void
@@ -62,8 +71,9 @@ struct GestureControls: View {
                 /// 设置透明的手势识别区域.
                 .contentShape(Rectangle())
                 .onAppear(perform: {
-                    /// 初始化之前的播放进度.
+                    /// 初始化之前的播放进度和音频音量.
                     previousProgress = streamingViewModel.currentTime
+                    previousVolume = streamingViewModel.volume
                 })
                 .onChange(of: streamingViewModel.currentTime, {
                     /// 未滑动时同步之前的播放进度.
@@ -113,19 +123,39 @@ struct GestureControls: View {
                     /// 计算水平滑动手势的角度, 在有效范围内才能调整播放进度.
                     if validHorizontalAngleRange.contains(angle) {
                         handleHorizontalDragGesture(gesture: gesture, geometry: geometry)
+                    /// 计算垂直滑动手势的角度, 在有效范围内才能调整音量.
+                    } else if validVerticalAngleRange.contains(angle) {
+                        /// 只在右侧1/2的屏幕生效.
+                        guard gesture.startLocation.x > geometry.size.width / 2 else {
+                            return
+                        }
+
+                        handleVerticalDragGesture(gesture: gesture, geometry: geometry)
                     }
                 }, endedPerform: { _ in
-                    /// 更新之前的播放进度.
-                    previousProgress = streamingViewModel.currentTime
+                    if isSeeking {
+                        /// 更新之前的播放进度.
+                        previousProgress = streamingViewModel.currentTime
 
-                    streamingViewModel.player.seek(
-                        to: CMTime(seconds: streamingViewModel.currentTime, preferredTimescale: 1000)
-                    )
+                        streamingViewModel.player.seek(
+                            to: CMTime(seconds: streamingViewModel.currentTime, preferredTimescale: 1000)
+                        )
 
-                    onSeekCompleted()
+                        onSeekCompleted()
 
-                    isSeeking = false
-                    showProgressDisplay = false
+                        isSeeking = false
+                        showProgressDisplay = false
+                    } else if isAdjustingVolume {
+                        /// 更新之前的音频音量.
+                        previousVolume = streamingViewModel.volume
+
+                        /// 设置音量滑块在结束滑动1.5秒钟后自动关闭.
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                            streamingViewModel.showVolumeDisplay = false
+                        })
+
+                        isAdjustingVolume = false
+                    }
                 })
                 .onScaleGesture(scaleDownPerform: {
                     appSettings.isFullScreen = false
@@ -150,6 +180,15 @@ struct GestureControls: View {
             } else if isLongPressing {
                 FastPlaybackIndicator()
                     .padding(15)
+            } else if streamingViewModel.showVolumeDisplay {
+                Group {
+                    if streamingViewModel.isMuted {
+                        MuteIndicator()
+                    } else {
+                        VolumeSlider(volume: streamingViewModel.volume)
+                    }
+                }
+                .padding(15)
             }
         })
     }
@@ -187,6 +226,31 @@ struct GestureControls: View {
         streamingViewModel.seekPosition = streamingViewModel.currentTime / streamingViewModel.totalDuration
 
         showProgressDisplay = true
+    }
+
+    /// 处理垂直滑动手势.
+    ///
+    /// - Parameters:
+    ///   - gesture: 滑动手势的属性.
+    ///   - geometry: 当前容器视图的大小和空间信息的代理.
+    private func handleVerticalDragGesture(gesture: DragGesture.Value, geometry: GeometryProxy) {
+        isAdjustingVolume = true
+
+        /// 向上滑动为负值.
+        let deltaY = Float(-gesture.translation.height / geometry.size.height)
+
+        /// 一次滑动手势过程中会产生多个`deltaY`, 避免累加音量且保证音量变化连续.
+        let newVolume = previousVolume + deltaY
+
+        withAnimation(.easeInOut, {
+            streamingViewModel.showVolumeDisplay = true
+
+            /// 取消静音.
+            streamingViewModel.isMuted = false
+
+            /// 确保音量值在有效范围内.
+            streamingViewModel.volume = min(1, max(newVolume, 0))
+        })
     }
 }
 
