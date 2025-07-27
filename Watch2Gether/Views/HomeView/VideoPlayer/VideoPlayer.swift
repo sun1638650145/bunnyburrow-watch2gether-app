@@ -36,15 +36,21 @@ struct VideoPlayer: View {
             VideoPlayerViewController(player: streamingViewModel.player)
                 .ignoresSafeArea(edges: [.bottom, .horizontal])
 
-            ProgressControl(onSeekCompleted: {
-                webSocketClient.sendPlayerSync(command: ["newProgress": streamingViewModel.currentTime])
-            })
-
-            VolumeAndPlaybackRateControl(onPlaybackRateChange: {
-                webSocketClient.sendPlayerSync(
-                    command: ["playbackRate": streamingViewModel.currentPlaybackRate]
-                )
-            })
+            GestureControls(
+                onPlayPauseToggle: { isPlaying in
+                    if isPlaying {
+                        webSocketClient.sendPlayerSync(command: "pause")
+                    } else {
+                        webSocketClient.sendPlayerSync(command: "play")
+                    }
+                },
+                onPlaybackRateChange: {
+                    webSocketClient.sendPlayerSync(command: ["playbackRate": streamingViewModel.currentPlaybackRate])
+                },
+                onSeekCompleted: {
+                    webSocketClient.sendPlayerSync(command: ["newProgress": streamingViewModel.currentTime])
+                }
+            )
 
             if streamingViewModel.showPlaybackControls {
                 PlaybackControls()
@@ -66,28 +72,6 @@ struct VideoPlayer: View {
         .onChange(of: appSettings.showDanmakuMessageInput, {
             /// 显示弹幕聊天消息输入视图时, 关闭播放控制栏.
             streamingViewModel.showPlaybackControls = false
-        })
-        .onDoubleTapGesture(perform: {
-            if streamingViewModel.isPlaying {
-                streamingViewModel.player.pause()
-                webSocketClient.sendPlayerSync(command: "pause")
-            } else {
-                /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
-                streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
-                webSocketClient.sendPlayerSync(command: "play")
-            }
-        })
-        .onScaleGesture(scaleDownPerform: {
-            appSettings.isFullScreen = false
-        }, scaleUpPerform: {
-            appSettings.isFullScreen = true
-        })
-        .onTapGesture(perform: {
-            /// 关闭弹幕聊天消息输入视图.
-            appSettings.showDanmakuMessageInput = false
-
-            streamingViewModel.resetHidePlaybackControlsTimer()
-            streamingViewModel.showPlaybackControls.toggle()
         })
     }
 
