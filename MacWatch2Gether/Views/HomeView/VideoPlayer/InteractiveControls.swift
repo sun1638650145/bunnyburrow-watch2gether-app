@@ -7,6 +7,7 @@
 //  Created by Steve R. Sun on 2025/7/28.
 //
 
+import AppKit
 import Foundation
 import SwiftUI
 
