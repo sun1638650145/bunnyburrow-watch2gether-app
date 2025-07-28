@@ -34,11 +34,9 @@ struct VideoPlayer: View {
 
             VideoPlayerView(player: streamingViewModel.player)
 
-            ProgressControl(onSwipeCompleted: {
+            InteractiveControls(onSwipeCompleted: {
                 webSocketClient.sendPlayerSync(command: ["newProgress": streamingViewModel.currentTime])
             })
-
-            VolumeControl()
 
             if streamingViewModel.showPlaybackControls {
                 PlaybackControls()
@@ -57,27 +55,6 @@ struct VideoPlayer: View {
         .onChange(of: appSettings.showDanmakuMessageInput, {
             /// 显示弹幕聊天消息输入视图时, 关闭播放控制栏.
             streamingViewModel.showPlaybackControls = false
-        })
-        .onDoubleTapGesture(perform: {
-            /// 视频播放器进入窗口全屏状态.
-            guard let window = NSApplication.shared.keyWindow
-            else {
-                return
-            }
-
-            /// 需要视频播放器视图和窗口状态一致时.
-            if appSettings.isFullScreen == window.styleMask.contains(.fullScreen) {
-                window.toggleFullScreen(nil)
-            }
-
-            appSettings.isFullScreen.toggle()
-        })
-        .onTapGesture(perform: {
-            /// 关闭弹幕聊天消息输入视图.
-            appSettings.showDanmakuMessageInput = false
-
-            streamingViewModel.resetHidePlaybackControlsTimer()
-            streamingViewModel.showPlaybackControls.toggle()
         })
     }
 
