@@ -139,6 +139,23 @@ class StreamingViewModel {
         })
     }
 
+    /// 切换到指定名称的视频源.
+    ///
+    /// - Parameters:
+    ///   - video: 视频名称.
+    func switchTo(named video: String) {
+        guard var urlComponents = URLComponents(url: self.url, resolvingAgainstBaseURL: false) else {
+            return
+        }
+
+        /// 更新路径, 拼接指定视频名称.
+        urlComponents.path = "/video/\(video)/"
+
+        if let newUrl = urlComponents.url {
+            updateURL(newUrl)
+        }
+    }
+
     /// 更新视频源URL.
     ///
     /// - Parameters:

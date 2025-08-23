@@ -11,6 +11,8 @@ import SwiftUI
 
 /// `VideoSwitcher`是视频切换菜单, 用于在多个视频之间进行切换.
 struct VideoSwitcher: View {
+    @Environment(StreamingViewModel.self) var streamingViewModel
+
     /// 可供选择的视频列表.
     private let videos: [String]
 
@@ -22,7 +24,7 @@ struct VideoSwitcher: View {
         Menu(content: {
             ForEach(videos, id: \.self, content: { video in
                 Button(action: {
-                    // ...
+                    streamingViewModel.switchTo(named: video)
                 }, label: {
                     Text(video)
                 })
@@ -37,5 +39,8 @@ struct VideoSwitcher: View {
 }
 
 #Preview {
+    let streamingViewModel = StreamingViewModel()
+
     VideoSwitcher(videos: ["玩具总动员", "虫虫危机", "玩具总动员2", "怪兽电力公司", "海底总动员", "超人总动员"])
+        .environment(streamingViewModel)
 }
