@@ -40,7 +40,7 @@ struct VideoSwitcher: View {
         })
         .task({
             do {
-                videos = try await self.fetchVideos(from: URL(string: "http://127.0.0.1/")!)
+                videos = try await self.fetchVideos(from: streamingViewModel.domainUrl)
             } catch {
                 print("获取流媒体视频列表失败: \(error.localizedDescription)")
             }
@@ -50,12 +50,12 @@ struct VideoSwitcher: View {
     /// 获取流媒体视频列表.
     ///
     /// - Parameters:
-    ///   - baseUrl: 流媒体服务器的基础URL.
+    ///   - domainUrl: 流媒体服务器的域名URL.
     /// - Returns: 流媒体视频列表.
     /// - Throws: 当网络请求或数据解析失败时抛出异常.
-    private func fetchVideos(from baseUrl: URL) async throws -> [String] {
+    private func fetchVideos(from domainUrl: URL) async throws -> [String] {
         /// 拼接完整的请求URL.
-        let videosUrl = baseUrl.appending(path: "videos", directoryHint: .isDirectory)
+        let videosUrl = domainUrl.appending(path: "videos", directoryHint: .isDirectory)
 
         let (data, response) = try await URLSession.shared.data(from: videosUrl)
 

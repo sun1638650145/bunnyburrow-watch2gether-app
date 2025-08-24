@@ -25,6 +25,11 @@ class StreamingViewModel {
     /// 播放状态: 当前的播放时间(秒).
     var currentTime: Double = 0.0
 
+    /// 视频源域名URL.
+    var domainUrl: URL {
+        return url.domainURL ?? url
+    }
+
     /// 用于自动隐藏播放控制栏的定时器.
     var hidePlaybackControlsTimer: Timer = Timer()
 
