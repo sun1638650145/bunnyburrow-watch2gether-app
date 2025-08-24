@@ -7,40 +7,71 @@
 //  Created by Steve R. Sun on 2025/8/23.
 //
 
+import Foundation
 import SwiftUI
+
+import SwiftyJSON
 
 /// `VideoSwitcher`是视频切换菜单, 用于在多个视频之间进行切换.
 struct VideoSwitcher: View {
     @Environment(StreamingViewModel.self) var streamingViewModel
 
     /// 可供选择的视频列表.
-    private let videos: [String]
-
-    init(videos: [String]) {
-        self.videos = videos
-    }
+    @State private var videos: [String] = []
 
     var body: some View {
         Menu(content: {
-            ForEach(videos, id: \.self, content: { video in
-                Button(action: {
-                    streamingViewModel.switchTo(named: video)
-                }, label: {
-                    Text(video)
+            if videos.isEmpty {
+                Text("Loading...")
+            } else {
+                ForEach(videos, id: \.self, content: { video in
+                    Button(action: {
+                        streamingViewModel.switchTo(named: video)
+                    }, label: {
+                        Text(video)
+                    })
                 })
-            })
+            }
         }, label: {
             Text("Switch Video")
                 .bold()
                 .foregroundStyle(Color.foreground)
                 .padding(5)
         })
+        .task({
+            do {
+                videos = try await self.fetchVideos(from: URL(string: "http://127.0.0.1/")!)
+            } catch {
+                print("获取流媒体视频列表失败: \(error.localizedDescription)")
+            }
+        })
+    }
+
+    /// 获取流媒体视频列表.
+    ///
+    /// - Parameters:
+    ///   - baseUrl: 流媒体服务器的基础URL.
+    /// - Returns: 流媒体视频列表.
+    /// - Throws: 当网络请求或数据解析失败时抛出异常.
+    private func fetchVideos(from baseUrl: URL) async throws -> [String] {
+        /// 拼接完整的请求URL.
+        let videosUrl = baseUrl.appending(path: "videos", directoryHint: .isDirectory)
+
+        let (data, response) = try await URLSession.shared.data(from: videosUrl)
+
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200
+        else {
+            // TODO: 为快速实现功能暂未处理异常(Steve).
+            return []
+        }
+
+        return JSON(data)["videos"].arrayValue.map({ $0.stringValue })
     }
 }
 
 #Preview {
     let streamingViewModel = StreamingViewModel()
 
-    VideoSwitcher(videos: ["玩具总动员", "虫虫危机", "玩具总动员2", "怪兽电力公司", "海底总动员", "超人总动员"])
+    VideoSwitcher()
         .environment(streamingViewModel)
 }
