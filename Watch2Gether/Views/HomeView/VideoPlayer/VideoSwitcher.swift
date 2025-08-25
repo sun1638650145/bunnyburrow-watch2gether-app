@@ -55,7 +55,9 @@ struct VideoSwitcher: View {
     /// - Throws: 当网络请求或数据解析失败时抛出异常.
     private func fetchVideos(from domainUrl: URL) async throws -> [String] {
         /// 拼接完整的请求URL.
-        let videosUrl = domainUrl.appending(path: "videos", directoryHint: .isDirectory)
+        let videosUrl = domainUrl
+            .appending(path: "videos", directoryHint: .isDirectory)
+            .appending(queryItems: [URLQueryItem(name: "sort", value: "true")])
 
         let (data, response) = try await URLSession.shared.data(from: videosUrl)
 
