@@ -12,14 +12,11 @@ import Foundation
 extension URL {
     /// 返回域名URL.
     var domainURL: URL? {
-        guard let scheme = self.scheme,
-              let host = self.host()
+        guard let scheme = self.scheme, let host = self.host()
         else {
             return nil
         }
 
-        let port = self.port
-
-        return URL(string: scheme + "://" + host + (port.map({ ":\($0)" }) ?? "") + "/")
+        return URL(string: scheme + "://" + host + (self.port.map({ ":\($0)" }) ?? "") + "/")
     }
 }
