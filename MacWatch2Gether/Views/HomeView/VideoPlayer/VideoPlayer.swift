@@ -119,6 +119,7 @@ struct VideoPlayer: View {
     let user = User()
     let friendsViewModel = FriendsViewModel()
     let playerViewModel = PlayerViewModel(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
+    let videosViewModel = VideosViewModel()
     let webSocketClient = WebSocketClient()
 
     VideoPlayer()
@@ -126,5 +127,6 @@ struct VideoPlayer: View {
         .environment(user)
         .environment(friendsViewModel)
         .environment(playerViewModel)
+        .environment(videosViewModel)
         .environment(webSocketClient)
 }
