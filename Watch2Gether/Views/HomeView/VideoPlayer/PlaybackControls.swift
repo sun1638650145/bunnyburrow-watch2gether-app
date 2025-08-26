@@ -18,7 +18,7 @@ import SwiftUI
 struct PlaybackControls: View {
     @Environment(AppSettings.self) var appSettings
     @Environment(User.self) var user
-    @Environment(StreamingViewModel.self) var streamingViewModel
+    @Environment(PlayerViewModel.self) var playerViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
     var body: some View {
@@ -45,17 +45,17 @@ struct PlaybackControls: View {
             Spacer()
 
             ProgressBar(onSeekCompleted: {
-                webSocketClient.sendPlayerSync(command: ["newProgress": streamingViewModel.currentTime])
+                webSocketClient.sendPlayerSync(command: ["newProgress": playerViewModel.currentTime])
             })
 
             HStack {
                 /// 快退30秒按钮.
                 Button(action: {
                     /// 确保不小于0.
-                    let newProgress = max(0, streamingViewModel.currentTime - 30)
+                    let newProgress = max(0, playerViewModel.currentTime - 30)
 
-                    streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
-                    streamingViewModel.resetHidePlaybackControlsTimer()
+                    playerViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+                    playerViewModel.resetHidePlaybackControlsTimer()
 
                     webSocketClient.sendPlayerSync(command: ["newProgress": newProgress])
                 }, label: {
@@ -69,18 +69,18 @@ struct PlaybackControls: View {
 
                 /// 播放控制按钮.
                 Button(action: {
-                    streamingViewModel.resetHidePlaybackControlsTimer()
+                    playerViewModel.resetHidePlaybackControlsTimer()
 
-                    if streamingViewModel.isPlaying {
-                        streamingViewModel.player.pause()
+                    if playerViewModel.isPlaying {
+                        playerViewModel.player.pause()
                         webSocketClient.sendPlayerSync(command: "pause")
                     } else {
                         /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
-                        streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                        playerViewModel.player.rate = playerViewModel.currentPlaybackRate
                         webSocketClient.sendPlayerSync(command: "play")
                     }
                 }, label: {
-                    Image(systemName: streamingViewModel.isPlaying ? "pause.fill" : "play.fill")
+                    Image(systemName: playerViewModel.isPlaying ? "pause.fill" : "play.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 22, height: 22)
@@ -90,15 +90,15 @@ struct PlaybackControls: View {
 
                 /// 快进30秒按钮.
                 Button(action: {
-                    guard streamingViewModel.totalDuration > 0 else {
+                    guard playerViewModel.totalDuration > 0 else {
                         return
                     }
 
                     /// 确保不超过视频总时长.
-                    let newProgress = min(streamingViewModel.totalDuration, streamingViewModel.currentTime + 30)
+                    let newProgress = min(playerViewModel.totalDuration, playerViewModel.currentTime + 30)
 
-                    streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
-                    streamingViewModel.resetHidePlaybackControlsTimer()
+                    playerViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+                    playerViewModel.resetHidePlaybackControlsTimer()
 
                     webSocketClient.sendPlayerSync(command: ["newProgress": newProgress])
                 }, label: {
@@ -158,12 +158,12 @@ struct PlaybackControls: View {
 #Preview {
     let appSettings = AppSettings()
     let user = User()
-    let streamingViewModel = StreamingViewModel(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    let playerViewModel = PlayerViewModel(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
     let webSocketClient = WebSocketClient()
 
     PlaybackControls()
         .environment(user)
         .environment(appSettings)
-        .environment(streamingViewModel)
+        .environment(playerViewModel)
         .environment(webSocketClient)
 }

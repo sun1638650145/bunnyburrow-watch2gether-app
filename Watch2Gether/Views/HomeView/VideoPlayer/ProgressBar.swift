@@ -12,7 +12,7 @@ import SwiftUI
 
 /// `ProgressBar`是视频播放进度条视图, 支持实时显示播放进度和用户交互.
 struct ProgressBar: View {
-    @Environment(StreamingViewModel.self) var streamingViewModel
+    @Environment(PlayerViewModel.self) var playerViewModel
 
     /// 进度调整完成时调用的闭包.
     private var onSeekCompleted: () -> Void
@@ -23,42 +23,41 @@ struct ProgressBar: View {
 
     var body: some View {
         HStack {
-            Text(streamingViewModel.currentTime.formattedTime())
+            Text(playerViewModel.currentTime.formattedTime())
 
             StyledSlider(
                 value: Binding<Double>(
-                    get: { streamingViewModel.seekPosition },
-                    set: { streamingViewModel.seekPosition = $0 }
+                    get: { playerViewModel.seekPosition },
+                    set: { playerViewModel.seekPosition = $0 }
                 ),
                 in: 0...1,
                 onEditingChanged: { isEditing in
                     /// 取消已有的隐藏播放控制栏的定时器.
-                    streamingViewModel.hidePlaybackControlsTimer.invalidate()
+                    playerViewModel.hidePlaybackControlsTimer.invalidate()
 
                     if !isEditing {
                         /// 使用滑块拖动后的位置计算出新的当前的播放时间并修改播放进度.
-                        streamingViewModel.currentTime = streamingViewModel.seekPosition
-                            * streamingViewModel.totalDuration
+                        playerViewModel.currentTime = playerViewModel.seekPosition * playerViewModel.totalDuration
 
-                        streamingViewModel.resetHidePlaybackControlsTimer()
-                        streamingViewModel.player.seek(
-                            to: CMTime(seconds: streamingViewModel.currentTime, preferredTimescale: 1000)
+                        playerViewModel.resetHidePlaybackControlsTimer()
+                        playerViewModel.player.seek(
+                            to: CMTime(seconds: playerViewModel.currentTime, preferredTimescale: 1000)
                         )
 
                         onSeekCompleted()
                     }
             })
-            .onChange(of: streamingViewModel.seekPosition, {
-                guard streamingViewModel.totalDuration > 0 else {
+            .onChange(of: playerViewModel.seekPosition, {
+                guard playerViewModel.totalDuration > 0 else {
                     return
                 }
 
                 /// 获取滑块拖动过程中, 实时的当前和剩余的播放时间.
-                streamingViewModel.currentTime = streamingViewModel.seekPosition * streamingViewModel.totalDuration
-                streamingViewModel.remainingTime = streamingViewModel.totalDuration - streamingViewModel.currentTime
+                playerViewModel.currentTime = playerViewModel.seekPosition * playerViewModel.totalDuration
+                playerViewModel.remainingTime = playerViewModel.totalDuration - playerViewModel.currentTime
             })
 
-            Text(streamingViewModel.remainingTime.formattedTime())
+            Text(playerViewModel.remainingTime.formattedTime())
         }
         .bold()
         .font(.footnote)
@@ -67,8 +66,8 @@ struct ProgressBar: View {
 }
 
 #Preview {
-    let streamingViewModel = StreamingViewModel()
+    let playerViewModel = PlayerViewModel()
 
     ProgressBar()
-        .environment(streamingViewModel)
+        .environment(playerViewModel)
 }

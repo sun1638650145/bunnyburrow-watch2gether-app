@@ -15,7 +15,7 @@ struct LoginView: View {
     @Environment(AppSettings.self) var appSettings
     @Environment(User.self) var user
     @Environment(FriendsViewModel.self) var friendsViewModel
-    @Environment(StreamingViewModel.self) var streamingViewModel
+    @Environment(PlayerViewModel.self) var playerViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
     /// 用户的头像的Base-64.
@@ -184,7 +184,7 @@ struct LoginView: View {
             focusedField = .websocketUrl
         } else {
             user.update(avatar, name!)
-            streamingViewModel.updateURL(URL(string: url!.trimmingCharacters(in: .whitespacesAndNewlines))!)
+            playerViewModel.updateURL(URL(string: url!.trimmingCharacters(in: .whitespacesAndNewlines))!)
             setupWebSocketConnection()
 
             /// 添加自己的用户信息.
@@ -260,7 +260,7 @@ struct LoginView: View {
     let appSettings = AppSettings()
     let user = User()
     let friendsViewModel = FriendsViewModel()
-    let streamingViewModel = StreamingViewModel()
+    let playerViewModel = PlayerViewModel()
     let webSocketClient = WebSocketClient()
 
     ZStack {
@@ -271,7 +271,7 @@ struct LoginView: View {
             .environment(appSettings)
             .environment(user)
             .environment(friendsViewModel)
-            .environment(streamingViewModel)
+            .environment(playerViewModel)
             .environment(webSocketClient)
     }
 }

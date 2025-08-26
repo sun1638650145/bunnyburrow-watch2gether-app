@@ -17,7 +17,7 @@ import SwiftUI
 struct PlaybackControlsCommands: Commands {
     @FocusedValue(AppSettings.self) private var appSettings
     @FocusedValue(User.self) private var user
-    @FocusedValue(StreamingViewModel.self) private var streamingViewModel
+    @FocusedValue(PlayerViewModel.self) private var playerViewModel
     @FocusedValue(WebSocketClient.self) private var webSocketClient
 
     var body: some Commands {
@@ -25,35 +25,35 @@ struct PlaybackControlsCommands: Commands {
             Group {
                 /// 播放控制按钮.
                 Button(action: {
-                    guard let streamingViewModel = streamingViewModel, let webSocketClient = webSocketClient
+                    guard let playerViewModel = playerViewModel, let webSocketClient = webSocketClient
                     else {
                         return
                     }
 
-                    if streamingViewModel.isPlaying {
-                        streamingViewModel.player.pause()
+                    if playerViewModel.isPlaying {
+                        playerViewModel.player.pause()
                         webSocketClient.sendPlayerSync(command: "pause")
                     } else {
                         /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
-                        streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                        playerViewModel.player.rate = playerViewModel.currentPlaybackRate
                         webSocketClient.sendPlayerSync(command: "play")
                     }
                 }, label: {
-                    Text(streamingViewModel?.isPlaying == true ? "Pause" : "Play")
+                    Text(playerViewModel?.isPlaying == true ? "Pause" : "Play")
                 })
                 .keyboardShortcut(.return, modifiers: .command)
 
                 /// 快退30秒按钮.
                 Button(action: {
-                    guard let streamingViewModel = streamingViewModel, let webSocketClient = webSocketClient
+                    guard let playerViewModel = playerViewModel, let webSocketClient = webSocketClient
                     else {
                         return
                     }
 
                     /// 确保不小于0.
-                    let newProgress = max(0, streamingViewModel.currentTime - 30)
+                    let newProgress = max(0, playerViewModel.currentTime - 30)
 
-                    streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+                    playerViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
                     webSocketClient.sendPlayerSync(command: ["newProgress": newProgress])
                 }, label: {
                     Text("Skip Back 30s")
@@ -62,77 +62,77 @@ struct PlaybackControlsCommands: Commands {
 
                 /// 快进30秒按钮.
                 Button(action: {
-                    guard let streamingViewModel = streamingViewModel, let webSocketClient = webSocketClient
+                    guard let playerViewModel = playerViewModel, let webSocketClient = webSocketClient
                     else {
                         return
                     }
 
                     /// 确保不超过视频总时长.
-                    let newProgress = min(streamingViewModel.totalDuration, streamingViewModel.currentTime + 30)
+                    let newProgress = min(playerViewModel.totalDuration, playerViewModel.currentTime + 30)
 
-                    streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+                    playerViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
                     webSocketClient.sendPlayerSync(command: ["newProgress": newProgress])
                 }, label: {
                     Text("Skip Ahead 30s")
                 })
                 .keyboardShortcut("D", modifiers: [.command, .shift])
             }
-            .disabled(streamingViewModel?.totalDuration ?? 0 <= 0)
+            .disabled(playerViewModel?.totalDuration ?? 0 <= 0)
 
             Divider()
 
             /// 静音控制按钮.
             Button(action: {
-                guard let streamingViewModel = streamingViewModel
+                guard let playerViewModel = playerViewModel
                 else {
                     return
                 }
 
-                streamingViewModel.showVolumeDisplay = true
-                streamingViewModel.resetHideVolumeDisplayTimer()
+                playerViewModel.showVolumeDisplay = true
+                playerViewModel.resetHideVolumeDisplayTimer()
 
-                streamingViewModel.isMuted.toggle()
+                playerViewModel.isMuted.toggle()
             }, label: {
-                Text(streamingViewModel?.isMuted == true ? "Unmute" : "Mute")
+                Text(playerViewModel?.isMuted == true ? "Unmute" : "Mute")
             })
             .keyboardShortcut("M", modifiers: [.command, .shift])
 
             /// 增加音量按钮.
             Button(action: {
-                guard let streamingViewModel = streamingViewModel
+                guard let playerViewModel = playerViewModel
                 else {
                     return
                 }
 
-                streamingViewModel.showVolumeDisplay = true
-                streamingViewModel.resetHideVolumeDisplayTimer()
+                playerViewModel.showVolumeDisplay = true
+                playerViewModel.resetHideVolumeDisplayTimer()
 
                 /// 取消静音并增加10%的音量.
-                streamingViewModel.isMuted = false
-                streamingViewModel.volume = min(streamingViewModel.volume + 0.1, 1)
+                playerViewModel.isMuted = false
+                playerViewModel.volume = min(playerViewModel.volume + 0.1, 1)
             }, label: {
                 Text("Volume Up")
             })
-            .disabled(streamingViewModel?.volume ?? 0 >= 1)
+            .disabled(playerViewModel?.volume ?? 0 >= 1)
             .keyboardShortcut("W", modifiers: [.command, .shift])
 
             /// 减少音量按钮.
             Button(action: {
-                guard let streamingViewModel = streamingViewModel
+                guard let playerViewModel = playerViewModel
                 else {
                     return
                 }
 
-                streamingViewModel.showVolumeDisplay = true
-                streamingViewModel.resetHideVolumeDisplayTimer()
+                playerViewModel.showVolumeDisplay = true
+                playerViewModel.resetHideVolumeDisplayTimer()
 
                 /// 取消静音并减少10%的音量.
-                streamingViewModel.isMuted = false
-                streamingViewModel.volume = max(0, streamingViewModel.volume - 0.1)
+                playerViewModel.isMuted = false
+                playerViewModel.volume = max(0, playerViewModel.volume - 0.1)
             }, label: {
                 Text("Volume Down")
             })
-            .disabled(streamingViewModel?.volume ?? 0 <= 0)
+            .disabled(playerViewModel?.volume ?? 0 <= 0)
             .keyboardShortcut("S", modifiers: [.command, .shift])
 
             Divider()

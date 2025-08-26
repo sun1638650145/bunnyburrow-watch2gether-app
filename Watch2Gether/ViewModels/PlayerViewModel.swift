@@ -1,7 +1,7 @@
 //
 //  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
 //
-//  StreamingViewModel.swift
+//  PlayerViewModel.swift
 //  Watch2Gether
 //
 //  Created by Steve R. Sun on 2024/8/3.
@@ -13,9 +13,9 @@ import Foundation
 import MediaPlayer
 import Observation
 
-/// 流媒体视频视图模型.
+/// 流媒体播放器视图模型.
 @Observable
-class StreamingViewModel {
+class PlayerViewModel {
     /// 视频播放器.
     let player: AVPlayer
 

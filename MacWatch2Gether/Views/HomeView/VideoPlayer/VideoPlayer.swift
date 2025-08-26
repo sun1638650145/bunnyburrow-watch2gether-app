@@ -17,7 +17,7 @@ import SwiftyJSON
 struct VideoPlayer: View {
     @Environment(AppSettings.self) var appSettings
     @Environment(FriendsViewModel.self) var friendsViewModel
-    @Environment(StreamingViewModel.self) var streamingViewModel
+    @Environment(PlayerViewModel.self) var playerViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
     /// 模态视图开关变量.
@@ -31,13 +31,13 @@ struct VideoPlayer: View {
             /// 使得视频播放器有更好的一体性.
             Color.black
 
-            VideoPlayerView(player: streamingViewModel.player)
+            VideoPlayerView(player: playerViewModel.player)
 
             InteractiveControls(onSwipeCompleted: {
-                webSocketClient.sendPlayerSync(command: ["newProgress": streamingViewModel.currentTime])
+                webSocketClient.sendPlayerSync(command: ["newProgress": playerViewModel.currentTime])
             })
 
-            if streamingViewModel.showPlaybackControls {
+            if playerViewModel.showPlaybackControls {
                 PlaybackControls()
                     .padding(10)
             }
@@ -53,7 +53,7 @@ struct VideoPlayer: View {
         })
         .onChange(of: appSettings.showDanmakuMessageInput, {
             /// 显示弹幕聊天消息输入视图时, 关闭播放控制栏.
-            streamingViewModel.showPlaybackControls = false
+            playerViewModel.showPlaybackControls = false
         })
     }
 
@@ -65,21 +65,21 @@ struct VideoPlayer: View {
         if let command = command.string {
             if command == "play" {
                 /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
-                streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                playerViewModel.player.rate = playerViewModel.currentPlaybackRate
             } else if command == "pause" {
                 /// 暂停视频.
-                streamingViewModel.player.pause()
+                playerViewModel.player.pause()
             }
         } else if let newProgress = command["newProgress"].double {
             /// 修改播放进度.
-            streamingViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+            playerViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
         } else if let playbackRate = command["playbackRate"].float {
             /// 调整播放速率.
-            streamingViewModel.currentPlaybackRate = playbackRate
+            playerViewModel.currentPlaybackRate = playbackRate
 
             /// 修改播放速率会导致播放器立刻播放, 所以只能在播放器本身正在播放时直接修改播放速率.
-            if streamingViewModel.isPlaying {
-                streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+            if playerViewModel.isPlaying {
+                playerViewModel.player.rate = playerViewModel.currentPlaybackRate
             }
         }
     }
@@ -118,13 +118,13 @@ struct VideoPlayer: View {
     let appSettings = AppSettings()
     let user = User()
     let friendsViewModel = FriendsViewModel()
-    let streamingViewModel = StreamingViewModel(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
+    let playerViewModel = PlayerViewModel(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
     let webSocketClient = WebSocketClient()
 
     VideoPlayer()
         .environment(appSettings)
         .environment(user)
         .environment(friendsViewModel)
-        .environment(streamingViewModel)
+        .environment(playerViewModel)
         .environment(webSocketClient)
 }

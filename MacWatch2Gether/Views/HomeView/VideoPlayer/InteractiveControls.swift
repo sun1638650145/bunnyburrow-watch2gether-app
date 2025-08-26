@@ -20,7 +20,7 @@ import SwiftUI
 ///   - **垂直滑动触控板或滚动鼠标滚轮**: 调整播放器的音频音量.
 struct InteractiveControls: View {
     @Environment(AppSettings.self) var appSettings
-    @Environment(StreamingViewModel.self) var streamingViewModel
+    @Environment(PlayerViewModel.self) var playerViewModel
 
     /// 水平滑动完成时调用的闭包.
     private var onSwipeCompleted: () -> Void
@@ -53,17 +53,17 @@ struct InteractiveControls: View {
             /// 关闭弹幕聊天消息输入视图.
             appSettings.showDanmakuMessageInput = false
 
-            streamingViewModel.resetHidePlaybackControlsTimer()
-            streamingViewModel.showPlaybackControls.toggle()
+            playerViewModel.resetHidePlaybackControlsTimer()
+            playerViewModel.showPlaybackControls.toggle()
         })
     }
 }
 
 #Preview {
     let appSetting = AppSettings()
-    let streamingViewModel = StreamingViewModel(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
+    let playerViewModel = PlayerViewModel(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
 
     InteractiveControls()
         .environment(appSetting)
-        .environment(streamingViewModel)
+        .environment(playerViewModel)
 }

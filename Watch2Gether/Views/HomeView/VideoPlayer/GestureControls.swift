@@ -22,7 +22,7 @@ import SwiftUI
 ///   - **垂直滑动手势**: 调整播放器的音频音量.
 struct GestureControls: View {
     @Environment(AppSettings.self) var appSettings
-    @Environment(StreamingViewModel.self) var streamingViewModel
+    @Environment(PlayerViewModel.self) var playerViewModel
 
     /// 是否正在调整音量.
     @State private var isAdjustingVolume: Bool = false
@@ -80,45 +80,45 @@ struct GestureControls: View {
                 .contentShape(Rectangle())
                 .onAppear(perform: {
                     /// 初始化之前的播放进度和音频音量.
-                    previousProgress = streamingViewModel.currentTime
-                    previousVolume = streamingViewModel.volume
+                    previousProgress = playerViewModel.currentTime
+                    previousVolume = playerViewModel.volume
                 })
-                .onChange(of: streamingViewModel.currentTime, {
+                .onChange(of: playerViewModel.currentTime, {
                     /// 未滑动时同步之前的播放进度.
                     if !isSeeking {
-                        previousProgress = streamingViewModel.currentTime
+                        previousProgress = playerViewModel.currentTime
                     }
                 })
                 .onDoubleTapGesture(perform: {
-                    onPlayPauseToggle(streamingViewModel.isPlaying)
+                    onPlayPauseToggle(playerViewModel.isPlaying)
 
-                    if streamingViewModel.isPlaying {
-                        streamingViewModel.player.pause()
+                    if playerViewModel.isPlaying {
+                        playerViewModel.player.pause()
                     } else {
                         /// 播放视频(不使用`player.play()`, 使用修改播放速率触发播放并更新播放速率).
-                        streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                        playerViewModel.player.rate = playerViewModel.currentPlaybackRate
                     }
                 })
                 .onLongPressGesture(perform: {
                     /// 当视频正在播放时, 长按2倍速播放.
-                    guard streamingViewModel.isPlaying else {
+                    guard playerViewModel.isPlaying else {
                         return
                     }
 
                     isLongPressing = true
 
                     /// 记录之前的播放速率.
-                    previousPlaybackRate = streamingViewModel.currentPlaybackRate
+                    previousPlaybackRate = playerViewModel.currentPlaybackRate
 
-                    streamingViewModel.currentPlaybackRate = 2.0
-                    streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                    playerViewModel.currentPlaybackRate = 2.0
+                    playerViewModel.player.rate = playerViewModel.currentPlaybackRate
                     onPlaybackRateChange()
                 }, onPressingChanged: { isPressing in
                     if !isPressing {
                         /// 松开长按手势时, 恢复原播放速率.
                         if isLongPressing {
-                            streamingViewModel.currentPlaybackRate = previousPlaybackRate
-                            streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                            playerViewModel.currentPlaybackRate = previousPlaybackRate
+                            playerViewModel.player.rate = playerViewModel.currentPlaybackRate
                             onPlaybackRateChange()
                         }
 
@@ -143,10 +143,10 @@ struct GestureControls: View {
                 }, endedPerform: { _ in
                     if isSeeking {
                         /// 更新之前的播放进度.
-                        previousProgress = streamingViewModel.currentTime
+                        previousProgress = playerViewModel.currentTime
 
-                        streamingViewModel.player.seek(
-                            to: CMTime(seconds: streamingViewModel.currentTime, preferredTimescale: 1000)
+                        playerViewModel.player.seek(
+                            to: CMTime(seconds: playerViewModel.currentTime, preferredTimescale: 1000)
                         )
 
                         onSeekCompleted()
@@ -155,11 +155,11 @@ struct GestureControls: View {
                         showProgressDisplay = false
                     } else if isAdjustingVolume {
                         /// 更新之前的音频音量.
-                        previousVolume = streamingViewModel.volume
+                        previousVolume = playerViewModel.volume
 
                         /// 设置音量滑块在结束滑动1.5秒钟后自动关闭.
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-                            streamingViewModel.showVolumeDisplay = false
+                            playerViewModel.showVolumeDisplay = false
                         })
 
                         isAdjustingVolume = false
@@ -174,26 +174,26 @@ struct GestureControls: View {
                     /// 关闭弹幕聊天消息输入视图.
                     appSettings.showDanmakuMessageInput = false
 
-                    streamingViewModel.resetHidePlaybackControlsTimer()
-                    streamingViewModel.showPlaybackControls.toggle()
+                    playerViewModel.resetHidePlaybackControlsTimer()
+                    playerViewModel.showPlaybackControls.toggle()
                 })
         })
         .overlay(content: {
             if showProgressDisplay {
                 ProgressLabel(
-                    currentTime: streamingViewModel.currentTime,
-                    totalDuration: streamingViewModel.totalDuration,
+                    currentTime: playerViewModel.currentTime,
+                    totalDuration: playerViewModel.totalDuration,
                     isIconFlipped: isRewinding
                 )
             } else if isLongPressing {
                 FastPlaybackIndicator()
                     .padding(15)
-            } else if streamingViewModel.showVolumeDisplay {
+            } else if playerViewModel.showVolumeDisplay {
                 Group {
-                    if streamingViewModel.isMuted {
+                    if playerViewModel.isMuted {
                         MuteIndicator()
                     } else {
-                        VolumeSlider(volume: streamingViewModel.volume)
+                        VolumeSlider(volume: playerViewModel.volume)
                     }
                 }
                 .padding(15)
@@ -223,15 +223,15 @@ struct GestureControls: View {
 
         let deltaX = gesture.translation.width / geometry.size.width
         /// 一次滑动手势过程中会产生多个`deltaX`, 避免累加播放进度且保证进度变化连续.
-        let newProgress = previousProgress + deltaX * streamingViewModel.totalDuration
+        let newProgress = previousProgress + deltaX * playerViewModel.totalDuration
 
         /// 通过比较新进度值和当前的播放时间来判断滑动的方向, 即是否正在快退(可实现滑动过程中实时更新).
-        isRewinding = newProgress < streamingViewModel.currentTime
+        isRewinding = newProgress < playerViewModel.currentTime
 
         /// 确保播放进度值在有效范围内.
-        streamingViewModel.currentTime = min(streamingViewModel.totalDuration, max(newProgress, 0))
-        streamingViewModel.remainingTime = streamingViewModel.totalDuration - streamingViewModel.currentTime
-        streamingViewModel.seekPosition = streamingViewModel.currentTime / streamingViewModel.totalDuration
+        playerViewModel.currentTime = min(playerViewModel.totalDuration, max(newProgress, 0))
+        playerViewModel.remainingTime = playerViewModel.totalDuration - playerViewModel.currentTime
+        playerViewModel.seekPosition = playerViewModel.currentTime / playerViewModel.totalDuration
 
         showProgressDisplay = true
     }
@@ -251,22 +251,22 @@ struct GestureControls: View {
         let newVolume = previousVolume + deltaY
 
         withAnimation(.easeInOut, {
-            streamingViewModel.showVolumeDisplay = true
+            playerViewModel.showVolumeDisplay = true
 
             /// 取消静音.
-            streamingViewModel.isMuted = false
+            playerViewModel.isMuted = false
 
             /// 确保音量值在有效范围内.
-            streamingViewModel.volume = min(1, max(newVolume, 0))
+            playerViewModel.volume = min(1, max(newVolume, 0))
         })
     }
 }
 
 #Preview {
     let appSettings = AppSettings()
-    let streamingViewModel = StreamingViewModel(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
+    let playerViewModel = PlayerViewModel(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
 
     GestureControls()
         .environment(appSettings)
-        .environment(streamingViewModel)
+        .environment(playerViewModel)
 }

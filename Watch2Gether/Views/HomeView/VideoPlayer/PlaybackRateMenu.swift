@@ -11,7 +11,7 @@ import SwiftUI
 
 /// `PlaybackRateMenu`是视频播放速率菜单, 用于显示和修改当前视频的播放速率.
 struct PlaybackRateMenu: View {
-    @Environment(StreamingViewModel.self) var streamingViewModel
+    @Environment(PlayerViewModel.self) var playerViewModel
 
     /// 播放速率调整后调用的闭包.
     private var onPlaybackRateChange: (Float) -> Void
@@ -29,22 +29,22 @@ struct PlaybackRateMenu: View {
             ForEach(playbackRates, id: \.self, content: { rate in
                 Button(action: {
                     /// 调整播放速率.
-                    streamingViewModel.currentPlaybackRate = rate
+                    playerViewModel.currentPlaybackRate = rate
 
                     /// 修改播放速率会导致播放器立刻播放, 所以只能在播放器本身正在播放时直接修改播放速率.
-                    if streamingViewModel.isPlaying {
-                        streamingViewModel.player.rate = streamingViewModel.currentPlaybackRate
+                    if playerViewModel.isPlaying {
+                        playerViewModel.player.rate = playerViewModel.currentPlaybackRate
                     }
 
-                    streamingViewModel.resetHidePlaybackControlsTimer()
+                    playerViewModel.resetHidePlaybackControlsTimer()
                     onPlaybackRateChange(rate)
                 }, label: {
                     Text("\(rate.formattedPlaybackRate())×")
                 })
-                .disabled(rate == streamingViewModel.currentPlaybackRate)
+                .disabled(rate == playerViewModel.currentPlaybackRate)
             })
         }, label: {
-            Text("\(streamingViewModel.currentPlaybackRate.formattedPlaybackRate())×")
+            Text("\(playerViewModel.currentPlaybackRate.formattedPlaybackRate())×")
                 .bold()
                 .foregroundStyle(Color.foreground)
                 .padding(5)
@@ -53,8 +53,8 @@ struct PlaybackRateMenu: View {
 }
 
 #Preview {
-    let streamingViewModel = StreamingViewModel()
+    let playerViewModel = PlayerViewModel()
 
     PlaybackRateMenu(playbackRates: [0.5, 1, 2])
-        .environment(streamingViewModel)
+        .environment(playerViewModel)
 }

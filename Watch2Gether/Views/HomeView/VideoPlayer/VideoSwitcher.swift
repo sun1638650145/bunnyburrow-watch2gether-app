@@ -14,7 +14,7 @@ import SwiftyJSON
 
 /// `VideoSwitcher`是视频切换菜单, 用于在多个视频之间进行切换.
 struct VideoSwitcher: View {
-    @Environment(StreamingViewModel.self) var streamingViewModel
+    @Environment(PlayerViewModel.self) var playerViewModel
     @Environment(VideosViewModel.self) var videosViewModel
 
     var body: some View {
@@ -24,7 +24,7 @@ struct VideoSwitcher: View {
             } else {
                 ForEach(videosViewModel.videos, id: \.self, content: { video in
                     Button(action: {
-                        streamingViewModel.switchTo(named: video)
+                        playerViewModel.switchTo(named: video)
                     }, label: {
                         Text(video)
                     })
@@ -38,7 +38,7 @@ struct VideoSwitcher: View {
         })
         .task({
             do {
-                try await videosViewModel.fetchVideos(from: streamingViewModel.domainUrl)
+                try await videosViewModel.fetchVideos(from: playerViewModel.domainUrl)
             } catch {
                 print("获取流媒体视频列表失败: \(error.localizedDescription)")
             }
@@ -47,10 +47,10 @@ struct VideoSwitcher: View {
 }
 
 #Preview {
-    let streamingViewModel = StreamingViewModel()
+    let playerViewModel = PlayerViewModel()
     let videosViewModel = VideosViewModel()
 
     VideoSwitcher()
-        .environment(streamingViewModel)
+        .environment(playerViewModel)
         .environment(videosViewModel)
 }

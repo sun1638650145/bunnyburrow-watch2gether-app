@@ -13,7 +13,7 @@ import SwiftUI
 
 /// `ProgressControl`是播放进度控制视图, 通过水平滑动键盘或者触控板调整视频的播放进度.
 struct ProgressControl: View {
-    @Environment(StreamingViewModel.self) var streamingViewModel
+    @Environment(PlayerViewModel.self) var playerViewModel
 
     /// 是否正在快退.
     @State private var isRewinding: Bool = false
@@ -32,18 +32,18 @@ struct ProgressControl: View {
         SwipeableView(onSwipe: { event in
             showProgressDisplay = true
 
-            let newProgress = streamingViewModel.currentTime + event.scrollingDeltaX
+            let newProgress = playerViewModel.currentTime + event.scrollingDeltaX
 
             /// 通过比较新进度值和当前的播放时间来判断滑动的方向, 即是否正在快退.
-            isRewinding = newProgress < streamingViewModel.currentTime
+            isRewinding = newProgress < playerViewModel.currentTime
 
             /// 计算当前, 剩余的播放时间和进度条的位置.
-            streamingViewModel.currentTime = min(streamingViewModel.totalDuration, max(newProgress, 0))
-            streamingViewModel.remainingTime = streamingViewModel.totalDuration - streamingViewModel.currentTime
-            streamingViewModel.seekPosition = streamingViewModel.currentTime / streamingViewModel.totalDuration
+            playerViewModel.currentTime = min(playerViewModel.totalDuration, max(newProgress, 0))
+            playerViewModel.remainingTime = playerViewModel.totalDuration - playerViewModel.currentTime
+            playerViewModel.seekPosition = playerViewModel.currentTime / playerViewModel.totalDuration
 
-            streamingViewModel.player.seek(
-                to: CMTime(seconds: streamingViewModel.currentTime, preferredTimescale: 1000)
+            playerViewModel.player.seek(
+                to: CMTime(seconds: playerViewModel.currentTime, preferredTimescale: 1000)
             )
 
             onSwipeCompleted()
@@ -56,8 +56,8 @@ struct ProgressControl: View {
         .overlay(content: {
             if showProgressDisplay {
                 ProgressLabel(
-                    currentTime: streamingViewModel.currentTime,
-                    totalDuration: streamingViewModel.totalDuration,
+                    currentTime: playerViewModel.currentTime,
+                    totalDuration: playerViewModel.totalDuration,
                     isIconFlipped: isRewinding
                 )
             }
@@ -66,8 +66,8 @@ struct ProgressControl: View {
 }
 
 #Preview {
-    let streamingViewModel = StreamingViewModel(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
+    let playerViewModel = PlayerViewModel(url: URL(string: "http://127.0.0.1:8000/video/oceans/")!)
 
     ProgressControl()
-        .environment(streamingViewModel)
+        .environment(playerViewModel)
 }

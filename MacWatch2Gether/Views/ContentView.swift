@@ -34,7 +34,7 @@ struct ContentView: View {
     let user = User()
     let friendsViewModel = FriendsViewModel()
     let messageStoreViewModel = MessageStoreViewModel()
-    let streamingViewModel = StreamingViewModel()
+    let playerViewModel = PlayerViewModel()
     let webSocketClient = WebSocketClient()
 
     ContentView()
@@ -42,6 +42,6 @@ struct ContentView: View {
         .environment(user)
         .environment(friendsViewModel)
         .environment(messageStoreViewModel)
-        .environment(streamingViewModel)
+        .environment(playerViewModel)
         .environment(webSocketClient)
 }

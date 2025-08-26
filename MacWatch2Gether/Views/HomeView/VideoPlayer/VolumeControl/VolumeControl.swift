@@ -11,7 +11,7 @@ import SwiftUI
 
 /// `VolumeControl`是音量控制视图, 通过滚动事件调整播放器的音频音量.
 struct VolumeControl: View {
-    @Environment(StreamingViewModel.self) var streamingViewModel
+    @Environment(PlayerViewModel.self) var playerViewModel
 
     var body: some View {
         ScrollableView(onScrollWheel: { event in
@@ -21,30 +21,30 @@ struct VolumeControl: View {
             /// 检测到滚动变化量不为0时.
             if deltaY != 0 {
                 withAnimation(.easeInOut, {
-                    streamingViewModel.showVolumeDisplay = true
+                    playerViewModel.showVolumeDisplay = true
 
                     /// 取消静音.
-                    streamingViewModel.isMuted = false
+                    playerViewModel.isMuted = false
 
                     /// 确保音量值在有效范围内.
-                    streamingViewModel.volume = min(1, max(streamingViewModel.volume + deltaY, 0))
+                    playerViewModel.volume = min(1, max(playerViewModel.volume + deltaY, 0))
                 })
             }
 
             if event.phase == .ended {
                 /// 设置音量滑块在结束滚动1.5秒后自动关闭.
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
-                    streamingViewModel.showVolumeDisplay = false
+                    playerViewModel.showVolumeDisplay = false
                 })
             }
         })
         .overlay(content: {
-            if streamingViewModel.showVolumeDisplay {
+            if playerViewModel.showVolumeDisplay {
                 Group {
-                    if streamingViewModel.isMuted {
+                    if playerViewModel.isMuted {
                         MuteIndicator()
                     } else {
-                        VolumeSlider(volume: streamingViewModel.volume)
+                        VolumeSlider(volume: playerViewModel.volume)
                     }
                 }
                 .padding(15)
@@ -54,8 +54,8 @@ struct VolumeControl: View {
 }
 
 #Preview {
-    let streamingViewModel = StreamingViewModel()
+    let playerViewModel = PlayerViewModel()
 
     VolumeControl()
-        .environment(streamingViewModel)
+        .environment(playerViewModel)
 }
