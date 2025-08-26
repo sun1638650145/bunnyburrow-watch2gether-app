@@ -42,6 +42,10 @@ struct VideoPlayer: View {
                     .padding(10)
             }
 
+            if playerViewModel.showVideoSwitcher {
+                VideoSwitcher()
+            }
+
             VideoPlayerModal(notificationMessage, isOpen: isModalOpen)
         }
         .onAppear(perform: {
