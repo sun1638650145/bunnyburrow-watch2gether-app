@@ -36,13 +36,6 @@ struct VideoSwitcher: View {
                 .foregroundStyle(Color.foreground)
                 .padding(5)
         })
-        .task({
-            do {
-                try await videosViewModel.fetchVideos(from: playerViewModel.domainUrl)
-            } catch {
-                print("获取流媒体视频列表失败: \(error.localizedDescription)")
-            }
-        })
     }
 }
 

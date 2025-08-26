@@ -34,6 +34,9 @@ struct Watch2GetherApp: App {
     /// 流媒体播放器视图模型.
     @State private var playerViewModel = PlayerViewModel()
 
+    /// 流媒体视频播放列表视图模型.
+    @State private var videosViewModel = VideosViewModel()
+
     /// WebSocket客户端.
     @State private var webSocketClient = WebSocketClient()
 
@@ -45,6 +48,7 @@ struct Watch2GetherApp: App {
                 .environment(friendsViewModel)
                 .environment(messageStoreViewModel)
                 .environment(playerViewModel)
+                .environment(videosViewModel)
                 .environment(webSocketClient)
                 .focusedSceneValue(appSettings)
                 .focusedSceneValue(user)

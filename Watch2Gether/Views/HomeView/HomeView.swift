@@ -56,6 +56,7 @@ struct HomeView: View {
     let user = User(avatar: nil, clientID: 2023, name: "Steve")
     let messageStoreViewModel = MessageStoreViewModel()
     let playerViewModel = PlayerViewModel(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    let videosViewModel = VideosViewModel()
     let webSocketClient = WebSocketClient()
 
     var friendsViewModel: FriendsViewModel {
@@ -75,6 +76,7 @@ struct HomeView: View {
             .environment(friendsViewModel)
             .environment(messageStoreViewModel)
             .environment(playerViewModel)
+            .environment(videosViewModel)
             .environment(webSocketClient)
     }
 }

@@ -19,6 +19,7 @@ struct PlaybackControls: View {
     @Environment(AppSettings.self) var appSettings
     @Environment(User.self) var user
     @Environment(PlayerViewModel.self) var playerViewModel
+    @Environment(VideosViewModel.self) var videosViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
     var body: some View {
@@ -110,6 +111,22 @@ struct PlaybackControls: View {
                         .padding(5)
                 })
 
+                /// 切换视频按钮.
+                Button(action: {
+                    Task(operation: {
+                        do {
+                            try await videosViewModel.fetchVideos(from: playerViewModel.domainUrl)
+                        } catch {
+                            print("获取流媒体视频列表失败: \(error.localizedDescription)")
+                        }
+                    })
+                }, label: {
+                    Text("Switch Video")
+                        .bold()
+                        .foregroundStyle(Color.foreground)
+                        .padding(5)
+                })
+
                 Spacer()
 
                 /// 播放速率菜单.
@@ -159,11 +176,13 @@ struct PlaybackControls: View {
     let appSettings = AppSettings()
     let user = User()
     let playerViewModel = PlayerViewModel(url: URL(string: "http://127.0.0.1:8000/video/flower/")!)
+    let videosViewModel = VideosViewModel()
     let webSocketClient = WebSocketClient()
 
     PlaybackControls()
         .environment(user)
         .environment(appSettings)
         .environment(playerViewModel)
+        .environment(videosViewModel)
         .environment(webSocketClient)
 }
