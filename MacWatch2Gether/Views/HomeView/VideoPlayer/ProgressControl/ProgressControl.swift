@@ -42,9 +42,7 @@ struct ProgressControl: View {
             playerViewModel.remainingTime = playerViewModel.totalDuration - playerViewModel.currentTime
             playerViewModel.seekPosition = playerViewModel.currentTime / playerViewModel.totalDuration
 
-            playerViewModel.player.seek(
-                to: CMTime(seconds: playerViewModel.currentTime, preferredTimescale: 1000)
-            )
+            playerViewModel.player.seek(to: CMTime(seconds: playerViewModel.currentTime, preferredTimescale: 1000))
 
             onSwipeCompleted()
 
