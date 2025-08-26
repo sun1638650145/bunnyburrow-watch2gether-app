@@ -22,9 +22,8 @@ class VideosViewModel {
     ///
     /// - Parameters:
     ///   - domainUrl: 流媒体服务器的域名URL.
-    /// - Returns: 流媒体视频列表.
     /// - Throws: 当网络请求或数据解析失败时抛出异常.
-    func fetchVideos(from domainUrl: URL) async throws -> [String] {
+    func fetchVideos(from domainUrl: URL) async throws {
         /// 拼接完整的请求URL.
         let videosUrl = domainUrl
             .appending(path: "videos", directoryHint: .isDirectory)
@@ -35,9 +34,9 @@ class VideosViewModel {
         guard let response = response as? HTTPURLResponse, response.statusCode == 200
         else {
             // TODO: 为快速实现功能暂未处理异常(Steve).
-            return []
+            return
         }
 
-        return JSON(data)["videos"].arrayValue.map({ $0.stringValue })
+        self.videos = JSON(data)["videos"].arrayValue.map({ $0.stringValue })
     }
 }
