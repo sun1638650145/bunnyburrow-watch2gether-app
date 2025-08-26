@@ -113,6 +113,8 @@ struct PlaybackControls: View {
 
                 /// 切换视频按钮.
                 Button(action: {
+                    playerViewModel.showVideoSwitcher = true
+
                     Task(operation: {
                         do {
                             try await videosViewModel.fetchVideos(from: playerViewModel.domainUrl)

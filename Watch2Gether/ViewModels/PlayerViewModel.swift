@@ -63,6 +63,9 @@ class PlayerViewModel {
     /// 显示播放控制栏变量.
     var showPlaybackControls: Bool = true
 
+    /// 显示视频切换视图变量.
+    var showVideoSwitcher: Bool = false
+
     /// 显示音量相关视图变量.
     var showVolumeDisplay: Bool = false
 

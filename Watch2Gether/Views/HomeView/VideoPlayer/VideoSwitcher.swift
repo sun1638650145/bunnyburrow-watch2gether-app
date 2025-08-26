@@ -12,30 +12,27 @@ import SwiftUI
 
 import SwiftyJSON
 
-/// `VideoSwitcher`是视频切换菜单, 用于在多个视频之间进行切换.
+/// `VideoSwitcher`是视频切换视图, 用于视频播放器在多个视频之间进行切换.
 struct VideoSwitcher: View {
     @Environment(PlayerViewModel.self) var playerViewModel
     @Environment(VideosViewModel.self) var videosViewModel
 
     var body: some View {
-        Menu(content: {
+        VStack {
             if videosViewModel.videos.isEmpty {
                 Text("Loading...")
             } else {
                 ForEach(videosViewModel.videos, id: \.self, content: { video in
                     Button(action: {
+                        playerViewModel.showVideoSwitcher = false
                         playerViewModel.switchTo(named: video)
                     }, label: {
                         Text(video)
                     })
+                    .buttonStyle(PlainButtonStyle())
                 })
             }
-        }, label: {
-            Text("Switch Video")
-                .bold()
-                .foregroundStyle(Color.foreground)
-                .padding(5)
-        })
+        }
     }
 }
 
