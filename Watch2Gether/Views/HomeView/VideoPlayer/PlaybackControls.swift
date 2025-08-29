@@ -111,6 +111,13 @@ struct PlaybackControls: View {
                         .padding(5)
                 })
 
+                Spacer()
+
+                /// 播放速率菜单.
+                PlaybackRateMenu(playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 2], onPlaybackChange: { newRate in
+                    webSocketClient.sendPlayerSync(command: ["playbackRate": newRate])
+                })
+
                 /// 切换视频按钮.
                 Button(action: {
                     playerViewModel.showVideoSwitcher = true
@@ -123,17 +130,12 @@ struct PlaybackControls: View {
                         }
                     })
                 }, label: {
-                    Text("Switch Video")
-                        .bold()
+                    Image(systemName: "film.stack")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 27, height: 27)
                         .foregroundStyle(Color.foreground)
                         .padding(5)
-                })
-
-                Spacer()
-
-                /// 播放速率菜单.
-                PlaybackRateMenu(playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 2], onPlaybackChange: { newRate in
-                    webSocketClient.sendPlayerSync(command: ["playbackRate": newRate])
                 })
 
                 /// 全屏控制按钮.

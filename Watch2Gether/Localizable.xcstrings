@@ -423,22 +423,6 @@
         }
       }
     },
-    "Switch Video" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Switch Video"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "切换视频"
-          }
-        }
-      }
-    },
     "Unmute" : {
       "localizations" : {
         "en" : {
