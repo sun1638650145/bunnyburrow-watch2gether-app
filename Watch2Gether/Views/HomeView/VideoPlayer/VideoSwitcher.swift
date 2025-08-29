@@ -33,6 +33,10 @@ struct VideoSwitcher: View {
                 })
             }
         }
+        .padding(12)
+        .background(.regularMaterial)
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .foregroundStyle(Color.foreground)
     }
 }
 
