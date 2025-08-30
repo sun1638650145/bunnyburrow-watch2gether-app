@@ -25,10 +25,12 @@ struct VideoSwitcher: View {
                     .background(.regularMaterial)
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .font(.callout)
+                    .foregroundStyle(Color.foreground)
             } else {
                 ScrollView(content: {
                     ForEach(videosViewModel.videos.indices, id: \.self, content: { index in
                         let video = videosViewModel.videos[index]
+                        let isDisabled = video == playerViewModel.currentVideoName
 
                         Button(action: {
                             playerViewModel.showVideoSwitcher = false
@@ -36,8 +38,10 @@ struct VideoSwitcher: View {
                         }, label: {
                             Text(video)
                                 .bold()
+                                .foregroundStyle(isDisabled ? Color.gray : Color.foreground)
                                 .padding(12)
                         })
+                        .disabled(isDisabled)
 
                         /// 最后一行不添加分割线.
                         if index < videosViewModel.videos.count - 1 {
@@ -48,7 +52,6 @@ struct VideoSwitcher: View {
                 .background(Color.black.gradient.opacity(0.3))
             }
         }
-        .foregroundStyle(Color.foreground)
     }
 }
 
