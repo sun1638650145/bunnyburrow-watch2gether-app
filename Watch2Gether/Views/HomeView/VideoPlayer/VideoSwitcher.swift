@@ -22,20 +22,28 @@ struct VideoSwitcher: View {
             if videosViewModel.videos.isEmpty {
                 Text("Loading...")
             } else {
-                ForEach(videosViewModel.videos, id: \.self, content: { video in
-                    Button(action: {
-                        playerViewModel.showVideoSwitcher = false
-                        playerViewModel.switchTo(named: video)
-                    }, label: {
-                        Text(video)
+                ScrollView(content: {
+                    ForEach(videosViewModel.videos.indices, id: \.self, content: { index in
+                        let video = videosViewModel.videos[index]
+
+                        Button(action: {
+                            playerViewModel.showVideoSwitcher = false
+                            playerViewModel.switchTo(named: video)
+                        }, label: {
+                            Text(video)
+                                .bold()
+                                .padding(10)
+                        })
+
+                        /// 最后一行不添加分割线.
+                        if index < videosViewModel.videos.count - 1 {
+                            Divider()
+                        }
                     })
-                    .buttonStyle(PlainButtonStyle())
                 })
             }
         }
-        .padding(12)
-        .background(.regularMaterial)
-        .clipShape(RoundedRectangle(cornerRadius: 8))
+        .background(Color.black.gradient.opacity(0.3))
         .foregroundStyle(Color.foreground)
     }
 }
