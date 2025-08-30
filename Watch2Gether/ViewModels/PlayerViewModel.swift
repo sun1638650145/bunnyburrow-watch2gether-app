@@ -25,6 +25,12 @@ class PlayerViewModel {
     /// 播放状态: 当前的播放时间(秒).
     var currentTime: Double = 0.0
 
+    /// 当前播放的视频名称.
+    var currentVideoName: String {
+        /// 使用视频源URL的最后一个路径组成作为标题.
+        return url.lastPathComponent
+    }
+
     /// 视频源域名URL.
     var domainUrl: URL {
         return url.domainURL ?? url
@@ -234,8 +240,7 @@ class PlayerViewModel {
         let nowPlayingInfo: [String: Any] = [
             /// 使用应用名称作为艺术家.
             MPMediaItemPropertyArtist: Bundle.main.infoDictionary!["CFBundleDisplayName"]!,
-            /// 使用视频源URL的最后一个路径组成作为标题.
-            MPMediaItemPropertyTitle: url.lastPathComponent,
+            MPMediaItemPropertyTitle: currentVideoName,
             MPMediaItemPropertyPlaybackDuration: totalDuration,
             MPNowPlayingInfoPropertyElapsedPlaybackTime: currentTime
         ]
