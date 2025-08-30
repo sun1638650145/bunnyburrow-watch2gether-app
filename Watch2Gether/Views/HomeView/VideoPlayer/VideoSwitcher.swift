@@ -21,6 +21,10 @@ struct VideoSwitcher: View {
         VStack {
             if videosViewModel.videos.isEmpty {
                 Text("Loading...")
+                    .padding(12)
+                    .background(.regularMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .font(.callout)
             } else {
                 ScrollView(content: {
                     ForEach(videosViewModel.videos.indices, id: \.self, content: { index in
@@ -32,7 +36,7 @@ struct VideoSwitcher: View {
                         }, label: {
                             Text(video)
                                 .bold()
-                                .padding(10)
+                                .padding(12)
                         })
 
                         /// 最后一行不添加分割线.
@@ -41,9 +45,9 @@ struct VideoSwitcher: View {
                         }
                     })
                 })
+                .background(Color.black.gradient.opacity(0.3))
             }
         }
-        .background(Color.black.gradient.opacity(0.3))
         .foregroundStyle(Color.foreground)
     }
 }
