@@ -27,7 +27,7 @@ class PlayerViewModel {
 
     /// 当前播放的视频名称.
     var currentVideoName: String {
-        /// 使用视频源URL的最后一个路径组成作为标题.
+        /// 使用视频源URL的最后一个路径组成作为视频名称.
         return url.lastPathComponent
     }
 
