@@ -120,6 +120,7 @@ struct PlaybackControls: View {
 
                 /// 切换视频按钮.
                 Button(action: {
+                    playerViewModel.showPlaybackControls = false
                     playerViewModel.showVideoSwitcher = true
 
                     Task(operation: {
