@@ -20,12 +20,16 @@ struct VideoSwitcher: View {
     var body: some View {
         VStack {
             if videosViewModel.videos.isEmpty {
-                Text("Loading...")
-                    .padding(12)
-                    .background(.regularMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .font(.callout)
-                    .foregroundStyle(Color.foreground)
+                VStack {
+                    Text("Loading...")
+                        .padding(12)
+                        .background(.regularMaterial)
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                        .font(.callout)
+                        .foregroundStyle(Color.foreground)
+
+                    Spacer()
+                }
             } else {
                 ScrollView(content: {
                     ForEach(videosViewModel.videos.indices, id: \.self, content: { index in
@@ -50,6 +54,7 @@ struct VideoSwitcher: View {
                     })
                 })
                 .background(Color.black.gradient.opacity(0.3))
+                .scrollIndicators(.hidden)
             }
         }
     }
