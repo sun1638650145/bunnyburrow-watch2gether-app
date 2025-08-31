@@ -51,6 +51,9 @@ struct VideoSwitcher: View {
                                 .frame(maxWidth: .infinity)
                                 .padding(12)
                         })
+                        #if os(macOS)
+                        .buttonStyle(PlainButtonStyle())
+                        #endif
 
                         /// 最后一行不添加分割线.
                         if index < videosViewModel.videos.count - 1 {
