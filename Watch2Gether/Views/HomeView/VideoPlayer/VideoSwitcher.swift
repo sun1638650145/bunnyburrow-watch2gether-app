@@ -34,18 +34,23 @@ struct VideoSwitcher: View {
                 ScrollView(content: {
                     ForEach(videosViewModel.videos.indices, id: \.self, content: { index in
                         let video = videosViewModel.videos[index]
-                        let isDisabled = video == playerViewModel.currentVideoName
+                        let isCurrentVideo = (video == playerViewModel.currentVideoName)
 
                         Button(action: {
                             playerViewModel.showVideoSwitcher = false
-                            playerViewModel.switchTo(named: video)
+
+                            /// 不是当前播放的视频才能切换.
+                            if !isCurrentVideo {
+                                playerViewModel.switchTo(named: video)
+                            }
                         }, label: {
                             Text(video)
                                 .bold()
-                                .foregroundStyle(isDisabled ? Color.gray : Color.foreground)
+                                .foregroundStyle(Color.foreground.opacity(isCurrentVideo ? 0.5 : 1))
+                                /// 使文本填满父容器, 以确保整个区域都可触发按钮.
+                                .frame(maxWidth: .infinity)
                                 .padding(12)
                         })
-                        .disabled(isDisabled)
 
                         /// 最后一行不添加分割线.
                         if index < videosViewModel.videos.count - 1 {
