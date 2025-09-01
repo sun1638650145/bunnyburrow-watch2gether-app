@@ -33,7 +33,6 @@ class VideosViewModel {
 
         guard let response = response as? HTTPURLResponse, response.statusCode == 200
         else {
-            // TODO: 为快速实现功能暂未处理异常(Steve).
             return
         }
 
