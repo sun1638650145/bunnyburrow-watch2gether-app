@@ -12,12 +12,12 @@ import SwiftUI
 
 import SwiftyJSON
 
-/// `VideoSwitcher`是视频切换视图, 用于视频播放器在多个视频之间进行切换.
+/// `VideoSwitcher`是视频源切换视图, 用于视频播放器在多个视频源之间进行切换.
 struct VideoSwitcher: View {
     @Environment(PlayerViewModel.self) var playerViewModel
     @Environment(VideosViewModel.self) var videosViewModel
 
-    /// 切换视频时调用的闭包.
+    /// 切换视频源时调用的闭包.
     private var onVideoSwitch: (String) -> Void
 
     init(onVideoSwitch: @escaping (String) -> Void = { _ in }) {
