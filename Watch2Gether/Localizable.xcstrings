@@ -55,6 +55,22 @@
         }
       }
     },
+    "%@ switched the video." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ switched the video."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@切换了视频源."
+          }
+        }
+      }
+    },
     "%@×" : {
       "comment" : "视频播放器的播放速率.",
       "localizations" : {

@@ -97,6 +97,9 @@ struct VideoPlayer: View {
         } else if let newProgress = command["newProgress"].double {
             /// 修改播放进度.
             playerViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
+        } else if let newVideo = command["newVideo"].string {
+            /// 切换视频源.
+            playerViewModel.switchTo(named: newVideo)
         } else if let playbackRate = command["playbackRate"].float {
             /// 调整播放速率.
             playerViewModel.currentPlaybackRate = playbackRate
@@ -105,9 +108,6 @@ struct VideoPlayer: View {
             if playerViewModel.isPlaying {
                 playerViewModel.player.rate = playerViewModel.currentPlaybackRate
             }
-        } else if let newVideo = command["newVideo"].string {
-            /// 切换视频源.
-            playerViewModel.switchTo(named: newVideo)
         }
     }
 
@@ -130,6 +130,8 @@ struct VideoPlayer: View {
             }
         } else if command["newProgress"].double != nil {
             notificationMessage = "\(friend.name) adjusted the playback."
+        } else if command["newVideo"].string != nil {
+            notificationMessage = "\(friend.name) switched the video."
         } else if command["playbackRate"].float != nil {
             notificationMessage = "\(friend.name) changed the playback rate."
         }
