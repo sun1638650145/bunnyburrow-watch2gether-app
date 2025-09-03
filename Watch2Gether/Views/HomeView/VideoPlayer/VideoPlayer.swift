@@ -58,7 +58,9 @@ struct VideoPlayer: View {
             }
 
             if playerViewModel.showVideoSwitcher {
-                VideoSwitcher()
+                VideoSwitcher(onVideoSwitch: { newVideo in
+                    webSocketClient.sendPlayerSync(command: ["newVideo": newVideo])
+                })
             }
 
             VideoPlayerModal(notificationMessage, isOpen: isModalOpen)
@@ -103,6 +105,9 @@ struct VideoPlayer: View {
             if playerViewModel.isPlaying {
                 playerViewModel.player.rate = playerViewModel.currentPlaybackRate
             }
+        } else if let newVideo = command["newVideo"].string {
+            /// 切换视频源.
+            playerViewModel.switchTo(named: newVideo)
         }
     }
 

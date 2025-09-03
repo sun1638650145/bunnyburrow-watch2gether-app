@@ -18,10 +18,10 @@ struct VideoSwitcher: View {
     @Environment(VideosViewModel.self) var videosViewModel
 
     /// 切换视频时调用的闭包.
-    private var onSwitchVideo: (String) -> Void
+    private var onVideoSwitch: (String) -> Void
 
-    init(onSwitchVideo: @escaping (String) -> Void = { _ in }) {
-        self.onSwitchVideo = onSwitchVideo
+    init(onVideoSwitch: @escaping (String) -> Void = { _ in }) {
+        self.onVideoSwitch = onVideoSwitch
     }
 
     var body: some View {
@@ -49,7 +49,7 @@ struct VideoSwitcher: View {
                             /// 不是当前播放的视频才能切换.
                             if !isCurrentVideo {
                                 playerViewModel.switchTo(named: video)
-                                onSwitchVideo(video)
+                                onVideoSwitch(video)
                             }
                         }, label: {
                             Text(video)
