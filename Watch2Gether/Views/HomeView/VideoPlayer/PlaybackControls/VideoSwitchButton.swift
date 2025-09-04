@@ -48,11 +48,14 @@ struct VideoSwitchButton: View {
                 .foregroundStyle(Color.foreground)
                 .padding(5)
         })
-        .sheet(isPresented: $isPresented, onDismiss: {
+        .onChange(of: url, {
+            /// 切换视频.
             playerViewModel.updateURL(URL(string: url!)!)
-        }, content: {
+        })
+        .sheet(isPresented: $isPresented, content: {
             VideoPickerViewController(selectedVideo: $url)
         })
+
     }
 }
 
