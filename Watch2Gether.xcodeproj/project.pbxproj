@@ -156,6 +156,7 @@
 				Views/HomeView/VideoPlayer/PlaybackControls/PlaybackRateMenu.swift,
 				Views/HomeView/VideoPlayer/PlaybackControls/ProgressBar.swift,
 				Views/HomeView/VideoPlayer/PlaybackControls/StyledSlider.swift,
+				Views/HomeView/VideoPlayer/PlaybackControls/VideoSwitchButton.swift,
 				Views/HomeView/VideoPlayer/ProgressLabel.swift,
 				Views/HomeView/VideoPlayer/VideoPlayer.swift,
 				Views/HomeView/VideoPlayer/VideoPlayerModal.swift,
