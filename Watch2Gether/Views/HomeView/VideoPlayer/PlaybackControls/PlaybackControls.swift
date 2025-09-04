@@ -118,26 +118,7 @@ struct PlaybackControls: View {
                     webSocketClient.sendPlayerSync(command: ["playbackRate": newRate])
                 })
 
-                /// 切换视频按钮.
-                Button(action: {
-                    playerViewModel.showPlaybackControls = false
-                    playerViewModel.showVideoSwitcher = true
-
-                    Task(operation: {
-                        do {
-                            try await videosViewModel.fetchVideos(from: playerViewModel.domainUrl)
-                        } catch {
-                            print("获取流媒体视频列表失败: \(error.localizedDescription)")
-                        }
-                    })
-                }, label: {
-                    Image(systemName: "film.stack")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 27, height: 27)
-                        .foregroundStyle(Color.foreground)
-                        .padding(5)
-                })
+                VideoSwitchButton()
 
                 /// 全屏控制按钮.
                 Button(action: {
