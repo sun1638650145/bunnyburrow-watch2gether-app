@@ -80,8 +80,10 @@ struct VideoPlayer: View {
             /// 修改播放进度.
             playerViewModel.player.seek(to: CMTime(seconds: newProgress, preferredTimescale: 1000))
         } else if let newVideo = command["newVideo"].string {
-            /// 切换视频源.
-            playerViewModel.switchTo(named: newVideo)
+            /// 切换视频源(未使用本地视频文件).
+            if !playerViewModel.domainUrl.isFileURL {
+                playerViewModel.switchTo(named: newVideo)
+            }
         } else if let playbackRate = command["playbackRate"].float {
             /// 调整播放速率.
             playerViewModel.currentPlaybackRate = playbackRate
