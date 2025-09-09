@@ -12,13 +12,16 @@ import UIKit
 
 /// `AdaptiveMessageEditorView`是使用`UITextView`实现的聊天消息高度自适应视图, 它允许用户输入聊天消息.
 struct AdaptiveMessageEditorView: UIViewRepresentable {
+    @Binding var text: String
+
     /// 视图的背景颜色.
     private let backgroundColor: UIColor
 
     /// 视图文本使用字体的颜色.
     private let textColor: UIColor
 
-    init(backgroundColor: Color = .viewBackground, textColor: Color = .foreground) {
+    init(text: Binding<String>, backgroundColor: Color = .viewBackground, textColor: Color = .foreground) {
+        self._text = text
         self.backgroundColor = UIColor(backgroundColor)
         self.textColor = UIColor(textColor)
     }
@@ -54,6 +57,11 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
         init(_ parent: AdaptiveMessageEditorView) {
             self.parent = parent
         }
+
+        func textViewDidChange(_ textView: UITextView) {
+            /// 将视图文本更新到绑定文本中.
+            parent.text = textView.text
+        }
     }
 
     func makeCoordinator() -> Coordinator {
@@ -62,6 +70,8 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
 }
 
 #Preview {
-    AdaptiveMessageEditorView()
+    @Previewable @State var message = ""
+
+    AdaptiveMessageEditorView(text: $message)
         .frame(height: 40)
 }
