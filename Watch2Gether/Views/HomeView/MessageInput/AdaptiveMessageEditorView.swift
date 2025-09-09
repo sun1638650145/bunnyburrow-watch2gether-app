@@ -12,16 +12,28 @@ import UIKit
 
 /// `AdaptiveMessageEditorView`是使用`UITextView`实现的聊天消息高度自适应视图, 它允许用户输入聊天消息.
 struct AdaptiveMessageEditorView: UIViewRepresentable {
+    @Binding var height: CGFloat
     @Binding var text: String
 
     /// 视图的背景颜色.
     private let backgroundColor: UIColor
 
+    /// 视图的最大高度.
+    private let maxHeight: CGFloat
+
     /// 视图文本使用字体的颜色.
     private let textColor: UIColor
 
-    init(text: Binding<String>, backgroundColor: Color = .viewBackground, textColor: Color = .foreground) {
+    init(
+        text: Binding<String>,
+        height: Binding<CGFloat>,
+        maxHeight: CGFloat = .infinity,
+        backgroundColor: Color = .viewBackground,
+        textColor: Color = .foreground
+    ) {
         self._text = text
+        self._height = height
+        self.maxHeight = maxHeight
         self.backgroundColor = UIColor(backgroundColor)
         self.textColor = UIColor(textColor)
     }
@@ -59,8 +71,11 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
         }
 
         func textViewDidChange(_ textView: UITextView) {
-            /// 将视图文本更新到绑定文本中.
+            /// 将视图文本更新到绑定的文本中.
             parent.text = textView.text
+
+            /// 将视图高度更新到绑定的高度上.
+            parent.height = min(parent.maxHeight, textView.contentSize.height)
         }
     }
 
@@ -71,7 +86,8 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
 
 #Preview {
     @Previewable @State var message = ""
+    @Previewable @State var height: CGFloat = 40
 
-    AdaptiveMessageEditorView(text: $message)
-        .frame(height: 40)
+    AdaptiveMessageEditorView(text: $message, height: $height)
+        .frame(height: height)
 }
