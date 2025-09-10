@@ -19,8 +19,12 @@ struct AdaptiveMessageEditor: View {
     /// 视图的最大高度.
     private let maxHeight: CGFloat
 
-    init(_ message: Binding<String>, maxHeight: CGFloat = 125.0) {
+    /// 聊天消息提交时调用的闭包.
+    private var onMessageSubmit: () -> Void
+
+    init(_ message: Binding<String>, onMessageSubmit: @escaping () -> Void = {}, maxHeight: CGFloat = 125.0) {
         self._message = message
+        self.onMessageSubmit = onMessageSubmit
         self.maxHeight = maxHeight
     }
 
@@ -28,6 +32,7 @@ struct AdaptiveMessageEditor: View {
         AdaptiveMessageEditorView(text: $message, height: $height)
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .frame(height: height < maxHeight ? height : maxHeight)
+            .onSubmit(onMessageSubmit)
     }
 }
 
