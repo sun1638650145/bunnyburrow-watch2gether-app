@@ -18,6 +18,9 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
     /// 视图的背景颜色.
     private let backgroundColor: UIColor
 
+    /// 点击回车键时调用的闭包.
+    private let onSubmit: () -> Void
+
     /// 视图文本使用字体的颜色.
     private let textColor: UIColor
 
@@ -25,12 +28,14 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
         text: Binding<String>,
         height: Binding<CGFloat>,
         backgroundColor: Color = .viewBackground,
-        textColor: Color = .foreground
+        textColor: Color = .foreground,
+        onSubmit: @escaping () -> Void = {}
     ) {
         self._text = text
         self._height = height
         self.backgroundColor = UIColor(backgroundColor)
         self.textColor = UIColor(textColor)
+        self.onSubmit = onSubmit
     }
 
     func makeUIView(context: Context) -> UITextView {
@@ -44,6 +49,9 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
 
         /// 设置视图文本使用的字体.
         textView.font = Font.body.toUIFont()
+
+        /// 设置回车键的标签为发送.
+        textView.returnKeyType = .send
 
         /// 设置视图文本使用字体的颜色.
         textView.textColor = textColor
@@ -63,6 +71,17 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
 
         init(_ parent: AdaptiveMessageEditorView) {
             self.parent = parent
+        }
+
+        func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+            /// 当用户点击回车键时, 调用`onSumbit`并阻止插入换行符.
+            if text == "\n" {
+                parent.onSubmit()
+
+                return false
+            }
+
+            return true
         }
 
         func textViewDidChange(_ textView: UITextView) {
