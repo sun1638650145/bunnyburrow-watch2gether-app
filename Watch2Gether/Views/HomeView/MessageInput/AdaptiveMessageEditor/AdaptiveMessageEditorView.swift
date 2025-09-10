@@ -57,7 +57,7 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
         textView.textColor = textColor
 
         /// 设置视图文本内容的内边距(目前和body字体绑定).
-        textView.textContainerInset = UIEdgeInsets(top: 9.85, left: 0, bottom: 9.85, right: 0)
+        textView.textContainerInset = UIEdgeInsets(top: 8.9, left: 0, bottom: 8.9, right: 0)
 
         return textView
     }
