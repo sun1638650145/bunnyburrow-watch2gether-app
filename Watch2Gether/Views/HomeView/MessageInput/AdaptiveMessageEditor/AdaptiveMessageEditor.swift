@@ -31,7 +31,7 @@ struct AdaptiveMessageEditor: View {
     var body: some View {
         AdaptiveMessageEditorView(text: $message, height: $height, onSubmit: onMessageSubmit)
             .clipShape(RoundedRectangle(cornerRadius: 8))
-            .frame(height: height < maxHeight ? height : maxHeight)
+            .frame(height: min(height, maxHeight))
     }
 }
 
