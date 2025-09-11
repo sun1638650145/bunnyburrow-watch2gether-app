@@ -149,6 +149,8 @@
 				Views/HomeView/DanmakuSpace/DanmakuSpace.swift,
 				Views/HomeView/FriendsList/FriendsList.swift,
 				Views/HomeView/FriendsList/MarqueeText.swift,
+				Views/HomeView/MessageInput/AdaptiveMessageEditor/AdaptiveMessageEditor.swift,
+				Views/HomeView/MessageInput/AdaptiveMessageEditor/AdaptiveMessageEditorView.swift,
 				Views/HomeView/MessageInput/MessageField.swift,
 				Views/HomeView/MessageInput/MessageInput.swift,
 				Views/HomeView/VideoPlayer/FastPlaybackIndicator.swift,
