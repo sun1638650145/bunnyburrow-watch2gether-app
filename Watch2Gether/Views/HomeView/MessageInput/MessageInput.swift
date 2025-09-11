@@ -26,8 +26,8 @@ struct MessageInput: View {
     }
 
     var body: some View {
-        HStack {
-            MessageField($message, onMessageSubmit: onMessageSend)
+        HStack(alignment: .bottom, content: {
+            AdaptiveMessageEditor($message, onMessageSubmit: onMessageSend)
 
             Button(action: onMessageSend, label: {
                 Text("Send")
@@ -35,7 +35,7 @@ struct MessageInput: View {
             })
             .buttonStyle(SendButtonStyle(isDisabled: isDisabled))
             .disabled(isDisabled)
-        }
+        })
         /// 在iOS上设置键盘自适应.
         #if os(iOS)
         .keyboardAdaptive()
