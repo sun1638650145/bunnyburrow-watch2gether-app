@@ -63,7 +63,17 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: UITextView, context: Context) {
-        // ...
+        /// 将绑定的文本同步到视图文本上.
+        if uiView.text != text {
+            uiView.text = text
+        }
+
+        /// 将视图高度更新到绑定的高度上.
+        if height != uiView.contentSize.height {
+            DispatchQueue.main.async(execute: {
+                height = uiView.contentSize.height
+            })
+        }
     }
 
     class Coordinator: NSObject, UITextViewDelegate {
