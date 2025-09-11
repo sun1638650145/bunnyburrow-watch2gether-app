@@ -27,7 +27,12 @@ struct MessageInput: View {
 
     var body: some View {
         HStack(alignment: .bottom, content: {
-            AdaptiveMessageEditor($message, onMessageSubmit: onMessageSend)
+            AdaptiveMessageEditor(
+                $message,
+                onMessageSubmit: onMessageSend,
+                /// 在iPhone上设置较小的最大高度.
+                maxHeight: UIDevice.current.userInterfaceIdiom == .phone ? 60 : 125
+            )
 
             Button(action: onMessageSend, label: {
                 Text("Send")
