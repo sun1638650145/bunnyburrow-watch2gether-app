@@ -2,9 +2,9 @@
 //  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
 //
 //  AdaptiveMessageEditor.swift
-//  Watch2Gether
+//  iPadWatch2Gether
 //
-//  Created by Steve R. Sun on 2025/9/10.
+//  Created by Steve R. Sun on 2025/9/17.
 //
 
 import SwiftUI
