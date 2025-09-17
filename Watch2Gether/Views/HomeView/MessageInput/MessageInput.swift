@@ -26,13 +26,8 @@ struct MessageInput: View {
     }
 
     var body: some View {
-        HStack(alignment: .bottom, content: {
-            AdaptiveMessageEditor(
-                $message,
-                onMessageSubmit: onMessageSend,
-                /// 在iPhone上设置较小的最大高度.
-                maxHeight: UIDevice.current.userInterfaceIdiom == .phone ? 60 : 125
-            )
+        HStack {
+            MessageField($message, onMessageSubmit: onMessageSend)
 
             Button(action: onMessageSend, label: {
                 Text("Send")
@@ -40,7 +35,7 @@ struct MessageInput: View {
             })
             .buttonStyle(SendButtonStyle(isDisabled: isDisabled))
             .disabled(isDisabled)
-        })
+        }
         /// 在iOS上设置键盘自适应.
         #if os(iOS)
         .keyboardAdaptive()
