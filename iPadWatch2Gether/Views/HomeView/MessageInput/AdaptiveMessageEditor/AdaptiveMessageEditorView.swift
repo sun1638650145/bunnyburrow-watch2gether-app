@@ -113,5 +113,5 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
     @Previewable @State var height: CGFloat = 40
 
     AdaptiveMessageEditorView(text: $message, height: $height)
-        .frame(height: height < 100 ? height : 100)
+        .frame(height: min(height, 100))
 }
