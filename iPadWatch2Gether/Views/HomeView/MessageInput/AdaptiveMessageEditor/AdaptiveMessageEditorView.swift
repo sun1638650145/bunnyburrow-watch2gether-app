@@ -18,6 +18,9 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
     /// 视图的背景颜色.
     private let backgroundColor: UIColor
 
+    /// 视图的最小高度.
+    private let minHeight: CGFloat
+
     /// 点击回车键时调用的闭包.
     private let onSubmit: () -> Void
 
@@ -27,12 +30,14 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
     init(
         text: Binding<String>,
         height: Binding<CGFloat>,
+        minHeight: CGFloat,
         backgroundColor: Color = .viewBackground,
         textColor: Color = .foreground,
         onSubmit: @escaping () -> Void = {}
     ) {
         self._text = text
         self._height = height
+        self.minHeight = minHeight
         self.backgroundColor = UIColor(backgroundColor)
         self.textColor = UIColor(textColor)
         self.onSubmit = onSubmit
@@ -69,9 +74,9 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
         }
 
         /// 将视图高度更新到绑定的高度上.
-        if height != uiView.contentSize.height {
+        if height < uiView.contentSize.height || uiView.text.isEmpty {
             DispatchQueue.main.async(execute: {
-                height = uiView.contentSize.height
+                height = max(minHeight, uiView.contentSize.height)
             })
         }
     }
@@ -99,7 +104,7 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
             parent.text = textView.text
 
             /// 将视图高度更新到绑定的高度上.
-            parent.height = textView.contentSize.height
+            parent.height = max(parent.minHeight, textView.contentSize.height)
         }
     }
 
@@ -110,8 +115,10 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
 
 #Preview {
     @Previewable @State var message = ""
-    @Previewable @State var height: CGFloat = 40
+    @Previewable @State var height: CGFloat = 40.0
 
-    AdaptiveMessageEditorView(text: $message, height: $height)
-        .frame(height: min(height, 100))
+    let minHeight: CGFloat = 40.0
+
+    AdaptiveMessageEditorView(text: $message, height: $height, minHeight: minHeight)
+        .frame(height: min(height, 100.0))
 }
