@@ -37,8 +37,8 @@ struct MessageInput: View {
             .disabled(isDisabled)
         })
         .keyboardAdaptive()
-        // TODO: 为避免主页指示器(Home indicator)遮挡, 额外设置25的底部高度, 但未在键盘弹起后移除(Steve).
-        .padding(EdgeInsets(top: 10, leading: 10, bottom: 35, trailing: 10))
+        // TODO: 为避免主页指示器(Home indicator)遮挡, 额外设置15的底部高度, 但未在键盘弹起后移除(Steve).
+        .padding(EdgeInsets(top: 10, leading: 10, bottom: 25, trailing: 10))
         .background(Color.viewBackground.opacity(0.6))
     }
 }
