@@ -17,7 +17,7 @@ struct AdaptiveMessageEditor: View {
     @State private var height: CGFloat = 62.5
 
     /// 视图的最大高度.
-    private let maxHeight: CGFloat
+    @State private var maxHeight: CGFloat
 
     /// 视图的最小高度.
     private let minHeight: CGFloat
@@ -39,6 +39,22 @@ struct AdaptiveMessageEditor: View {
 
     var body: some View {
         AdaptiveMessageEditorView(text: $message, height: $height, minHeight: minHeight, onSubmit: onMessageSubmit)
+            .background(
+                GeometryReader(content: { geometry in
+                    /// 用于获取`AdaptiveMessageEditorView`的视图宽度且不影响布局.
+                    Color.clear
+                        .onAppear(perform: {
+                            /// 当视图宽度较小时(说明在横屏使用), 限制最大高度避免布局错误.
+                            if geometry.size.width < 220 {
+                                maxHeight = 70.0
+                            }
+                        })
+                        /// 用于处理台前调度或窗口化App的情况.
+                        .onChange(of: geometry.size.width, {
+                            maxHeight = geometry.size.width < 220 ? 70.0 : 125.0
+                        })
+                })
+            )
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .frame(height: min(height, maxHeight))
     }
