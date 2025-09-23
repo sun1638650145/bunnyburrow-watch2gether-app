@@ -89,7 +89,7 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
         }
 
         func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-            /// 当用户点击回车键时, 调用`onSumbit`并阻止插入换行符.
+            /// 当用户点击回车键时, 调用`onSubmit`并阻止插入换行符.
             if text == "\n" {
                 parent.onSubmit()
 
