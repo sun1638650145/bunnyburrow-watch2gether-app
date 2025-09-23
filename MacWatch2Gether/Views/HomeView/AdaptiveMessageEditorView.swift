@@ -14,6 +14,7 @@ import SwiftUI
 /// `AdaptiveMessageEditorView`是使用`NSTextView`和`NSScrollView`实现的聊天消息高度自适应视图, 它允许用户输入聊天消息.
 struct AdaptiveMessageEditorView: NSViewRepresentable {
     @Binding var height: CGFloat
+    @Binding var text: String
 
     /// 视图的背景颜色.
     private let backgroundColor: NSColor
@@ -25,11 +26,13 @@ struct AdaptiveMessageEditorView: NSViewRepresentable {
     private let textColor: NSColor
 
     init(
+        text: Binding<String>,
         height: Binding<CGFloat>,
         minHeight: CGFloat,
         backgroundColor: Color = .viewBackground,
         textColor: Color = .foreground
     ) {
+        self._text = text
         self._height = height
         self.minHeight = minHeight
         self.backgroundColor = NSColor(backgroundColor)
@@ -80,6 +83,9 @@ struct AdaptiveMessageEditorView: NSViewRepresentable {
                 return
             }
 
+            /// 将视图文本更新到绑定的文本中.
+            parent.text = textView.string
+
             /// 获取文本容器和排版文本的布局管理器.
             if let textContainer = textView.textContainer, let layoutManager = textView.layoutManager {
                 /// 强制执行排版布局.
@@ -102,11 +108,12 @@ struct AdaptiveMessageEditorView: NSViewRepresentable {
 }
 
 #Preview {
+    @Previewable @State var message = ""
     @Previewable @State var height: CGFloat = 40.0
 
     let minHeight: CGFloat = 40.0
 
-    AdaptiveMessageEditorView(height: $height, minHeight: minHeight)
+    AdaptiveMessageEditorView(text: $message, height: $height, minHeight: minHeight)
         .frame(height: min(height, 100.0))
         .padding(10)
 }
