@@ -13,13 +13,25 @@ import SwiftUI
 
 /// `AdaptiveMessageEditorView`是使用`NSTextView`和`NSScrollView`实现的聊天消息高度自适应视图, 它允许用户输入聊天消息.
 struct AdaptiveMessageEditorView: NSViewRepresentable {
+    @Binding var height: CGFloat
+
     /// 视图的背景颜色.
     private let backgroundColor: NSColor
+
+    /// 视图的最小高度.
+    private let minHeight: CGFloat
 
     /// 视图文本使用字体的颜色.
     private let textColor: NSColor
 
-    init(backgroundColor: Color = .viewBackground, textColor: Color = .foreground) {
+    init(
+        height: Binding<CGFloat>,
+        minHeight: CGFloat,
+        backgroundColor: Color = .viewBackground,
+        textColor: Color = .foreground
+    ) {
+        self._height = height
+        self.minHeight = minHeight
         self.backgroundColor = NSColor(backgroundColor)
         self.textColor = NSColor(textColor)
     }
@@ -29,6 +41,9 @@ struct AdaptiveMessageEditorView: NSViewRepresentable {
 
         /// 设置视图的背景颜色.
         textView.backgroundColor = backgroundColor
+
+        /// 委托`Coordinator`处理.
+        textView.delegate = context.coordinator
 
         /// 设置视图文本使用的字体.
         textView.font = Font.body.toNSFont()
@@ -50,10 +65,48 @@ struct AdaptiveMessageEditorView: NSViewRepresentable {
     func updateNSView(_ nsView: NSScrollView, context: Context) {
         // ...
     }
+
+    class Coordinator: NSObject, NSTextViewDelegate {
+        var parent: AdaptiveMessageEditorView
+
+        init(_ parent: AdaptiveMessageEditorView) {
+            self.parent = parent
+        }
+
+        func textViewDidChangeSelection(_ notification: Notification) {
+            /// 确保数据类型为`NSTextView`.
+            guard let textView = notification.object as? NSTextView
+            else {
+                return
+            }
+
+            /// 获取文本容器和排版文本的布局管理器.
+            if let textContainer = textView.textContainer, let layoutManager = textView.layoutManager {
+                /// 强制执行排版布局.
+                layoutManager.ensureLayout(for: textContainer)
+
+                /// 获取视图文本的矩形边界.
+                let rect = layoutManager.usedRect(for: textContainer)
+
+                /// 将视图高度更新到绑定的高度上.
+                DispatchQueue.main.async(execute: {
+                    self.parent.height = max(self.parent.minHeight, rect.height)
+                })
+            }
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(self)
+    }
 }
 
 #Preview {
-    AdaptiveMessageEditorView()
-        .frame(height: 40.0)
+    @Previewable @State var height: CGFloat = 40.0
+
+    let minHeight: CGFloat = 40.0
+
+    AdaptiveMessageEditorView(height: $height, minHeight: minHeight)
+        .frame(height: min(height, 100.0))
         .padding(10)
 }
