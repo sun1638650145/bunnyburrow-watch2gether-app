@@ -22,6 +22,9 @@ struct AdaptiveMessageEditorView: NSViewRepresentable {
     /// 视图的最小高度.
     private let minHeight: CGFloat
 
+    /// 点击回车键时调用的闭包.
+    private let onSubmit: () -> Void
+
     /// 视图文本使用字体的颜色.
     private let textColor: NSColor
 
@@ -30,13 +33,15 @@ struct AdaptiveMessageEditorView: NSViewRepresentable {
         height: Binding<CGFloat>,
         minHeight: CGFloat,
         backgroundColor: Color = .viewBackground,
-        textColor: Color = .foreground
+        textColor: Color = .foreground,
+        onSubmit: @escaping () -> Void = {}
     ) {
         self._text = text
         self._height = height
         self.minHeight = minHeight
         self.backgroundColor = NSColor(backgroundColor)
         self.textColor = NSColor(textColor)
+        self.onSubmit = onSubmit
     }
 
     func makeNSView(context: Context) -> NSScrollView {
@@ -74,6 +79,21 @@ struct AdaptiveMessageEditorView: NSViewRepresentable {
 
         init(_ parent: AdaptiveMessageEditorView) {
             self.parent = parent
+        }
+
+        func textView(
+            _ textView: NSTextView,
+            shouldChangeTextIn affectedCharRange: NSRange,
+            replacementString: String?
+        ) -> Bool {
+            /// 当用户点击回车键时, 调用`onSubmit`并阻止插入换行符.
+            if replacementString == "\n" {
+                parent.onSubmit()
+
+                return false
+            }
+
+            return true
         }
 
         func textViewDidChangeSelection(_ notification: Notification) {
