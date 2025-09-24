@@ -47,6 +47,9 @@ struct AdaptiveMessageEditorView: NSViewRepresentable {
     func makeNSView(context: Context) -> NSScrollView {
         let textView = NSTextView()
 
+        /// 设置视图支持撤销操作.
+        textView.allowsUndo = true
+
         /// 设置视图的背景颜色.
         textView.backgroundColor = backgroundColor
 
@@ -55,6 +58,12 @@ struct AdaptiveMessageEditorView: NSViewRepresentable {
 
         /// 设置视图文本使用的字体.
         textView.font = Font.body.toNSFont()
+
+        /// 禁用视图文本自动引号替换功能.
+        textView.isAutomaticQuoteSubstitutionEnabled = false
+
+        /// 设置视图文本为纯文本.
+        textView.isRichText = false
 
         /// 设置视图文本使用字体的颜色.
         textView.textColor = textColor
