@@ -13,7 +13,7 @@ import SwiftUI
 struct AdaptiveMessageEditor: View {
     @Binding var message: String
 
-    /// 当前视图的高度(随输入的聊天消息变化).
+    /// 视图的当前高度(随输入的聊天消息变化).
     @State private var height: CGFloat = 62.5
 
     /// 视图的最大高度.
