@@ -25,6 +25,7 @@
 		390D3E0F2D1AB81700F6C750 /* Exceptions for "iPadWatch2Gether" folder in "MacWatch2Gether" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Views/HomeView/MessageInput/MessageInput.swift,
 				Views/LoginView/StyledPlaceholderTextField.swift,
 			);
 			target = 39EC676C2D16653E00518950 /* MacWatch2Gether */;
@@ -147,7 +148,6 @@
 				Views/HomeView/DanmakuSpace/DanmakuSpace.swift,
 				Views/HomeView/FriendsList/FriendsList.swift,
 				Views/HomeView/FriendsList/MarqueeText.swift,
-				Views/HomeView/MessageInput/MessageField.swift,
 				Views/HomeView/VideoPlayer/FastPlaybackIndicator.swift,
 				Views/HomeView/VideoPlayer/GestureControls.swift,
 				Views/HomeView/VideoPlayer/MuteIndicator.swift,
@@ -197,6 +197,8 @@
 				"Preview Content/Preview Assets.xcassets",
 				Views/ContentView.swift,
 				Views/HomeView/HomeView.swift,
+				Views/HomeView/MessageInput/MessageField.swift,
+				Views/HomeView/MessageInput/MessageInput.swift,
 				Views/HomeView/VideoPlayer/FastPlaybackIndicator.swift,
 				Views/HomeView/VideoPlayer/GestureControls.swift,
 				Views/HomeView/VideoPlayer/PlaybackControls/VideoSwitchButton.swift,
