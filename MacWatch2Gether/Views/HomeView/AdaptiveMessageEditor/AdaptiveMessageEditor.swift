@@ -14,7 +14,7 @@ struct AdaptiveMessageEditor: View {
     @Binding var message: String
 
     /// 视图的当前高度(随输入的聊天消息变化).
-    @State private var height: CGFloat = 62.5
+    @State private var height: CGFloat = 80.0
 
     /// 视图的最大高度.
     private let maxHeight: CGFloat
@@ -28,8 +28,8 @@ struct AdaptiveMessageEditor: View {
     init(
         _ message: Binding<String>,
         onMessageSubmit: @escaping () -> Void = {},
-        minHeight: CGFloat = 62.5,
-        maxHeight: CGFloat = 125.0
+        minHeight: CGFloat = 80.0,
+        maxHeight: CGFloat = 120.0
     ) {
         self._message = message
         self.onMessageSubmit = onMessageSubmit
