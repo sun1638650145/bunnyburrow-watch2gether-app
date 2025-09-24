@@ -71,7 +71,16 @@ struct AdaptiveMessageEditorView: NSViewRepresentable {
     }
 
     func updateNSView(_ nsView: NSScrollView, context: Context) {
-        // ...
+        /// 确保数据类型为`NSTextView`.
+        guard let textView = nsView.documentView as? NSTextView
+        else {
+            return
+        }
+
+        /// 将绑定的文本同步到视图文本上.
+        if textView.string != text {
+            textView.string = text
+        }
     }
 
     class Coordinator: NSObject, NSTextViewDelegate {
