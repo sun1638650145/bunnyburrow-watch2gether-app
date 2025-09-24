@@ -67,6 +67,9 @@ struct AdaptiveMessageEditorView: NSViewRepresentable {
         /// 设置`NSScrollView`的内容为`NSTextView`.
         scrollView.documentView = textView
 
+        /// 禁止`NSScrollView`绘制背景(使之透明).
+        scrollView.drawsBackground = false
+
         return scrollView
     }
 
