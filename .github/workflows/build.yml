@@ -17,13 +17,13 @@ jobs:
           brew install swiftlint
           swiftlint
       - name: Select latest Xcode
-        run: sudo xcode-select -s /Applications/Xcode_16.4.app
+        run: sudo xcode-select -s /Applications/Xcode_26.app
       - name: Build for iOS
         run: |
           xcodebuild \
           -project Watch2Gether.xcodeproj \
           -scheme Watch2Gether \
-          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+          -destination 'platform=iOS Simulator,name=iPhone 17' \
           -skipPackagePluginValidation \
           clean build analyze
       - name: Build for iPadOS
