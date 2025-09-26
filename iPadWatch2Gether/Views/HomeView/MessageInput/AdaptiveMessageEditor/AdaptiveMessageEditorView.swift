@@ -93,6 +93,9 @@ struct AdaptiveMessageEditorView: UIViewRepresentable {
             if text == "\n" {
                 parent.onSubmit()
 
+                /// 退出第一响应者状态, 隐藏键盘.
+                textView.resignFirstResponder()
+
                 return false
             }
 
