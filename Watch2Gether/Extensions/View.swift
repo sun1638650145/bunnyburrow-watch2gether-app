@@ -20,6 +20,13 @@ extension View {
         self.modifier(Copyright())
     }
 
+    /// 为`View`应用液态玻璃(Liquid Glass)效果.
+    ///
+    /// - Returns: 应用`glassEffectCompat`样式后的视图.
+    func glassEffectCompat() -> some View {
+        self.modifier(GlassEffectCompat())
+    }
+
     /// 为`View`添加点击隐藏键盘的功能(只适用于`iOS`平台).
     ///
     /// - Returns: 应用`hideKeyboard`后的视图.

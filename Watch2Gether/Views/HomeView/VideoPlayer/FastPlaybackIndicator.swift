@@ -19,10 +19,9 @@ struct FastPlaybackIndicator: View {
                 Text("Fast playback")
             }
             .padding(12)
-            .background(.regularMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 8))
             .font(.callout)
             .foregroundStyle(Color.foreground)
+            .glassEffectCompat()
 
             Spacer()
         }
