@@ -30,10 +30,9 @@ struct DanmakuMessageBubble: View {
             Text(content)
                 .frame(minWidth: 16)
                 .padding(12)
-                .background(.regularMaterial)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
                 .font(.callout)
                 .foregroundStyle(Color.foreground)
+                .glassEffectCompat()
                 .lineLimit(1)
                 .overlay(alignment: .topTrailing, content: {
                     Image(base64: avatar ?? "")
