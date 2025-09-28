@@ -27,10 +27,9 @@ struct VideoPlayerModal: View {
         if isOpen {
             Text(notificationMessage)
                 .padding(12)
-                .background(.regularMaterial)
-                .clipShape(RoundedRectangle(cornerRadius: 8))
                 .font(.callout)
                 .foregroundStyle(Color.foreground)
+                .glassEffectCompat()
         }
     }
 }
