@@ -22,9 +22,11 @@ extension View {
 
     /// 为`View`应用液态玻璃(Liquid Glass)效果.
     ///
+    /// - Parameters:
+    ///   - isInteractive: 控制`View`是否可用于交互操作的布尔值.
     /// - Returns: 应用`glassEffectCompat`样式后的视图.
-    func glassEffectCompat() -> some View {
-        self.modifier(GlassEffectCompat())
+    func glassEffectCompat(isInteractive: Bool = false) -> some View {
+        self.modifier(GlassEffectCompat(isInteractive: isInteractive))
     }
 
     /// 为`View`添加点击隐藏键盘的功能(只适用于`iOS`平台).
