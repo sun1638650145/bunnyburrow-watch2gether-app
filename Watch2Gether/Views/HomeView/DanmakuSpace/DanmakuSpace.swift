@@ -58,10 +58,13 @@ struct DanmakuSpace: View {
                     let friend = friendsViewModel.searchFriend(by: message.clientID)!
                     /// 为当前聊天消息分配弹幕轨道.
                     let trackIndex = messages.firstIndex(where: { $0.id == message.id })! % trackCount
+                    /// 当前聊天消息不是自己发送的才可用于交互操作.
+                    let isInteractive = (friend.clientID != user.clientID)
 
                     DanmakuMessageBubble(
                         content: message.content,
                         avatar: friend.avatar,
+                        isInteractive: isInteractive,
                         isPaused: Binding<Bool>(
                             get: { pausedMessageId == message.id },
                             set: {
@@ -76,7 +79,7 @@ struct DanmakuSpace: View {
                     )
                     .offset(y: CGFloat(trackIndex) * trackHeight)
                     .onTapGesture(perform: {
-                        if friend.clientID != user.clientID {
+                        if isInteractive {
                             appSettings.showDanmakuMessageInput = true
                             pausedMessageId = message.id
                         }
