@@ -19,9 +19,13 @@ struct DanmakuMessageBubble: View {
     /// 用户头像的Base-64.
     private let avatar: String?
 
-    init(content: String, avatar: String?, isPaused: Binding<Bool> = .constant(false)) {
+    /// 控制`View`是否可用于交互操作.
+    private let isInteractive: Bool
+
+    init(content: String, avatar: String?, isInteractive: Bool = false, isPaused: Binding<Bool> = .constant(false)) {
         self.content = content
         self.avatar = avatar
+        self.isInteractive = isInteractive
         self._isPaused = isPaused
     }
 
@@ -32,7 +36,7 @@ struct DanmakuMessageBubble: View {
                 .padding(12)
                 .font(.callout)
                 .foregroundStyle(Color.foreground)
-                .glassEffectCompat()
+                .glassEffectCompat(isInteractive: isInteractive)
                 .lineLimit(1)
                 .overlay(alignment: .topTrailing, content: {
                     Image(base64: avatar ?? "")
