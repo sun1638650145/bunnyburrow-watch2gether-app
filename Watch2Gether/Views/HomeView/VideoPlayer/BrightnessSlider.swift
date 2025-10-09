@@ -4,7 +4,7 @@
 //  BrightnessSlider.swift
 //  Watch2Gether
 //
-//  Created by Steve R. Sun on 2025/10/9.
+//  Created by Steve R. Sun on 2025/10/8.
 //
 
 import SwiftUI
@@ -24,12 +24,12 @@ struct BrightnessSlider: View {
                     .frame(width: 20, height: 20)
 
                 ZStack(alignment: .leading, content: {
-                    /// 滑块的背景部分.
+                    /// 滑轨的背景部分.
                     RoundedRectangle(cornerRadius: 2)
                         .foregroundStyle(Color.foreground.opacity(0.2))
                         .frame(width: 100, height: 4)
 
-                    /// 滑块的前景部分(已滑过的部分).
+                    /// 滑轨的前景部分(已滑过的部分).
                     RoundedRectangle(cornerRadius: 2)
                         .foregroundStyle(Color.volumeSliderForeground)
                         .frame(width: CGFloat(brightness * 100), height: 4)
