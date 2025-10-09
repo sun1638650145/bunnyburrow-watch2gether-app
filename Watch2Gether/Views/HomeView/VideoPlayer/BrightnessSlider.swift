@@ -31,7 +31,7 @@ struct BrightnessSlider: View {
 
                     /// 滑轨的前景部分(已滑过的部分).
                     RoundedRectangle(cornerRadius: 2)
-                        .foregroundStyle(Color.volumeSliderForeground)
+                        .foregroundStyle(Color.brightnessSliderForeground)
                         .frame(width: CGFloat(brightness * 100), height: 4)
                 })
             }

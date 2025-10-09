@@ -36,6 +36,13 @@ extension Color {
     /// 用于背景内容的颜色.
     public static let background = Color(hex: "#1A1D29")
 
+    /// 用于亮度滑块的前景颜色.
+    public static let brightnessSliderForeground = Color(
+        red: 236.0 / 255,
+        green: 232.0 / 255,
+        blue: 221.0 / 255
+    ).gradient
+
     /// 用于前景文本的颜色.
     public static let foreground = Color(hex: "#F9F9F9")
 
