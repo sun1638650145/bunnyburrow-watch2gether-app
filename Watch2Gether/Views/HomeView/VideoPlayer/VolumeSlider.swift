@@ -50,6 +50,7 @@ struct VolumeSlider: View {
                 })
             }
             .padding(10)
+            .glassEffectCompat()
 
             Spacer()
         }
