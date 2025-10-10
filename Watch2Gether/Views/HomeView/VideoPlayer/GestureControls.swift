@@ -133,12 +133,13 @@ struct GestureControls: View {
                         handleHorizontalDragGesture(gesture: gesture, geometry: geometry)
                     /// 计算垂直滑动手势的角度, 在有效范围内才能调整音量.
                     } else if validVerticalAngleRange.contains(angle) {
-                        /// 只在右侧1/2的屏幕生效.
-                        guard gesture.startLocation.x > geometry.size.width / 2 else {
-                            return
+                        /// 在左侧1/2的屏幕生效.
+                        if gesture.startLocation.x < geometry.size.width / 2 {
+                            handleLeftVerticalDragGesture()
+                        /// 在右侧1/2的屏幕生效.
+                        } else {
+                            handleRightVerticalDragGesture(gesture: gesture, geometry: geometry)
                         }
-
-                        handleVerticalDragGesture(gesture: gesture, geometry: geometry)
                     }
                 }, endedPerform: { _ in
                     if isSeeking {
@@ -236,12 +237,17 @@ struct GestureControls: View {
         showProgressDisplay = true
     }
 
-    /// 处理垂直滑动手势.
+    /// 处理左侧的垂直滑动手势.
+    private func handleLeftVerticalDragGesture() {
+        print("识别到左侧的垂直滑动手势.")
+    }
+
+    /// 处理右侧的垂直滑动手势.
     ///
     /// - Parameters:
     ///   - gesture: 滑动手势的属性.
     ///   - geometry: 当前容器视图的大小和空间信息的代理.
-    private func handleVerticalDragGesture(gesture: DragGesture.Value, geometry: GeometryProxy) {
+    private func handleRightVerticalDragGesture(gesture: DragGesture.Value, geometry: GeometryProxy) {
         isAdjustingVolume = true
 
         /// 向上滑动为负值.
