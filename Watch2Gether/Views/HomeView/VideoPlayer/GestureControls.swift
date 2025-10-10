@@ -19,7 +19,8 @@ import SwiftUI
 ///   - **长按手势**: 当视频正在播放时, 切换为2倍速播放; 松开恢复原播放速率.
 ///   - **缩放手势**: 切换全屏状态.
 ///   - **水平滑动手势**: 调整视频的播放进度.
-///   - **垂直滑动手势**: 调整播放器的音频音量.
+///   - **左侧垂直滑动手势**: 调整播放器的显示亮度.
+///   - **右侧垂直滑动手势**: 调整播放器的音频音量.
 struct GestureControls: View {
     @Environment(AppSettings.self) var appSettings
     @Environment(PlayerViewModel.self) var playerViewModel
@@ -133,10 +134,10 @@ struct GestureControls: View {
                         handleHorizontalDragGesture(gesture: gesture, geometry: geometry)
                     /// 计算垂直滑动手势的角度, 在有效范围内才能调整音量.
                     } else if validVerticalAngleRange.contains(angle) {
-                        /// 在左侧1/2的屏幕生效.
+                        /// 在屏幕左侧生效的手势.
                         if gesture.startLocation.x < geometry.size.width / 2 {
                             handleLeftVerticalDragGesture(gesture: gesture, geometry: geometry)
-                        /// 在右侧1/2的屏幕生效.
+                        /// 在屏幕右侧生效的手势.
                         } else {
                             handleRightVerticalDragGesture(gesture: gesture, geometry: geometry)
                         }
@@ -246,7 +247,7 @@ struct GestureControls: View {
         /// 向上滑动为负值.
         let deltaY = -gesture.translation.height / geometry.size.height
 
-        /// 获取之前的屏幕亮度.
+        /// 获取之前的显示亮度.
         let previousBrightness = UIScreen.main.brightness
 
         /// 一次滑动手势过程中会产生多个`deltaY`, 避免累加亮度且保证亮度变化连续.
