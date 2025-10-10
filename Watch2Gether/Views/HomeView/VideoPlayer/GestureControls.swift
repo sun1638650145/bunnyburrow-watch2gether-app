@@ -135,7 +135,7 @@ struct GestureControls: View {
                     } else if validVerticalAngleRange.contains(angle) {
                         /// 在左侧1/2的屏幕生效.
                         if gesture.startLocation.x < geometry.size.width / 2 {
-                            handleLeftVerticalDragGesture()
+                            handleLeftVerticalDragGesture(gesture: gesture, geometry: geometry)
                         /// 在右侧1/2的屏幕生效.
                         } else {
                             handleRightVerticalDragGesture(gesture: gesture, geometry: geometry)
@@ -238,8 +238,22 @@ struct GestureControls: View {
     }
 
     /// 处理左侧的垂直滑动手势.
-    private func handleLeftVerticalDragGesture() {
-        print("识别到左侧的垂直滑动手势.")
+    ///
+    /// - Parameters:
+    ///   - gesture: 滑动手势的属性.
+    ///   - geometry: 当前容器视图的大小和空间信息的代理.
+    private func handleLeftVerticalDragGesture(gesture: DragGesture.Value, geometry: GeometryProxy) {
+        /// 向上滑动为负值.
+        let deltaY = -gesture.translation.height / geometry.size.height
+
+        /// 获取之前的屏幕亮度.
+        let previousBrightness = UIScreen.main.brightness
+
+        /// 一次滑动手势过程中会产生多个`deltaY`, 避免累加亮度且保证亮度变化连续.
+        let newBrightness = previousBrightness + deltaY
+
+        /// 确保亮度值在有效范围内.
+        UIScreen.main.brightness = min(1, max(newBrightness, 0))
     }
 
     /// 处理右侧的垂直滑动手势.
