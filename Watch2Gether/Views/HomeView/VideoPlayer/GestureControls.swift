@@ -10,6 +10,7 @@
 import AVKit
 import Foundation
 import SwiftUI
+import UIKit
 
 /// `GestureControls`是手势控制视图, 用于处理多种手势交互.
 ///
@@ -54,6 +55,15 @@ struct GestureControls: View {
 
     /// 垂直滑动手势有效角度的识别范围.
     private let validVerticalAngleRange: ClosedRange<CGFloat> = 75...90
+
+    /// 获取当前的屏幕实例.
+    private var currentScreen: UIScreen? {
+        return UIApplication.shared.connectedScenes
+            /// 确保数据类型为`UIWindowScene`.
+            .compactMap({ $0 as? UIWindowScene })
+            .first?
+            .screen
+    }
 
     /// 播放速率调整后调用的闭包.
     private var onPlaybackRateChange: () -> Void
@@ -244,6 +254,11 @@ struct GestureControls: View {
     ///   - gesture: 滑动手势的属性.
     ///   - geometry: 当前容器视图的大小和空间信息的代理.
     private func handleLeftVerticalDragGesture(gesture: DragGesture.Value, geometry: GeometryProxy) {
+        guard let currentScreen = currentScreen
+        else {
+            return
+        }
+
         /// 向上滑动为负值.
         let deltaY = -gesture.translation.height / geometry.size.height
 
@@ -254,7 +269,7 @@ struct GestureControls: View {
         let newBrightness = previousBrightness + deltaY
 
         /// 确保亮度值在有效范围内.
-        UIScreen.main.brightness = min(1, max(newBrightness, 0))
+        currentScreen.brightness = min(1, max(newBrightness, 0))
     }
 
     /// 处理右侧的垂直滑动手势.
