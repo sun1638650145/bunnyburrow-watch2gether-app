@@ -150,6 +150,7 @@
 				Views/HomeView/DanmakuSpace/DanmakuSpace.swift,
 				Views/HomeView/FriendsList/FriendsList.swift,
 				Views/HomeView/FriendsList/MarqueeText.swift,
+				Views/HomeView/VideoPlayer/BrightnessSlider.swift,
 				Views/HomeView/VideoPlayer/FastPlaybackIndicator.swift,
 				Views/HomeView/VideoPlayer/GestureControls.swift,
 				Views/HomeView/VideoPlayer/MuteIndicator.swift,
