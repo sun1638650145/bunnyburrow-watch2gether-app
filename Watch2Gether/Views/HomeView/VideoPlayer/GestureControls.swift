@@ -26,6 +26,9 @@ struct GestureControls: View {
     @Environment(AppSettings.self) var appSettings
     @Environment(PlayerViewModel.self) var playerViewModel
 
+    /// 当前的显示亮度.
+    @State private var currentBrightness: CGFloat = 0.5
+
     /// 是否正在调整音量.
     @State private var isAdjustingVolume: Bool = false
 
@@ -49,6 +52,9 @@ struct GestureControls: View {
 
     /// 之前的音频音量.
     @State private var previousVolume: Float = 0.0
+
+    /// 显示亮度滑块视图变量.
+    @State private var showBrightnessDisplay: Bool = false
 
     /// 显示播放进度视图变量.
     @State private var showProgressDisplay: Bool = false
@@ -93,8 +99,9 @@ struct GestureControls: View {
                 /// 设置透明的手势识别区域.
                 .contentShape(Rectangle())
                 .onAppear(perform: {
-                    /// 初始化之前的显示亮度, 播放进度和音频音量.
-                    previousBrightness = currentScreen?.brightness ?? 0.5
+                    /// 初始化当前的显示亮度, 之前的显示亮度, 播放进度和音频音量.
+                    currentBrightness = currentScreen?.brightness ?? 0.5
+                    previousBrightness = currentBrightness
                     previousProgress = playerViewModel.currentTime
                     previousVolume = playerViewModel.volume
                 })
@@ -204,6 +211,9 @@ struct GestureControls: View {
             } else if isLongPressing {
                 FastPlaybackIndicator()
                     .padding(15)
+            } else if showBrightnessDisplay {
+                BrightnessSlider(brightness: Float(currentBrightness))
+                    .padding(15)
             } else if playerViewModel.showVolumeDisplay {
                 Group {
                     if playerViewModel.isMuted {
@@ -269,8 +279,14 @@ struct GestureControls: View {
         /// 一次滑动手势过程中会产生多个`deltaY`, 避免累加亮度且保证亮度变化连续.
         let newBrightness = previousBrightness + deltaY
 
-        /// 确保亮度值在有效范围内.
-        currentScreen.brightness = min(1, max(newBrightness, 0))
+        withAnimation(.easeInOut, {
+            showBrightnessDisplay = true
+
+            /// 确保亮度值在有效范围内.
+            currentBrightness = min(1, max(newBrightness, 0))
+
+            currentScreen.brightness = currentBrightness
+        })
     }
 
     /// 处理右侧的垂直滑动手势.
