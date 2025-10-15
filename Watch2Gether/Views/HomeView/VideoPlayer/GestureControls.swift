@@ -212,7 +212,7 @@ struct GestureControls: View {
                 FastPlaybackIndicator()
                     .padding(15)
             } else if showBrightnessDisplay {
-                BrightnessSlider(brightness: Float(currentBrightness))
+                BrightnessSlider(brightness: currentBrightness)
                     .padding(15)
             } else if playerViewModel.showVolumeDisplay {
                 Group {

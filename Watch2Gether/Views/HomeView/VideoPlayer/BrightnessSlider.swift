@@ -12,7 +12,7 @@ import SwiftUI
 /// `BrightnessSlider`是亮度滑块视图.
 struct BrightnessSlider: View {
     /// 当前的亮度.
-    let brightness: Float
+    let brightness: CGFloat
 
     var body: some View {
         VStack {
