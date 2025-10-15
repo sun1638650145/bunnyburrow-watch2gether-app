@@ -29,6 +29,9 @@ struct GestureControls: View {
     /// 当前的显示亮度.
     @State private var currentBrightness: CGFloat = 0.5
 
+    /// 是否正在调整亮度.
+    @State private var isAdjustingBrightness: Bool = false
+
     /// 是否正在调整音量.
     @State private var isAdjustingVolume: Bool = false
 
@@ -176,6 +179,13 @@ struct GestureControls: View {
 
                         isSeeking = false
                         showProgressDisplay = false
+                    } else if isAdjustingBrightness {
+                        /// 设置亮度滑块在结束滑动1.5秒钟后自动关闭.
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                            showBrightnessDisplay = false
+                        })
+
+                        isAdjustingBrightness = false
                     } else if isAdjustingVolume {
                         /// 更新之前的音频音量.
                         previousVolume = playerViewModel.volume
@@ -272,6 +282,8 @@ struct GestureControls: View {
         else {
             return
         }
+
+        isAdjustingBrightness = true
 
         /// 向上滑动为负值.
         let deltaY = -gesture.translation.height / geometry.size.height
