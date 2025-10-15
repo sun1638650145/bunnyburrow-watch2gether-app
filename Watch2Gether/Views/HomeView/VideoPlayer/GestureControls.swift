@@ -38,6 +38,9 @@ struct GestureControls: View {
     /// 是否正在滑动.
     @State private var isSeeking: Bool = false
 
+    /// 之前的显示亮度.
+    @State private var previousBrightness: CGFloat = 0.5
+
     /// 之前的播放速率.
     @State private var previousPlaybackRate: Float = 1.0
 
@@ -90,7 +93,8 @@ struct GestureControls: View {
                 /// 设置透明的手势识别区域.
                 .contentShape(Rectangle())
                 .onAppear(perform: {
-                    /// 初始化之前的播放进度和音频音量.
+                    /// 初始化之前的显示亮度, 播放进度和音频音量.
+                    previousBrightness = currentScreen?.brightness ?? 0.5
                     previousProgress = playerViewModel.currentTime
                     previousVolume = playerViewModel.volume
                 })
@@ -261,9 +265,6 @@ struct GestureControls: View {
 
         /// 向上滑动为负值.
         let deltaY = -gesture.translation.height / geometry.size.height
-
-        /// 获取之前的显示亮度.
-        let previousBrightness = UIScreen.main.brightness
 
         /// 一次滑动手势过程中会产生多个`deltaY`, 避免累加亮度且保证亮度变化连续.
         let newBrightness = previousBrightness + deltaY
