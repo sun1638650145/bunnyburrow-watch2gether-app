@@ -29,6 +29,9 @@ struct GestureControls: View {
     /// 当前的显示亮度.
     @State private var currentBrightness: CGFloat = 0.5
 
+    /// 当前的屏幕实例.
+    @State private var currentScreen: UIScreen?
+
     /// 是否正在调整亮度.
     @State private var isAdjustingBrightness: Bool = false
 
@@ -68,15 +71,6 @@ struct GestureControls: View {
     /// 垂直滑动手势有效角度的识别范围.
     private let validVerticalAngleRange: ClosedRange<CGFloat> = 75...90
 
-    /// 获取当前的屏幕实例.
-    private var currentScreen: UIScreen? {
-        return UIApplication.shared.connectedScenes
-            /// 确保数据类型为`UIWindowScene`.
-            .compactMap({ $0 as? UIWindowScene })
-            .first?
-            .screen
-    }
-
     /// 播放速率调整后调用的闭包.
     private var onPlaybackRateChange: () -> Void
 
@@ -102,8 +96,15 @@ struct GestureControls: View {
                 /// 设置透明的手势识别区域.
                 .contentShape(Rectangle())
                 .onAppear(perform: {
+                    /// 获取当前的屏幕实例.
+                    currentScreen = UIApplication.shared.connectedScenes
+                        /// 确保数据类型为`UIWindowScene`.
+                        .compactMap({ $0 as? UIWindowScene })
+                        .first?
+                        .screen
+
                     /// 初始化当前的显示亮度, 之前的显示亮度, 播放进度和音频音量.
-                    currentBrightness = currentScreen?.brightness ?? 0.5
+                    currentBrightness = currentScreen?.brightness ?? currentBrightness
                     previousBrightness = currentBrightness
                     previousProgress = playerViewModel.currentTime
                     previousVolume = playerViewModel.volume
