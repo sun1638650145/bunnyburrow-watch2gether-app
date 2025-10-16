@@ -194,6 +194,9 @@ struct GestureControls: View {
                         isSeeking = false
                         showProgressDisplay = false
                     } else if isAdjustingBrightness {
+                        /// 更新之前的显示亮度.
+                        previousBrightness = currentBrightness
+
                         /// 设置亮度滑块在结束滑动1.5秒钟后自动关闭.
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
                             showBrightnessDisplay = false
