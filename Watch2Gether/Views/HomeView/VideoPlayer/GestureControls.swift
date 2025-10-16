@@ -107,6 +107,20 @@ struct GestureControls: View {
                     previousBrightness = currentBrightness
                     previousProgress = playerViewModel.currentTime
                     previousVolume = playerViewModel.volume
+
+                    /// 监听屏幕亮度变化的通知.
+                    NotificationCenter.default.addObserver(
+                        forName: UIScreen.brightnessDidChangeNotification,
+                        object: nil,
+                        queue: nil,
+                        using: { _ in
+                            if !isAdjustingBrightness {
+                                /// 未滑动时当前的和之前的显示亮度.
+                                currentBrightness = currentScreen?.brightness ?? currentBrightness
+                                previousBrightness = currentBrightness
+                            }
+                        }
+                    )
                 })
                 .onChange(of: playerViewModel.currentTime, {
                     /// 未滑动时同步之前的播放进度.
