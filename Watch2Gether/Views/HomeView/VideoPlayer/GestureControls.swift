@@ -116,7 +116,7 @@ struct GestureControls: View {
                         queue: nil,
                         using: { _ in
                             if !isAdjustingBrightness {
-                                /// 未滑动时当前的和之前的显示亮度.
+                                /// 未滑动时同步当前和之前的显示亮度.
                                 currentBrightness = currentScreen?.brightness ?? currentBrightness
                                 previousBrightness = currentBrightness
                             }
