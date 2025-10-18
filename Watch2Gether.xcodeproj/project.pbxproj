@@ -220,6 +220,7 @@
 				Views/Styles/ClearButtonStyle.swift,
 				Views/ViewModifiers/DeviceRotation.swift,
 				Views/ViewModifiers/Gestures/ScaleGesture.swift,
+				Views/ViewModifiers/HideHomeIndicator.swift,
 				Views/ViewModifiers/HideKeyboard.swift,
 				Views/ViewModifiers/KeyboardAdaptive.swift,
 			);
