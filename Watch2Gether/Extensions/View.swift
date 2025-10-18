@@ -29,6 +29,15 @@ extension View {
         self.modifier(GlassEffectCompat(isInteractive: isInteractive))
     }
 
+    /// 为`View`添加点击隐藏主页指示器(Home Indicator)的功能(只适用于`iOS`平台).
+    ///
+    /// - Returns: 应用`hideHomeIndicator`后的视图.
+    #if os(iOS)
+    func hideHomeIndicator() -> some View {
+        self.modifier(HideHomeIndicator())
+    }
+    #endif
+
     /// 为`View`添加点击隐藏键盘的功能(只适用于`iOS`平台).
     ///
     /// - Returns: 应用`hideKeyboard`后的视图.
