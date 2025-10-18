@@ -18,8 +18,8 @@ struct HomeView: View {
         if appSettings.isFullScreen {
             ZStack {
                 VideoPlayer()
-                    /// 隐藏主页指示器(Home indicator)和状态栏.
-                    .persistentSystemOverlays(.hidden)
+                    .hideHomeIndicator()
+                    /// 隐藏状态栏.
                     .statusBarHidden(true)
                     .transition(.scale(scale: 1.1))
 

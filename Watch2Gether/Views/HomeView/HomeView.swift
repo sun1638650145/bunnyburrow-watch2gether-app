@@ -19,8 +19,7 @@ struct HomeView: View {
             if appSettings.isFullScreen {
                 ZStack {
                     VideoPlayer()
-                        /// 隐藏主页指示器(Home indicator).
-                        .persistentSystemOverlays(.hidden)
+                        .hideHomeIndicator()
                         .transition(.scale(scale: 1.1))
 
                     DanmakuSpace()
