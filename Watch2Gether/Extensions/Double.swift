@@ -12,6 +12,10 @@ extension Double {
     ///
     /// - Returns: 格式化后的时间字符串.
     func formattedTime() -> String {
+        guard self.isInfinite else {
+            return "00:00"
+        }
+
         let totalSeconds = Int(self)
 
         let hours = totalSeconds / 3600
