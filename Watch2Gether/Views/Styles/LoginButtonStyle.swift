@@ -14,6 +14,9 @@ struct LoginButtonStyle: ButtonStyle {
     /// 按钮悬停状态.
     @State private var isHovered = false
 
+    /// 按钮是否使用胶囊形状.
+    var isCapsuleShape: Bool = false
+
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .background(
@@ -29,7 +32,7 @@ struct LoginButtonStyle: ButtonStyle {
                 }
             )
             .bold()
-            .clipShape(RoundedRectangle(cornerRadius: 5))
+            .clipShape(isCapsuleShape ? AnyShape(Capsule()) : AnyShape(RoundedRectangle(cornerRadius: 5)))
             .font(.title2)
             .foregroundStyle(Color.foreground)
             .multilineTextAlignment(.center)
