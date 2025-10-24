@@ -22,9 +22,13 @@ struct WelcomeView: View {
             HStack {
                 Spacer()
 
-                Image(systemName: "ellipsis")
-                    .foregroundStyle(Color.foreground)
-                    .padding(20)
+                Button(action: {
+                    // ...
+                }, label: {
+                    Image(systemName: "ellipsis")
+                        .foregroundStyle(Color.foreground)
+                })
+                .padding(20)
             }
 
             Spacer()
