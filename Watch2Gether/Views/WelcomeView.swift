@@ -63,14 +63,8 @@ struct WelcomeView: View {
                 }, label: {
                     Text("Login")
                         .frame(width: 150, height: 50)
-                        .background(Color.loginButtonBackground)
-                        .bold()
-                        .clipShape(Capsule())
-                        .font(.title2)
-                        .foregroundStyle(Color.foreground)
-                        .multilineTextAlignment(.center)
-                        .tracking(5)
                 })
+                .buttonStyle(LoginButtonStyle(isCapsuleShape: true))
                 .padding(20)
             }
 
