@@ -12,10 +12,10 @@ import SwiftUI
 /// `WelcomeView`是快速登录视图, 当用户信息存在时, 用户可直接进入主界面.
 struct WelcomeView: View {
     /// 用户的头像的Base-64.
-    @AppStorage("LoginView.avatar") private var avatar: String = ""
+    @AppStorage("Account.avatar") private var avatar: String = ""
 
     /// 用户的昵称.
-    @AppStorage("LoginView.name") private var name: String = ""
+    @AppStorage("Account.name") private var name: String = ""
 
     var body: some View {
         VStack {

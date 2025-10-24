@@ -19,16 +19,16 @@ struct LoginView: View {
     @Environment(WebSocketClient.self) var webSocketClient
 
     /// 用户的头像的Base-64.
-    @AppStorage("LoginView.avatar") private var avatar: String?
+    @AppStorage("Account.avatar") private var avatar: String?
 
     /// 用户的昵称.
-    @AppStorage("LoginView.name") private var name: String?
+    @AppStorage("Account.name") private var name: String?
 
     /// 视频源URL.
-    @AppStorage("LoginView.url") private var url: String?
+    @AppStorage("Account.url") private var url: String?
 
     /// WebSocket服务地址.
-    @AppStorage("LoginView.websocketUrl") private var websocketUrl: String?
+    @AppStorage("Account.websocketUrl") private var websocketUrl: String?
 
     /// 获取焦点位置.
     @FocusState private var focusedField: FocusedField?
@@ -165,7 +165,7 @@ struct LoginView: View {
 
         keys.forEach({
             /// 删除键值.
-            UserDefaults.standard.removeObject(forKey: "LoginView.\($0)")
+            UserDefaults.standard.removeObject(forKey: "Account.\($0)")
         })
     }
 
