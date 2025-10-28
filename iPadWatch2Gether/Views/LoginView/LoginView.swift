@@ -19,16 +19,16 @@ struct LoginView: View {
     @Environment(WebSocketClient.self) var webSocketClient
 
     /// 用户的头像的Base-64.
-    @AppStorage("LoginView.avatar") private var avatar: String?
+    @AppStorage("Account.avatar") private var avatar: String?
 
     /// 用户的昵称.
-    @AppStorage("LoginView.name") private var name: String?
+    @AppStorage("Account.name") private var name: String?
 
     /// 视频源URL.
-    @AppStorage("LoginView.url") private var url: String?
+    @AppStorage("Server.url") private var url: String?
 
     /// WebSocket服务地址.
-    @AppStorage("LoginView.websocketUrl") private var websocketUrl: String?
+    @AppStorage("Server.websocketUrl") private var websocketUrl: String?
 
     /// 昵称为空变量.
     @State private var isNameEmpty = false
