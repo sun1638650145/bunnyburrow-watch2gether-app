@@ -7,11 +7,18 @@
 //  Created by Steve R. Sun on 2024/12/21.
 //
 
+import Foundation
 import Observation
 
 /// 应用设置状态信息.
 @Observable
 class AppSettings {
+    /// 状态信息: 成功登录应用后被设置为已认证状态, 应用再次启动时显示`WelcomeView`而不是`LoginView`.
+    var hasAuthenticated: Bool {
+        get { UserDefaults.standard.bool(forKey: "Auth.hasAuthenticated") }
+        set { UserDefaults.standard.set(newValue, forKey: "Auth.hasAuthenticated") }
+    }
+
     /// 状态信息: 激活`NSOpenPanel`后会提示当前页面禁用(灰白色遮罩), 须优先上传或者选择文件.
     #if os(macOS)
     var isPanelActive: Bool = false
