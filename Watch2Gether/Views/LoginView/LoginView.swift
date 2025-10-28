@@ -194,8 +194,9 @@ struct LoginView: View {
             /// 添加自己的用户信息.
             friendsViewModel.addFriend(friend: user)
 
-            /// 校验通过, 设置登录状态.
+            /// 校验通过, 设置已认证和登录状态.
             withAnimation(.linear(duration: 0.3), {
+                appSettings.hasAuthenticated = true
                 appSettings.isLoggedIn = true
             })
         }
