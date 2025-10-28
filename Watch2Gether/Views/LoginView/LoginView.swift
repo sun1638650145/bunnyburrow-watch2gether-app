@@ -25,10 +25,10 @@ struct LoginView: View {
     @AppStorage("Account.name") private var name: String?
 
     /// 视频源URL.
-    @AppStorage("Account.url") private var url: String?
+    @AppStorage("Server.url") private var url: String?
 
     /// WebSocket服务地址.
-    @AppStorage("Account.websocketUrl") private var websocketUrl: String?
+    @AppStorage("Server.websocketUrl") private var websocketUrl: String?
 
     /// 获取焦点位置.
     @FocusState private var focusedField: FocusedField?
@@ -161,11 +161,15 @@ struct LoginView: View {
 
     /// 清空用户输入的所有信息.
     private func clearUserInput() {
-        let keys = ["avatar", "name", "url", "websocketUrl"]
+        let accountKeys = ["avatar", "name"]
+        let serverKeys = ["url", "websocketUrl"]
 
-        keys.forEach({
-            /// 删除键值.
+        /// 删除键值.
+        accountKeys.forEach({
             UserDefaults.standard.removeObject(forKey: "Account.\($0)")
+        })
+        serverKeys.forEach({
+            UserDefaults.standard.removeObject(forKey: "Server.\($0)")
         })
     }
 
