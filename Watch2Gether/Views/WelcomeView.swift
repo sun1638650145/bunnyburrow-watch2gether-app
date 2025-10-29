@@ -27,8 +27,9 @@ struct WelcomeView: View {
                 }, label: {
                     Image(systemName: "ellipsis")
                         .foregroundStyle(Color.foreground)
+                        .frame(width: 40, height: 40)
                 })
-                .padding(20)
+                .padding(5)
             }
 
             Spacer()
