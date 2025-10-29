@@ -11,11 +11,23 @@ import SwiftUI
 
 /// `WelcomeView`是快速登录视图, 当用户信息存在时, 用户可直接进入主界面.
 struct WelcomeView: View {
+    @Environment(AppSettings.self) var appSettings
+    @Environment(User.self) var user
+    @Environment(FriendsViewModel.self) var friendsViewModel
+    @Environment(PlayerViewModel.self) var playerViewModel
+    @Environment(WebSocketClient.self) var webSocketClient
+
     /// 用户的头像的Base-64.
     @AppStorage("Account.avatar") private var avatar: String = ""
 
     /// 用户的昵称.
     @AppStorage("Account.name") private var name: String = ""
+
+    /// 视频源URL.
+    @AppStorage("Server.url") private var url: String?
+
+    /// WebSocket服务地址.
+    @AppStorage("Server.websocketUrl") private var websocketUrl: String?
 
     var body: some View {
         VStack {
@@ -53,9 +65,7 @@ struct WelcomeView: View {
             Spacer()
 
             if #available(iOS 26.0, *) {
-                Button(action: {
-                    // ...
-                }, label: {
+                Button(action: handleLogin, label: {
                     Text("Login")
                         .bold()
                         .font(.title2)
@@ -67,9 +77,7 @@ struct WelcomeView: View {
                 .buttonStyle(GlassProminentButtonStyle())
                 .padding(20)
             } else {
-                Button(action: {
-                    // ...
-                }, label: {
+                Button(action: handleLogin, label: {
                     Text("Login")
                         .frame(width: 150, height: 50)
                 })
@@ -81,13 +89,51 @@ struct WelcomeView: View {
                 .copyright()
         }
     }
+
+    /// 处理登录操作.
+    private func handleLogin() {
+        user.update(avatar, name)
+        playerViewModel.updateURL(URL(string: url!)!)
+        setupWebSocketConnection()
+
+        /// 添加自己的用户信息.
+        friendsViewModel.addFriend(friend: user)
+
+        /// 设置登录状态.
+        withAnimation(.linear(duration: 0.3), {
+            appSettings.isLoggedIn = true
+        })
+    }
+
+    /// 配置WebSocket连接.
+    private func setupWebSocketConnection() {
+        webSocketClient.connect(websocketUrl!, user)
+
+        webSocketClient.on(eventName: "addFriend", listener: friendsViewModel.addFriend(friend:))
+        webSocketClient.on(eventName: "hasFriend", listener: { (clientID: UInt) -> Bool in
+            return friendsViewModel.searchFriend(by: clientID) != nil
+        })
+        webSocketClient.on(eventName: "offlineAllFriends", listener: friendsViewModel.offlineAllFriends)
+        webSocketClient.on(eventName: "offlineFriend", listener: friendsViewModel.offlineFriend(by:))
+    }
 }
 
 #Preview {
+    let appSettings = AppSettings()
+    let user = User()
+    let friendsViewModel = FriendsViewModel()
+    let playerViewModel = PlayerViewModel()
+    let webSocketClient = WebSocketClient()
+
     ZStack {
         Color.background
             .ignoresSafeArea()
 
         WelcomeView()
+            .environment(appSettings)
+            .environment(user)
+            .environment(friendsViewModel)
+            .environment(playerViewModel)
+            .environment(webSocketClient)
     }
 }
