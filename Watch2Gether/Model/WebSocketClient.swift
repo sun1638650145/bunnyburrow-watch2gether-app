@@ -79,8 +79,8 @@ class WebSocketClient {
     func connect(_ url: String, _ user: User) {
         let session = URLSession(configuration: .default)
 
-        /// 使用专属的WebSocket服务地址.
         self.url = url.trimmingCharacters(in: .whitespacesAndNewlines)
+        /// 使用专属的WebSocket服务地址.
         self.socket = session.webSocketTask(with: URL(string: self.url! + String(user.clientID) + "/")!)
         self.user = user
 
