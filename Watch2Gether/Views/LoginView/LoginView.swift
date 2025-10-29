@@ -35,7 +35,6 @@ struct LoginView: View {
 
     /// 昵称为空变量.
     @State private var isNameEmpty = false
-
     /// 流媒体视频源不合法状态变量.
     @State private var isStreamingInvalid = false
 
@@ -187,14 +186,18 @@ struct LoginView: View {
         } else if isWebSocketInvalid {
             focusedField = .websocketUrl
         } else {
+            /// 校验通过后, 更新视频源URL和WebSocket服务地址(删除空格和换行符).
+            url = url?.trimmingCharacters(in: .whitespacesAndNewlines)
+            websocketUrl = websocketUrl?.trimmingCharacters(in: .whitespacesAndNewlines)
+
             user.update(avatar, name!)
-            playerViewModel.updateURL(URL(string: url!.trimmingCharacters(in: .whitespacesAndNewlines))!)
+            playerViewModel.updateURL(URL(string: url!)!)
             setupWebSocketConnection()
 
             /// 添加自己的用户信息.
             friendsViewModel.addFriend(friend: user)
 
-            /// 校验通过, 设置已认证和登录状态.
+            /// 设置已认证和登录状态.
             withAnimation(.linear(duration: 0.3), {
                 appSettings.hasAuthenticated = true
                 appSettings.isLoggedIn = true
