@@ -80,8 +80,8 @@ class WebSocketClient {
         let session = URLSession(configuration: .default)
 
         /// 使用专属的WebSocket服务地址.
-        self.socket = session.webSocketTask(with: URL(string: url + String(user.clientID) + "/")!)
-        self.url = url
+        self.url = url.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.socket = session.webSocketTask(with: URL(string: self.url! + String(user.clientID) + "/")!)
         self.user = user
 
         /// WebSocket连接成功后, 自动向服务器发送登录用户的信息.
