@@ -12,7 +12,7 @@ extension Double {
     ///
     /// - Returns: 格式化后的时间字符串.
     func formattedTime() -> String {
-        guard self.isInfinite else {
+        guard self.isFinite else {
             return "00:00"
         }
 
