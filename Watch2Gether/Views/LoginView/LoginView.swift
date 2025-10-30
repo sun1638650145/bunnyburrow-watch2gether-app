@@ -28,7 +28,7 @@ struct LoginView: View {
     @AppStorage("Server.url") private var url: String?
 
     /// WebSocket服务地址.
-    @AppStorage("Server.websocketUrl") private var websocketUrl: String?
+    @AppStorage("Server.webSocketUrl") private var webSocketUrl: String?
 
     /// 获取焦点位置.
     @FocusState private var focusedField: FocusedField?
@@ -43,12 +43,12 @@ struct LoginView: View {
 
     /// 用于标记获取焦点的字段.
     private enum FocusedField: Hashable {
-        case name, url, websocketUrl
+        case name, url, webSocketUrl
     }
 
     /// 检查用户是否已输入任何信息.
     private var hasUserInput: Bool {
-        return avatar != nil || name != nil || url != nil || websocketUrl != nil
+        return avatar != nil || name != nil || url != nil || webSocketUrl != nil
     }
 
     var body: some View {
@@ -95,16 +95,16 @@ struct LoginView: View {
 
                 StyledPlaceholderTextField(
                     "Enter WebSocket URL",
-                    text: $websocketUrl,
+                    text: $webSocketUrl,
                     placeholderColor: .textFieldPlaceholder,
-                    errorMessage: isWebSocketInvalid && focusedField == .websocketUrl
+                    errorMessage: isWebSocketInvalid && focusedField == .webSocketUrl
                     ? "Invalid WebSocket URL. Please try again."
                     : nil,
                     onTextChange: {
                         validateWebSocket(strictMode: false)
                     }
                 )
-                .focused($focusedField, equals: .websocketUrl)
+                .focused($focusedField, equals: .webSocketUrl)
 
                 HStack(spacing: 0, content: {
                     Button(action: handleLogin, label: {
@@ -161,7 +161,7 @@ struct LoginView: View {
     /// 清空用户输入的所有信息.
     private func clearUserInput() {
         let accountKeys = ["avatar", "name"]
-        let serverKeys = ["url", "websocketUrl"]
+        let serverKeys = ["url", "webSocketUrl"]
 
         /// 删除键值.
         accountKeys.forEach({
@@ -184,11 +184,11 @@ struct LoginView: View {
         } else if isStreamingInvalid {
             focusedField = .url
         } else if isWebSocketInvalid {
-            focusedField = .websocketUrl
+            focusedField = .webSocketUrl
         } else {
             /// 校验通过后, 更新视频源URL和WebSocket服务地址(删除空格和换行符).
             url = url?.trimmingCharacters(in: .whitespacesAndNewlines)
-            websocketUrl = websocketUrl?.trimmingCharacters(in: .whitespacesAndNewlines)
+            webSocketUrl = webSocketUrl?.trimmingCharacters(in: .whitespacesAndNewlines)
 
             user.update(avatar, name!)
             playerViewModel.updateURL(URL(string: url!)!)
@@ -207,7 +207,7 @@ struct LoginView: View {
 
     /// 配置WebSocket连接.
     private func setupWebSocketConnection() {
-        webSocketClient.connect(websocketUrl!, user)
+        webSocketClient.connect(webSocketUrl!, user)
 
         webSocketClient.on(eventName: "addFriend", listener: friendsViewModel.addFriend(friend:))
         webSocketClient.on(eventName: "hasFriend", listener: { (clientID: UInt) -> Bool in
@@ -247,7 +247,7 @@ struct LoginView: View {
     ///   - strictMode: 严格模式, 如果为`true`, 则立刻校验是否合法.
     private func validateWebSocket(strictMode: Bool = true) {
         if strictMode {
-            if let url = websocketUrl?.trimmingCharacters(in: .whitespacesAndNewlines), let url = URL(string: url),
+            if let url = webSocketUrl?.trimmingCharacters(in: .whitespacesAndNewlines), let url = URL(string: url),
                url.scheme == "ws" || url.scheme == "wss", url.host() != nil, url.path().hasSuffix("/ws/") {
                 isWebSocketInvalid = false
             } else {
@@ -255,7 +255,7 @@ struct LoginView: View {
             }
         } else {
             /// 避免用户刚输入部分WebSocket服务地址就被判定为不合法, `wss://`有6个字符, 所以输入从第7个开始校验.
-            if let url = websocketUrl, url.count >= 7 {
+            if let url = webSocketUrl, url.count >= 7 {
                 validateWebSocket(strictMode: true)
             } else {
                 isWebSocketInvalid = false

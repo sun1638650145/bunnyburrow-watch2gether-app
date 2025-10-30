@@ -28,7 +28,7 @@ struct LoginView: View {
     @AppStorage("Server.url") private var url: String?
 
     /// WebSocket服务地址.
-    @AppStorage("Server.websocketUrl") private var websocketUrl: String?
+    @AppStorage("Server.webSocketUrl") private var webSocketUrl: String?
 
     /// 昵称为空变量.
     @State private var isNameEmpty = false
@@ -77,7 +77,7 @@ struct LoginView: View {
 
                 StyledPlaceholderTextField(
                     "Enter WebSocket URL",
-                    text: $websocketUrl,
+                    text: $webSocketUrl,
                     placeholderColor: .textFieldPlaceholder,
                     errorMessage: isWebSocketInvalid ? "Invalid WebSocket URL. Please try again." : nil,
                     onTextChange: {
@@ -134,7 +134,7 @@ struct LoginView: View {
         if !isNameEmpty && !isStreamingInvalid && !isWebSocketInvalid {
             /// 校验通过后, 更新视频源URL和WebSocket服务地址(删除空格和换行符).
             url = url?.trimmingCharacters(in: .whitespacesAndNewlines)
-            websocketUrl = websocketUrl?.trimmingCharacters(in: .whitespacesAndNewlines)
+            webSocketUrl = webSocketUrl?.trimmingCharacters(in: .whitespacesAndNewlines)
 
             user.update(avatar, name!)
             playerViewModel.updateURL(URL(string: url!)!)
@@ -152,7 +152,7 @@ struct LoginView: View {
 
     /// 配置WebSocket连接.
     private func setupWebSocketConnection() {
-        webSocketClient.connect(websocketUrl!, user)
+        webSocketClient.connect(webSocketUrl!, user)
 
         webSocketClient.on(eventName: "addFriend", listener: friendsViewModel.addFriend(friend:))
         webSocketClient.on(eventName: "hasFriend", listener: { (clientID: UInt) -> Bool in
@@ -192,7 +192,7 @@ struct LoginView: View {
     ///   - strictMode: 严格模式, 如果为`true`, 则立刻校验是否合法.
     private func validateWebSocket(strictMode: Bool = true) {
         if strictMode {
-            if let url = websocketUrl?.trimmingCharacters(in: .whitespacesAndNewlines), let url = URL(string: url),
+            if let url = webSocketUrl?.trimmingCharacters(in: .whitespacesAndNewlines), let url = URL(string: url),
                url.scheme == "ws" || url.scheme == "wss", url.host() != nil, url.path().hasSuffix("/ws/") {
                 isWebSocketInvalid = false
             } else {
@@ -200,7 +200,7 @@ struct LoginView: View {
             }
         } else {
             /// 避免用户刚输入部分WebSocket服务地址就被判定为不合法, `wss://`有6个字符, 所以输入从第7个开始校验.
-            if let url = websocketUrl, url.count >= 7 {
+            if let url = webSocketUrl, url.count >= 7 {
                 validateWebSocket(strictMode: true)
             } else {
                 isWebSocketInvalid = false

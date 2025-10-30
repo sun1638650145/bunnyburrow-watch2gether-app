@@ -27,7 +27,7 @@ struct WelcomeView: View {
     @AppStorage("Server.url") private var url: String?
 
     /// WebSocket服务地址.
-    @AppStorage("Server.websocketUrl") private var websocketUrl: String?
+    @AppStorage("Server.webSocketUrl") private var webSocketUrl: String?
 
     var body: some View {
         ZStack {
@@ -109,7 +109,7 @@ struct WelcomeView: View {
 
     /// 配置WebSocket连接.
     private func setupWebSocketConnection() {
-        webSocketClient.connect(websocketUrl!, user)
+        webSocketClient.connect(webSocketUrl!, user)
 
         webSocketClient.on(eventName: "addFriend", listener: friendsViewModel.addFriend(friend:))
         webSocketClient.on(eventName: "hasFriend", listener: { (clientID: UInt) -> Bool in
