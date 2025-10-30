@@ -132,8 +132,12 @@ struct LoginView: View {
         validateWebSocket()
 
         if !isNameEmpty && !isStreamingInvalid && !isWebSocketInvalid {
+            /// 校验通过后, 更新视频源URL和WebSocket服务地址(删除空格和换行符).
+            url = url?.trimmingCharacters(in: .whitespacesAndNewlines)
+            websocketUrl = websocketUrl?.trimmingCharacters(in: .whitespacesAndNewlines)
+
             user.update(avatar, name!)
-            playerViewModel.updateURL(URL(string: url!.trimmingCharacters(in: .whitespacesAndNewlines))!)
+            playerViewModel.updateURL(URL(string: url!)!)
             setupWebSocketConnection()
 
             /// 添加自己的用户信息.
