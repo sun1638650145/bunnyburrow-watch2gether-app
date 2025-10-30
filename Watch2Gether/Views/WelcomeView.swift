@@ -30,63 +30,65 @@ struct WelcomeView: View {
     @AppStorage("Server.websocketUrl") private var websocketUrl: String?
 
     var body: some View {
-        VStack {
-            HStack {
+        ZStack {
+            VStack {
+                HStack {
+                    Spacer()
+
+                    Button(action: {
+                        // ...
+                    }, label: {
+                        Image(systemName: "ellipsis")
+                            .foregroundStyle(Color.foreground)
+                            .frame(width: 40, height: 40)
+                    })
+                    .padding(5)
+                }
+
+                Spacer()
+            }
+
+            VStack {
+                Text("Welcome back, \(name)!")
+                    .bold()
+                    .font(.largeTitle)
+                    .foregroundStyle(Color.foreground)
+
+                Image(base64: avatar)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .clipShape(Circle())
+                    .frame(width: 100, height: 100)
+                    .glassEffectCompat()
+            }
+
+            VStack {
                 Spacer()
 
-                Button(action: {
-                    // ...
-                }, label: {
-                    Image(systemName: "ellipsis")
-                        .foregroundStyle(Color.foreground)
-                        .frame(width: 40, height: 40)
-                })
-                .padding(5)
+                if #available(iOS 26.0, *) {
+                    Button(action: handleLogin, label: {
+                        Text("Login")
+                            .bold()
+                            .font(.title2)
+                            .foregroundStyle(Color.foreground)
+                            .frame(width: 125, height: 36)
+                            .multilineTextAlignment(.center)
+                            .tracking(5)
+                    })
+                    .buttonStyle(GlassProminentButtonStyle())
+                    .padding(20)
+                } else {
+                    Button(action: handleLogin, label: {
+                        Text("Login")
+                            .frame(width: 150, height: 50)
+                    })
+                    .buttonStyle(LoginButtonStyle(isCapsuleShape: true))
+                    .padding(20)
+                }
+
+                Text("Copyright © 2025 Steve R. Sun")
+                    .copyright()
             }
-
-            Spacer()
-        }
-
-        VStack {
-            Text("Welcome back, \(name)!")
-                .bold()
-                .font(.largeTitle)
-                .foregroundStyle(Color.foreground)
-
-            Image(base64: avatar)
-                .resizable()
-                .aspectRatio(contentMode: .fill)
-                .clipShape(Circle())
-                .frame(width: 100, height: 100)
-                .glassEffectCompat()
-        }
-
-        VStack {
-            Spacer()
-
-            if #available(iOS 26.0, *) {
-                Button(action: handleLogin, label: {
-                    Text("Login")
-                        .bold()
-                        .font(.title2)
-                        .foregroundStyle(Color.foreground)
-                        .frame(width: 125, height: 36)
-                        .multilineTextAlignment(.center)
-                        .tracking(5)
-                })
-                .buttonStyle(GlassProminentButtonStyle())
-                .padding(20)
-            } else {
-                Button(action: handleLogin, label: {
-                    Text("Login")
-                        .frame(width: 150, height: 50)
-                })
-                .buttonStyle(LoginButtonStyle(isCapsuleShape: true))
-                .padding(20)
-            }
-
-            Text("Copyright © 2025 Steve R. Sun")
-                .copyright()
         }
     }
 
