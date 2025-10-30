@@ -192,7 +192,7 @@ struct LoginView: View {
 
             user.update(avatar, name!)
             playerViewModel.updateURL(URL(string: url!)!)
-            setupWebSocketConnection()
+            webSocketClient.setupConnection(webSocketUrl!, user, with: friendsViewModel)
 
             /// 添加自己的用户信息.
             friendsViewModel.addFriend(friend: user)
@@ -203,18 +203,6 @@ struct LoginView: View {
                 appSettings.isLoggedIn = true
             })
         }
-    }
-
-    /// 配置WebSocket连接.
-    private func setupWebSocketConnection() {
-        webSocketClient.connect(webSocketUrl!, user)
-
-        webSocketClient.on(eventName: "addFriend", listener: friendsViewModel.addFriend(friend:))
-        webSocketClient.on(eventName: "hasFriend", listener: { (clientID: UInt) -> Bool in
-            return friendsViewModel.searchFriend(by: clientID) != nil
-        })
-        webSocketClient.on(eventName: "offlineAllFriends", listener: friendsViewModel.offlineAllFriends)
-        webSocketClient.on(eventName: "offlineFriend", listener: friendsViewModel.offlineFriend(by:))
     }
 
     /// 校验流媒体视频源是否合法.

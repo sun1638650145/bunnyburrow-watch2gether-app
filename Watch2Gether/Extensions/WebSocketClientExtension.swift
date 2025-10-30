@@ -33,7 +33,7 @@ extension WebSocketClient {
     ///   - friendsViewModel: 好友信息视图模型.
     func setupConnection(_ url: String, _ user: User, with friendsViewModel: FriendsViewModel) {
         self.connect(url, user)
-        
+
         self.on(eventName: "addFriend", listener: friendsViewModel.addFriend(friend:))
         self.on(eventName: "hasFriend", listener: { (clientID: UInt) -> Bool in
             return friendsViewModel.searchFriend(by: clientID) != nil
