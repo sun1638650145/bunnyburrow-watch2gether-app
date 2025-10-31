@@ -29,6 +29,18 @@ struct WelcomeView: View {
     /// WebSocket服务地址.
     @AppStorage("Server.webSocketUrl") private var webSocketUrl: String?
 
+    /// 动画持续的时间(秒).
+    private var duration: Double {
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
+            return 0.3
+        case .pad:
+            return 1
+        default:
+            return 0.3
+        }
+    }
+
     var body: some View {
         ZStack {
             VStack {
@@ -102,7 +114,7 @@ struct WelcomeView: View {
         friendsViewModel.addFriend(friend: user)
 
         /// 设置登录状态.
-        withAnimation(.linear(duration: 0.3), {
+        withAnimation(.linear(duration: duration), {
             appSettings.isLoggedIn = true
         })
     }

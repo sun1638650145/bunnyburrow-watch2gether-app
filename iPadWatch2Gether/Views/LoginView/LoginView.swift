@@ -145,6 +145,7 @@ struct LoginView: View {
 
             /// 设置登录状态.
             withAnimation(.linear(duration: 1), {
+                appSettings.hasAuthenticated = true
                 appSettings.isLoggedIn = true
             })
         }
