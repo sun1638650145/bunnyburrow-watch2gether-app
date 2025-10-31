@@ -8,6 +8,9 @@
 //
 
 import SwiftUI
+#if os(iOS)
+import UIKit
+#endif
 
 /// `WelcomeView`是快速登录视图, 当用户信息存在时, 用户可直接进入主界面.
 struct WelcomeView: View {
@@ -31,6 +34,7 @@ struct WelcomeView: View {
 
     /// 动画持续的时间(秒).
     private var duration: Double {
+        #if os(iOS)
         switch UIDevice.current.userInterfaceIdiom {
         case .phone:
             return 0.3
@@ -39,6 +43,9 @@ struct WelcomeView: View {
         default:
             return 0.3
         }
+        #elseif os(macOS)
+        return 1.0
+        #endif
     }
 
     var body: some View {
@@ -77,7 +84,7 @@ struct WelcomeView: View {
             VStack {
                 Spacer()
 
-                if #available(iOS 26.0, *) {
+                if #available(iOS 26.0, macOS 26.0, *) {
                     Button(action: handleLogin, label: {
                         Text("Login")
                             .bold()

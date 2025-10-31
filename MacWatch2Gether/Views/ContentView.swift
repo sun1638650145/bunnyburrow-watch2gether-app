@@ -18,6 +18,10 @@ struct ContentView: View {
 
             if appSettings.isLoggedIn {
                 HomeView()
+            } else if appSettings.hasAuthenticated {
+                WelcomeView()
+                    .transition(.move(edge: .top))
+                    .zIndex(1)
             } else {
                 LoginView()
                     .transition(.move(edge: .top))
