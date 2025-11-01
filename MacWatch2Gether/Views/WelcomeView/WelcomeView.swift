@@ -2,13 +2,12 @@
 //  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
 //
 //  WelcomeView.swift
-//  Watch2Gether
+//  MacWatch2Gether
 //
-//  Created by Steve R. Sun on 2025/10/22.
+//  Created by Steve R. Sun on 2025/11/1.
 //
 
 import SwiftUI
-import UIKit
 
 /// `WelcomeView`是快速登录视图, 当用户信息存在时, 用户可直接进入主界面.
 struct WelcomeView: View {
@@ -18,7 +17,7 @@ struct WelcomeView: View {
     @Environment(PlayerViewModel.self) var playerViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
-    /// 用户的头像的Base-64.
+    /// 用户头像的Base-64.
     @AppStorage("Account.avatar") private var avatar: String = ""
 
     /// 用户的昵称.
@@ -29,18 +28,6 @@ struct WelcomeView: View {
 
     /// WebSocket服务地址.
     @AppStorage("Server.webSocketUrl") private var webSocketUrl: String?
-
-    /// 动画持续的时间(秒).
-    private var duration: Double {
-        switch UIDevice.current.userInterfaceIdiom {
-        case .phone:
-            return 0.3
-        case .pad:
-            return 1
-        default:
-            return 0.3
-        }
-    }
 
     var body: some View {
         ZStack {
@@ -55,6 +42,7 @@ struct WelcomeView: View {
                             .foregroundStyle(Color.foreground)
                             .frame(width: 40, height: 40)
                     })
+                    .buttonStyle(PlainButtonStyle())
                     .padding(5)
                 }
 
@@ -78,17 +66,18 @@ struct WelcomeView: View {
             VStack {
                 Spacer()
 
-                if #available(iOS 26.0, *) {
+                if #available(macOS 26.0, *) {
                     Button(action: handleLogin, label: {
                         Text("Login")
                             .bold()
                             .font(.title2)
                             .foregroundStyle(Color.foreground)
-                            .frame(width: 125, height: 36)
+                            .frame(width: 125, height: 40)
                             .multilineTextAlignment(.center)
                             .tracking(5)
                     })
                     .buttonStyle(GlassProminentButtonStyle())
+                    .clipShape(Capsule())
                     .padding(20)
                 } else {
                     Button(action: handleLogin, label: {
@@ -101,6 +90,7 @@ struct WelcomeView: View {
 
                 Text("Copyright © 2025 Steve R. Sun")
                     .copyright()
+                    .padding(5)
             }
         }
     }
@@ -115,7 +105,7 @@ struct WelcomeView: View {
         friendsViewModel.addFriend(friend: user)
 
         /// 设置登录状态.
-        withAnimation(.linear(duration: duration), {
+        withAnimation(.linear(duration: 1.0), {
             appSettings.isLoggedIn = true
         })
     }
@@ -130,7 +120,6 @@ struct WelcomeView: View {
 
     ZStack {
         Color.background
-            .ignoresSafeArea()
 
         WelcomeView()
             .environment(appSettings)
@@ -139,4 +128,5 @@ struct WelcomeView: View {
             .environment(playerViewModel)
             .environment(webSocketClient)
     }
+    .frame(width: 800, height: 600)
 }
