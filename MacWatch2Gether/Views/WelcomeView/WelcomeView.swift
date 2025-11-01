@@ -17,7 +17,7 @@ struct WelcomeView: View {
     @Environment(PlayerViewModel.self) var playerViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
-    /// 用户头像的Base-64.
+    /// 用户的头像的Base-64.
     @AppStorage("Account.avatar") private var avatar: String = ""
 
     /// 用户的昵称.
@@ -39,8 +39,10 @@ struct WelcomeView: View {
                         // ...
                     }, label: {
                         Image(systemName: "ellipsis")
-                            .foregroundStyle(Color.foreground)
                             .frame(width: 40, height: 40)
+                            /// 扩大点击区域.
+                            .contentShape(Rectangle())
+                            .foregroundStyle(Color.foreground)
                     })
                     .buttonStyle(PlainButtonStyle())
                     .padding(5)
@@ -105,7 +107,7 @@ struct WelcomeView: View {
         friendsViewModel.addFriend(friend: user)
 
         /// 设置登录状态.
-        withAnimation(.linear(duration: 1.0), {
+        withAnimation(.linear(duration: 1), {
             appSettings.isLoggedIn = true
         })
     }
