@@ -36,6 +36,7 @@ struct VideoSwitcher: View {
 
                     Spacer()
                 }
+                .padding(10)
             } else {
                 ScrollView(content: {
                     ForEach(videosViewModel.videos.indices, id: \.self, content: { index in
