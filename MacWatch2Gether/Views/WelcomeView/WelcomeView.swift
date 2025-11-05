@@ -29,6 +29,9 @@ struct WelcomeView: View {
     /// WebSocket服务地址.
     @AppStorage("Server.webSocketUrl") private var webSocketUrl: String?
 
+    /// 动画持续的时间(秒).
+    private var duration: Double = 1
+
     var body: some View {
         ZStack {
             VStack {
@@ -36,7 +39,9 @@ struct WelcomeView: View {
                     Spacer()
 
                     Button(action: {
-                        appSettings.hasAuthenticated = false
+                        withAnimation(.linear(duration: duration), {
+                            appSettings.hasAuthenticated = false
+                        })
                     }, label: {
                         Image(systemName: "ellipsis")
                             .frame(width: 40, height: 40)
@@ -107,7 +112,7 @@ struct WelcomeView: View {
         friendsViewModel.addFriend(friend: user)
 
         /// 设置登录状态.
-        withAnimation(.linear(duration: 1), {
+        withAnimation(.linear(duration: duration), {
             appSettings.isLoggedIn = true
         })
     }
