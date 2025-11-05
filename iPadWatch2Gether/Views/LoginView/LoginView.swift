@@ -41,6 +41,10 @@ struct LoginView: View {
 
     var body: some View {
         ZStack {
+            Color.background
+                .hideKeyboard()
+                .ignoresSafeArea()
+
             VStack {
                 Text("Watch2Gether")
                     .bold()
@@ -204,15 +208,10 @@ struct LoginView: View {
     let playerViewModel = PlayerViewModel()
     let webSocketClient = WebSocketClient()
 
-    ZStack {
-        Color.background
-            .ignoresSafeArea()
-
-        LoginView()
-            .environment(appSettings)
-            .environment(user)
-            .environment(friendsViewModel)
-            .environment(playerViewModel)
-            .environment(webSocketClient)
-    }
+    LoginView()
+        .environment(appSettings)
+        .environment(user)
+        .environment(friendsViewModel)
+        .environment(playerViewModel)
+        .environment(webSocketClient)
 }

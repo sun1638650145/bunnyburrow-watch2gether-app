@@ -15,47 +15,51 @@ struct HomeView: View {
     @Environment(AppSettings.self) var appSettings
 
     var body: some View {
-        if appSettings.isFullScreen {
-            ZStack {
+        ZStack {
+            Color.background
+                .hideKeyboard()
+                .ignoresSafeArea()
+
+            if appSettings.isFullScreen {
                 VideoPlayer()
                     .hideHomeIndicator()
-                    /// 隐藏状态栏.
+                /// 隐藏状态栏.
                     .statusBarHidden(true)
                     .transition(.scale(scale: 1.1))
 
                 DanmakuSpace()
-            }
-        } else {
-            GeometryReader(content: { geometry in
-                if geometry.size.width > geometry.size.height {
-                    /// 设置横向布局.
-                    HStack(spacing: 0, content: {
-                        VideoPlayer()
+            } else {
+                GeometryReader(content: { geometry in
+                    if geometry.size.width > geometry.size.height {
+                        /// 设置横向布局.
+                        HStack(spacing: 0, content: {
+                            VideoPlayer()
                             /// 固定视频播放器的宽度为窗口的70%.
-                            .frame(width: geometry.size.width * 0.7)
+                                .frame(width: geometry.size.width * 0.7)
 
+                            VStack(spacing: 0, content: {
+                                FriendsList()
+
+                                ConversationSpace()
+                            })
+                        })
+                    } else {
+                        /// 设置纵向布局.
                         VStack(spacing: 0, content: {
+                            VideoPlayer()
+                                /// 固定视频播放器的高度为窗口的45%.
+                                .frame(height: geometry.size.height * 0.45)
+
                             FriendsList()
 
                             ConversationSpace()
                         })
-                    })
-                } else {
-                    /// 设置纵向布局.
-                    VStack(spacing: 0, content: {
-                        VideoPlayer()
-                            /// 固定视频播放器的高度为窗口的45%.
-                            .frame(height: geometry.size.height * 0.45)
-
-                        FriendsList()
-
-                        ConversationSpace()
-                    })
-                }
-            })
-            .ignoresSafeArea(.keyboard)
-            /// 显示状态栏.
-            .statusBarHidden(false)
+                    }
+                })
+                .ignoresSafeArea(.keyboard)
+                /// 显示状态栏.
+                .statusBarHidden(false)
+            }
         }
     }
 }
@@ -75,17 +79,12 @@ struct HomeView: View {
         return friendsViewModel
     }
 
-    ZStack {
-        Color.background
-            .ignoresSafeArea()
-
-        HomeView()
-            .environment(appSettings)
-            .environment(user)
-            .environment(friendsViewModel)
-            .environment(messageStoreViewModel)
-            .environment(playerViewModel)
-            .environment(videosViewModel)
-            .environment(webSocketClient)
-    }
+    HomeView()
+        .environment(appSettings)
+        .environment(user)
+        .environment(friendsViewModel)
+        .environment(messageStoreViewModel)
+        .environment(playerViewModel)
+        .environment(videosViewModel)
+        .environment(webSocketClient)
 }
