@@ -17,6 +17,7 @@ struct HomeView: View {
     var body: some View {
         ZStack {
             Color.background
+                .hideKeyboard()
                 .ignoresSafeArea()
 
             if appSettings.isFullScreen {
