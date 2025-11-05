@@ -15,15 +15,16 @@ struct HomeView: View {
     @Environment(AppSettings.self) var appSettings
 
     var body: some View {
-        Group {
-            if appSettings.isFullScreen {
-                ZStack {
-                    VideoPlayer()
-                        .hideHomeIndicator()
-                        .transition(.scale(scale: 1.1))
+        ZStack {
+            Color.background
+                .ignoresSafeArea()
 
-                    DanmakuSpace()
-                }
+            if appSettings.isFullScreen {
+                VideoPlayer()
+                    .hideHomeIndicator()
+                    .transition(.scale(scale: 1.1))
+
+                DanmakuSpace()
             } else {
                 GeometryReader(content: { geometry in
                     VStack(spacing: 0, content: {
@@ -65,17 +66,12 @@ struct HomeView: View {
         return friendsViewModel
     }
 
-    ZStack {
-        Color.background
-            .ignoresSafeArea()
-
-        HomeView()
-            .environment(appSettings)
-            .environment(user)
-            .environment(friendsViewModel)
-            .environment(messageStoreViewModel)
-            .environment(playerViewModel)
-            .environment(videosViewModel)
-            .environment(webSocketClient)
-    }
+    HomeView()
+        .environment(appSettings)
+        .environment(user)
+        .environment(friendsViewModel)
+        .environment(messageStoreViewModel)
+        .environment(playerViewModel)
+        .environment(videosViewModel)
+        .environment(webSocketClient)
 }
