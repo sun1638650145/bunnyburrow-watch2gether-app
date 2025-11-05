@@ -13,16 +13,21 @@ struct ContentView: View {
     @Environment(AppSettings.self) var appSettings
 
     var body: some View {
-        if appSettings.isLoggedIn {
-            HomeView()
-        } else if appSettings.hasAuthenticated {
-            WelcomeView()
-                .transition(.move(edge: .top))
-                .zIndex(1)
-        } else {
-            LoginView()
-                .transition(.move(edge: .top))
-                .zIndex(1)
+        ZStack {
+            Color.background
+                .ignoresSafeArea()
+
+            if appSettings.isLoggedIn {
+                HomeView()
+            } else if appSettings.hasAuthenticated {
+                WelcomeView()
+                    .transition(.move(edge: .top))
+                    .zIndex(1)
+            } else {
+                LoginView()
+                    .transition(.move(edge: .top))
+                    .zIndex(1)
+            }
         }
     }
 }
