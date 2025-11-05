@@ -34,6 +34,8 @@ struct WelcomeView: View {
 
     var body: some View {
         ZStack {
+            Color.background
+
             VStack {
                 HStack {
                     Spacer()
@@ -125,15 +127,11 @@ struct WelcomeView: View {
     let playerViewModel = PlayerViewModel()
     let webSocketClient = WebSocketClient()
 
-    ZStack {
-        Color.background
-
-        WelcomeView()
-            .environment(appSettings)
-            .environment(user)
-            .environment(friendsViewModel)
-            .environment(playerViewModel)
-            .environment(webSocketClient)
-    }
-    .frame(width: 800, height: 600)
+    WelcomeView()
+        .environment(appSettings)
+        .environment(user)
+        .environment(friendsViewModel)
+        .environment(playerViewModel)
+        .environment(webSocketClient)
+        .frame(width: 800, height: 600)
 }

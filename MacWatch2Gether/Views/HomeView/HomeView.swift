@@ -15,28 +15,30 @@ struct HomeView: View {
     @Environment(AppSettings.self) var appSettings
 
     var body: some View {
-        GeometryReader(content: { geometry in
-            if appSettings.isFullScreen {
-                ZStack {
+        ZStack {
+            Color.background
+
+            GeometryReader(content: { geometry in
+                if appSettings.isFullScreen {
                     VideoPlayer()
                         .transition(.scale(scale: 1.1))
 
                     DanmakuSpace()
-                }
-            } else {
-                HStack(spacing: 0, content: {
-                    VideoPlayer()
-                        /// 固定视频播放器的宽度为窗口的2/3.
-                        .frame(width: geometry.size.width * 2/3)
+                } else {
+                    HStack(spacing: 0, content: {
+                        VideoPlayer()
+                            /// 固定视频播放器的宽度为窗口的2/3.
+                            .frame(width: geometry.size.width * 2/3)
 
-                    VStack(spacing: 0, content: {
-                        FriendsList()
+                        VStack(spacing: 0, content: {
+                            FriendsList()
 
-                        ConversationSpace()
+                            ConversationSpace()
+                        })
                     })
-                })
-            }
-        })
+                }
+            })
+        }
     }
 }
 
@@ -55,17 +57,13 @@ struct HomeView: View {
         return friendsViewModel
     }
 
-    ZStack {
-        Color.background
-
-        HomeView()
-            .environment(appSettings)
-            .environment(user)
-            .environment(friendsViewModel)
-            .environment(messageStoreViewModel)
-            .environment(playerViewModel)
-            .environment(videosViewModel)
-            .environment(webSocketClient)
-    }
-    .frame(width: 800, height: 600)
+    HomeView()
+        .environment(appSettings)
+        .environment(user)
+        .environment(friendsViewModel)
+        .environment(messageStoreViewModel)
+        .environment(playerViewModel)
+        .environment(videosViewModel)
+        .environment(webSocketClient)
+        .frame(width: 800, height: 600)
 }
