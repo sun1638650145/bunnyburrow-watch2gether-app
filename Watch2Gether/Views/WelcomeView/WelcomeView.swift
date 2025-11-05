@@ -49,7 +49,9 @@ struct WelcomeView: View {
                     Spacer()
 
                     Button(action: {
-                        appSettings.hasAuthenticated = false
+                        withAnimation(.linear(duration: duration), {
+                            appSettings.hasAuthenticated = false
+                        })
                     }, label: {
                         Image(systemName: "ellipsis")
                             .foregroundStyle(Color.foreground)
