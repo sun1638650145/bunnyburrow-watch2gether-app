@@ -23,7 +23,7 @@ struct HomeView: View {
             if appSettings.isFullScreen {
                 VideoPlayer()
                     .hideHomeIndicator()
-                /// 隐藏状态栏.
+                    /// 隐藏状态栏.
                     .statusBarHidden(true)
                     .transition(.scale(scale: 1.1))
 
@@ -34,7 +34,7 @@ struct HomeView: View {
                         /// 设置横向布局.
                         HStack(spacing: 0, content: {
                             VideoPlayer()
-                            /// 固定视频播放器的宽度为窗口的70%.
+                                /// 固定视频播放器的宽度为窗口的70%.
                                 .frame(width: geometry.size.width * 0.7)
 
                             VStack(spacing: 0, content: {
