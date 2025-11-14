@@ -33,9 +33,12 @@ class AppSettings {
         }
     }
 
-    /// 状态信息: 激活`NSOpenPanel`后会提示当前页面禁用(灰白色遮罩), 须优先上传或者选择文件.
     #if os(macOS)
+    /// 状态信息: 激活`NSOpenPanel`后会提示当前页面禁用(灰白色遮罩), 须优先上传或者选择文件.
     var isPanelActive: Bool = false
+
+    /// 鼠标事件监视器.
+    private var mouseEventMonitor: Any?
     #endif
 
     /// 状态信息: 视频播放器全屏状态.
@@ -44,8 +47,21 @@ class AppSettings {
             #if os(macOS)
             if isFullScreen {
                 NSCursor.hide()
+
+                /// 当鼠标移动时, 重新显示光标.
+                mouseEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .mouseMoved, handler: { _ in
+                    NSCursor.unhide()
+
+                    return nil
+                })
             } else {
                 NSCursor.unhide()
+
+                /// 移除鼠标事件监视器.
+                if let eventMonitor = mouseEventMonitor {
+                    NSEvent.removeMonitor(mouseEventMonitor)
+                    mouseEventMonitor = nil
+                }
             }
             #endif
         }
