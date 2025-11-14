@@ -7,6 +7,9 @@
 //  Created by Steve R. Sun on 2024/12/21.
 //
 
+#if os(macOS)
+import AppKit
+#endif
 import Foundation
 import Observation
 
@@ -36,7 +39,17 @@ class AppSettings {
     #endif
 
     /// 状态信息: 视频播放器全屏状态.
-    var isFullScreen: Bool = false
+    var isFullScreen: Bool = false {
+        didSet {
+            #if os(macOS)
+            if isFullScreen {
+                NSCursor.hide()
+            } else {
+                NSCursor.unhide()
+            }
+            #endif
+        }
+    }
 
     /// 状态信息: 登录状态.
     var isLoggedIn: Bool = false
