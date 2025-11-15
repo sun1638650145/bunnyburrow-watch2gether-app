@@ -33,12 +33,9 @@ class AppSettings {
         }
     }
 
-    #if os(macOS)
     /// 状态信息: 激活`NSOpenPanel`后会提示当前页面禁用(灰白色遮罩), 须优先上传或者选择文件.
+    #if os(macOS)
     var isPanelActive: Bool = false
-
-    /// 鼠标事件监视器.
-    private var mouseEventMonitor: Any?
     #endif
 
     /// 状态信息: 视频播放器全屏状态.
@@ -52,6 +49,9 @@ class AppSettings {
                 mouseEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .mouseMoved, handler: { _ in
                     NSCursor.unhide()
 
+                    /// 鼠标停止移动5秒钟后, 再次自动隐藏光标.
+                    self.resetHideCursorTimer()
+
                     return nil
                 })
             } else {
@@ -62,6 +62,9 @@ class AppSettings {
                     NSEvent.removeMonitor(eventMonitor)
                     mouseEventMonitor = nil
                 }
+
+                /// 取消已有的定时器.
+                self.hideCursorTimer.invalidate()
             }
             #endif
         }
@@ -72,4 +75,22 @@ class AppSettings {
 
     /// 显示弹幕聊天消息输入视图.
     var showDanmakuMessageInput: Bool = false
+
+    #if os(macOS)
+    /// 用于自动隐藏光标的定时器.
+    private var hideCursorTimer: Timer = Timer()
+
+    /// 鼠标事件监视器.
+    private var mouseEventMonitor: Any?
+
+    /// 重置隐藏光标的定时器.
+    private func resetHideCursorTimer() {
+        /// 取消已有的定时器.
+        self.hideCursorTimer.invalidate()
+
+        self.hideCursorTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false, block: { _ in
+            NSCursor.hide()
+        })
+    }
+    #endif
 }
