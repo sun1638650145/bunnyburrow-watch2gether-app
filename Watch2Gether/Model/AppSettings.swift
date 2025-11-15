@@ -59,7 +59,7 @@ class AppSettings {
 
                 /// 移除鼠标事件监视器.
                 if let eventMonitor = mouseEventMonitor {
-                    NSEvent.removeMonitor(mouseEventMonitor)
+                    NSEvent.removeMonitor(eventMonitor)
                     mouseEventMonitor = nil
                 }
             }
