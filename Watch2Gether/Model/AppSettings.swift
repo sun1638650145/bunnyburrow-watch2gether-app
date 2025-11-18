@@ -39,7 +39,7 @@ class AppSettings {
     #endif
 
     /// 状态信息: 视频播放器全屏状态.
-    var isFullScreen: Bool = false {
+    var isPlayerFullScreen: Bool = false {
         didSet {
             #if os(macOS)
             if isFullScreen {

@@ -67,7 +67,7 @@ struct VideoPlayer: View {
         }
         .onAppear(perform: {
             /// 当视频播放器全屏时设置视图为横屏(仅在iPhone上有效, iPad会保持原屏幕方向).
-            AppDelegate.orientationLock = appSettings.isFullScreen ? .landscape : .portrait
+            AppDelegate.orientationLock = appSettings.isPlayerFullScreen ? .landscape : .portrait
 
             /// 添加接收播放器状态同步和打开播放器模态框事件监听器给WebSocket客户端.
             webSocketClient.on(eventName: "receivePlayerSync", listener: self.receivePlayerSync(command:))

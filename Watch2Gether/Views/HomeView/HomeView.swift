@@ -20,7 +20,7 @@ struct HomeView: View {
                 .hideKeyboard()
                 .ignoresSafeArea()
 
-            if appSettings.isFullScreen {
+            if appSettings.isPlayerFullScreen {
                 VideoPlayer()
                     .hideHomeIndicator()
                     .transition(.scale(scale: 1.1))
@@ -44,9 +44,9 @@ struct HomeView: View {
         /// 检测设备旋转自动设置视频播放器全屏.
         .onRotate(perform: { orientation in
             if orientation == .portrait {
-                appSettings.isFullScreen = false
+                appSettings.isPlayerFullScreen = false
             } else if orientation.isLandscape {
-                appSettings.isFullScreen = true
+                appSettings.isPlayerFullScreen = true
             }
         })
     }

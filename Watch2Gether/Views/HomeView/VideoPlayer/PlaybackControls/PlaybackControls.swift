@@ -24,11 +24,11 @@ struct PlaybackControls: View {
 
     var body: some View {
         VStack {
-            if appSettings.isFullScreen {
+            if appSettings.isPlayerFullScreen {
                 HStack {
                     /// 退出视频播放器全屏按钮.
                     Button(action: {
-                        appSettings.isFullScreen = false
+                        appSettings.isPlayerFullScreen = false
                     }, label: {
                         Image(systemName: "chevron.backward")
                             .resizable()
@@ -136,11 +136,11 @@ struct PlaybackControls: View {
                         }
                         #endif
 
-                        appSettings.isFullScreen.toggle()
+                        appSettings.isPlayerFullScreen.toggle()
                     })
                 }, label: {
                     Image(
-                        systemName: appSettings.isFullScreen
+                        systemName: appSettings.isPlayerFullScreen
                         ? "arrow.down.forward.and.arrow.up.backward.rectangle"
                         : "arrow.up.backward.and.arrow.down.forward.rectangle"
                     )

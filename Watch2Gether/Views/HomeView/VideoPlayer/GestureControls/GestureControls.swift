@@ -217,9 +217,9 @@ struct GestureControls: View {
                     }
                 })
                 .onScaleGesture(scaleDownPerform: {
-                    appSettings.isFullScreen = false
+                    appSettings.isPlayerFullScreen = false
                 }, scaleUpPerform: {
-                    appSettings.isFullScreen = true
+                    appSettings.isPlayerFullScreen = true
                 })
                 .onTapGesture(perform: {
                     /// 关闭弹幕聊天消息输入视图.

@@ -158,10 +158,10 @@ struct PlaybackControlsCommands: Commands {
                     }
                     #endif
 
-                    appSettings.isFullScreen.toggle()
+                    appSettings.isPlayerFullScreen.toggle()
                 })
             }, label: {
-                Text(appSettings?.isFullScreen == true ? "Exit Full Screen" : "Full Screen")
+                Text(appSettings?.isPlayerFullScreen == true ? "Exit Full Screen" : "Full Screen")
             })
             .disabled(appSettings?.isLoggedIn != true)
             .keyboardShortcut(.escape, modifiers: .command)
