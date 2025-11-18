@@ -20,7 +20,7 @@ struct HomeView: View {
                 .hideKeyboard()
                 .ignoresSafeArea()
 
-            if appSettings.isFullScreen {
+            if appSettings.isPlayerFullScreen {
                 VideoPlayer()
                     .hideHomeIndicator()
                     /// 隐藏状态栏.
