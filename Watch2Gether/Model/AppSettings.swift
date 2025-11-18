@@ -43,7 +43,8 @@ class AppSettings {
         didSet {
             #if os(macOS)
             if isFullScreen {
-                NSCursor.hide()
+                /// 5秒钟后, 自动隐藏光标.
+                self.resetHideCursorTimer()
 
                 /// 当鼠标移动时, 重新显示光标.
                 mouseEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .mouseMoved, handler: { _ in
