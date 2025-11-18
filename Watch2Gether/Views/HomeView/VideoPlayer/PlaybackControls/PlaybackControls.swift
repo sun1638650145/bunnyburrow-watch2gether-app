@@ -131,7 +131,7 @@ struct PlaybackControls: View {
                         }
 
                         /// 需要视频播放器视图和窗口状态一致时.
-                        if appSettings.isFullScreen == window.styleMask.contains(.fullScreen) {
+                        if appSettings.isPlayerFullScreen == window.styleMask.contains(.fullScreen) {
                             window.toggleFullScreen(nil)
                         }
                         #endif

@@ -19,7 +19,7 @@ struct HomeView: View {
             Color.background
 
             GeometryReader(content: { geometry in
-                if appSettings.isFullScreen {
+                if appSettings.isPlayerFullScreen {
                     VideoPlayer()
                         .transition(.scale(scale: 1.1))
 

@@ -42,7 +42,7 @@ class AppSettings {
     var isPlayerFullScreen: Bool = false {
         didSet {
             #if os(macOS)
-            if isFullScreen {
+            if isPlayerFullScreen {
                 /// 5秒钟后, 自动隐藏光标.
                 self.resetHideCursorTimer()
 

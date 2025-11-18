@@ -43,11 +43,11 @@ struct InteractiveControls: View {
             }
 
             /// 需要视频播放器视图和窗口状态一致时.
-            if appSettings.isFullScreen == window.styleMask.contains(.fullScreen) {
+            if appSettings.isPlayerFullScreen == window.styleMask.contains(.fullScreen) {
                 window.toggleFullScreen(nil)
             }
 
-            appSettings.isFullScreen.toggle()
+            appSettings.isPlayerFullScreen.toggle()
         })
         .onTapGesture(perform: {
             /// 关闭弹幕聊天消息输入视图.
