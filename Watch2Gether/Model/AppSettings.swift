@@ -33,9 +33,15 @@ class AppSettings {
         }
     }
 
-    /// 状态信息: 激活`NSOpenPanel`后会提示当前页面禁用(灰白色遮罩), 须优先上传或者选择文件.
+    /// 状态信息: 登录状态.
+    var isLoggedIn: Bool = false
+
     #if os(macOS)
+    /// 状态信息: 激活`NSOpenPanel`后会提示当前页面禁用(灰白色遮罩), 须优先上传或者选择文件.
     var isPanelActive: Bool = false
+
+    /// 状态信息: 应用窗口全屏状态.
+    var isWindowFullScreen: Bool = false
     #endif
 
     /// 状态信息: 视频播放器全屏状态.
@@ -70,9 +76,6 @@ class AppSettings {
             #endif
         }
     }
-
-    /// 状态信息: 登录状态.
-    var isLoggedIn: Bool = false
 
     /// 显示弹幕聊天消息输入视图.
     var showDanmakuMessageInput: Bool = false
