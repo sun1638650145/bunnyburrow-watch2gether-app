@@ -7,6 +7,9 @@
 //  Created by Steve R. Sun on 2024/8/3.
 //
 
+#if os(macOS)
+import AppKit
+#endif
 import SwiftUI
 
 @main
@@ -54,6 +57,29 @@ struct Watch2GetherApp: App {
                 .focusedSceneValue(user)
                 .focusedSceneValue(playerViewModel)
                 .focusedSceneValue(webSocketClient)
+                #if os(macOS)
+                .onAppear(perform: {
+                    /// 监听应用窗口进入全屏的通知.
+                    NotificationCenter.default.addObserver(
+                        forName: NSWindow.didEnterFullScreenNotification,
+                        object: nil,
+                        queue: nil,
+                        using: { _ in
+                            appSettings.isWindowFullScreen = true
+                        }
+                    )
+
+                    /// 监听应用窗口退出全屏的通知.
+                    NotificationCenter.default.addObserver(
+                        forName: NSWindow.didExitFullScreenNotification,
+                        object: nil,
+                        queue: nil,
+                        using: { _ in
+                            appSettings.isWindowFullScreen = false
+                        }
+                    )
+                })
+                #endif
         }
         .commands(content: {
             PlaybackControlsCommands()
