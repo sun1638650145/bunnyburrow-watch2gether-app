@@ -41,7 +41,11 @@ class AppSettings {
     var isPanelActive: Bool = false
 
     /// 状态信息: 应用窗口全屏状态.
-    var isWindowFullScreen: Bool = false
+    var isWindowFullScreen: Bool = false {
+        didSet {
+            updateCursorState()
+        }
+    }
     #endif
 
     /// 状态信息: 视频播放器全屏状态.
