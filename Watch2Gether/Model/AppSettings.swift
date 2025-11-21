@@ -47,33 +47,7 @@ class AppSettings {
     /// 状态信息: 视频播放器全屏状态.
     var isPlayerFullScreen: Bool = false {
         didSet {
-            #if os(macOS)
-            if isPlayerFullScreen {
-                /// 5秒钟后, 自动隐藏光标.
-                self.resetHideCursorTimer()
-
-                /// 当鼠标移动时, 重新显示光标.
-                mouseEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .mouseMoved, handler: { _ in
-                    NSCursor.unhide()
-
-                    /// 鼠标停止移动5秒钟后, 再次自动隐藏光标.
-                    self.resetHideCursorTimer()
-
-                    return nil
-                })
-            } else {
-                NSCursor.unhide()
-
-                /// 移除鼠标事件监视器.
-                if let eventMonitor = mouseEventMonitor {
-                    NSEvent.removeMonitor(eventMonitor)
-                    mouseEventMonitor = nil
-                }
-
-                /// 取消已有的定时器.
-                self.hideCursorTimer.invalidate()
-            }
-            #endif
+            updateCursorState()
         }
     }
 
@@ -95,6 +69,36 @@ class AppSettings {
         self.hideCursorTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false, block: { _ in
             NSCursor.hide()
         })
+    }
+
+    /// 根据当前全屏状态更新光标状态.
+    private func updateCursorState() {
+        /// 需要视频播放器和应用窗口均处于全屏状态.
+        if isPlayerFullScreen && isWindowFullScreen {
+            /// 5秒钟后, 自动隐藏光标.
+            self.resetHideCursorTimer()
+
+            /// 当鼠标移动时, 重新显示光标.
+            mouseEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .mouseMoved, handler: { _ in
+                NSCursor.unhide()
+
+                /// 鼠标停止移动5秒周后, 再次自动隐藏光标.
+                self.resetHideCursorTimer()
+
+                return nil
+            })
+        } else {
+            NSCursor.unhide()
+
+            /// 移除鼠标事件监视器.
+            if let eventMonitor = mouseEventMonitor {
+                NSEvent.removeMonitor(eventMonitor)
+                mouseEventMonitor = nil
+            }
+
+            /// 取消已有的监视器.
+            self.hideCursorTimer.invalidate()
+        }
     }
     #endif
 }
