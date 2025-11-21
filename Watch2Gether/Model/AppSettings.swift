@@ -82,7 +82,7 @@ class AppSettings {
             mouseEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .mouseMoved, handler: { _ in
                 NSCursor.unhide()
 
-                /// 鼠标停止移动5秒周后, 再次自动隐藏光标.
+                /// 鼠标停止移动5秒钟后, 再次自动隐藏光标.
                 self.resetHideCursorTimer()
 
                 return nil
@@ -96,7 +96,7 @@ class AppSettings {
                 mouseEventMonitor = nil
             }
 
-            /// 取消已有的监视器.
+            /// 取消已有的定时器.
             self.hideCursorTimer.invalidate()
         }
     }
