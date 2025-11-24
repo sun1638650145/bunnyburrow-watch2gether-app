@@ -40,6 +40,7 @@ struct OtherMessageBubble: View {
                     .clipShape(OtherMessageBubbleShape())
                     /// 调整自动换行的位置, 让出用户自己头像显示的宽度使得视觉上更加美观.
                     .padding(.trailing, 40)
+                    .textSelection(.enabled)
             })
             .foregroundStyle(Color.foreground)
 

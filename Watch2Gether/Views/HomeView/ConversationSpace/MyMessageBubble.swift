@@ -30,6 +30,7 @@ struct MyMessageBubble: View {
                 .foregroundStyle(Color.foreground)
                 /// 调整自动换行的位置, 让出其他用户头像显示的宽度使得视觉上更加美观.
                 .padding(.leading, 40)
+                .textSelection(.enabled)
 
             Image(base64: avatar ?? "")
                 .resizable()

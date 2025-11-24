@@ -50,6 +50,7 @@ struct DanmakuMessageBubble: View {
                 .padding(25)
                 /// 根据屏幕宽度设置持续时间, 保证弹幕以相同的速度滑过.
                 .rightToLeftSlide(duration: geometry.size.width / 60, isPaused: $isPaused)
+                .textSelection(.enabled)
         })
     }
 }
