@@ -47,6 +47,9 @@ class PlayerViewModel {
         }
     }
 
+    /// 播放状态: 是否准备好播放.
+    var isPlayable: Bool = false
+
     /// 播放状态: 是否正在播放.
     var isPlaying: Bool = false {
         didSet {
@@ -206,9 +209,10 @@ class PlayerViewModel {
             /// 将收到的当前的视频进行处理.
             .sink(receiveValue: { item in
                 item.publisher(for: \.status)
-                    /// 当收到的状态为准备好播放`readyToPlay`时, 更新视频的总时长和剩余的播放时间.
+                    /// 当收到的状态为准备好播放`readyToPlay`时, 标记播放器已准备好播放, 并更新视频的总时长和剩余的播放时间.
                     .sink(receiveValue: { status in
                         if status == .readyToPlay {
+                            self.isPlayable = true
                             self.totalDuration = item.duration.seconds
                             self.remainingTime = self.totalDuration
                         } else if status == .failed {
