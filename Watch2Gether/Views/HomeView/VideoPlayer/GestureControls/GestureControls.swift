@@ -130,6 +130,10 @@ struct GestureControls: View {
                     }
                 })
                 .onDoubleTapGesture(perform: {
+                    guard playerViewModel.isPlayable else {
+                        return
+                    }
+
                     onPlayPauseToggle(playerViewModel.isPlaying)
 
                     if playerViewModel.isPlaying {
@@ -170,7 +174,9 @@ struct GestureControls: View {
 
                     /// 计算水平滑动手势的角度, 在有效范围内才能调整播放进度.
                     if validHorizontalAngleRange.contains(angle) {
-                        handleHorizontalDragGesture(gesture: gesture, geometry: geometry)
+                        if playerViewModel.isPlayable {
+                            handleHorizontalDragGesture(gesture: gesture, geometry: geometry)
+                        }
                     /// 计算垂直滑动手势的角度, 在有效范围内才能调整音量.
                     } else if validVerticalAngleRange.contains(angle) {
                         /// 在屏幕左侧生效的手势.
