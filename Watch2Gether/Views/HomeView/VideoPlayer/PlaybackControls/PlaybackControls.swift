@@ -48,6 +48,8 @@ struct PlaybackControls: View {
             ProgressBar(onSeekCompleted: {
                 webSocketClient.sendPlayerSync(command: ["newProgress": playerViewModel.currentTime])
             })
+            .disabled(!playerViewModel.isPlayable)
+            .opacity(playerViewModel.isPlayable ? 1 : 0.7)
 
             HStack {
                 /// 快退30秒按钮.
@@ -67,6 +69,8 @@ struct PlaybackControls: View {
                         .foregroundStyle(Color.foreground)
                         .padding(5)
                 })
+                .disabled(!playerViewModel.isPlayable)
+                .opacity(playerViewModel.isPlayable ? 1 : 0.7)
 
                 /// 播放控制按钮.
                 Button(action: {
@@ -88,6 +92,8 @@ struct PlaybackControls: View {
                         .foregroundStyle(Color.foreground)
                         .padding(5)
                 })
+                .disabled(!playerViewModel.isPlayable)
+                .opacity(playerViewModel.isPlayable ? 1 : 0.7)
 
                 /// 快进30秒按钮.
                 Button(action: {
@@ -110,6 +116,8 @@ struct PlaybackControls: View {
                         .foregroundStyle(Color.foreground)
                         .padding(5)
                 })
+                .disabled(!playerViewModel.isPlayable)
+                .opacity(playerViewModel.isPlayable ? 1 : 0.7)
 
                 Spacer()
 
