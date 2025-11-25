@@ -30,6 +30,10 @@ struct ProgressControl: View {
 
     var body: some View {
         SwipeableView(onSwipe: { event in
+            guard playerViewModel.isPlayable else {
+                return
+            }
+
             showProgressDisplay = true
 
             let newProgress = playerViewModel.currentTime + event.scrollingDeltaX
