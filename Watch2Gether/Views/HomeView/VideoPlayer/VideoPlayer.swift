@@ -33,8 +33,10 @@ struct VideoPlayer: View {
             Color.black
                 .ignoresSafeArea()
 
-            VideoPlayerViewController(player: playerViewModel.player)
-                .ignoresSafeArea(edges: [.bottom, .horizontal])
+            if playerViewModel.isPlayable {
+                VideoPlayerViewController(player: playerViewModel.player)
+                    .ignoresSafeArea(edges: [.bottom, .horizontal])
+            }
 
             GestureControls(
                 onPlayPauseToggle: { isPlaying in
