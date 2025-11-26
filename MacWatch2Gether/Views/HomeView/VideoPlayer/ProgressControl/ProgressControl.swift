@@ -11,7 +11,7 @@ import AVKit
 import Foundation
 import SwiftUI
 
-/// `ProgressControl`是播放进度控制视图, 通过水平滑动键盘或者触控板调整视频的播放进度.
+/// `ProgressControl`是播放进度控制视图, 通过水平滑动鼠标或者触控板调整视频的播放进度.
 struct ProgressControl: View {
     @Environment(PlayerViewModel.self) var playerViewModel
 
