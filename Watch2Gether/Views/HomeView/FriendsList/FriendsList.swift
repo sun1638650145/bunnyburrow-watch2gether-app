@@ -29,7 +29,7 @@ struct FriendsList: View {
                         showFriendsListDetail.toggle()
                     })
                 }, label: {
-                    Image(systemName: showFriendsListDetail ? "arrowtriangle.down.fill" : "arrowtriangle.up.fill")
+                    Image(systemName: showFriendsListDetail ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 13, height: 13)
