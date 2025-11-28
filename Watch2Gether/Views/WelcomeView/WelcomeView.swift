@@ -58,9 +58,10 @@ struct WelcomeView: View {
                     }, label: {
                         Image(systemName: "ellipsis")
                             .foregroundStyle(Color.foreground)
-                            .frame(width: 40, height: 40)
+                            .frame(width: 35, height: 35)
                     })
-                    .padding(5)
+                    .glassEffectCompat(isInteractive: true)
+                    .padding(.horizontal, 15)
                 }
 
                 Spacer()
