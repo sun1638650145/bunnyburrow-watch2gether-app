@@ -46,13 +46,14 @@ struct WelcomeView: View {
                         })
                     }, label: {
                         Image(systemName: "ellipsis")
-                            .frame(width: 40, height: 40)
+                            .frame(width: 35, height: 35)
                             /// 扩大点击区域.
                             .contentShape(Rectangle())
                             .foregroundStyle(Color.foreground)
                     })
                     .buttonStyle(PlainButtonStyle())
-                    .padding(5)
+                    .glassEffectCompat()
+                    .padding(15)
                 }
 
                 Spacer()
