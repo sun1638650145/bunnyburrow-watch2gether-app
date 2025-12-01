@@ -53,7 +53,7 @@ struct VideoPickerTextField: View {
                         }
                     }
                 ))
-                .autocorrectionDisabled(false)
+                .autocorrectionDisabled()
                 .foregroundStyle(Color.foreground)
             })
             .padding(.leading, 5)
@@ -92,6 +92,10 @@ struct VideoPickerTextField: View {
             } else {
                 displayText = text
             }
+        })
+        .onChange(of: text, {
+            /// 当绑定的文本发生变化时, 更新显示的文本.
+            displayText = text
         })
         .overlay(alignment: .bottom, content: {
             Rectangle()
