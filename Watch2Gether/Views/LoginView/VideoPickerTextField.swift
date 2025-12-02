@@ -14,8 +14,8 @@ import SwiftUI
 struct VideoPickerTextField: View {
     @Binding var text: String?
 
-    /// 显示在文本输入框中的文本(如果是文件URL则只显示文件名, 其他情况则为完整的原始文本).
-    @State private var displayText: String?
+    /// 是否处于编辑焦点.
+    @FocusState private var isFocused: Bool
 
     /// 是否呈现`VideoPickerViewController`.
     @State private var isPresented: Bool = false
@@ -31,6 +31,18 @@ struct VideoPickerTextField: View {
 
     /// 占位文本的颜色.
     private let placeholderColor: Color
+
+    /// 显示在文本输入框中的文本(如果是文件URL且未在编辑则只显示文件名, 其他情况则显示完整的原始文本).
+    private var displayText: String {
+        /// 判断是否为文件URL.
+        guard let text = text, let url = URL(string: text), url.isFileURL
+        else {
+            return text ?? ""
+        }
+
+        /// 判断是否处于编辑焦点.
+        return isFocused ? text : url.lastPathComponent
+    }
 
     init(
         _ placeholder: LocalizedStringResource,
@@ -56,19 +68,18 @@ struct VideoPickerTextField: View {
                     }
 
                     TextField("", text: Binding<String>(
-                        get: { displayText ?? "" },
+                        get: { displayText },
                         set: { newValue in
-                            /// 用户手动输入文本, 则跟随显示输入的完整文本.
-                            displayText = newValue
-
-                            if newValue.isEmpty {
-                                text = nil
+                            /// 如果是文件URL但当前未在编辑, 则保持完整的原始文本.
+                            if let text = text, let url = URL(string: text), url.isFileURL, !isFocused {
+                                self.text = text
                             } else {
-                                text = newValue
+                                self.text = newValue.isEmpty ? nil : newValue
                             }
                         }
                     ))
                     .autocorrectionDisabled()
+                    .focused($isFocused)
                     .foregroundStyle(Color.foreground)
                     .onChange(of: text, onTextChange)
                 })
@@ -85,36 +96,10 @@ struct VideoPickerTextField: View {
                 })
                 .padding(.horizontal, 10)
                 .sheet(isPresented: $isPresented, content: {
-                    VideoPickerViewController(selectedVideo: Binding<String?>(
-                        get: { text },
-                        set: { newValue in
-                            text = newValue
-
-                            /// 如果是文件URL则只显示文件名.
-                            if let text = text, let url = URL(string: text), url.isFileURL {
-                                displayText = url.lastPathComponent
-                            } else {
-                                displayText = text
-                            }
-                        }
-                    ))
+                    VideoPickerViewController(selectedVideo: $text)
                 })
             })
             .frame(width: 350, height: 50)
-            .onAppear(perform: {
-                /// 初始化时如果是文件URL则只显示文件名.
-                if let text = text, let url = URL(string: text), url.isFileURL {
-                    displayText = url.lastPathComponent
-                } else {
-                    displayText = text
-                }
-            })
-            .onChange(of: text, {
-                /// 当绑定的文本为空时, 更新显示的文本.
-                if (text ?? "").isEmpty {
-                    displayText = text
-                }
-            })
             .overlay(alignment: .bottom, content: {
                 if errorMessage != nil {
                     Capsule()
