@@ -20,7 +20,7 @@ struct VideoPickerTextField: View {
     /// 是否呈现`VideoPickerViewController`.
     @State private var isPresented: Bool = false
 
-    /// 错误文本信息.
+    /// 错误信息文本.
     private let errorMessage: LocalizedStringResource?
 
     /// 输入文本值更改时调用的闭包.
