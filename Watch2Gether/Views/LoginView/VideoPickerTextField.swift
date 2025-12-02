@@ -94,8 +94,10 @@ struct VideoPickerTextField: View {
             }
         })
         .onChange(of: text, {
-            /// 当绑定的文本发生变化时, 更新显示的文本.
-            displayText = text
+            /// 当绑定的文本为空时, 更新显示的文本.
+            if (text ?? "").isEmpty {
+                displayText = text
+            }
         })
         .overlay(alignment: .bottom, content: {
             Rectangle()
