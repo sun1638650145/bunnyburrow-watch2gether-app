@@ -68,13 +68,13 @@ struct VideoPickerTextField: View {
 
                     TextField("", text: Binding<String>(
                         get: { displayText },
-                        set: { newValue in
-                            /// 如果是文件URL但当前未在编辑, 则保持完整的原始文本.
-                            if let text = text, let url = URL(string: text), url.isFileURL, !isFocused {
-                                self.text = text
-                            } else {
-                                self.text = newValue.isEmpty ? nil : newValue
+                        set: {
+                            /// 未处于编辑焦点, 则保持完整的原始文本.
+                            guard isFocused else {
+                                return
                             }
+
+                            text = $0.isEmpty ? nil : $0
                         }
                     ))
                     .autocorrectionDisabled()
