@@ -64,6 +64,11 @@ extension Color {
     /// 用于发送按钮起始渐变背景的颜色.
     public static let sendButtonGradientStart = Color(hex: "#095AE6")
 
+    /// 系统主背景的颜色.
+    #if os(iOS)
+    public static let systemBackground = Color(UIColor.systemBackground)
+    #endif
+
     /// 用于文本输入框的高亮提示的颜色.
     public static let textFieldHighlight = Color(red: 249.0 / 255, green: 249.0 / 255, blue: 249.0 / 255, opacity: 0.2)
 

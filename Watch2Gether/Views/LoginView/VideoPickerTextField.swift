@@ -67,9 +67,9 @@ struct VideoPickerTextField: View {
                     /// 判断是否为文件URL且未处于编辑焦点.
                     if let text = text, let url = URL(string: text), url.isFileURL, !isFocused {
                         Text(url.lastPathComponent)
-                            /// 用最大宽度和系统背景色覆盖文本输入框中的内容.
+                            /// 使用最大宽度和系统主背景色覆盖文本输入框中的内容.
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color(UIColor.systemBackground))
+                            .background(Color.systemBackground)
                             .foregroundStyle(Color.foreground)
                             /// 使用单击手势替代按钮, 避免按钮默认动画造成的延迟感.
                             .onTapGesture(perform: {
