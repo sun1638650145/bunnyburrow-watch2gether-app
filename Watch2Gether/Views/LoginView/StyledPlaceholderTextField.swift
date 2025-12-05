@@ -46,8 +46,8 @@ struct StyledPlaceholderTextField: View {
                 if (text ?? "").isEmpty {
                     Text(placeholder)
                         .foregroundStyle(placeholderColor)
-                        .padding(.leading, 5)
                 }
+
                 TextField("", text: Binding<String>(
                     get: { text ?? "" },
                     set: { text = $0.isEmpty ? nil : $0 }
@@ -55,15 +55,18 @@ struct StyledPlaceholderTextField: View {
                 .autocorrectionDisabled()
                 .foregroundStyle(Color.foreground)
                 .onChange(of: text, onTextChange)
-                .padding(.leading, 5)
             })
             .frame(width: 350, height: 50)
-            .background(Color.viewBackground)
-            .clipShape(RoundedRectangle(cornerRadius: 5))
-            .font(.body)
-            .overlay(content: {
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(errorMessage != nil ? Color.textFieldHighlight : .clear, lineWidth: 1.2)
+            .padding(.leading, 10)
+            .overlay(alignment: .bottom, content: {
+                if errorMessage != nil {
+                    Capsule()
+                        .stroke(Color.textFieldHighlight, lineWidth: 1.2)
+                } else {
+                    Rectangle()
+                        .foregroundStyle(Color.secondary.opacity(0.3))
+                        .frame(height: 1)
+                }
             })
 
             if let errorMessage = errorMessage {
@@ -73,14 +76,13 @@ struct StyledPlaceholderTextField: View {
                     .padding(.top, 3)
             }
         }
-        .padding(EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
     }
 }
 
 #Preview {
     @Previewable @State var isNameEmpty = false
     @Previewable @State var name: String?
-    @Previewable @State var url: String?
+    @Previewable @State var webSocketUrl: String?
 
     Group {
         StyledPlaceholderTextField(
@@ -92,6 +94,6 @@ struct StyledPlaceholderTextField: View {
             }
         )
 
-        StyledPlaceholderTextField("请输入流媒体视频源", text: $url)
+        StyledPlaceholderTextField("请输入WebSocket服务地址", text: $webSocketUrl)
     }
 }
