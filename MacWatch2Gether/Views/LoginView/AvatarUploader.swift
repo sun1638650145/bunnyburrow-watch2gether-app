@@ -33,9 +33,7 @@ struct AvatarUploader: View {
                     .frame(width: 100, height: 100)
                     /// 在`frame`之后应用, 解决动画过程中图片溢出边框的问题.
                     .clipShape(Circle())
-                    .overlay(content: {
-                        Circle().stroke(Color.avatarBorder, lineWidth: 2)
-                    })
+                    .glassEffectCompat()
                     .padding(5)
             } else {
                 AvatarUploaderIcon(size: 100, crossWidth: 35, crossHeight: 5)
