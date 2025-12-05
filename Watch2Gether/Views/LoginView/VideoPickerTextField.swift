@@ -32,15 +32,14 @@ struct VideoPickerTextField: View {
     /// 占位文本的颜色.
     private let placeholderColor: Color
 
-    /// 显示在文本输入框中的文本(如果是文件URL且未在编辑则只显示文件名, 其他情况则显示完整的原始文本).
-    private var displayText: String {
+    /// 文本输入框前景的颜色.
+    private var textFieldForegroundColor: Color {
         /// 判断是否为文件URL且未处于编辑焦点.
-        guard let text = text, let url = URL(string: text), url.isFileURL, !isFocused
-        else {
-            return text ?? ""
+        if let text = text, let url = URL(string: text), url.isFileURL, !isFocused {
+            return .clear
+        } else {
+            return .foreground
         }
-
-        return url.lastPathComponent
     }
 
     init(
@@ -72,16 +71,19 @@ struct VideoPickerTextField: View {
                     ))
                     .autocorrectionDisabled()
                     .focused($isFocused)
-                    /// 未处于编辑焦点则使文本透明.
-                    .foregroundStyle(isFocused ? Color.foreground : Color.clear)
+                    .foregroundStyle(textFieldForegroundColor)
                     .onChange(of: text, onTextChange)
 
-                    Text(displayText)
-                        .foregroundStyle(Color.foreground)
-                        /// 使用单击手势替代按钮, 避免按钮默认动画造成的延迟感.
-                        .onTapGesture(perform: {
-                            isFocused = true
-                        })
+                    /// 判断是否为文件URL且未处于编辑焦点.
+                    if let text = text, let url = URL(string: text), url.isFileURL, !isFocused {
+                        Text(url.lastPathComponent)
+                            .foregroundStyle(Color.foreground)
+                            .lineLimit(1)
+                            /// 使用单击手势替代按钮, 避免按钮默认动画造成的延迟感.
+                            .onTapGesture(perform: {
+                                isFocused = true
+                            })
+                    }
                 })
                 .padding(.leading, 10)
 
