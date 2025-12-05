@@ -32,7 +32,7 @@ struct VideoPickerTextField: View {
     /// 占位文本的颜色.
     private let placeholderColor: Color
 
-    /// 显示在文本输入框中文本(如果是文件URL且未在编辑则只显示文件名, 其他情况则显示完整的原始文本).
+    /// 显示在文本输入框中的文本(如果是文件URL且未在编辑则只显示文件名, 其他情况则显示完整的原始文本).
     private var displayText: String {
         /// 判断是否为文件URL且未处于编辑焦点.
         guard let text = text, let url = URL(string: text), url.isFileURL, !isFocused
