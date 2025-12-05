@@ -56,8 +56,8 @@ struct StyledPlaceholderTextField: View {
                 .foregroundStyle(Color.foreground)
                 .onChange(of: text, onTextChange)
             })
-            .frame(width: 350, height: 50)
             .padding(.leading, 10)
+            .frame(width: 350, height: 50)
             .overlay(alignment: .bottom, content: {
                 if errorMessage != nil {
                     Capsule()
