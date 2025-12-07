@@ -79,24 +79,6 @@ struct LoginView: View {
                 )
                 .focused($focusedField, equals: .name)
 
-                ZStack(alignment: .trailing, content: {
-                    StyledPlaceholderTextField(
-                        "Enter streaming URL or select local file",
-                        text: $url,
-                        placeholderColor: .textFieldPlaceholder,
-                        errorMessage: isStreamingInvalid && focusedField == .url
-                        ? "Invalid or missing video source. Please try again."
-                        : nil,
-                        onTextChange: {
-                            validateStreaming(strictMode: false)
-                        }
-                    )
-                    .focused($focusedField, equals: .url)
-
-                    VideoPicker($url)
-                        .padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 20))
-                })
-
                 StyledPlaceholderTextField(
                     "Enter WebSocket URL",
                     text: $webSocketUrl,
@@ -109,6 +91,19 @@ struct LoginView: View {
                     }
                 )
                 .focused($focusedField, equals: .webSocketUrl)
+
+                VideoPickerTextField(
+                    "Enter streaming URL or select local file",
+                    text: $url,
+                    placeholderColor: .textFieldPlaceholder,
+                    errorMessage: isStreamingInvalid && focusedField == .url
+                    ? "Invalid or missing video source. Please try again."
+                    : nil,
+                    onTextChange: {
+                        validateStreaming(strictMode: false)
+                    }
+                )
+                .focused($focusedField, equals: .url)
 
                 HStack(spacing: 0, content: {
                     Button(action: handleLogin, label: {
@@ -185,10 +180,10 @@ struct LoginView: View {
         /// 设置焦点位置.
         if isNameEmpty {
             focusedField = .name
-        } else if isStreamingInvalid {
-            focusedField = .url
         } else if isWebSocketInvalid {
             focusedField = .webSocketUrl
+        } else if isStreamingInvalid {
+            focusedField = .url
         } else {
             /// 校验通过后, 更新视频源URL和WebSocket服务地址(删除空格和换行符).
             url = url?.trimmingCharacters(in: .whitespacesAndNewlines)
