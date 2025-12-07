@@ -35,6 +35,7 @@ struct LoginView: View {
 
     /// 昵称为空变量.
     @State private var isNameEmpty = false
+
     /// 流媒体视频源不合法状态变量.
     @State private var isStreamingInvalid = false
 
