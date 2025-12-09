@@ -84,26 +84,12 @@ struct WelcomeView: View {
             VStack {
                 Spacer()
 
-                if #available(iOS 26.0, *) {
-                    Button(action: handleLogin, label: {
-                        Text("Login")
-                            .bold()
-                            .font(.title2)
-                            .foregroundStyle(Color.foreground)
-                            .frame(width: 125, height: 36)
-                            .multilineTextAlignment(.center)
-                            .tracking(5)
-                    })
-                    .buttonStyle(GlassProminentButtonStyle())
-                    .padding(20)
-                } else {
-                    Button(action: handleLogin, label: {
-                        Text("Login")
-                            .frame(width: 150, height: 50)
-                    })
-                    .buttonStyle(LoginButtonStyle(isCapsuleShape: true))
-                    .padding(20)
-                }
+                Button(action: handleLogin, label: {
+                    Text("Login")
+                        .frame(width: 150, height: 50)
+                })
+                .buttonStyle(LoginButtonStyle())
+                .padding(20)
 
                 Text("Copyright © 2025 Steve R. Sun")
                     .copyright()
