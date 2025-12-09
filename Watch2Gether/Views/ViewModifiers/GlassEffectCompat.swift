@@ -12,12 +12,20 @@ import SwiftUI
 /// `GlassEffectCompat`是为`View`应用液态玻璃(Liquid Glass)效果的视图修饰符, 在iOS 26及以上和macOS 26及以上版本启用.
 struct GlassEffectCompat: ViewModifier {
     /// 控制`View`是否可用于交互操作.
-    let isInteractive: Bool
+    private let isInteractive: Bool
+
+    /// 为液态玻璃(Liquid Glass)添加的颜色.
+    private let tintColor: Color?
+
+    init(tintColor: Color?, isInteractive: Bool) {
+        self.tintColor = tintColor
+        self.isInteractive = isInteractive
+    }
 
     func body(content: Content) -> some View {
         if #available(iOS 26.0, macOS 26.0, *) {
             content
-                .glassEffect(.clear.interactive(isInteractive))
+                .glassEffect(.clear.tint(tintColor).interactive(isInteractive))
         } else {
             content
                 .background(.regularMaterial)
@@ -29,5 +37,5 @@ struct GlassEffectCompat: ViewModifier {
 #Preview {
     Text("Hello, World!")
         .padding(12)
-        .modifier(GlassEffectCompat(isInteractive: true))
+        .modifier(GlassEffectCompat(tintColor: nil, isInteractive: true))
 }
