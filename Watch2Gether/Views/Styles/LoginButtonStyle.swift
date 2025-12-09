@@ -11,36 +11,13 @@ import SwiftUI
 
 /// `LoginButtonStyle`是加入按钮的样式.
 struct LoginButtonStyle: ButtonStyle {
-    /// 按钮悬停状态.
-    @State private var isHovered = false
-
-    /// 按钮是否使用胶囊形状.
-    var isCapsuleShape: Bool = false
-
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .background(
-                Group {
-                    /// 在iOS上按下按钮时, 使用90%的透明度.
-                    #if os(iOS)
-                    Color.loginButtonBackground.opacity(configuration.isPressed ? 0.9 : 1)
-
-                    /// 在macOS上光标悬停时, 使用110%的亮度.
-                    #elseif os(macOS)
-                    Color.loginButtonBackground.brightness(isHovered ? 0.1 : 0)
-                    #endif
-                }
-            )
             .bold()
-            .clipShape(isCapsuleShape ? AnyShape(Capsule()) : AnyShape(RoundedRectangle(cornerRadius: 5)))
             .font(.title2)
             .foregroundStyle(Color.foreground)
+            .glassEffectCompat(tintColor: Color.loginButtonBackground, isInteractive: true)
             .multilineTextAlignment(.center)
-            #if os(macOS)
-            .onHover(perform: { hovering in
-                isHovered = hovering
-            })
-            #endif
             .tracking(5)
     }
 }
@@ -50,7 +27,7 @@ struct LoginButtonStyle: ButtonStyle {
         // ...
     }, label: {
         Text("加入")
-            .frame(width: 350, height: 50)
+            .frame(width: 150, height: 50)
     })
     .buttonStyle(LoginButtonStyle())
     .padding(10)
