@@ -25,7 +25,7 @@ struct GlassEffectCompat: ViewModifier {
     func body(content: Content) -> some View {
         if #available(iOS 26.0, macOS 26.0, *) {
             content
-                .glassEffect(.clear.tint(tintColor).interactive(isInteractive))
+                .glassEffect(.regular.tint(tintColor).interactive(isInteractive))
         } else {
             if let tintColor = tintColor {
                 content
