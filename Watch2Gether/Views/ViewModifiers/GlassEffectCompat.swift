@@ -27,9 +27,15 @@ struct GlassEffectCompat: ViewModifier {
             content
                 .glassEffect(.clear.tint(tintColor).interactive(isInteractive))
         } else {
-            content
-                .background(.regularMaterial)
-                .clipShape(Capsule())
+            if let tintColor = tintColor {
+                content
+                    .background(tintColor)
+                    .clipShape(Capsule())
+            } else {
+                content
+                    .background(.regularMaterial)
+                    .clipShape(Capsule())
+            }
         }
     }
 }
