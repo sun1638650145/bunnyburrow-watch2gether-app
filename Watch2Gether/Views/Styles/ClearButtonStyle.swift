@@ -13,11 +13,12 @@ import SwiftUI
 struct ClearButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .background(Color.alertError.opacity(configuration.isPressed ? 0.9 : 1))
             .bold()
-            .clipShape(RoundedRectangle(cornerRadius: 5))
+            /// 扩大点击区域.
+            .contentShape(Capsule())
             .font(.title2)
             .foregroundStyle(Color.foreground)
+            .glassEffectCompat(tintColor: .alertError, isInteractive: true)
             .multilineTextAlignment(.center)
             .tracking(5)
     }
@@ -28,7 +29,7 @@ struct ClearButtonStyle: ButtonStyle {
         // ...
     }, label: {
         Text("清空")
-            .frame(width: 350, height: 50)
+            .frame(width: 150, height: 50)
     })
     .buttonStyle(ClearButtonStyle())
 }
