@@ -126,6 +126,7 @@ struct LoginView: View {
                             }
                         }
                         .animation(.linear(duration: 0.5), value: hasUserInput)
+                        .padding(5)
                     })
                 } else {
                     HStack {
@@ -145,6 +146,7 @@ struct LoginView: View {
                         }
                     }
                     .animation(.linear(duration: 0.5), value: hasUserInput)
+                    .padding(5)
                 }
             }
 
