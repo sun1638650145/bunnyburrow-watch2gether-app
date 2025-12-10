@@ -48,7 +48,7 @@ struct WelcomeView: View {
                         Image(systemName: "ellipsis")
                             .frame(width: 35, height: 35)
                             /// 扩大点击区域.
-                            .contentShape(Rectangle())
+                            .contentShape(Circle())
                             .foregroundStyle(Color.foreground)
                     })
                     .buttonStyle(PlainButtonStyle())
