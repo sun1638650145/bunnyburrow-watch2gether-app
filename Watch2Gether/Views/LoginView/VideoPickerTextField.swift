@@ -72,6 +72,7 @@ struct VideoPickerTextField: View {
                     .autocorrectionDisabled()
                     .focused($isFocused)
                     .foregroundStyle(textFieldForegroundColor)
+                    .keyboardType(.URL)
                     .onChange(of: text, onTextChange)
                     .textInputAutocapitalization(.never)
 
