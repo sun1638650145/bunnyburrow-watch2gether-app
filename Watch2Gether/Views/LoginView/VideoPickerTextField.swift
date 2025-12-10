@@ -73,6 +73,7 @@ struct VideoPickerTextField: View {
                     .focused($isFocused)
                     .foregroundStyle(textFieldForegroundColor)
                     .onChange(of: text, onTextChange)
+                    .textInputAutocapitalization(.never)
 
                     /// 判断是否为文件URL且未处于编辑焦点.
                     if let text = text, let url = URL(string: text), url.isFileURL, !isFocused {

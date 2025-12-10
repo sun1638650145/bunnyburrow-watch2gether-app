@@ -55,6 +55,7 @@ struct StyledPlaceholderTextField: View {
                 .autocorrectionDisabled()
                 .foregroundStyle(Color.foreground)
                 .onChange(of: text, onTextChange)
+                .textInputAutocapitalization(.never)
             })
             .padding(.leading, 10)
             .frame(width: 350, height: 50)
