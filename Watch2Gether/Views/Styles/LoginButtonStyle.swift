@@ -18,7 +18,7 @@ struct LoginButtonStyle: ButtonStyle {
             .contentShape(Capsule())
             .font(.title2)
             .foregroundStyle(Color.foreground)
-            .glassEffectCompat(tintColor: Color.loginButtonBackground, isInteractive: true)
+            .glassEffectCompat(tintColor: .loginButtonBackground, isInteractive: true)
             .multilineTextAlignment(.center)
             .tracking(5)
     }
