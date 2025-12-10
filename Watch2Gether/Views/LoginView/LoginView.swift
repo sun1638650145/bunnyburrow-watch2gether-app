@@ -67,44 +67,46 @@ struct LoginView: View {
 
                 AvatarUploader($avatar)
 
-                StyledPlaceholderTextField(
-                    "Enter your nickname",
-                    text: $name,
-                    placeholderColor: .textFieldPlaceholder,
-                    errorMessage: isNameEmpty && focusedField == .name
-                    ? "Nickname cannot be empty. Please try again."
-                    : nil,
-                    onTextChange: {
-                        checkName(strictMode: false)
-                    }
-                )
-                .focused($focusedField, equals: .name)
+                VStack(spacing: 0, content: {
+                    StyledPlaceholderTextField(
+                        "Enter your nickname",
+                        text: $name,
+                        placeholderColor: .textFieldPlaceholder,
+                        errorMessage: isNameEmpty && focusedField == .name
+                        ? "Nickname cannot be empty. Please try again."
+                        : nil,
+                        onTextChange: {
+                            checkName(strictMode: false)
+                        }
+                    )
+                    .focused($focusedField, equals: .name)
 
-                StyledPlaceholderTextField(
-                    "Enter WebSocket URL",
-                    text: $webSocketUrl,
-                    placeholderColor: .textFieldPlaceholder,
-                    errorMessage: isWebSocketInvalid && focusedField == .webSocketUrl
-                    ? "Invalid WebSocket URL. Please try again."
-                    : nil,
-                    onTextChange: {
-                        validateWebSocket(strictMode: false)
-                    }
-                )
-                .focused($focusedField, equals: .webSocketUrl)
+                    StyledPlaceholderTextField(
+                        "Enter WebSocket URL",
+                        text: $webSocketUrl,
+                        placeholderColor: .textFieldPlaceholder,
+                        errorMessage: isWebSocketInvalid && focusedField == .webSocketUrl
+                        ? "Invalid WebSocket URL. Please try again."
+                        : nil,
+                        onTextChange: {
+                            validateWebSocket(strictMode: false)
+                        }
+                    )
+                    .focused($focusedField, equals: .webSocketUrl)
 
-                VideoPickerTextField(
-                    "Enter streaming URL or select local file",
-                    text: $url,
-                    placeholderColor: .textFieldPlaceholder,
-                    errorMessage: isStreamingInvalid && focusedField == .url
-                    ? "Invalid or missing video source. Please try again."
-                    : nil,
-                    onTextChange: {
-                        validateStreaming(strictMode: false)
-                    }
-                )
-                .focused($focusedField, equals: .url)
+                    VideoPickerTextField(
+                        "Enter streaming URL or select local file",
+                        text: $url,
+                        placeholderColor: .textFieldPlaceholder,
+                        errorMessage: isStreamingInvalid && focusedField == .url
+                        ? "Invalid or missing video source. Please try again."
+                        : nil,
+                        onTextChange: {
+                            validateStreaming(strictMode: false)
+                        }
+                    )
+                    .focused($focusedField, equals: .url)
+                })
 
                 HStack(spacing: 0, content: {
                     Button(action: handleLogin, label: {
