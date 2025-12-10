@@ -108,25 +108,44 @@ struct LoginView: View {
                     .focused($focusedField, equals: .url)
                 })
 
-                HStack(spacing: 0, content: {
-                    Button(action: handleLogin, label: {
-                        Text("Login")
-                            .frame(width: hasUserInput ? 170 : 350, height: 50)
-                    })
-                    .buttonStyle(LoginButtonStyle())
-                    .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: hasUserInput ? 5 : 10))
+                if #available(iOS 26, *) {
+                    GlassEffectContainer(content: {
+                        HStack {
+                            Button(action: handleLogin, label: {
+                                Text("Login")
+                                    .frame(width: 150, height: 50)
+                            })
+                            .buttonStyle(LoginButtonStyle())
 
-                    if hasUserInput {
-                        Button(action: clearUserInput, label: {
-                            Text("Clear")
-                                .frame(width: 170, height: 50)
+                            if hasUserInput {
+                                Button(action: clearUserInput, label: {
+                                    Text("Clear")
+                                        .frame(width: 150, height: 50)
+                                })
+                                .buttonStyle(ClearButtonStyle())
+                            }
+                        }
+                        .animation(.linear(duration: 0.5), value: hasUserInput)
+                    })
+                } else {
+                    HStack {
+                        Button(action: handleLogin, label: {
+                            Text("Login")
+                                .frame(width: 150, height: 50)
                         })
-                        .buttonStyle(ClearButtonStyle())
-                        .padding(EdgeInsets(top: 5, leading: 5, bottom: 10, trailing: 10))
-                        .transition(.move(edge: .trailing))
+                        .buttonStyle(LoginButtonStyle())
+
+                        if hasUserInput {
+                            Button(action: clearUserInput, label: {
+                                Text("Clear")
+                                    .frame(width: 150, height: 50)
+                            })
+                            .buttonStyle(ClearButtonStyle())
+                            .transition(.move(edge: .trailing))
+                        }
                     }
-                })
-                .animation(.linear(duration: 0.8), value: hasUserInput)
+                    .animation(.linear(duration: 0.5), value: hasUserInput)
+                }
             }
 
             VStack {
