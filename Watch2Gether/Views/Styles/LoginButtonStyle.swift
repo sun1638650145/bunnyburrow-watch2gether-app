@@ -14,6 +14,8 @@ struct LoginButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .bold()
+            /// 扩大点击区域.
+            .contentShape(Capsule())
             .font(.title2)
             .foregroundStyle(Color.foreground)
             .glassEffectCompat(tintColor: Color.loginButtonBackground, isInteractive: true)
