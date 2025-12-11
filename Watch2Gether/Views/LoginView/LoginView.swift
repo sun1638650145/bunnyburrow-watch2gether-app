@@ -114,14 +114,14 @@ struct LoginView: View {
                         HStack {
                             Button(action: handleLogin, label: {
                                 Text("Login")
-                                    .frame(width: 150, height: 50)
+                                    .frame(width: 170, height: 50)
                             })
                             .buttonStyle(LoginButtonStyle())
 
                             if hasUserInput {
                                 Button(action: clearUserInput, label: {
                                     Text("Clear")
-                                        .frame(width: 150, height: 50)
+                                        .frame(width: 170, height: 50)
                                 })
                                 .buttonStyle(ClearButtonStyle())
                             }
