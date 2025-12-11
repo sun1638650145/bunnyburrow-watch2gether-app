@@ -88,6 +88,7 @@ struct LoginView: View {
                         errorMessage: isWebSocketInvalid && focusedField == .webSocketUrl
                         ? "Invalid WebSocket URL. Please try again."
                         : nil,
+                        keyboardType: .URL,
                         onTextChange: {
                             validateWebSocket(strictMode: false)
                         }
