@@ -17,6 +17,9 @@ struct StyledPlaceholderTextField: View {
     /// 错误信息文本.
     private let errorMessage: LocalizedStringResource?
 
+    /// 键盘类型.
+    private let keyboardType: UIKeyboardType
+
     /// 输入文本值更改时调用的闭包.
     private let onTextChange: () -> Void
 
@@ -31,12 +34,14 @@ struct StyledPlaceholderTextField: View {
         text: Binding<String?>,
         placeholderColor: Color = .secondary,
         errorMessage: LocalizedStringResource? = nil,
+        keyboardType: UIKeyboardType = .default,
         onTextChange: @escaping () -> Void = {}
     ) {
         self.placeholder = placeholder
         self._text = text
         self.placeholderColor = placeholderColor
         self.errorMessage = errorMessage
+        self.keyboardType = keyboardType
         self.onTextChange = onTextChange
     }
 
@@ -54,6 +59,7 @@ struct StyledPlaceholderTextField: View {
                 ))
                 .autocorrectionDisabled()
                 .foregroundStyle(Color.foreground)
+                .keyboardType(keyboardType)
                 .onChange(of: text, onTextChange)
                 .textInputAutocapitalization(.never)
             })
