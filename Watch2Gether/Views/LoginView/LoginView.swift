@@ -126,9 +126,9 @@ struct LoginView: View {
                                 .buttonStyle(ClearButtonStyle())
                             }
                         }
-                        .animation(.linear(duration: 0.5), value: hasUserInput)
-                        .padding(5)
                     })
+                    .animation(.default, value: hasUserInput)
+                    .padding(5)
                 } else {
                     HStack {
                         Button(action: handleLogin, label: {
