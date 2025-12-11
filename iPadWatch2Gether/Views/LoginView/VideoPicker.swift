@@ -2,7 +2,7 @@
 //  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
 //
 //  VideoPicker.swift
-//  Watch2Gether
+//  iPadWatch2Gether
 //
 //  Created by Steve R. Sun on 2025/3/18.
 //
