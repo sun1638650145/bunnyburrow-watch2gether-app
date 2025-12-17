@@ -92,7 +92,7 @@ struct VideoPickerTextField: View {
                         Text(url.lastPathComponent)
                             .foregroundStyle(Color.foreground)
                             .lineLimit(1)
-                        /// 使用单击手势替代按钮, 避免按钮默认动画造成的延迟感.
+                            /// 使用单击手势替代按钮, 避免按钮默认动画造成的延迟感.
                             .onTapGesture(perform: {
                                 isFocused = true
                             })
