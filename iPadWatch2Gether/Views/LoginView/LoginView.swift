@@ -69,6 +69,7 @@ struct LoginView: View {
                     text: $webSocketUrl,
                     placeholderColor: .textFieldPlaceholder,
                     errorMessage: isWebSocketInvalid ? "Invalid WebSocket URL. Please try again." : nil,
+                    keyboardType: .URL,
                     onTextChange: {
                         validateWebSocket(strictMode: false)
                     }
