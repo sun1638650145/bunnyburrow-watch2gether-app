@@ -54,36 +54,38 @@ struct LoginView: View {
 
                 AvatarUploader($avatar)
 
-                StyledPlaceholderTextField(
-                    "Enter your nickname",
-                    text: $name,
-                    placeholderColor: .textFieldPlaceholder,
-                    errorMessage: isNameEmpty ? "Nickname cannot be empty. Please try again." : nil,
-                    onTextChange: {
-                        checkName(strictMode: false)
-                    }
-                )
+                VStack(spacing: 0, content: {
+                    StyledPlaceholderTextField(
+                        "Enter your nickname",
+                        text: $name,
+                        placeholderColor: .textFieldPlaceholder,
+                        errorMessage: isNameEmpty ? "Nickname cannot be empty. Please try again." : nil,
+                        onTextChange: {
+                            checkName(strictMode: false)
+                        }
+                    )
 
-                StyledPlaceholderTextField(
-                    "Enter WebSocket URL",
-                    text: $webSocketUrl,
-                    placeholderColor: .textFieldPlaceholder,
-                    errorMessage: isWebSocketInvalid ? "Invalid WebSocket URL. Please try again." : nil,
-                    keyboardType: .URL,
-                    onTextChange: {
-                        validateWebSocket(strictMode: false)
-                    }
-                )
+                    StyledPlaceholderTextField(
+                        "Enter WebSocket URL",
+                        text: $webSocketUrl,
+                        placeholderColor: .textFieldPlaceholder,
+                        errorMessage: isWebSocketInvalid ? "Invalid WebSocket URL. Please try again." : nil,
+                        keyboardType: .URL,
+                        onTextChange: {
+                            validateWebSocket(strictMode: false)
+                        }
+                    )
 
-                VideoPickerTextField(
-                    "Enter streaming URL or select local file",
-                    text: $url,
-                    placeholderColor: .textFieldPlaceholder,
-                    errorMessage: isStreamingInvalid ? "Invalid or missing video source. Please try again." : nil,
-                    onTextChange: {
-                        validateStreaming(strictMode: false)
-                    }
-                )
+                    VideoPickerTextField(
+                        "Enter streaming URL or select local file",
+                        text: $url,
+                        placeholderColor: .textFieldPlaceholder,
+                        errorMessage: isStreamingInvalid ? "Invalid or missing video source. Please try again." : nil,
+                        onTextChange: {
+                            validateStreaming(strictMode: false)
+                        }
+                    )
+                })
 
                 Button(action: handleLogin, label: {
                     Text("Login")
