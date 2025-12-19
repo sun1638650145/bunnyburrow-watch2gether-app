@@ -128,7 +128,7 @@ struct VideoPickerTextField: View {
 
             if let errorMessage = errorMessage {
                 Text(errorMessage)
-                    .font(.footnote)
+                    .font(.callout)
                     .foregroundStyle(Color.alertError)
                     .padding(.top, 3)
             }
