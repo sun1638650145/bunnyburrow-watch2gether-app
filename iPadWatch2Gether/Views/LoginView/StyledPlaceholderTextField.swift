@@ -116,7 +116,8 @@ struct StyledPlaceholderTextField: View {
             errorMessage: isNameEmpty ? "昵称不能为空, 请输入昵称并重试." : nil,
             onTextChange: {
                 isNameEmpty = name?.isEmpty ?? true
-            })
+            }
+        )
 
         StyledPlaceholderTextField("请输入WebSocket服务地址", text: $webSocketUrl)
     }
