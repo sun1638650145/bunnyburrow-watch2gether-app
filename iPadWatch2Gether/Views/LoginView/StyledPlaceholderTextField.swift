@@ -14,8 +14,23 @@ import SwiftUI
 struct StyledPlaceholderTextField: View {
     @Binding var text: String?
 
-    /// 获取焦点位置.
+    /// 是否处于编辑焦点.
     @FocusState private var isFocused: Bool
+
+    /// 错误信息文本.
+    private let errorMessage: LocalizedStringResource?
+
+    /// 键盘类型.
+    private let keyboardType: UIKeyboardType
+
+    /// 输入文本值更改时调用的闭包.
+    private let onTextChange: () -> Void
+
+    /// 占位文本.
+    private let placeholder: LocalizedStringResource
+
+    /// 占位文本的颜色.
+    private let placeholderColor: Color
 
     /// 计算当前的边框颜色.
     private var borderColor: Color {
@@ -28,29 +43,19 @@ struct StyledPlaceholderTextField: View {
         }
     }
 
-    /// 错误信息文本.
-    private var errorMessage: LocalizedStringResource?
-
-    /// 输入文本值更改时调用的闭包.
-    private var onTextChange: () -> Void
-
-    /// 占位文本.
-    private let placeholder: LocalizedStringResource
-
-    /// 占位文本的颜色.
-    private let placeholderColor: Color
-
     init(
         _ placeholder: LocalizedStringResource,
         text: Binding<String?>,
         placeholderColor: Color = .secondary,
         errorMessage: LocalizedStringResource? = nil,
+        keyboardType: UIKeyboardType = .default,
         onTextChange: @escaping () -> Void = {}
     ) {
         self.placeholder = placeholder
         self._text = text
         self.placeholderColor = placeholderColor
         self.errorMessage = errorMessage
+        self.keyboardType = keyboardType
         self.onTextChange = onTextChange
     }
 
@@ -60,8 +65,8 @@ struct StyledPlaceholderTextField: View {
                 if (text ?? "").isEmpty {
                     Text(placeholder)
                         .foregroundStyle(placeholderColor)
-                        .padding(.leading, 5)
                 }
+
                 TextField("", text: Binding<String>(
                     get: { text ?? "" },
                     set: { text = $0.isEmpty ? nil : $0 }
@@ -69,19 +74,24 @@ struct StyledPlaceholderTextField: View {
                 .autocorrectionDisabled()
                 .focused($isFocused)
                 .foregroundStyle(Color.foreground)
+                .keyboardType(keyboardType)
                 .onChange(of: text, onTextChange)
-                .padding(.leading, 5)
                 #if os(macOS)
                 .textFieldStyle(PlainTextFieldStyle())
                 #endif
+                .textInputAutocapitalization(.never)
             })
+            .padding(.leading, 10)
             .frame(width: 350, height: 50)
-            .background(Color.viewBackground)
-            .clipShape(RoundedRectangle(cornerRadius: 5))
-            .font(.title3)
-            .overlay(content: {
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(borderColor, lineWidth: 1.2)
+            .overlay(alignment: .bottom, content: {
+                if errorMessage != nil || isFocused {
+                    Capsule()
+                        .stroke(borderColor, lineWidth: 1.2)
+                } else {
+                    Rectangle()
+                        .foregroundStyle(Color.secondary.opacity(0.3))
+                        .frame(height: 1)
+                }
             })
 
             if let errorMessage = errorMessage {
@@ -91,14 +101,13 @@ struct StyledPlaceholderTextField: View {
                     .padding(.top, 3)
             }
         }
-        .padding(EdgeInsets(top: 5, leading: 10, bottom: 0, trailing: 10))
     }
 }
 
 #Preview {
-    @Previewable @State var isNameEmpty = false
+    @Previewable @State var isNameEmpty: Bool = false
     @Previewable @State var name: String?
-    @Previewable @State var url: String?
+    @Previewable @State var webSocketUrl: String?
 
     Group {
         StyledPlaceholderTextField(
@@ -109,6 +118,6 @@ struct StyledPlaceholderTextField: View {
                 isNameEmpty = name?.isEmpty ?? true
             })
 
-        StyledPlaceholderTextField("请输入流媒体视频源", text: $url)
+        StyledPlaceholderTextField("请输入WebSocket服务地址", text: $webSocketUrl)
     }
 }
