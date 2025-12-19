@@ -54,7 +54,7 @@ struct LoginView: View {
 
                 AvatarUploader($avatar)
 
-                VStack(spacing: 0, content: {
+                VStack(spacing: 10, content: {
                     StyledPlaceholderTextField(
                         "Enter your nickname",
                         text: $name,
@@ -92,7 +92,7 @@ struct LoginView: View {
                         .frame(width: 350, height: 50)
                 })
                 .buttonStyle(LoginButtonStyle())
-                .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
+                .padding(.top, 2.5)
             }
 
             VStack {
