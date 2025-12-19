@@ -64,21 +64,6 @@ struct LoginView: View {
                     }
                 )
 
-                ZStack(alignment: .trailing, content: {
-                    StyledPlaceholderTextField(
-                        "Enter streaming URL or select local file",
-                        text: $url,
-                        placeholderColor: .textFieldPlaceholder,
-                        errorMessage: isStreamingInvalid ? "Invalid or missing video source. Please try again." : nil,
-                        onTextChange: {
-                            validateStreaming(strictMode: false)
-                        }
-                    )
-
-                    VideoPicker($url)
-                        .padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 20))
-                })
-
                 StyledPlaceholderTextField(
                     "Enter WebSocket URL",
                     text: $webSocketUrl,
@@ -86,6 +71,16 @@ struct LoginView: View {
                     errorMessage: isWebSocketInvalid ? "Invalid WebSocket URL. Please try again." : nil,
                     onTextChange: {
                         validateWebSocket(strictMode: false)
+                    }
+                )
+
+                VideoPickerTextField(
+                    "Enter streaming URL or select local file",
+                    text: $url,
+                    placeholderColor: .textFieldPlaceholder,
+                    errorMessage: isStreamingInvalid ? "Invalid or missing video source. Please try again." : nil,
+                    onTextChange: {
+                        validateStreaming(strictMode: false)
                     }
                 )
 
