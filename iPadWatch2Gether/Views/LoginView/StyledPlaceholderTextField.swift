@@ -76,9 +76,6 @@ struct StyledPlaceholderTextField: View {
                 .foregroundStyle(Color.foreground)
                 .keyboardType(keyboardType)
                 .onChange(of: text, onTextChange)
-                #if os(macOS)
-                .textFieldStyle(PlainTextFieldStyle())
-                #endif
                 .textInputAutocapitalization(.never)
             })
             .padding(.leading, 10)
