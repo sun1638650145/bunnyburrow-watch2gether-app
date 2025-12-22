@@ -23,6 +23,9 @@ struct StyledPlaceholderTextField: View {
     /// 输入文本值更改时调用的闭包.
     private let onTextChange: () -> Void
 
+    /// 输入文本值提交时调用的闭包.
+    private let onTextSubmit: () -> Void
+
     /// 占位文本.
     private let placeholder: LocalizedStringResource
 
@@ -45,13 +48,15 @@ struct StyledPlaceholderTextField: View {
         text: Binding<String?>,
         placeholderColor: Color = .secondary,
         errorMessage: LocalizedStringResource? = nil,
-        onTextChange: @escaping () -> Void = {}
+        onTextChange: @escaping () -> Void = {},
+        onTextSubmit: @escaping () -> Void = {}
     ) {
         self.placeholder = placeholder
         self._text = text
         self.placeholderColor = placeholderColor
         self.errorMessage = errorMessage
         self.onTextChange = onTextChange
+        self.onTextSubmit = onTextSubmit
     }
 
     var body: some View {
@@ -70,6 +75,7 @@ struct StyledPlaceholderTextField: View {
                 .focused($isFocused)
                 .foregroundStyle(Color.foreground)
                 .onChange(of: text, onTextChange)
+                .onSubmit(onTextSubmit)
                 .textFieldStyle(PlainTextFieldStyle())
             })
             .padding(.leading, 10)
