@@ -26,7 +26,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Views/HomeView/MessageInput/MessageInput.swift,
-				Views/LoginView/StyledPlaceholderTextField.swift,
 			);
 			target = 39EC676C2D16653E00518950 /* MacWatch2Gether */;
 		};
