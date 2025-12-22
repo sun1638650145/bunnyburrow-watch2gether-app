@@ -7,6 +7,7 @@
 //  Created by Steve R. Sun on 2025/12/22.
 //
 
+import Foundation
 import SwiftUI
 
 /// `StyledPlaceholderTextField`是包含自定义样式占位文本的文本输入框视图.
@@ -14,9 +15,9 @@ struct StyledPlaceholderTextField: View {
     @Binding var text: String?
 
     /// 是否处于编辑焦点.
-    @FocusState private var isFoused: Bool
+    @FocusState private var isFocused: Bool
 
-    /// 错误文本信息.
+    /// 错误信息文本.
     private let errorMessage: LocalizedStringResource?
 
     /// 输入文本值更改时调用的闭包.
@@ -32,7 +33,7 @@ struct StyledPlaceholderTextField: View {
     private var borderColor: Color {
         if errorMessage != nil {
             return .alertError
-        } else if isFoused {
+        } else if isFocused {
             return .textFieldHighlight
         } else {
             return .clear
@@ -66,7 +67,7 @@ struct StyledPlaceholderTextField: View {
                     set: { text = $0.isEmpty ? nil : $0 }
                 ))
                 .autocorrectionDisabled()
-                .focused($isFoused)
+                .focused($isFocused)
                 .foregroundStyle(Color.foreground)
                 .onChange(of: text, onTextChange)
                 .textFieldStyle(PlainTextFieldStyle())
@@ -74,7 +75,7 @@ struct StyledPlaceholderTextField: View {
             .padding(.leading, 10)
             .frame(width: 350, height: 50)
             .overlay(alignment: .bottom, content: {
-                if errorMessage != nil || isFoused {
+                if errorMessage != nil || isFocused {
                     Capsule()
                         .stroke(borderColor, lineWidth: 1.2)
                 } else {
