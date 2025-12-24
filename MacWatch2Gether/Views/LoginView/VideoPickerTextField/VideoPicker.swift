@@ -26,11 +26,11 @@ struct VideoPicker: View {
             present()
             appSettings.isPanelActive = false
         }, label: {
-            Image(systemName: "document.badge.plus.fill")
+            Image(systemName: "chevron.down.circle")
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 30, height: 30)
-                .foregroundStyle(Color.foreground)
+                .foregroundStyle(Color.foreground.opacity(0.8))
+                .frame(width: 22, height: 22)
         })
         .buttonStyle(PlainButtonStyle())
         .onHover(perform: { hovering in
