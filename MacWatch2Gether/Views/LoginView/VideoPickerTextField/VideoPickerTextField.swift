@@ -71,7 +71,7 @@ struct VideoPickerTextField: View {
 
     var body: some View {
         VStack {
-            HStack(content: {
+            HStack(spacing: 0, content: {
                 ZStack(alignment: .leading, content: {
                     if (text ?? "").isEmpty {
                         Text(placeholder)
@@ -101,6 +101,9 @@ struct VideoPickerTextField: View {
                     }
                 })
                 .padding(.leading, 10)
+
+                VideoPicker($text)
+                    .padding(.horizontal, 10)
             })
             .frame(width: 350, height: 50)
             .overlay(alignment: .bottom, content: {
@@ -128,6 +131,8 @@ struct VideoPickerTextField: View {
     @Previewable @State var isStreamingInvalid: Bool = false
     @Previewable @State var url: String?
 
+    let appSettings = AppSettings()
+
     VideoPickerTextField(
         "请输入流媒体视频源或选择本地视频源",
         text: $url,
@@ -136,5 +141,6 @@ struct VideoPickerTextField: View {
             isStreamingInvalid = url?.isEmpty ?? true
         }
     )
+    .environment(appSettings)
     .padding(10)
 }
