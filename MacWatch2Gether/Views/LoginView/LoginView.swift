@@ -59,7 +59,8 @@ struct LoginView: View {
                     errorMessage: isNameEmpty ? "Nickname cannot be empty. Please try again." : nil,
                     onTextChange: {
                         checkName(strictMode: false)
-                    }
+                    },
+                    onTextSubmit: handleLogin
                 )
 
                 ZStack(alignment: .trailing, content: {
@@ -70,7 +71,8 @@ struct LoginView: View {
                         errorMessage: isStreamingInvalid ? "Invalid or missing video source. Please try again." : nil,
                         onTextChange: {
                             validateStreaming(strictMode: false)
-                        }
+                        },
+                        onTextSubmit: handleLogin
                     )
 
                     VideoPicker($url)
@@ -84,7 +86,8 @@ struct LoginView: View {
                     errorMessage: isWebSocketInvalid ? "Invalid WebSocket URL. Please try again." : nil,
                     onTextChange: {
                         validateWebSocket(strictMode: false)
-                    }
+                    },
+                    onTextSubmit: handleLogin
                 )
 
                 Button(action: handleLogin, label: {
