@@ -125,15 +125,15 @@ struct VideoPickerTextField: View {
 }
 
 #Preview {
-    @Previewable @State var isStreamingInvaild: Bool = false
+    @Previewable @State var isStreamingInvalid: Bool = false
     @Previewable @State var url: String?
 
     VideoPickerTextField(
         "请输入流媒体视频源或选择本地视频源",
         text: $url,
-        errorMessage: isStreamingInvaild ? "视频源为空或者不合法, 请重新输入视频源并重试." : nil,
+        errorMessage: isStreamingInvalid ? "视频源为空或者不合法, 请重新输入视频源并重试." : nil,
         onTextChange: {
-            isStreamingInvaild = url?.isEmpty ?? true
+            isStreamingInvalid = url?.isEmpty ?? true
         }
     )
     .padding(10)
