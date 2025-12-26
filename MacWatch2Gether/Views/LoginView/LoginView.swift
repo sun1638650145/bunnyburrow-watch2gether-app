@@ -92,7 +92,7 @@ struct LoginView: View {
                         .frame(width: 350, height: 50)
                 })
                 .buttonStyle(LoginButtonStyle())
-                .padding(EdgeInsets(top: 5, leading: 10, bottom: 10, trailing: 10))
+                .padding(.top, 3)
             }
 
             VStack {
