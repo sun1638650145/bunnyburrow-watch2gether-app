@@ -40,12 +40,29 @@ struct VideoPickerViewController: UIViewControllerRepresentable {
         }
 
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-            guard let url = urls.first?.absoluteString
+            guard let url = urls.first
             else {
                 return
             }
 
-            self.parent.selectedVideo = url
+            /// 获取访问安全域资源的权限.
+            let accessing = url.startAccessingSecurityScopedResource()
+            defer {
+                if accessing {
+                    url.stopAccessingSecurityScopedResource()
+                }
+            }
+
+            do {
+                let bookmarkData = try url.bookmarkData()
+
+                /// 保存URL的`bookmarkData`.
+                UserDefaults.standard.set(bookmarkData, forKey: "Local.bookmarkData")
+            } catch {
+                print("获取bookmarkData失败: \(error.localizedDescription)")
+            }
+
+            self.parent.selectedVideo = url.absoluteString
         }
     }
 
