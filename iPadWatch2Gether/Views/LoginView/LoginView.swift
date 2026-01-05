@@ -98,7 +98,7 @@ struct LoginView: View {
             VStack {
                 Spacer()
 
-                Text("Copyright © 2025 Steve R. Sun")
+                Text("Copyright © 2026 Steve R. Sun")
                     .copyright()
             }
             .ignoresSafeArea(.keyboard)
