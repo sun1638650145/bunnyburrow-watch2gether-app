@@ -1,5 +1,5 @@
 //
-//  Copyright © 2024-2025 Steve R. Sun. All rights reserved.
+//  Copyright © 2024-2026 Steve R. Sun. All rights reserved.
 //
 //  StyledPlaceholderTextField.swift
 //  MacWatch2Gether
