@@ -55,11 +55,29 @@ struct VideoPicker: View {
 
         /// 使用主线程执行, 提高稳定性.
         DispatchQueue.main.async {
-            if response == .OK {
-                if let url = openPanel.url {
-                    self.url = url.absoluteString
+            guard response == .OK, let url = openPanel.url
+            else {
+                return
+            }
+
+            /// 获取访问安全域资源的权限.
+            let accessing = url.startAccessingSecurityScopedResource()
+            defer {
+                if accessing {
+                    url.stopAccessingSecurityScopedResource()
                 }
             }
+
+            do {
+                let bookmarkData = try url.bookmarkData()
+
+                /// 保存URL的`bookmarkData`.
+                UserDefaults.standard.set(bookmarkData, forKey: "Local.bookmarkData")
+            } catch {
+                print("获取bookmarkData失败: \(error.localizedDescription)")
+            }
+
+            self.url = url.absoluteString
         }
     }
 }
