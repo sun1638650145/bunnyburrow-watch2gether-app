@@ -12,7 +12,7 @@ import Foundation
 /// 安全域资源管理器, 通过`bookmarkData`持久化与解析安全域资源的访问权限.
 class SecurityScopedResourceManager {
     /// 用于保存`bookmarkData`的`UserDefaults`键.
-    private let bookmarkDataKey: String = "Local.bookmarkData"
+    private static let bookmarkDataKey: String = "Local.bookmarkData"
 
     /// 当前正在访问的安全域URL.
     private var accessingURL: URL?
@@ -25,11 +25,18 @@ class SecurityScopedResourceManager {
     ///
     /// - Parameters:
     ///   - url: 视频源URL.
-    func saveBookmarkData(for url: URL) {
+    static func saveBookmarkData(for url: URL) {
+        let accessing = url.startAccessingSecurityScopedResource()
+        defer {
+            if accessing {
+                url.stopAccessingSecurityScopedResource()
+            }
+        }
+
         do {
             let bookmarkData = try url.bookmarkData()
 
-            UserDefaults.standard.set(bookmarkData, forKey: bookmarkDataKey)
+            UserDefaults.standard.set(bookmarkData, forKey: SecurityScopedResourceManager.bookmarkDataKey)
         } catch {
             print("获取bookmarkData失败: \(error.localizedDescription)")
         }
@@ -60,7 +67,8 @@ class SecurityScopedResourceManager {
     ///   - url: 视频源URL.
     /// - Returns: 若存在有效的`bookmarkData`, 则返回解析后的URL, 否则返回原始URL.
     private func resolveURLfromBookmarkData(_ url: URL) -> URL {
-        guard url.isFileURL, let bookmarkData = UserDefaults.standard.data(forKey: bookmarkDataKey)
+        guard url.isFileURL,
+              let bookmarkData = UserDefaults.standard.data(forKey: SecurityScopedResourceManager.bookmarkDataKey)
         else {
             return url
         }
@@ -72,7 +80,7 @@ class SecurityScopedResourceManager {
 
             /// 如果`bookmarkData`过期则重新保存.
             if isStale {
-                saveBookmarkData(for: resolvedURL)
+                SecurityScopedResourceManager.saveBookmarkData(for: resolvedURL)
             }
 
             return resolvedURL
