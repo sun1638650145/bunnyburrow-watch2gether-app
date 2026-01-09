@@ -95,6 +95,9 @@ class PlayerViewModel {
     /// 用于自动隐藏音量相关视图的定时器.
     private var hideVolumeDisplayTimer: Timer = Timer()
 
+    /// 安全域资源管理器.
+    private var securityScopedResourceManager = SecurityScopedResourceManager()
+
     /// 系统休眠状态管理器.
     #if os(macOS)
     private var sleepAssertionManager = SleepAssertionManager()
@@ -103,15 +106,7 @@ class PlayerViewModel {
     /// 视频源URL.
     private var url: URL {
         didSet {
-            let url = resolveURLfromBookmarkData(url)
-
-            /// 选择本地视频源时, 获取访问安全域资源的权限.
-            let accessing = url.startAccessingSecurityScopedResource()
-            defer {
-                if accessing {
-                    url.stopAccessingSecurityScopedResource()
-                }
-            }
+            let url = securityScopedResourceManager.startAccessing(for: url)
 
             /// 当URL被赋新值后更新播放器.
             player.replaceCurrentItem(with: AVPlayerItem(url: url))
@@ -239,26 +234,6 @@ class PlayerViewModel {
 
             /// 将事件监听器保存到取消器集合中.
             .store(in: &cancellables)
-    }
-
-    /// 从持久化的`bookmarkData`中解析并恢复安全域资源URL.
-    ///
-    /// - Parameters:
-    ///   - url: 视频源URL.
-    /// - Returns: 若存在有效的`bookmarkData`, 则返回恢复后的URL, 否则返回原始URL.
-    private func resolveURLfromBookmarkData(_ url: URL) -> URL {
-        guard url.isFileURL, let bookmarkData = UserDefaults.standard.data(forKey: "Local.bookmarkData")
-        else {
-            return url
-        }
-
-        var isStale: Bool = false
-
-        do {
-            return try URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale)
-        } catch {
-            return url
-        }
     }
 
     /// 配置并更新锁屏界面和控制中心的正在播放信息.
