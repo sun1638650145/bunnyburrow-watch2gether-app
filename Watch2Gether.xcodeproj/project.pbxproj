@@ -139,6 +139,7 @@
 				Model/User.swift,
 				Model/Version.swift,
 				Model/WebSocketClient.swift,
+				Utils/SecurityScopedResourceManager.swift,
 				ViewModels/FriendsViewModel.swift,
 				ViewModels/MessageStoreViewModel.swift,
 				ViewModels/PlayerViewModel.swift,
