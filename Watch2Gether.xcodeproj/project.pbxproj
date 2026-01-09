@@ -203,7 +203,6 @@
 				Extensions/UIImage.swift,
 				InfoPlist.xcstrings,
 				"Preview Content/Preview Assets.xcassets",
-				Utils/SecurityScopedResourceManager.swift,
 				Views/ContentView.swift,
 				Views/HomeView/HomeView.swift,
 				Views/HomeView/MessageInput/MessageField.swift,
