@@ -39,7 +39,7 @@ class SecurityScopedResourceManager {
     ///
     /// - Parameters:
     ///   - url: 视频源URL.
-    /// - Returns: 解析后的视频源URL.
+    /// - Returns: 解析后的URL.
     func startAccessing(for url: URL) -> URL {
         let url = resolveURLfromBookmarkData(url)
 
@@ -58,7 +58,7 @@ class SecurityScopedResourceManager {
     ///
     /// - Parameters:
     ///   - url: 视频源URL.
-    /// - Returns: 若存在有效的`bookmarkData`, 则返回恢复后的URL, 否则返回原始URL.
+    /// - Returns: 若存在有效的`bookmarkData`, 则返回解析后的URL, 否则返回原始URL.
     private func resolveURLfromBookmarkData(_ url: URL) -> URL {
         guard url.isFileURL, let bookmarkData = UserDefaults.standard.data(forKey: bookmarkDataKey)
         else {
