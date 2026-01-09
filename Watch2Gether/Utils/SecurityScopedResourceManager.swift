@@ -36,7 +36,7 @@ class SecurityScopedResourceManager {
         do {
             let bookmarkData = try url.bookmarkData()
 
-            UserDefaults.standard.set(bookmarkData, forKey: SecurityScopedResourceManager.bookmarkDataKey)
+            UserDefaults.standard.set(bookmarkData, forKey: bookmarkDataKey)
         } catch {
             print("获取bookmarkData失败: \(error.localizedDescription)")
         }
