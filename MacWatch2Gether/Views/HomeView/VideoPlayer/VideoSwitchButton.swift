@@ -66,22 +66,7 @@ struct VideoSwitchButton: View {
                 return
             }
 
-            /// 获取访问安全域资源的权限.
-            let accessing = url.startAccessingSecurityScopedResource()
-            defer {
-                if accessing {
-                    url.stopAccessingSecurityScopedResource()
-                }
-            }
-
-            do {
-                let bookmarkData = try url.bookmarkData()
-
-                /// 保存URL的`bookmarkData`.
-                UserDefaults.standard.set(bookmarkData, forKey: "Local.bookmarkData")
-            } catch {
-                print("获取bookmarkData失败: \(error.localizedDescription)")
-            }
+            SecurityScopedResourceManager.saveBookmarkData(for: url)
 
             /// 切换视频.
             playerViewModel.updateURL(url)
