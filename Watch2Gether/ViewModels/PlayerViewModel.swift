@@ -176,6 +176,8 @@ class PlayerViewModel {
     ///   - newUrl: 新的视频源URL.
     func updateURL(_ newUrl: URL) {
         self.url = newUrl
+
+        UserDefaults.standard.set(self.url.absoluteString, forKey: "Server.url")
     }
 
     /// 观察播放器的播放状态.
