@@ -175,9 +175,13 @@ class PlayerViewModel {
     /// - Parameters:
     ///   - newUrl: 新的视频源URL.
     func updateURL(_ newUrl: URL) {
-        self.url = newUrl
+        /// 当视频源URL与视频源域名URL一致时, 则跳过更新`UserDefaults`.
+        if self.url != self.domainUrl {
+            let decodedString = newUrl.absoluteString.removingPercentEncoding ?? newUrl.absoluteString
+            UserDefaults.standard.set(decodedString, forKey: "Server.url")
+        }
 
-        UserDefaults.standard.set(self.url.absoluteString, forKey: "Server.url")
+        self.url = newUrl
     }
 
     /// 观察播放器的播放状态.
