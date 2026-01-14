@@ -7,12 +7,16 @@
 //  Created by Steve R. Sun on 2024/11/29.
 //
 
+import Foundation
 import SwiftUI
 
 /// `MessagesList`是用于显示聊天消息列表的视图.
 struct MessagesList: View {
     @Environment(User.self) var user
     @Environment(FriendsViewModel.self) var friendsViewModel
+
+    /// 锚定位置所对应的聊天消息ID.
+    @State private var scrollPosition: UUID?
 
     /// 聊天消息列表变量.
     private let messages: [Message]
@@ -22,29 +26,27 @@ struct MessagesList: View {
     }
 
     var body: some View {
-        ScrollViewReader(content: { proxy in
-            ScrollView {
-                ForEach(messages, content: { message in
-                    let friend = friendsViewModel.searchFriend(by: message.clientID)!
+        ScrollView {
+            ForEach(messages, content: { message in
+                let friend = friendsViewModel.searchFriend(by: message.clientID)!
 
-                    if friend.clientID == user.clientID {
-                        MyMessageBubble(content: message.content, avatar: user.avatar)
-                    } else {
-                        OtherMessageBubble(content: message.content, avatar: friend.avatar, name: friend.name)
-                    }
-                })
-            }
-            .onChange(of: messages.last?.id, { _, newId in
-                if let newId {
-                    /// 有新聊天消息时, 自动滚动至最新消息的位置.
-                    withAnimation(.easeInOut, {
-                        proxy.scrollTo(newId, anchor: .bottom)
-                    })
+                if friend.clientID == user.clientID {
+                    MyMessageBubble(content: message.content, avatar: user.avatar)
+                } else {
+                    OtherMessageBubble(content: message.content, avatar: friend.avatar, name: friend.name)
                 }
             })
-            .padding(.horizontal, 10)
-            .scrollIndicators(.hidden)
+        }
+        .onChange(of: messages.last?.id, {
+            /// 有新聊天消息时, 自动滚动至最新消息的位置.
+            withAnimation(.easeInOut, {
+                scrollPosition = messages.last?.id
+            })
         })
+        .padding(.horizontal, 10)
+        .scrollIndicators(.hidden)
+        /// 将聊天消息列表始终锚定在最新聊天消息.
+        .scrollPosition(id: $scrollPosition, anchor: .bottom)
     }
 }
 
