@@ -26,7 +26,7 @@ struct RightToLeftSlide: ViewModifier {
     /// 滑动动画持续的时间(秒).
     private let duration: Double
 
-    init(duration: Double = 10.0, isPaused: Binding<Bool>) {
+    init(duration: Double, isPaused: Binding<Bool>) {
         self.duration = duration
         self._isPaused = isPaused
     }
@@ -78,6 +78,6 @@ struct RightToLeftSlide: ViewModifier {
         isPaused.toggle()
     }, label: {
         Text("Hello, World!")
-            .modifier(RightToLeftSlide(isPaused: $isPaused))
+            .modifier(RightToLeftSlide(duration: 10.0, isPaused: $isPaused))
     })
 }
