@@ -21,6 +21,18 @@ struct KeyboardAdaptive: ViewModifier {
     /// 当前键盘的高度.
     @State private var keyboardHeight: CGFloat = 0.0
 
+    /// 键盘隐藏时的底部间距, 用于避免主页指示器(Home Indicator)遮挡.
+    private let keyboardRestBottomInset: CGFloat
+
+    /// 底部的间距, 键盘隐藏时使用`keyboardRestBottomInset`, 键盘显示时使用键盘的高度.
+    private var bottomInset: CGFloat {
+        return keyboardHeight == 0.0 ? keyboardRestBottomInset : keyboardHeight
+    }
+
+    init(keyboardRestBottomInset: CGFloat) {
+        self.keyboardRestBottomInset = keyboardRestBottomInset
+    }
+
     func body(content: Content) -> some View {
         content
             .onAppear(perform: {
@@ -53,7 +65,7 @@ struct KeyboardAdaptive: ViewModifier {
                     /// 将键盘隐藏事件监听器保存到取消器集合中.
                     .store(in: &cancellables)
             })
-            /// 根据键盘的高度调整视图底部的间距.
-            .padding(.bottom, keyboardHeight)
+            /// 根据计算得到的底部间距调整视图, 避免被主页指示器(Home Indicator)或键盘遮挡.
+            .padding(.bottom, bottomInset)
     }
 }

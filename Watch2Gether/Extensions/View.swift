@@ -50,10 +50,12 @@ extension View {
 
     /// 为`View`添加键盘自适应的功能(只适用于`iOS`平台).
     ///
+    /// - Parameters:
+    ///   - keyboardRestBottomInset: 键盘隐藏时的底部间距, 用于避免主页指示器(Home Indicator)遮挡.
     /// - Returns: 应用`keyboardAdaptive`后的视图.
     #if os(iOS)
-    func keyboardAdaptive() -> some View {
-        self.modifier(KeyboardAdaptive())
+    func keyboardAdaptive(keyboardRestBottomInset: CGFloat = 0.0) -> some View {
+        self.modifier(KeyboardAdaptive(keyboardRestBottomInset: keyboardRestBottomInset))
     }
     #endif
 
