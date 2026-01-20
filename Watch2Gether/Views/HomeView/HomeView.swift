@@ -30,8 +30,8 @@ struct HomeView: View {
                 GeometryReader(content: { geometry in
                     VStack(spacing: 0, content: {
                         VideoPlayer()
-                            /// 固定视频播放器的高度为屏幕的1/3.
-                            .frame(height: geometry.size.height / 3)
+                            /// 固定视频播放器的高度为屏幕的31%.
+                            .frame(height: geometry.size.height * 0.31)
 
                         FriendsList()
 
