@@ -17,8 +17,14 @@ struct ConversationSpace: View {
     @Environment(MessageStoreViewModel.self) var messageStoreViewModel
     @Environment(WebSocketClient.self) var webSocketClient
 
+    /// 聊天消息输入框是否处于编辑焦点.
+    @FocusState private var isFocused: Bool
+
     /// 聊天消息变量.
     @State private var message: String = ""
+
+    /// 聊天消息列表锚定位置所对应的聊天消息ID.
+    @State private var scrollPosition: UUID?
 
     /// 禁止发送按钮变量.
     private var isDisabled: Bool {
@@ -32,9 +38,10 @@ struct ConversationSpace: View {
 
     var body: some View {
         VStack(spacing: 0, content: {
-            MessagesList(messageStoreViewModel.messages)
+            MessagesList(messageStoreViewModel.messages, scrollPosition: $scrollPosition)
 
             MessageInput($message, onMessageSend: sendMessage, isDisabled: isDisabled)
+                .focused($isFocused)
         })
         .ignoresSafeArea()
         .onAppear(perform: {
@@ -42,6 +49,14 @@ struct ConversationSpace: View {
             webSocketClient.on(eventName: "receiveMessage", listener: { message, clientID in
                 self.receiveMessage(message: message, clientID: clientID)
             })
+        })
+        .onChange(of: isFocused, {
+            /// 聊天消息输入框处于焦点时, 自动滚动至最新消息的位置.
+            if isFocused {
+                withAnimation(.easeInOut, {
+                    scrollPosition = messageStoreViewModel.messages.last?.id
+                })
+            }
         })
     }
 

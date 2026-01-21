@@ -12,17 +12,16 @@ import SwiftUI
 
 /// `MessagesList`是用于显示聊天消息列表的视图.
 struct MessagesList: View {
+    @Binding var scrollPosition: UUID?
     @Environment(User.self) var user
     @Environment(FriendsViewModel.self) var friendsViewModel
-
-    /// 锚定位置所对应的聊天消息ID.
-    @State private var scrollPosition: UUID?
 
     /// 聊天消息列表变量.
     private let messages: [Message]
 
-    init(_ messages: [Message]) {
+    init(_ messages: [Message], scrollPosition: Binding<UUID?>) {
         self.messages = messages
+        self._scrollPosition = scrollPosition
     }
 
     var body: some View {
@@ -51,6 +50,8 @@ struct MessagesList: View {
 }
 
 #Preview {
+    @Previewable @State var scrollPosition: UUID?
+
     let user = User(
         avatar: "/9j/2wCEAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDIBCQk" +
                 "JDAsMGA0NGDIhHCEyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMv/AABEIABkAGQMBIg" +
@@ -83,7 +84,7 @@ struct MessagesList: View {
         Message(content: "Hi!", clientID: 2025)
     ]
 
-    MessagesList(messages)
+    MessagesList(messages, scrollPosition: $scrollPosition)
         .environment(user)
         .environment(friendsViewModel)
 }
