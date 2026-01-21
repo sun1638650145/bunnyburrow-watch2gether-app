@@ -51,7 +51,7 @@ struct ConversationSpace: View {
             })
         })
         .onChange(of: isFocused, {
-            /// 聊天消息输入框处于焦点时, 自动滚动至最新消息的位置.
+            /// 聊天消息输入框处于编辑焦点时, 自动滚动至最新消息的位置.
             if isFocused {
                 withAnimation(.easeInOut, {
                     scrollPosition = messageStoreViewModel.messages.last?.id
