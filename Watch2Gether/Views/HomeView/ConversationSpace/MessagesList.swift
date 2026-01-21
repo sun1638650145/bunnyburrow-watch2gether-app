@@ -12,16 +12,16 @@ import SwiftUI
 
 /// `MessagesList`是用于显示聊天消息列表的视图.
 struct MessagesList: View {
-    @Binding var scrollPosition: UUID?
+    @Binding var lastMessageId: UUID?
     @Environment(User.self) var user
     @Environment(FriendsViewModel.self) var friendsViewModel
 
     /// 聊天消息列表变量.
     private let messages: [Message]
 
-    init(_ messages: [Message], scrollPosition: Binding<UUID?>) {
+    init(_ messages: [Message], lastMessageId: Binding<UUID?>) {
         self.messages = messages
-        self._scrollPosition = scrollPosition
+        self._lastMessageId = lastMessageId
     }
 
     var body: some View {
@@ -39,18 +39,18 @@ struct MessagesList: View {
         .onChange(of: messages.last?.id, {
             /// 有新聊天消息时, 自动滚动至最新消息的位置.
             withAnimation(.easeInOut, {
-                scrollPosition = messages.last?.id
+                lastMessageId = messages.last?.id
             })
         })
         .padding(.horizontal, 10)
         .scrollIndicators(.hidden)
         /// 将聊天消息列表始终锚定在最新聊天消息.
-        .scrollPosition(id: $scrollPosition, anchor: .bottom)
+        .scrollPosition(id: $lastMessageId, anchor: .bottom)
     }
 }
 
 #Preview {
-    @Previewable @State var scrollPosition: UUID?
+    @Previewable @State var lastMessageId: UUID?
 
     let user = User(
         avatar: "/9j/2wCEAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDIBCQk" +
@@ -84,7 +84,7 @@ struct MessagesList: View {
         Message(content: "Hi!", clientID: 2025)
     ]
 
-    MessagesList(messages, scrollPosition: $scrollPosition)
+    MessagesList(messages, lastMessageId: $lastMessageId)
         .environment(user)
         .environment(friendsViewModel)
 }
