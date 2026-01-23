@@ -27,11 +27,12 @@ struct HomeView: View {
 
                 DanmakuSpace()
             } else {
-                GeometryReader(content: { geometry in
+                // TODO: 在`ConversationSpace`中使用safeAreaInset(edge: .bottom)处理键盘, 移除HomeView中的`GeometryReader`(Steve).
+                GeometryReader(content: { _ in
                     VStack(spacing: 0, content: {
                         VideoPlayer()
-                            /// 固定视频播放器的高度为屏幕的31%.
-                            .frame(height: geometry.size.height * 0.31)
+                            /// 设置视频播放器按16:9宽高比显示.
+                            .aspectRatio(16 / 9, contentMode: .fit)
 
                         FriendsList()
 
