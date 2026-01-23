@@ -47,8 +47,8 @@ struct HomeView: View {
                         /// 设置纵向布局.
                         VStack(spacing: 0, content: {
                             VideoPlayer()
-                                /// 固定视频播放器的高度为窗口的45%.
-                                .frame(height: geometry.size.height * 0.45)
+                                /// 设置视频播放器按16:9宽高比显示.
+                                .aspectRatio(16 / 9, contentMode: .fit)
 
                             FriendsList()
 
