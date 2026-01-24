@@ -53,8 +53,11 @@ struct ConversationSpace: View {
         .onChange(of: isFocused, {
             /// 聊天消息输入框处于编辑焦点时, 自动滚动至最新消息的位置.
             if isFocused {
-                withAnimation(.easeInOut, {
-                    lastMessageId = messageStoreViewModel.messages.last?.id
+                // TODO: 等待布局更新完毕(键盘完全显示)之后, 再执行滚动(Steve).
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                    withAnimation(.easeInOut, {
+                        lastMessageId = messageStoreViewModel.messages.last?.id
+                    })
                 })
             }
         })
