@@ -36,7 +36,7 @@ struct MessagesList: View {
                 }
             })
         }
-        .onChange(of: messages.last?.id, {
+        .onChange(of: messages.count, {
             /// 有新聊天消息时, 自动滚动至最新消息的位置.
             withAnimation(.easeInOut, {
                 lastMessageId = messages.last?.id
