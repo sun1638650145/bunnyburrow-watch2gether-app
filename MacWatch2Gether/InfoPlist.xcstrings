@@ -43,13 +43,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copyright © 2024-2025 Steve R. Sun.\nAll rights reserved."
+            "value" : "Copyright © 2024-2026 Steve R. Sun.\nAll rights reserved."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Copyright © 2024-2025 Steve R. Sun.\n保留一切权利。"
+            "value" : "Copyright © 2024-2026 Steve R. Sun.\n保留一切权利。"
           }
         }
       }
