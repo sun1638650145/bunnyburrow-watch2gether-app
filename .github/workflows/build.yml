@@ -11,21 +11,30 @@ jobs:
     runs-on: macos-15
 
     steps:
-      - uses: actions/checkout@v5.0.0
+      - uses: actions/checkout@v6.0.2
       - name: Lint with SwiftLint
         run: |
           brew install swiftlint
           swiftlint
       - name: Select latest Xcode
         run: sudo xcode-select -s /Applications/Xcode_26.0.1.app
-      - name: Build for iOS
+      - name: Analyze for iOS
         run: |
           xcodebuild \
           -project Watch2Gether.xcodeproj \
           -scheme Watch2Gether \
           -destination 'platform=iOS Simulator,name=iPhone 17' \
           -skipPackagePluginValidation \
-          clean build analyze
+          clean analyze
+      - name: Test for iOS
+        run: |
+          xcodebuild \
+          -project Watch2Gether.xcodeproj \
+          -scheme Watch2Gether \
+          -destination 'platform=iOS Simulator,name=iPhone 17' \
+          -enableCodeCoverage Yes \
+          -skipPackagePluginValidation \
+          clean test
       - name: Build for iPadOS
         run: |
           xcodebuild \
