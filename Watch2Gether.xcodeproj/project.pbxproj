@@ -28,6 +28,7 @@
 /* Begin PBXFileReference section */
 		395EF3332D165E0C0014D834 /* Watch2Gether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watch2Gether.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3993FDC12F3F149F00525CEC /* Watch2GetherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Watch2GetherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		39E0DAF62F518C1D00C24042 /* Watch2Gether.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = file; path = Watch2Gether.xctestplan; sourceTree = "<group>"; };
 		39EC675B2D1664E800518950 /* iPadWatch2Gether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPadWatch2Gether.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39EC676D2D16653E00518950 /* MacWatch2Gether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacWatch2Gether.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -314,6 +315,7 @@
 		395EF32A2D165E0C0014D834 = {
 			isa = PBXGroup;
 			children = (
+				39E0DAF62F518C1D00C24042 /* Watch2Gether.xctestplan */,
 				39402F502D1D577D00179BC5 /* Watch2Gether */,
 				39EC675C2D1664E800518950 /* iPadWatch2Gether */,
 				39EC676E2D16653E00518950 /* MacWatch2Gether */,

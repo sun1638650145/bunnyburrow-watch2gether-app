@@ -1,0 +1,39 @@
+{
+  "configurations" : [
+    {
+      "id" : "3AF1A981-C3C9-40D6-B0BA-FB7437C03DDE",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:Watch2Gether.xcodeproj",
+          "identifier" : "395EF3322D165E0C0014D834",
+          "name" : "Watch2Gether"
+        }
+      ]
+    },
+    "performanceAntipatternCheckerEnabled" : true,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Watch2Gether.xcodeproj",
+      "identifier" : "395EF3322D165E0C0014D834",
+      "name" : "Watch2Gether"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Watch2Gether.xcodeproj",
+        "identifier" : "3993FDC02F3F149F00525CEC",
+        "name" : "Watch2GetherTests"
+      }
+    }
+  ],
+  "version" : 1
+}
