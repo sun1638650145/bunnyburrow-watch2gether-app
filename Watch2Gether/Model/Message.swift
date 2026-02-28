@@ -10,7 +10,7 @@
 import Foundation
 
 /// 聊天消息.
-struct Message: Identifiable {
+struct Message: Equatable, Identifiable {
     /// 聊天消息的内容.
     var content: String
 
@@ -19,4 +19,9 @@ struct Message: Identifiable {
 
     /// 遵循`Identifiable`协议要求.
     var id: UUID = UUID()
+
+    /// 遵循`Equatable`协议要求.
+    static func == (lhs: Message, rhs: Message) -> Bool {
+        return lhs.id == rhs.id
+    }
 }
