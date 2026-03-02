@@ -12,6 +12,7 @@ import Combine
 import Foundation
 import MediaPlayer
 import Observation
+import OSLog
 
 /// 流媒体播放器视图模型.
 @Observable
@@ -88,6 +89,9 @@ class PlayerViewModel {
             player.volume = volume
         }
     }
+
+    /// 系统日志记录器.
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Watch2Gether", category: "PlayerViewModel")
 
     /// 用于存储事件监听器的取消器集合.
     private var cancellables = Set<AnyCancellable>()
@@ -219,8 +223,12 @@ class PlayerViewModel {
                             self.totalDuration = item.duration.seconds
                             self.remainingTime = self.totalDuration
                         } else if status == .failed {
+                            guard self.url != URL(string: "about:blank")! else {
+                                return
+                            }
+
                             if let error = item.error {
-                                print("应用初始化或播放失败: \(error.localizedDescription)")
+                                self.logger.error("播放失败: \(error.localizedDescription, privacy: .public)")
                             }
                         }
                     })
