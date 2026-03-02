@@ -14,6 +14,7 @@ import SwiftyJSON
 
 @testable import Watch2Gether
 
+@Suite(.serialized)
 struct VideosViewModelTests {
     init() {
         /// 注册`MockURLProtocol`, 用于拦截并模拟`URLSession`的网络请求.
@@ -21,9 +22,22 @@ struct VideosViewModelTests {
     }
 
     @Test
+    func fetchVideosFails() async throws {
+        MockURLProtocol.statusCode = 500
+
+        let videosViewModel = VideosViewModel()
+        let url = URL(string: "https://example.com")
+
+        try await videosViewModel.fetchVideos(from: url!)
+
+        #expect(videosViewModel.videos.isEmpty, "网络请求失败时, 返回流媒体视频播放列表的初始值.")
+    }
+
+    @Test
     func fetchVideosSucceeds() async throws {
         let videos = ["flower", "oceans"]
         MockURLProtocol.json = JSON(["videos": videos])
+        MockURLProtocol.statusCode = 200
 
         let videosViewModel = VideosViewModel()
         let url = URL(string: "https://example.com")

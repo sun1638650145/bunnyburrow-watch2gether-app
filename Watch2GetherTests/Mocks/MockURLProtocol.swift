@@ -13,11 +13,11 @@ import SwiftyJSON
 
 /// 用于测试的`URLProtocol`, 拦截`URLSession`发起的网络请求并返回模拟的数据.
 class MockURLProtocol: URLProtocol {
-    /// 每次模拟响应的HTTP状态码.
-    static let statusCode: Int = 200
-
     /// 每次模拟返回的JSON数据.
     static var json: JSON?
+
+    /// 每次模拟响应的HTTP状态码.
+    static var statusCode: Int = 200
 
     override class func canInit(with request: URLRequest) -> Bool {
         return true
