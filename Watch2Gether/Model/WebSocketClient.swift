@@ -10,6 +10,7 @@
 import Combine
 import Foundation
 import Observation
+import OSLog
 
 import SwiftyJSON
 
@@ -18,6 +19,9 @@ import SwiftyJSON
 class WebSocketClient {
     /// 用户信息.
     var user: User?
+
+    /// 系统日志记录器.
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Watch2Gether", category: "WebSocketClient")
 
     /// 用于存储事件监听器的取消器集合.
     private var cancellables = Set<AnyCancellable>()
@@ -66,7 +70,7 @@ class WebSocketClient {
         let message = URLSessionWebSocketTask.Message.string(rawString)
         socket.send(message, completionHandler: { error in
             if let error = error {
-                print("广播消息失败: \(error.localizedDescription)")
+                self.logger.error("广播消息失败: \(error.localizedDescription, privacy: .public)")
             }
         })
     }
@@ -105,7 +109,7 @@ class WebSocketClient {
     func disconnect() {
         guard let socket = socket
         else {
-            print("没有可断开的WebSocket连接.")
+            self.logger.info("没有可断开的WebSocket连接.")
             return
         }
 
@@ -167,7 +171,7 @@ class WebSocketClient {
     func reconnect() {
         guard let url = self.url, let user = self.user
         else {
-            print("WebSocket服务地址或用户信息尚未初始化!")
+            self.logger.warning("WebSocket服务地址或用户信息尚未初始化!")
             return
         }
 
@@ -320,7 +324,7 @@ class WebSocketClient {
     private func receiveMessage() {
         guard let socket = socket
         else {
-            print("尚未建立WebSocket连接; 或WebSocket连接已断开不再继续处理消息.")
+            self.logger.info("尚未建立WebSocket连接; 或WebSocket连接已断开不再继续处理消息.")
             return
         }
 
@@ -330,7 +334,7 @@ class WebSocketClient {
                 self.messagePublisher.send(message)
                 self.receiveMessage()
             case .failure(let error):
-                print("接收消息失败: \(error.localizedDescription)")
+                self.logger.error("接收消息失败: \(error.localizedDescription, privacy: .public)")
             }
         })
     }
@@ -365,7 +369,9 @@ class WebSocketClient {
         let message = URLSessionWebSocketTask.Message.string(rawString)
         socket.send(message, completionHandler: { error in
             if let error = error {
-                print("向客户端\(receivedClientID)单播消息失败: \(error.localizedDescription)")
+                self.logger.error(
+                    "向客户端\(receivedClientID, privacy: .private)单播消息失败: \(error.localizedDescription, privacy: .public)"
+                )
             }
         })
     }
