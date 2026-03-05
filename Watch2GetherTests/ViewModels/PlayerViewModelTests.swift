@@ -9,6 +9,7 @@
 
 import Foundation
 import Testing
+
 @testable import Watch2Gether
 
 struct PlayerViewModelTests {
