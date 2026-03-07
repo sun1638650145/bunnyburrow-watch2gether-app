@@ -16,8 +16,7 @@ import SwiftyJSON
 
 /// WebSocket客户端.
 @Observable
-class WebSocketClient {
-    /// 用户信息.
+class WebSocketClient: WebSocketClientProtocol {
     var user: User?
 
     /// 系统日志记录器.
@@ -44,13 +43,6 @@ class WebSocketClient {
     /// WebSocket数据格式版本.
     private var version = Version(major: 1, minor: 1, patch: 0)
 
-    /// 向WebSocket服务器广播数据.
-    ///
-    /// - Parameters:
-    ///   - data: 广播的数据.
-    ///
-    /// - Important:
-    ///   调用该方法前请确保WebSocket连接已建立, 否则会导致程序崩溃.
     func broadcast(_ data: JSON) {
         guard let socket = socket
         else {
@@ -75,11 +67,6 @@ class WebSocketClient {
         })
     }
 
-    /// 建立WebSocket连接.
-    ///
-    /// - Parameters:
-    ///   - url: WebSocket服务地址.
-    ///   - user: 用户信息.
     func connect(_ url: String, _ user: User) {
         let session = URLSession(configuration: .default)
 
@@ -105,7 +92,6 @@ class WebSocketClient {
         self.handleWebSocketMessage()
     }
 
-    /// 断开与WebSocket服务器的连接.
     func disconnect() {
         guard let socket = socket
         else {
@@ -130,11 +116,6 @@ class WebSocketClient {
         self.socket = nil
     }
 
-    /// 添加事件监听器.
-    ///
-    /// - Parameters:
-    ///   - eventName: 事件名称.
-    ///   - listener: 回调函数.
     func on<T>(eventName: String, listener: @escaping (T) -> Void) {
         let publisher = PassthroughSubject<Any, Never>()
 
@@ -151,11 +132,6 @@ class WebSocketClient {
         eventPublishers[eventName] = publisher
     }
 
-    /// 添加携带返回值的事件监听器.
-    ///
-    /// - Parameters:
-    ///   - eventName: 事件名称.
-    ///   - listener: 携带返回值的回调函数.
     func on<T, U>(eventName: String, listener: @escaping (T) -> U) {
         eventListeners[eventName] = { params in
             guard let params = params as? T
@@ -167,7 +143,6 @@ class WebSocketClient {
         }
     }
 
-    /// 重新建立WebSocket连接.
     func reconnect() {
         guard let url = self.url, let user = self.user
         else {
