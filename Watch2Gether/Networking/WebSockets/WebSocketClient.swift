@@ -24,7 +24,7 @@ class WebSocketClient {
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Watch2Gether", category: "WebSocketClient")
 
     /// 根据指定URL创建WebSocket任务的闭包, 便于进行测试.
-    private let makeSocket: (URL) -> WebSocketTaskProtocol
+    private let makeSocket: (URL) -> WebSocketTask
 
     /// 用于存储事件监听器的取消器集合.
     private var cancellables = Set<AnyCancellable>()
@@ -39,7 +39,7 @@ class WebSocketClient {
     private var messagePublisher = PassthroughSubject<URLSessionWebSocketTask.Message, Never>()
 
     /// 当前的WebSocket任务.
-    private var socket: WebSocketTaskProtocol?
+    private var socket: WebSocketTask?
 
     /// WebSocket服务地址.
     private var url: String?
@@ -47,7 +47,7 @@ class WebSocketClient {
     /// WebSocket数据格式版本.
     private var version = Version(major: 1, minor: 1, patch: 0)
 
-    init(makeSocket: @escaping (URL) -> WebSocketTaskProtocol = { url in
+    init(makeSocket: @escaping (URL) -> WebSocketTask = { url in
         return URLSession(configuration: .default).webSocketTask(with: url)
     }) {
         self.makeSocket = makeSocket

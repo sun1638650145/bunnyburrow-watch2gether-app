@@ -1,7 +1,7 @@
 //
 //  Copyright © 2024-2026 Steve R. Sun. All rights reserved.
 //
-//  WebSocketTaskProtocol.swift
+//  WebSocketTask.swift
 //  Watch2Gether
 //
 //  Created by Steve R. Sun on 2026/3/8.
@@ -10,7 +10,7 @@
 import Foundation
 
 /// WebSocket任务协议, 该协议定义了WebSocket连接中最基本的任务行为.
-protocol WebSocketTaskProtocol {
+protocol WebSocketTask {
     /// 取消任务.
     func cancel()
 
