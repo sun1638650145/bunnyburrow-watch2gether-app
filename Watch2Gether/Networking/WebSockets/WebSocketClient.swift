@@ -22,6 +22,9 @@ class WebSocketClient: WebSocketClientProtocol {
     /// 系统日志记录器.
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Watch2Gether", category: "WebSocketClient")
 
+    /// 根据指定URL创建WebSocket任务的闭包, 便于进行测试.
+    private let makeSocket: (URL) -> WebSocketTaskProtocol
+
     /// 用于存储事件监听器的取消器集合.
     private var cancellables = Set<AnyCancellable>()
 
@@ -35,13 +38,19 @@ class WebSocketClient: WebSocketClientProtocol {
     private var messagePublisher = PassthroughSubject<URLSessionWebSocketTask.Message, Never>()
 
     /// 当前的WebSocket任务.
-    private var socket: URLSessionWebSocketTask?
+    private var socket: WebSocketTaskProtocol?
 
     /// WebSocket服务地址.
     private var url: String?
 
     /// WebSocket数据格式版本.
     private var version = Version(major: 1, minor: 1, patch: 0)
+
+    init(makeSocket: @escaping (URL) -> WebSocketTaskProtocol = { url in
+        return URLSession(configuration: .default).webSocketTask(with: url)
+    }) {
+        self.makeSocket = makeSocket
+    }
 
     func broadcast(_ data: JSON) {
         guard let socket = socket
@@ -68,11 +77,9 @@ class WebSocketClient: WebSocketClientProtocol {
     }
 
     func connect(_ url: String, _ user: User) {
-        let session = URLSession(configuration: .default)
-
         self.url = url.trimmingCharacters(in: .whitespacesAndNewlines)
         /// 使用专属的WebSocket服务地址.
-        self.socket = session.webSocketTask(with: URL(string: self.url! + String(user.clientID) + "/")!)
+        self.socket = self.makeSocket(URL(string: self.url! + String(user.clientID) + "/")!)
         self.user = user
 
         /// WebSocket连接成功后, 自动向服务器发送登录用户的信息.
@@ -150,9 +157,7 @@ class WebSocketClient: WebSocketClientProtocol {
             return
         }
 
-        let session = URLSession(configuration: .default)
-
-        self.socket = session.webSocketTask(with: URL(string: url + String(user.clientID) + "/")!)
+        self.socket = self.makeSocket(URL(string: url + String(user.clientID) + "/")!)
         self.socket?.resume()
 
         self.broadcast([
