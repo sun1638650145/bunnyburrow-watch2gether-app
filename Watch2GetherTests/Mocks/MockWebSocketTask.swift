@@ -13,6 +13,12 @@ import Foundation
 
 /// 用于测试的`WebSocketTask`, 拦截WebSocket连接中的任务并返回模拟的数据.
 class MockWebSocketTask: WebSocketTask {
+    /// 记录`resume()`被调用的次数.
+    private(set) var resumeCallCount: Int = 0
+
+    /// 通过`send(_:completionHandler:)`发送的所有WebSocket消息.
+    private(set) var messages: [URLSessionWebSocketTask.Message] = []
+
     func cancel() {
         // ...
     }
@@ -22,13 +28,13 @@ class MockWebSocketTask: WebSocketTask {
     }
 
     func resume() {
-        // ...
+        self.resumeCallCount += 1
     }
 
     func send(
         _ message: URLSessionWebSocketTask.Message,
         completionHandler: @escaping @Sendable ((any Error)?) -> Void
     ) {
-        // ...
+        self.messages.append(message)
     }
 }
