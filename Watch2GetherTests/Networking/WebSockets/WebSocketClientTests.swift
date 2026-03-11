@@ -39,7 +39,7 @@ struct WebSocketClientTests {
             #expect(json["data"]["user"]["clientID"].uIntValue == user.clientID)
             #expect(json["data"]["version"] == "1.1.0")
         default:
-            break
+            #expect(Bool(false), "WebSocket消息应为字符串类型.")
         }
     }
 
@@ -77,7 +77,7 @@ struct WebSocketClientTests {
             #expect(json["data"]["user"]["clientID"].uIntValue == user.clientID)
             #expect(json["data"]["version"] == "1.1.0")
         default:
-            break
+            #expect(Bool(false), "WebSocket消息应为字符串类型.")
         }
     }
 }
