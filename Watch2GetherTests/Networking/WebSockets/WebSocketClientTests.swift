@@ -16,6 +16,41 @@ import SwiftyJSON
 
 struct WebSocketClientTests {
     @Test
+    func chatActionEmitsReceiveMessage() {
+        let mockSocket = MockWebSocketTask()
+        let webSocketClient = WebSocketClient(makeSocket: { _ in
+            return mockSocket
+        })
+        let user = User(clientID: 2026, name: "Steve")
+
+        /// 记录接收到的聊天消息和用户的客户端ID.
+        var received: (message: String, clientID: UInt)?
+
+        webSocketClient.connect("wss://example.com/ws/", user)
+        webSocketClient.on(eventName: "receiveMessage", listener: { message, clientID in
+            received = (message, clientID)
+        })
+
+        let json = JSON([
+            "props": ["type": "websocket.broadcast"],
+            "data": [
+                "action": "chat",
+                "message": "Hello, World!",
+                "user": [
+                    "clientID": 2023
+                ],
+                "version": "1.1"
+            ]
+        ])
+        let message = URLSessionWebSocketTask.Message.string(json.rawString()!)
+
+        mockSocket.simulateSystemIncomingMessage(message)
+
+        #expect(received?.message == json["data"]["message"].stringValue)
+        #expect(received?.clientID == json["data"]["user"]["clientID"].uIntValue)
+    }
+
+    @Test
     func connect() {
         let mockSocket = MockWebSocketTask()
         let webSocketClient = WebSocketClient(makeSocket: { _ in
@@ -98,6 +133,7 @@ struct WebSocketClientTests {
         #expect(mockSocket.messages.count == 3, "连接, 断开和重连各广播一条消息.")
 
         let message = mockSocket.messages.last
+
         switch message {
         case .string(let string):
             let json = JSON(string.data(using: .utf8)!)
