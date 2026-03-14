@@ -18,7 +18,7 @@ struct WebSocketClientTests {
     @Test
     func chatActionEmitsReceiveMessage() {
         let mockSocket = MockWebSocketTask()
-        let webSocketClient = WebSocketClient(makeSocket: { _ in
+        let webSocketClient = WebSocketClient(createSocket: { _ in
             return mockSocket
         })
         let user = User(clientID: 2026, name: "Steve")
@@ -53,7 +53,7 @@ struct WebSocketClientTests {
     @Test
     func connect() {
         let mockSocket = MockWebSocketTask()
-        let webSocketClient = WebSocketClient(makeSocket: { _ in
+        let webSocketClient = WebSocketClient(createSocket: { _ in
             return mockSocket
         })
         let user = User(clientID: 2026, name: "Steve")
@@ -81,7 +81,7 @@ struct WebSocketClientTests {
     @Test
     func disconnect() {
         let mockSocket = MockWebSocketTask()
-        let webSocketClient = WebSocketClient(makeSocket: { _ in
+        let webSocketClient = WebSocketClient(createSocket: { _ in
             return mockSocket
         })
         let user = User(clientID: 2026, name: "Steve")
@@ -119,7 +119,7 @@ struct WebSocketClientTests {
     @Test
     func reconnect() {
         let mockSocket = MockWebSocketTask()
-        let webSocketClient = WebSocketClient(makeSocket: { _ in
+        let webSocketClient = WebSocketClient(createSocket: { _ in
             return mockSocket
         })
         let user = User(clientID: 2026, name: "Steve")

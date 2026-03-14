@@ -20,11 +20,11 @@ class WebSocketClient {
     /// 用户信息.
     var user: User?
 
+    /// 根据指定URL创建WebSocket任务的闭包, 便于进行测试.
+    private let createSocket: (URL) -> WebSocketTask
+
     /// 系统日志记录器.
     private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Watch2Gether", category: "WebSocketClient")
-
-    /// 根据指定URL创建WebSocket任务的闭包, 便于进行测试.
-    private let makeSocket: (URL) -> WebSocketTask
 
     /// 用于存储事件监听器的取消器集合.
     private var cancellables = Set<AnyCancellable>()
@@ -47,10 +47,10 @@ class WebSocketClient {
     /// WebSocket数据格式版本.
     private var version = Version(major: 1, minor: 1, patch: 0)
 
-    init(makeSocket: @escaping (URL) -> WebSocketTask = { url in
+    init(createSocket: @escaping (URL) -> WebSocketTask = { url in
         return URLSession(configuration: .default).webSocketTask(with: url)
     }) {
-        self.makeSocket = makeSocket
+        self.createSocket = createSocket
     }
 
     /// 向WebSocket服务器广播数据.
@@ -92,7 +92,7 @@ class WebSocketClient {
     func connect(_ url: String, _ user: User) {
         self.url = url.trimmingCharacters(in: .whitespacesAndNewlines)
         /// 使用专属的WebSocket服务地址.
-        self.socket = self.makeSocket(URL(string: self.url! + String(user.clientID) + "/")!)
+        self.socket = self.createSocket(URL(string: self.url! + String(user.clientID) + "/")!)
         self.user = user
 
         /// WebSocket连接成功后, 自动向服务器发送登录用户的信息.
@@ -182,7 +182,7 @@ class WebSocketClient {
             return
         }
 
-        self.socket = self.makeSocket(URL(string: url + String(user.clientID) + "/")!)
+        self.socket = self.createSocket(URL(string: url + String(user.clientID) + "/")!)
         self.socket?.resume()
 
         self.broadcast([
