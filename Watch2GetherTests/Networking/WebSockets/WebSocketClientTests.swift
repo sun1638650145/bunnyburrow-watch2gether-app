@@ -119,6 +119,48 @@ struct WebSocketClientTests {
         #expect(receivedFriend?.name == json["data"]["user"]["name"].stringValue)
     }
 
+    @Test("判断是否存在此好友", arguments: [
+        /// 连接广播一条消息, 且(已存在此好友时)单播回应一条消息.
+        (true, 2),
+        /// 连接广播一条消息, 且(不存在此好友时)单播请求和回应各一条消息.
+        (false, 3)
+    ])
+    func connectActionEmitsHasFriend(hasFriendExists: Bool, expectedCount: Int) {
+        let mockSocket = MockWebSocketTask()
+        let webSocketClient = WebSocketClient(createSocket: { _ in
+            return mockSocket
+        })
+        let user = User(clientID: 2026, name: "Steve")
+
+        /// 记录是否触发`hasFriend`事件.
+        var didEmitHasFriend: Bool = false
+
+        webSocketClient.connect("wss://example.com/ws/", user)
+        webSocketClient.on(eventName: "hasFriend", listener: { (_: UInt) -> Bool in
+            didEmitHasFriend = true
+
+            return hasFriendExists
+        })
+
+        let json = JSON([
+            "props": ["type": "websocket.broadcast"],
+            "data": [
+                "action": "connect",
+                "status": "login",
+                "user": [
+                    "clientID": 2023
+                ],
+                "version": "1.1"
+            ]
+        ])
+        let message = URLSessionWebSocketTask.Message.string(json.rawString()!)
+
+        mockSocket.simulateSystemIncomingMessage(message)
+
+        #expect(mockSocket.messages.count == expectedCount)
+        #expect(didEmitHasFriend == true)
+    }
+
     @Test
     func disconnect() {
         let mockSocket = MockWebSocketTask()
