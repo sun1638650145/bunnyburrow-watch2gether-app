@@ -79,6 +79,47 @@ struct WebSocketClientTests {
     }
 
     @Test
+    func connectActionEmitsAddFriend() {
+        let mockSocket = MockWebSocketTask()
+        let webSocketClient = WebSocketClient(createSocket: { _ in
+            return mockSocket
+        })
+        let user = User(clientID: 2026, name: "Steve")
+
+        /// 记录接收到的好友用户信息.
+        var receivedFriend: User?
+
+        webSocketClient.connect("wss://example.com/ws/", user)
+        webSocketClient.on(eventName: "addFriend", listener: { friend in
+            receivedFriend = friend
+        })
+
+        let json = JSON([
+            "props": [
+                "type": "websocket.unicast",
+                "receivedClientID": user.clientID
+            ],
+            "data": [
+                "action": "connect",
+                "status": "ack",
+                "user": [
+                    "avatar": "base64",
+                    "clientID": 2024,
+                    "name": "B"
+                ],
+                "version": "1.1"
+            ]
+        ])
+        let message = URLSessionWebSocketTask.Message.string(json.rawString()!)
+
+        mockSocket.simulateSystemIncomingMessage(message)
+
+        #expect(receivedFriend?.avatar == json["data"]["user"]["avatar"].string)
+        #expect(receivedFriend?.clientID == json["data"]["user"]["clientID"].uIntValue)
+        #expect(receivedFriend?.name == json["data"]["user"]["name"].stringValue)
+    }
+
+    @Test
     func disconnect() {
         let mockSocket = MockWebSocketTask()
         let webSocketClient = WebSocketClient(createSocket: { _ in
