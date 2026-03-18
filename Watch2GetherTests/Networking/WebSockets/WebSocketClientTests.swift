@@ -162,6 +162,40 @@ struct WebSocketClientTests {
     }
 
     @Test
+    func connectActionEmitsOfflineFriend() {
+        let mockSocket = MockWebSocketTask()
+        let webSocketClient = WebSocketClient(createSocket: { _ in
+            return mockSocket
+        })
+        let user = User(clientID: 2026, name: "Steve")
+
+        /// 记录接收到的好友的客户端ID.
+        var receivedClientID: UInt?
+
+        webSocketClient.connect("wss://example.com/ws/", user)
+        webSocketClient.on(eventName: "offlineFriend", listener: { clientID in
+            receivedClientID = clientID
+        })
+
+        let json = JSON([
+            "props": ["type": "websocket.broadcast"],
+            "data": [
+                "action": "connect",
+                "status": "logout",
+                "user": [
+                    "clientID": 2023
+                ],
+                "version": "1.1"
+            ]
+        ])
+        let message = URLSessionWebSocketTask.Message.string(json.rawString()!)
+
+        mockSocket.simulateSystemIncomingMessage(message)
+
+        #expect(receivedClientID == json["data"]["user"]["clientID"].uIntValue)
+    }
+
+    @Test
     func disconnect() {
         let mockSocket = MockWebSocketTask()
         let webSocketClient = WebSocketClient(createSocket: { _ in
