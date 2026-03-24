@@ -29,7 +29,7 @@ struct ProgressLabel: View {
                 Text(currentTime.formattedTime())
                     .foregroundStyle(Color.progressLabelForeground)
 
-                Text("/") + Text(totalDuration.formattedTime())
+                Text("/\(totalDuration.formattedTime())")
             })
             .font(.title)
             .fontWeight(.bold)
