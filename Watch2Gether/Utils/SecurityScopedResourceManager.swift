@@ -15,7 +15,7 @@ class SecurityScopedResourceManager {
     private static let bookmarkDataKey: String = "Local.bookmarkData"
 
     /// 当前正在访问的安全域URL.
-    private var accessingURL: URL?
+    private var accessingUrl: URL?
 
     deinit {
         stopAccessing()
@@ -55,7 +55,7 @@ class SecurityScopedResourceManager {
 
         let accessing = url.startAccessingSecurityScopedResource()
         if accessing {
-            accessingURL = url
+            self.accessingUrl = url
         }
 
         return url
@@ -76,14 +76,14 @@ class SecurityScopedResourceManager {
         var isStale: Bool = false
 
         do {
-            let resolvedURL = try URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale)
+            let resolvedUrl = try URL(resolvingBookmarkData: bookmarkData, bookmarkDataIsStale: &isStale)
 
             /// 如果`bookmarkData`过期则重新保存.
             if isStale {
-                SecurityScopedResourceManager.saveBookmarkData(for: resolvedURL)
+                SecurityScopedResourceManager.saveBookmarkData(for: resolvedUrl)
             }
 
-            return resolvedURL
+            return resolvedUrl
         } catch {
             return url
         }
@@ -91,9 +91,9 @@ class SecurityScopedResourceManager {
 
     /// 撤销当前URL的安全域访问权限.
     private func stopAccessing() {
-        if let url = accessingURL {
+        if let url = self.accessingUrl {
             url.stopAccessingSecurityScopedResource()
-            accessingURL = nil
+            self.accessingUrl = nil
         }
     }
 }
