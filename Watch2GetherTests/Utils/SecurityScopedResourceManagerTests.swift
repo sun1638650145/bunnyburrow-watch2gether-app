@@ -29,6 +29,19 @@ struct SecurityScopedResourceManagerTests {
         #expect(bookmarkData?.isEmpty == false)
     }
 
+    @Test
+    func startAccessing() throws {
+        let securityScopedResourceManager = SecurityScopedResourceManager()
+
+        removeBookmarkData()
+
+        let url = try createTemporaryFile()
+
+        let resolvedUrl = securityScopedResourceManager.startAccessing(for: url)
+
+        #expect(resolvedUrl == url)
+    }
+
     /// 创建临时文件, 并返回其URL.
     ///
     /// - Returns: 已创建临时文件的URL.
