@@ -8,16 +8,16 @@ on:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-26
 
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7.0.0
       - name: Lint with SwiftLint
         run: |
           brew install swiftlint
           swiftlint
       - name: Select latest Xcode
-        run: sudo xcode-select -s /Applications/Xcode_26.2.app
+        run: sudo xcode-select -s /Applications/Xcode_26.6.app
       - name: Analyze for iOS
         run: |
           xcodebuild \
