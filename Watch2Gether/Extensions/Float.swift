@@ -16,6 +16,9 @@ extension Float {
     func formattedPlaybackRate() -> String {
         let formatter = NumberFormatter()
 
+        /// 指定始终使用`.`作为小数分隔符, 不受语言与地区设置的影响.
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+
         /// 指定小数点后的最少和最多显示的位数.
         formatter.minimumFractionDigits = 0
         formatter.maximumFractionDigits = 2
