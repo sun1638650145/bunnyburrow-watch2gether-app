@@ -21,10 +21,8 @@ struct URLTests {
         #expect(value.domainURL?.absoluteString == expected)
     }
 
-    @Test("获取域名URL失败", arguments: [
-        URL(string: "/video/")!
-    ])
-    func domainURLWithoutHost(value: URL) {
-        #expect(value.domainURL == nil)
+    @Test
+    func domainURLWithoutHost() {
+        #expect(URL(string: "/video/")!.domainURL == nil)
     }
 }
