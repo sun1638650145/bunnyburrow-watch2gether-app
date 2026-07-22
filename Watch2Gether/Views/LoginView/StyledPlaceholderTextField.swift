@@ -82,11 +82,17 @@ struct StyledPlaceholderTextField: View {
             })
 
             if let errorMessage = errorMessage {
-                Text(errorMessage)
-                    .accessibilityIdentifier(errorMessageAccessibilityIdentifier ?? "")
+                let errorMessageText = Text(errorMessage)
                     .font(.footnote)
                     .foregroundStyle(Color.textFieldHighlight)
                     .padding(.top, 3)
+
+                if let identifier = errorMessageAccessibilityIdentifier {
+                    errorMessageText
+                        .accessibilityIdentifier(identifier)
+                } else {
+                    errorMessageText
+                }
             }
         }
     }
