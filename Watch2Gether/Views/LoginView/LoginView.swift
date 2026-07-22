@@ -75,6 +75,7 @@ struct LoginView: View {
                         errorMessage: isNameEmpty && focusedField == .name
                         ? "Nickname cannot be empty. Please try again."
                         : nil,
+                        errorMessageAccessibilityIdentifier: "nicknameEmptyError",
                         onTextChange: {
                             checkName(strictMode: false)
                         }
@@ -116,6 +117,7 @@ struct LoginView: View {
                                 Text("Login")
                                     .frame(width: 170, height: 50)
                             })
+                            .accessibilityIdentifier("loginButton")
                             .buttonStyle(LoginButtonStyle())
 
                             if hasUserInput {
@@ -135,6 +137,7 @@ struct LoginView: View {
                             Text("Login")
                                 .frame(width: 150, height: 50)
                         })
+                        .accessibilityIdentifier("loginButton")
                         .buttonStyle(LoginButtonStyle())
 
                         if hasUserInput {

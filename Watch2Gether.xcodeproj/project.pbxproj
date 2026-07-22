@@ -16,6 +16,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		390EF8533010AD0C009136FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 395EF32B2D165E0C0014D834 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 395EF3322D165E0C0014D834;
+			remoteInfo = Watch2Gether;
+		};
 		3993FDC52F3F149F00525CEC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 395EF32B2D165E0C0014D834 /* Project object */;
@@ -26,6 +33,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		390EF84D3010AD0C009136FF /* Watch2GetherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Watch2GetherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		395EF3332D165E0C0014D834 /* Watch2Gether.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Watch2Gether.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3993FDC12F3F149F00525CEC /* Watch2GetherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Watch2GetherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39E0DAF62F518C1D00C24042 /* Watch2Gether.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Watch2Gether.xctestplan; sourceTree = "<group>"; };
@@ -248,6 +256,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		390EF84E3010AD0C009136FF /* Watch2GetherUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Watch2GetherUITests;
+			sourceTree = "<group>";
+		};
 		39402F502D1D577D00179BC5 /* Watch2Gether */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -279,6 +292,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		390EF84A3010AD0C009136FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		395EF3302D165E0C0014D834 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -324,6 +344,7 @@
 				39EC675C2D1664E800518950 /* iPadWatch2Gether */,
 				39EC676E2D16653E00518950 /* MacWatch2Gether */,
 				3993FDC22F3F149F00525CEC /* Watch2GetherTests */,
+				390EF84E3010AD0C009136FF /* Watch2GetherUITests */,
 				395EF3342D165E0C0014D834 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -335,6 +356,7 @@
 				39EC675B2D1664E800518950 /* iPadWatch2Gether.app */,
 				39EC676D2D16653E00518950 /* MacWatch2Gether.app */,
 				3993FDC12F3F149F00525CEC /* Watch2GetherTests.xctest */,
+				390EF84D3010AD0C009136FF /* Watch2GetherUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -342,6 +364,30 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		390EF84C3010AD0C009136FF /* Watch2GetherUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 390EF8573010AD0C009136FF /* Build configuration list for PBXNativeTarget "Watch2GetherUITests" */;
+			buildPhases = (
+				390EF8493010AD0C009136FF /* Sources */,
+				390EF84A3010AD0C009136FF /* Frameworks */,
+				390EF84B3010AD0C009136FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				390EF85B3010B013009136FF /* PBXTargetDependency */,
+				390EF8543010AD0C009136FF /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				390EF84E3010AD0C009136FF /* Watch2GetherUITests */,
+			);
+			name = Watch2GetherUITests;
+			packageProductDependencies = (
+			);
+			productName = Watch2GetherUITests;
+			productReference = 390EF84D3010AD0C009136FF /* Watch2GetherUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		395EF3322D165E0C0014D834 /* Watch2Gether */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 395EF3412D165E0E0014D834 /* Build configuration list for PBXNativeTarget "Watch2Gether" */;
@@ -446,9 +492,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2620;
+				LastSwiftUpdateCheck = 2660;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					390EF84C3010AD0C009136FF = {
+						CreatedOnToolsVersion = 26.6;
+						LastSwiftMigration = 2660;
+						TestTargetID = 395EF3322D165E0C0014D834;
+					};
 					395EF3322D165E0C0014D834 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -489,11 +540,19 @@
 				39EC675A2D1664E800518950 /* iPadWatch2Gether */,
 				39EC676C2D16653E00518950 /* MacWatch2Gether */,
 				3993FDC02F3F149F00525CEC /* Watch2GetherTests */,
+				390EF84C3010AD0C009136FF /* Watch2GetherUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		390EF84B3010AD0C009136FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		395EF3312D165E0C0014D834 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -525,6 +584,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		390EF8493010AD0C009136FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		395EF32F2D165E0C0014D834 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -556,6 +622,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		390EF8543010AD0C009136FF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 395EF3322D165E0C0014D834 /* Watch2Gether */;
+			targetProxy = 390EF8533010AD0C009136FF /* PBXContainerItemProxy */;
+		};
+		390EF85B3010B013009136FF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 390EF85A3010B013009136FF /* SwiftLintBuildToolPlugin */;
+		};
 		3993FDC62F3F149F00525CEC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 395EF3322D165E0C0014D834 /* Watch2Gether */;
@@ -580,6 +655,57 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		390EF8553010AD0C009136FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Watch2GetherUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = Watch2Gether;
+			};
+			name = Debug;
+		};
+		390EF8563010AD0C009136FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompany.Watch2GetherUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_TARGET_NAME = Watch2Gether;
+			};
+			name = Release;
+		};
 		395EF33F2D165E0E0014D834 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -967,6 +1093,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		390EF8573010AD0C009136FF /* Build configuration list for PBXNativeTarget "Watch2GetherUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				390EF8553010AD0C009136FF /* Debug */,
+				390EF8563010AD0C009136FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		395EF32E2D165E0C0014D834 /* Build configuration list for PBXProject "Watch2Gether" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1051,6 +1186,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 390CDFE22D292C1F002972F2 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
+		};
+		390EF85A3010B013009136FF /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39EC677C2D1665D600518950 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
 		};
 		3940300C2D1D701F00179BC5 /* OrderedCollections */ = {
 			isa = XCSwiftPackageProductDependency;

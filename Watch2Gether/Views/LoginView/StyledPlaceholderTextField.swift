@@ -17,6 +17,9 @@ struct StyledPlaceholderTextField: View {
     /// 错误信息文本.
     private let errorMessage: LocalizedStringResource?
 
+    /// 错误信息文本的无障碍标识符.
+    private let errorMessageAccessibilityIdentifier: String?
+
     /// 键盘类型.
     private let keyboardType: UIKeyboardType
 
@@ -34,6 +37,7 @@ struct StyledPlaceholderTextField: View {
         text: Binding<String?>,
         placeholderColor: Color = .secondary,
         errorMessage: LocalizedStringResource? = nil,
+        errorMessageAccessibilityIdentifier: String? = nil,
         keyboardType: UIKeyboardType = .default,
         onTextChange: @escaping () -> Void = {}
     ) {
@@ -41,6 +45,7 @@ struct StyledPlaceholderTextField: View {
         self._text = text
         self.placeholderColor = placeholderColor
         self.errorMessage = errorMessage
+        self.errorMessageAccessibilityIdentifier = errorMessageAccessibilityIdentifier
         self.keyboardType = keyboardType
         self.onTextChange = onTextChange
     }
@@ -78,6 +83,7 @@ struct StyledPlaceholderTextField: View {
 
             if let errorMessage = errorMessage {
                 Text(errorMessage)
+                    .accessibilityIdentifier(errorMessageAccessibilityIdentifier ?? "")
                     .font(.footnote)
                     .foregroundStyle(Color.textFieldHighlight)
                     .padding(.top, 3)

@@ -46,6 +46,17 @@
                ReferencedContainer = "container:Watch2Gether.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "390EF84C3010AD0C009136FF"
+               BuildableName = "Watch2GetherUITests.xctest"
+               BlueprintName = "Watch2GetherUITests"
+               ReferencedContainer = "container:Watch2Gether.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
