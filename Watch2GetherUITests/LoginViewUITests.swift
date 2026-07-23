@@ -10,17 +10,20 @@
 import XCTest
 
 final class LoginViewUITests: XCTestCase {
+    /// 测试应用实例.
+    private var app: XCUIApplication!
+
     override func setUpWithError() throws {
         continueAfterFailure = false
+
+        app = XCUIApplication()
+        app.launch()
     }
 
     @MainActor
-    func testLoginWithEmptyTextField() {
-        let app = XCUIApplication()
-        app.launch()
-
+    func testLoginWithEmptyTextFieldDisplaysError() {
         app.buttons["loginButton"].tap()
 
-        XCTAssert(app.staticTexts["nicknameEmptyError"].exists)
+        XCTAssertTrue(app.staticTexts["nicknameEmptyError"].exists)
     }
 }
