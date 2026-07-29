@@ -187,16 +187,17 @@ struct LoginView: View {
 
     /// 清空用户输入的所有信息.
     private func clearUserInput() {
-        let accountKeys = ["avatar", "name"]
-        let serverKeys = ["url", "webSocketUrl"]
+        let keys = [
+            "Account.avatar",
+            "Account.name",
+            "Server.url",
+            "Server.webSocketUrl"
+        ]
 
         /// 删除键值.
-        accountKeys.forEach({
-            UserDefaults.standard.removeObject(forKey: "Account.\($0)")
-        })
-        serverKeys.forEach({
-            UserDefaults.standard.removeObject(forKey: "Server.\($0)")
-        })
+        for key in keys {
+            UserDefaults.standard.removeObject(forKey: key)
+        }
     }
 
     /// 处理登录操作.
