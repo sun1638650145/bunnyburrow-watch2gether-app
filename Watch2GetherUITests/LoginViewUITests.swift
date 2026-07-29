@@ -17,6 +17,7 @@ final class LoginViewUITests: XCTestCase {
         continueAfterFailure = false
 
         app = XCUIApplication()
+        app.launchArguments = ["--ui_testing"]
         app.launch()
     }
 

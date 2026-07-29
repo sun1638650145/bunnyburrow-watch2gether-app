@@ -10,6 +10,7 @@
 #if os(macOS)
 import AppKit
 #endif
+import Foundation
 import SwiftUI
 
 @main
@@ -42,6 +43,12 @@ struct Watch2GetherApp: App {
 
     /// WebSocket客户端.
     @State private var webSocketClient = WebSocketClient()
+
+    init() {
+        if ProcessInfo.processInfo.arguments.contains("--ui_testing") {
+            resetUserDefaultsForUITesting()
+        }
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -98,5 +105,20 @@ struct Watch2GetherApp: App {
         #if os(macOS)
         .windowStyle(HiddenTitleBarWindowStyle())
         #endif
+    }
+
+    /// 为UI测试重置`UserDefaults`.
+    private func resetUserDefaultsForUITesting() {
+        let keys = [
+            "Account.avatar",
+            "Account.name",
+            "Auth.hasAuthenticated",
+            "Server.url",
+            "Server.webSocketUrl"
+        ]
+
+        for key in keys {
+            UserDefaults.standard.removeObject(forKey: key)
+        }
     }
 }
