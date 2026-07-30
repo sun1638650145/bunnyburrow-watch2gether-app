@@ -25,7 +25,7 @@ final class LoginViewUITests: XCTestCase {
     func testLoginWithEmptyTextFieldDisplaysError() {
         app.buttons["loginButton"].tap()
 
-        XCTAssertTrue(app.staticTexts["nicknameEmptyError"].exists)
+        XCTAssertTrue(app.staticTexts["nicknameEmpty"].exists)
     }
 
     @MainActor
@@ -43,7 +43,7 @@ final class LoginViewUITests: XCTestCase {
         webSocketUrlTextField.tap()
         webSocketUrlTextField.typeText("wss://example.com/")
 
-        XCTAssertTrue(app.staticTexts["webSocketUrlInvalidError"].exists)
+        XCTAssertTrue(app.staticTexts["webSocketUrlInvalid"].exists)
         XCTAssertTrue(clearButton.exists, "输入任何信息后, 应显示清空按钮.")
     }
 }

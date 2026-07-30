@@ -76,7 +76,7 @@ struct LoginView: View {
                         errorMessage: isNameEmpty && focusedField == .name
                         ? "Nickname cannot be empty. Please try again."
                         : nil,
-                        errorMessageAccessibilityIdentifier: "nicknameEmptyError",
+                        errorMessageAccessibilityIdentifier: "nicknameEmpty",
                         onTextChange: {
                             checkName(strictMode: false)
                         }
@@ -91,7 +91,7 @@ struct LoginView: View {
                         errorMessage: isWebSocketInvalid && focusedField == .webSocketUrl
                         ? "Invalid WebSocket URL. Please try again."
                         : nil,
-                        errorMessageAccessibilityIdentifier: "webSocketUrlInvalidError",
+                        errorMessageAccessibilityIdentifier: "webSocketUrlInvalid",
                         keyboardType: .URL,
                         onTextChange: {
                             validateWebSocket(strictMode: false)
