@@ -14,6 +14,9 @@ import SwiftUI
 struct StyledPlaceholderTextField: View {
     @Binding var text: String?
 
+    /// 无障碍标识符.
+    private let accessibilityIdentifier: String?
+
     /// 错误信息文本.
     private let errorMessage: LocalizedStringResource?
 
@@ -36,6 +39,7 @@ struct StyledPlaceholderTextField: View {
         _ placeholder: LocalizedStringResource,
         text: Binding<String?>,
         placeholderColor: Color = .secondary,
+        accessibilityIdentifier: String? = nil,
         errorMessage: LocalizedStringResource? = nil,
         errorMessageAccessibilityIdentifier: String? = nil,
         keyboardType: UIKeyboardType = .default,
@@ -44,6 +48,7 @@ struct StyledPlaceholderTextField: View {
         self.placeholder = placeholder
         self._text = text
         self.placeholderColor = placeholderColor
+        self.accessibilityIdentifier = accessibilityIdentifier
         self.errorMessage = errorMessage
         self.errorMessageAccessibilityIdentifier = errorMessageAccessibilityIdentifier
         self.keyboardType = keyboardType
@@ -58,15 +63,25 @@ struct StyledPlaceholderTextField: View {
                         .foregroundStyle(placeholderColor)
                 }
 
-                TextField("", text: Binding<String>(
-                    get: { text ?? "" },
-                    set: { text = $0.isEmpty ? nil : $0 }
-                ))
+                let textField = TextField(
+                    "",
+                    text: Binding<String>(
+                        get: { text ?? "" },
+                        set: { text = $0.isEmpty ? nil : $0 }
+                    )
+                )
                 .autocorrectionDisabled()
                 .foregroundStyle(Color.foreground)
                 .keyboardType(keyboardType)
                 .onChange(of: text, onTextChange)
                 .textInputAutocapitalization(.never)
+
+                if let identifier = accessibilityIdentifier {
+                    textField
+                        .accessibilityIdentifier(identifier)
+                } else {
+                    textField
+                }
             })
             .padding(.leading, 10)
             .frame(width: 350, height: 50)

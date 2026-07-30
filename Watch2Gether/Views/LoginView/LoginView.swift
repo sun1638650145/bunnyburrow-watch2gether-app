@@ -72,6 +72,7 @@ struct LoginView: View {
                         "Enter your nickname",
                         text: $name,
                         placeholderColor: .textFieldPlaceholder,
+                        accessibilityIdentifier: "nicknameTextField",
                         errorMessage: isNameEmpty && focusedField == .name
                         ? "Nickname cannot be empty. Please try again."
                         : nil,
@@ -86,9 +87,11 @@ struct LoginView: View {
                         "Enter WebSocket URL",
                         text: $webSocketUrl,
                         placeholderColor: .textFieldPlaceholder,
+                        accessibilityIdentifier: "webSocketUrlTextField",
                         errorMessage: isWebSocketInvalid && focusedField == .webSocketUrl
                         ? "Invalid WebSocket URL. Please try again."
                         : nil,
+                        errorMessageAccessibilityIdentifier: "webSocketUrlInvalidError",
                         keyboardType: .URL,
                         onTextChange: {
                             validateWebSocket(strictMode: false)
@@ -125,6 +128,7 @@ struct LoginView: View {
                                     Text("Clear")
                                         .frame(width: 170, height: 50)
                                 })
+                                .accessibilityIdentifier("clearButton")
                                 .buttonStyle(ClearButtonStyle())
                             }
                         }
@@ -145,6 +149,7 @@ struct LoginView: View {
                                 Text("Clear")
                                     .frame(width: 150, height: 50)
                             })
+                            .accessibilityIdentifier("clearButton")
                             .buttonStyle(ClearButtonStyle())
                             .transition(.move(edge: .trailing))
                         }
