@@ -22,13 +22,6 @@ final class LoginViewUITests: XCTestCase {
     }
 
     @MainActor
-    func testLoginWithEmptyTextFieldDisplaysError() {
-        app.buttons["loginButton"].tap()
-
-        XCTAssertTrue(app.staticTexts["nicknameEmpty"].exists)
-    }
-
-    @MainActor
     func testInvalidWebSocketUrlDisplaysError() {
         let clearButton = app.buttons["clearButton"]
 
@@ -45,5 +38,30 @@ final class LoginViewUITests: XCTestCase {
 
         XCTAssertTrue(app.staticTexts["webSocketUrlInvalid"].exists)
         XCTAssertTrue(clearButton.exists, "输入任何信息后, 应显示清空按钮.")
+    }
+
+    @MainActor
+    func testInvalidStreamingUrlDisplaysError() {
+        let nicknameTextField = app.textFields["nicknameTextField"]
+        let webSocketUrlTextField = app.textFields["webSocketUrlTextField"]
+        let videoPickerTextField = app.textFields["videoPickerTextField"]
+
+        nicknameTextField.tap()
+        nicknameTextField.typeText("Steve")
+
+        webSocketUrlTextField.tap()
+        webSocketUrlTextField.typeText("wss://example.com/ws/")
+
+        videoPickerTextField.tap()
+        videoPickerTextField.typeText("oceans.mp4")
+
+        XCTAssertTrue(app.staticTexts["streamingUrlInvalid"].exists)
+    }
+
+    @MainActor
+    func testLoginWithEmptyTextFieldDisplaysError() {
+        app.buttons["loginButton"].tap()
+
+        XCTAssertTrue(app.staticTexts["nicknameEmpty"].exists)
     }
 }

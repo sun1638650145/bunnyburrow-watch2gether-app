@@ -103,9 +103,11 @@ struct LoginView: View {
                         "Enter streaming URL or select local file",
                         text: $url,
                         placeholderColor: .textFieldPlaceholder,
+                        accessibilityIdentifier: "videoPickerTextField",
                         errorMessage: isStreamingInvalid && focusedField == .url
                         ? "Invalid or missing video source. Please try again."
                         : nil,
+                        errorMessageAccessibilityIdentifier: "streamingUrlInvalid",
                         onTextChange: {
                             validateStreaming(strictMode: false)
                         }

@@ -20,8 +20,14 @@ struct VideoPickerTextField: View {
     /// 是否呈现`VideoPickerViewController`.
     @State private var isPresented: Bool = false
 
+    /// 无障碍标识符.
+    private let accessibilityIdentifier: String?
+
     /// 错误信息文本.
     private let errorMessage: LocalizedStringResource?
+
+    /// 错误信息文本的无障碍标识符.
+    private let errorMessageAccessibilityIdentifier: String?
 
     /// 输入文本值更改时调用的闭包.
     private let onTextChange: () -> Void
@@ -46,13 +52,17 @@ struct VideoPickerTextField: View {
         _ placeholder: LocalizedStringResource,
         text: Binding<String?>,
         placeholderColor: Color = .secondary,
+        accessibilityIdentifier: String? = nil,
         errorMessage: LocalizedStringResource? = nil,
+        errorMessageAccessibilityIdentifier: String? = nil,
         onTextChange: @escaping () -> Void = {}
     ) {
         self.placeholder = placeholder
         self._text = text
         self.placeholderColor = placeholderColor
+        self.accessibilityIdentifier = accessibilityIdentifier
         self.errorMessage = errorMessage
+        self.errorMessageAccessibilityIdentifier = errorMessageAccessibilityIdentifier
         self.onTextChange = onTextChange
     }
 
@@ -65,16 +75,26 @@ struct VideoPickerTextField: View {
                             .foregroundStyle(placeholderColor)
                     }
 
-                    TextField("", text: Binding<String>(
-                        get: { text ?? "" },
-                        set: { text = $0.isEmpty ? nil : $0 }
-                    ))
+                    let textField = TextField(
+                        "",
+                        text: Binding<String>(
+                            get: { text ?? "" },
+                            set: { text = $0.isEmpty ? nil : $0 }
+                        )
+                    )
                     .autocorrectionDisabled()
                     .focused($isFocused)
                     .foregroundStyle(textFieldForegroundColor)
                     .keyboardType(.URL)
                     .onChange(of: text, onTextChange)
                     .textInputAutocapitalization(.never)
+
+                    if let identifier = accessibilityIdentifier {
+                        textField
+                            .accessibilityIdentifier(identifier)
+                    } else {
+                        textField
+                    }
 
                     /// 判断是否为文件URL且未处于编辑焦点.
                     if let text = text, let url = URL(string: text), url.isFileURL, !isFocused {
@@ -116,10 +136,17 @@ struct VideoPickerTextField: View {
             })
 
             if let errorMessage = errorMessage {
-                Text(errorMessage)
+                let errorMessageText = Text(errorMessage)
                     .font(.footnote)
                     .foregroundStyle(Color.textFieldHighlight)
                     .padding(.top, 3)
+
+                if let identifier = errorMessageAccessibilityIdentifier {
+                    errorMessageText
+                        .accessibilityIdentifier(identifier)
+                } else {
+                    errorMessageText
+                }
             }
         }
     }
