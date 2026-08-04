@@ -75,6 +75,29 @@ final class LoginViewUITests: XCTestCase {
     }
 
     @MainActor
+    func testLoginWithValidInformationDisplaysHomeView() {
+        let loginButton = app.buttons["loginButton"]
+        let nicknameTextField = app.textFields["nicknameTextField"]
+        let webSocketUrlTextField = app.textFields["webSocketUrlTextField"]
+        let videoPickerTextField = app.textFields["videoPickerTextField"]
+        let homeView = app.otherElements["homeView"]
+
+        nicknameTextField.tap()
+        nicknameTextField.typeText("Steve")
+
+        webSocketUrlTextField.tap()
+        webSocketUrlTextField.typeText("wss://example.com/ws/")
+
+        videoPickerTextField.tap()
+        videoPickerTextField.typeText("https://example.com/")
+
+        loginButton.tap()
+
+        XCTAssertFalse(loginButton.exists, "登录成功后, 不再显示加入按钮.")
+        XCTAssertTrue(homeView.exists, "登录成功后, 应显示主界面视图.")
+    }
+
+    @MainActor
     func testTappingClearButtonClearsUserInput() {
         let clearButton = app.buttons["clearButton"]
         let nicknameTextField = app.textFields["nicknameTextField"]

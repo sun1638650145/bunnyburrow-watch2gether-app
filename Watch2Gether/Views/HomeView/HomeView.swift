@@ -42,6 +42,8 @@ struct HomeView: View {
                 .ignoresSafeArea(.keyboard)
             }
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("homeView")
         /// 检测设备旋转自动设置视频播放器全屏.
         .onRotate(perform: { orientation in
             if orientation == .portrait {
