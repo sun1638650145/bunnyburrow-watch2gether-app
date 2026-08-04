@@ -73,4 +73,28 @@ final class LoginViewUITests: XCTestCase {
 
         XCTAssertTrue(app.staticTexts["nicknameEmpty"].exists)
     }
+
+    @MainActor
+    func testTappingClearButtonClearsUserInput() {
+        let clearButton = app.buttons["clearButton"]
+        let nicknameTextField = app.textFields["nicknameTextField"]
+        let webSocketUrlTextField = app.textFields["webSocketUrlTextField"]
+        let videoPickerTextField = app.textFields["videoPickerTextField"]
+
+        nicknameTextField.tap()
+        nicknameTextField.typeText("Steve")
+
+        webSocketUrlTextField.tap()
+        webSocketUrlTextField.typeText("wss://example.com/ws/")
+
+        videoPickerTextField.tap()
+        videoPickerTextField.typeText("https://example.com/")
+
+        clearButton.tap()
+
+        XCTAssertFalse(clearButton.exists, "清空信息后, 不再显示清空按钮.")
+        XCTAssertEqual(nicknameTextField.value as? String, "")
+        XCTAssertEqual(webSocketUrlTextField.value as? String, "")
+        XCTAssertEqual(videoPickerTextField.value as? String, "")
+    }
 }
