@@ -169,6 +169,8 @@ struct LoginView: View {
             }
             .ignoresSafeArea(.keyboard)
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("loginView")
     }
 
     /// 检查昵称是否为空.

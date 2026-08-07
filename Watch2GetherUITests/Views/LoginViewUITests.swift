@@ -23,11 +23,12 @@ final class LoginViewUITests: XCTestCase {
 
     @MainActor
     func testClearButtonVisibility() {
-        let clearButton = app.buttons["clearButton"]
+        let loginView = app.otherElements["loginView"]
+
+        let clearButton = loginView.buttons["clearButton"]
+        let nicknameTextField = loginView.textFields["nicknameTextField"]
 
         XCTAssertFalse(clearButton.exists, "未输入任何信息时, 不应显示清空按钮.")
-
-        let nicknameTextField = app.textFields["nicknameTextField"]
 
         nicknameTextField.tap()
         nicknameTextField.typeText("Steve")
@@ -37,9 +38,11 @@ final class LoginViewUITests: XCTestCase {
 
     @MainActor
     func testInvalidStreamingUrlDisplaysError() {
-        let nicknameTextField = app.textFields["nicknameTextField"]
-        let webSocketUrlTextField = app.textFields["webSocketUrlTextField"]
-        let videoPickerTextField = app.textFields["videoPickerTextField"]
+        let loginView = app.otherElements["loginView"]
+
+        let nicknameTextField = loginView.textFields["nicknameTextField"]
+        let webSocketUrlTextField = loginView.textFields["webSocketUrlTextField"]
+        let videoPickerTextField = loginView.textFields["videoPickerTextField"]
 
         nicknameTextField.tap()
         nicknameTextField.typeText("Steve")
@@ -50,13 +53,15 @@ final class LoginViewUITests: XCTestCase {
         videoPickerTextField.tap()
         videoPickerTextField.typeText("oceans.mp4")
 
-        XCTAssertTrue(app.staticTexts["streamingUrlInvalid"].exists)
+        XCTAssertTrue(loginView.staticTexts["streamingUrlInvalid"].exists)
     }
 
     @MainActor
     func testInvalidWebSocketUrlDisplaysError() {
-        let nicknameTextField = app.textFields["nicknameTextField"]
-        let webSocketUrlTextField = app.textFields["webSocketUrlTextField"]
+        let loginView = app.otherElements["loginView"]
+
+        let nicknameTextField = loginView.textFields["nicknameTextField"]
+        let webSocketUrlTextField = loginView.textFields["webSocketUrlTextField"]
 
         nicknameTextField.tap()
         nicknameTextField.typeText("Steve")
@@ -64,54 +69,43 @@ final class LoginViewUITests: XCTestCase {
         webSocketUrlTextField.tap()
         webSocketUrlTextField.typeText("wss://example.com/")
 
-        XCTAssertTrue(app.staticTexts["webSocketUrlInvalid"].exists)
+        XCTAssertTrue(loginView.staticTexts["webSocketUrlInvalid"].exists)
     }
 
     @MainActor
     func testLoginWithEmptyTextFieldDisplaysError() {
-        app.buttons["loginButton"].tap()
+        let loginView = app.otherElements["loginView"]
 
-        XCTAssertTrue(app.staticTexts["nicknameEmpty"].exists)
+        loginView.buttons["loginButton"].tap()
+
+        XCTAssertTrue(loginView.staticTexts["nicknameEmpty"].exists)
     }
 
     @MainActor
     func testLoginWithValidInformationDisplaysHomeView() {
-        let loginButton = app.buttons["loginButton"]
-        let nicknameTextField = app.textFields["nicknameTextField"]
-        let webSocketUrlTextField = app.textFields["webSocketUrlTextField"]
-        let videoPickerTextField = app.textFields["videoPickerTextField"]
+        let loginView = app.otherElements["loginView"]
         let homeView = app.otherElements["homeView"]
 
-        nicknameTextField.tap()
-        nicknameTextField.typeText("Steve")
+        let loginButton = loginView.buttons["loginButton"]
 
-        webSocketUrlTextField.tap()
-        webSocketUrlTextField.typeText("wss://example.com/ws/")
-
-        videoPickerTextField.tap()
-        videoPickerTextField.typeText("https://example.com/")
+        fillInformation(in: loginView)
 
         loginButton.tap()
 
-        XCTAssertFalse(loginButton.exists, "登录成功后, 不再显示加入按钮.")
+        XCTAssertFalse(loginView.exists, "登录成功后, 不再显示登录页面视图.")
         XCTAssertTrue(homeView.exists, "登录成功后, 应显示主界面视图.")
     }
 
     @MainActor
     func testTappingClearButtonClearsUserInput() {
-        let clearButton = app.buttons["clearButton"]
-        let nicknameTextField = app.textFields["nicknameTextField"]
-        let webSocketUrlTextField = app.textFields["webSocketUrlTextField"]
-        let videoPickerTextField = app.textFields["videoPickerTextField"]
+        let loginView = app.otherElements["loginView"]
 
-        nicknameTextField.tap()
-        nicknameTextField.typeText("Steve")
+        let clearButton = loginView.buttons["clearButton"]
+        let nicknameTextField = loginView.textFields["nicknameTextField"]
+        let webSocketUrlTextField = loginView.textFields["webSocketUrlTextField"]
+        let videoPickerTextField = loginView.textFields["videoPickerTextField"]
 
-        webSocketUrlTextField.tap()
-        webSocketUrlTextField.typeText("wss://example.com/ws/")
-
-        videoPickerTextField.tap()
-        videoPickerTextField.typeText("https://example.com/")
+        fillInformation(in: loginView)
 
         clearButton.tap()
 
@@ -119,5 +113,25 @@ final class LoginViewUITests: XCTestCase {
         XCTAssertEqual(nicknameTextField.value as? String, "")
         XCTAssertEqual(webSocketUrlTextField.value as? String, "")
         XCTAssertEqual(videoPickerTextField.value as? String, "")
+    }
+
+    /// 在登录页面视图中输入用户的基本信息, WebSocket服务地址和视频源URL.
+    ///
+    /// - Parameters:
+    ///   - loginView: 登录页面视图UI元素.
+    @MainActor
+    private func fillInformation(in loginView: XCUIElement) {
+        let nicknameTextField = loginView.textFields["nicknameTextField"]
+        let webSocketUrlTextField = loginView.textFields["webSocketUrlTextField"]
+        let videoPickerTextField = loginView.textFields["videoPickerTextField"]
+
+        nicknameTextField.tap()
+        nicknameTextField.typeText("Steve")
+
+        webSocketUrlTextField.tap()
+        webSocketUrlTextField.typeText("wss://example.com/ws/")
+
+        videoPickerTextField.tap()
+        videoPickerTextField.typeText("https://example.com/")
     }
 }
