@@ -45,8 +45,8 @@ struct Watch2GetherApp: App {
     @State private var webSocketClient = WebSocketClient()
 
     init() {
-        if ProcessInfo.processInfo.arguments.contains("--ui_testing") {
-            resetUserDefaultsForUITesting()
+        if ProcessInfo.processInfo.arguments.contains("--reset_app_state") {
+            resetAppState()
         }
     }
 
@@ -107,8 +107,8 @@ struct Watch2GetherApp: App {
         #endif
     }
 
-    /// 为UI测试重置`UserDefaults`.
-    private func resetUserDefaultsForUITesting() {
+    /// 重置应用的持久化状态.
+    private func resetAppState() {
         let keys = [
             "Account.avatar",
             "Account.name",
