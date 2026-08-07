@@ -88,6 +88,7 @@ struct WelcomeView: View {
                     Text("Login")
                         .frame(width: 150, height: 50)
                 })
+                .accessibilityIdentifier("loginButton")
                 .buttonStyle(LoginButtonStyle())
                 .padding(20)
 
@@ -95,6 +96,8 @@ struct WelcomeView: View {
                     .copyright()
             }
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("welcomeView")
     }
 
     /// 处理登录操作.
