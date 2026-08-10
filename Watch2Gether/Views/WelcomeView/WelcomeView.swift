@@ -60,6 +60,7 @@ struct WelcomeView: View {
                             .foregroundStyle(Color.foreground)
                             .frame(width: 35, height: 35)
                     })
+                    .accessibilityIdentifier("optionsButton")
                     .glassEffectCompat(isInteractive: true)
                     .padding(.horizontal, 15)
                 }
