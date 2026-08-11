@@ -30,11 +30,11 @@ final class WelcomeViewUITests: XCTestCase {
         let loginButton = loginView.buttons["loginButton"]
         let quickLoginButton = welcomeView.buttons["loginButton"]
 
-        fillInformation(in: loginView)
+        LoginUITestSupport.fillInformation(in: loginView)
 
         loginButton.tap()
 
-        // 重新启动应用, 但不再重置应用的状态.
+        /// 重新启动应用, 但不再重置应用的状态.
         app.terminate()
         app.launchArguments = []
         app.launch()
@@ -55,11 +55,11 @@ final class WelcomeViewUITests: XCTestCase {
         let loginButton = loginView.buttons["loginButton"]
         let optionsButton = welcomeView.buttons["optionsButton"]
 
-        fillInformation(in: loginView)
+        LoginUITestSupport.fillInformation(in: loginView)
 
         loginButton.tap()
 
-        /// 重新启动应用, 但不再重置应用状态.
+        /// 重新启动应用, 但不再重置应用的状态.
         app.terminate()
         app.launchArguments = []
         app.launch()
@@ -70,25 +70,5 @@ final class WelcomeViewUITests: XCTestCase {
 
         XCTAssertFalse(welcomeView.exists, "点击选项按钮后, 不再显示快速登录视图.")
         XCTAssertTrue(loginView.exists, "点击选项按钮后, 应返回登录页面视图.")
-    }
-
-    /// 在登录页面视图中输入用户的基本信息, WebSocket服务地址和视频源URL.
-    ///
-    /// - Parameters:
-    ///   - loginView: 登录页面视图UI元素.
-    @MainActor
-    private func fillInformation(in loginView: XCUIElement) {
-        let nicknameTextField = loginView.textFields["nicknameTextField"]
-        let webSocketUrlTextField = loginView.textFields["webSocketUrlTextField"]
-        let videoPickerTextField = loginView.textFields["videoPickerTextField"]
-
-        nicknameTextField.tap()
-        nicknameTextField.typeText("Steve")
-
-        webSocketUrlTextField.tap()
-        webSocketUrlTextField.typeText("wss://example.com/ws/")
-
-        videoPickerTextField.tap()
-        videoPickerTextField.typeText("https://example.com/")
     }
 }
