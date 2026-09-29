@@ -67,6 +67,8 @@ struct VideoPlayer: View {
 
             VideoPlayerModal(notificationMessage, isOpen: isModalOpen)
         }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("videoPlayer")
         .onAppear(perform: {
             /// 当视频播放器全屏时设置视图为横屏(仅在iPhone上有效, iPad会保持原屏幕方向).
             AppDelegate.orientationLock = appSettings.isPlayerFullScreen ? .landscape : .portrait

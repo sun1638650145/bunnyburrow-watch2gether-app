@@ -43,6 +43,8 @@ struct ConversationSpace: View {
             MessageInput($message, onMessageSend: sendMessage, isDisabled: isDisabled)
                 .focused($isFocused)
         })
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("conversationSpace")
         .ignoresSafeArea()
         .onAppear(perform: {
             /// 添加接收聊天消息事件监听器给WebSocket客户端.

@@ -72,6 +72,8 @@ struct FriendsList: View {
                 Divider()
             }
         })
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("friendsList")
     }
 }
 
