@@ -39,4 +39,33 @@ final class HomeViewUITests: XCTestCase {
         XCTAssertTrue(friendsList.exists)
         XCTAssertTrue(conversationSpace.exists)
     }
+
+    @MainActor
+    func testSendingMessageEnablesSendButtonAndDisplaysMessage() {
+        let loginView = app.otherElements["loginView"]
+        let homeView = app.otherElements["homeView"]
+
+        let loginButton = loginView.buttons["loginButton"]
+        let messageField = homeView.textFields["messageField"]
+        let sendButton = homeView.buttons["sendButton"]
+
+        LoginUITestSupport.fillInformation(in: loginView)
+
+        loginButton.tap()
+
+        XCTAssertFalse(sendButton.isEnabled, "聊天消息为空时, 发送按钮应禁用.")
+
+        let message = "Hello, World!"
+
+        messageField.tap()
+        messageField.typeText(message)
+
+        XCTAssertTrue(sendButton.isEnabled)
+
+        sendButton.tap()
+
+        XCTAssertEqual(messageField.value as? String, "")
+        XCTAssertFalse(sendButton.isEnabled)
+        XCTAssertTrue(homeView.staticTexts[message].exists)
+    }
 }

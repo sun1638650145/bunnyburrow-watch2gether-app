@@ -23,6 +23,7 @@ struct MessageField: View {
 
     var body: some View {
         TextField("", text: $message)
+            .accessibilityIdentifier("messageField")
             .frame(height: 40)
             .padding(.leading, 5)
             .background(Color.viewBackground)
