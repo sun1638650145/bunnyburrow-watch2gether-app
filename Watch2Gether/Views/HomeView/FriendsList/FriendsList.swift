@@ -39,6 +39,7 @@ struct FriendsList: View {
                         .foregroundStyle(Color.foreground)
                         .frame(height: 22)
                 })
+                .accessibilityIdentifier("detailToggleButton")
                 #if os(macOS)
                 .buttonStyle(PlainButtonStyle())
                 #endif
@@ -67,6 +68,7 @@ struct FriendsList: View {
                         })
                     }
                 })
+                .accessibilityIdentifier("detailScrollView")
                 .padding(.leading, 10)
 
                 Divider()

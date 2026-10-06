@@ -22,6 +22,29 @@ final class HomeViewUITests: XCTestCase {
     }
 
     @MainActor
+    func testFriendsListDetailToggle() {
+        let loginView = app.otherElements["loginView"]
+        let homeView = app.otherElements["homeView"]
+
+        let loginButton = loginView.buttons["loginButton"]
+        let friendsList = homeView.otherElements["friendsList"]
+
+        let detailToggleButton = friendsList.buttons["detailToggleButton"]
+        let detailScrollView = friendsList.scrollViews["detailScrollView"]
+
+        LoginUITestSupport.fillInformation(in: loginView)
+
+        loginButton.tap()
+
+        XCTAssertTrue(detailToggleButton.exists)
+        XCTAssertTrue(detailScrollView.exists)
+
+        detailToggleButton.tap()
+
+        XCTAssertFalse(detailScrollView.exists)
+    }
+
+    @MainActor
     func testHomeViewDisplaysExpectedComponents() {
         let loginView = app.otherElements["loginView"]
         let homeView = app.otherElements["homeView"]
