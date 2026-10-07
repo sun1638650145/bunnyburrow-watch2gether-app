@@ -128,7 +128,7 @@ struct PlaybackControls: View {
 
                 VideoSwitchButton()
 
-                /// 全屏控制按钮.
+                /// 全屏切换按钮.
                 Button(action: {
                     withAnimation(.easeInOut(duration: 0.5), {
                         /// 在macOS上视频播放器进入窗口全屏状态.

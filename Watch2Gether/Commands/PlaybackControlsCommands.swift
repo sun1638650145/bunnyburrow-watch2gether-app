@@ -137,7 +137,7 @@ struct PlaybackControlsCommands: Commands {
 
             Divider()
 
-            /// 全屏控制按钮.
+            /// 全屏切换按钮.
             Button(action: {
                 withAnimation(.easeInOut(duration: 0.5), {
                     guard let appSettings = appSettings
