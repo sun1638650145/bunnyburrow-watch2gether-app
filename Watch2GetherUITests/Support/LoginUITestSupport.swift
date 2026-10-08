@@ -30,4 +30,18 @@ enum LoginUITestSupport {
         videoPickerTextField.tap()
         videoPickerTextField.typeText("https://example.com/")
     }
+
+    /// 在登录页面视图中输入用户的基本信息并登录.
+    ///
+    /// - Parameters:
+    ///   - app: 被测应用实例.
+    @MainActor
+    static func login(in app: XCUIApplication) {
+        let loginView = app.otherElements["loginView"]
+        let loginButton = loginView.buttons["loginButton"]
+
+        fillInformation(in: loginView)
+
+        loginButton.tap()
+    }
 }
