@@ -83,14 +83,10 @@ final class LoginViewUITests: XCTestCase {
 
     @MainActor
     func testLoginWithValidInformationDisplaysHomeView() {
+        LoginUITestSupport.login(in: app)
+
         let loginView = app.otherElements["loginView"]
         let homeView = app.otherElements["homeView"]
-
-        let loginButton = loginView.buttons["loginButton"]
-
-        LoginUITestSupport.fillInformation(in: loginView)
-
-        loginButton.tap()
 
         XCTAssertFalse(loginView.exists, "登录成功后, 不再显示登录页面视图.")
         XCTAssertTrue(homeView.exists, "登录成功后, 应显示主界面视图.")

@@ -23,16 +23,12 @@ final class WelcomeViewUITests: XCTestCase {
 
     @MainActor
     func testTappingLoginButtonDisplaysHomeView() {
-        let loginView = app.otherElements["loginView"]
+        LoginUITestSupport.login(in: app)
+
         let homeView = app.otherElements["homeView"]
         let welcomeView = app.otherElements["welcomeView"]
 
-        let loginButton = loginView.buttons["loginButton"]
         let quickLoginButton = welcomeView.buttons["loginButton"]
-
-        LoginUITestSupport.fillInformation(in: loginView)
-
-        loginButton.tap()
 
         /// 重新启动应用, 但不再重置应用的状态.
         app.terminate()
@@ -49,15 +45,10 @@ final class WelcomeViewUITests: XCTestCase {
 
     @MainActor
     func testTappingOptionsButtonReturnsToLoginView() {
+        LoginUITestSupport.login(in: app)
+
         let loginView = app.otherElements["loginView"]
         let welcomeView = app.otherElements["welcomeView"]
-
-        let loginButton = loginView.buttons["loginButton"]
-        let optionsButton = welcomeView.buttons["optionsButton"]
-
-        LoginUITestSupport.fillInformation(in: loginView)
-
-        loginButton.tap()
 
         /// 重新启动应用, 但不再重置应用的状态.
         app.terminate()
@@ -66,7 +57,7 @@ final class WelcomeViewUITests: XCTestCase {
 
         XCTAssertTrue(welcomeView.exists, "用户信息存在时, 应显示快速登录视图.")
 
-        optionsButton.tap()
+        welcomeView.buttons["optionsButton"].tap()
 
         XCTAssertFalse(welcomeView.exists, "点击选项按钮后, 不再显示快速登录视图.")
         XCTAssertTrue(loginView.exists, "点击选项按钮后, 应返回登录页面视图.")

@@ -23,18 +23,14 @@ final class HomeViewUITests: XCTestCase {
 
     @MainActor
     func testFriendsListDetailToggle() {
-        let loginView = app.otherElements["loginView"]
+        LoginUITestSupport.login(in: app)
+
         let homeView = app.otherElements["homeView"]
 
-        let loginButton = loginView.buttons["loginButton"]
         let friendsList = homeView.otherElements["friendsList"]
 
         let detailToggleButton = friendsList.buttons["detailToggleButton"]
         let detailScrollView = friendsList.scrollViews["detailScrollView"]
-
-        LoginUITestSupport.fillInformation(in: loginView)
-
-        loginButton.tap()
 
         XCTAssertTrue(detailToggleButton.exists)
         XCTAssertTrue(detailScrollView.exists)
@@ -46,17 +42,13 @@ final class HomeViewUITests: XCTestCase {
 
     @MainActor
     func testHomeViewDisplaysExpectedComponents() {
-        let loginView = app.otherElements["loginView"]
+        LoginUITestSupport.login(in: app)
+
         let homeView = app.otherElements["homeView"]
 
-        let loginButton = loginView.buttons["loginButton"]
         let videoPlayer = homeView.otherElements["videoPlayer"]
         let friendsList = homeView.otherElements["friendsList"]
         let conversationSpace = homeView.otherElements["conversationSpace"]
-
-        LoginUITestSupport.fillInformation(in: loginView)
-
-        loginButton.tap()
 
         XCTAssertTrue(videoPlayer.exists)
         XCTAssertTrue(friendsList.exists)
@@ -65,16 +57,12 @@ final class HomeViewUITests: XCTestCase {
 
     @MainActor
     func testSendingMessageEnablesSendButtonAndDisplaysMessage() {
-        let loginView = app.otherElements["loginView"]
+        LoginUITestSupport.login(in: app)
+
         let homeView = app.otherElements["homeView"]
 
-        let loginButton = loginView.buttons["loginButton"]
         let messageField = homeView.textFields["messageField"]
         let sendButton = homeView.buttons["sendButton"]
-
-        LoginUITestSupport.fillInformation(in: loginView)
-
-        loginButton.tap()
 
         XCTAssertFalse(sendButton.isEnabled, "聊天消息为空时, 发送按钮应禁用.")
 
