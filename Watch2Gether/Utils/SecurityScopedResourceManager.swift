@@ -8,11 +8,18 @@
 //
 
 import Foundation
+import OSLog
 
 /// 安全域资源管理器, 通过`bookmarkData`持久化与解析安全域资源的访问权限.
 class SecurityScopedResourceManager {
     /// 用于保存`bookmarkData`的`UserDefaults`键.
     private static let bookmarkDataKey: String = "Local.bookmarkData"
+
+    /// 系统日志记录器.
+    private static let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "Watch2Gether",
+        category: "SecurityScopedResourceManager"
+    )
 
     /// 当前正在访问的安全域URL.
     private var accessingUrl: URL?
@@ -38,7 +45,7 @@ class SecurityScopedResourceManager {
 
             UserDefaults.standard.set(bookmarkData, forKey: bookmarkDataKey)
         } catch {
-            print("获取bookmarkData失败: \(error.localizedDescription)")
+            logger.error("获取bookmarkData失败: \(error.localizedDescription, privacy: .public)")
         }
     }
 
