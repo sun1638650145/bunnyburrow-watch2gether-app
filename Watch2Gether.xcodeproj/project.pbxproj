@@ -1163,7 +1163,7 @@
 			repositoryURL = "https://github.com/apple/swift-collections.git";
 			requirement = {
 				kind = exactVersion;
-				version = 1.3.0;
+				version = 1.7.3;
 			};
 		};
 		39EC677C2D1665D600518950 /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
