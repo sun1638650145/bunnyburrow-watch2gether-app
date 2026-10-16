@@ -31,7 +31,7 @@ struct FriendsList: View {
                 }, label: {
                     Image(systemName: showFriendsListDetail ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .scaledToFill()
                         .frame(width: 13, height: 13)
                         .foregroundStyle(Color.foreground)
 
@@ -55,7 +55,7 @@ struct FriendsList: View {
                             VStack {
                                 Image(base64: friend.avatar ?? "")
                                     .resizable()
-                                    .aspectRatio(contentMode: .fill)
+                                    .scaledToFill()
                                     .clipShape(Circle())
                                     .frame(width: 50, height: 50)
                                     .overlay(content: {

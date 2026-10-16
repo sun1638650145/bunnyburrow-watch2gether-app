@@ -27,7 +27,7 @@ struct AvatarUploader: View {
             if let avatar = avatar {
                 Image(base64: avatar)
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .scaledToFill()
                     .frame(width: 100, height: 100)
                     /// 在`frame`之后应用, 解决动画过程中图片溢出边框的问题.
                     .clipShape(Circle())

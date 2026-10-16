@@ -114,7 +114,7 @@ struct VideoPickerTextField: View {
                 }, label: {
                     Image(systemName: "chevron.down.circle")
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .scaledToFill()
                         .foregroundStyle(Color.foreground.opacity(0.8))
                         .frame(width: 22, height: 22)
                 })

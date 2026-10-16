@@ -24,7 +24,7 @@ struct OtherMessageBubble: View {
         HStack(alignment: .top, content: {
             Image(base64: avatar ?? "")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
+                .scaledToFill()
                 .frame(width: 40, height: 40)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
 

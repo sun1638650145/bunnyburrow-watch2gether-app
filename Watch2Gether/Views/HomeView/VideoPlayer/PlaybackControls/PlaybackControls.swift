@@ -32,7 +32,7 @@ struct PlaybackControls: View {
                     }, label: {
                         Image(systemName: "chevron.backward")
                             .resizable()
-                            .aspectRatio(contentMode: .fill)
+                            .scaledToFill()
                             .frame(width: 15, height: 15)
                             .foregroundStyle(Color.foreground)
                             .padding(EdgeInsets(top: 20, leading: 10, bottom: 10, trailing: 10))
@@ -64,7 +64,7 @@ struct PlaybackControls: View {
                 }, label: {
                     Image(systemName: "30.arrow.trianglehead.counterclockwise")
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .scaledToFill()
                         .frame(width: 22, height: 22)
                         .foregroundStyle(Color.foreground)
                         .padding(5)
@@ -87,7 +87,7 @@ struct PlaybackControls: View {
                 }, label: {
                     Image(systemName: playerViewModel.isPlaying ? "pause.fill" : "play.fill")
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .scaledToFill()
                         .frame(width: 22, height: 22)
                         .foregroundStyle(Color.foreground)
                         .padding(5)
@@ -111,7 +111,7 @@ struct PlaybackControls: View {
                 }, label: {
                     Image(systemName: "30.arrow.trianglehead.clockwise")
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .scaledToFill()
                         .frame(width: 22, height: 22)
                         .foregroundStyle(Color.foreground)
                         .padding(5)
@@ -153,7 +153,7 @@ struct PlaybackControls: View {
                         : "arrow.up.backward.and.arrow.down.forward.rectangle"
                     )
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .scaledToFill()
                     .frame(width: 22, height: 22)
                     .foregroundStyle(Color.foreground)
                     .padding(5)

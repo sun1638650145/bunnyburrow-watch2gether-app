@@ -41,7 +41,7 @@ struct DanmakuMessageBubble: View {
                 .overlay(alignment: .topTrailing, content: {
                     Image(base64: avatar ?? "")
                         .resizable()
-                        .aspectRatio(contentMode: .fill)
+                        .scaledToFill()
                         .frame(width: 30, height: 30)
                         .clipShape(Circle())
                         .offset(x: 15, y: -15)

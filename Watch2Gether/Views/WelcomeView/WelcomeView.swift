@@ -76,7 +76,7 @@ struct WelcomeView: View {
 
                 Image(base64: avatar)
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .scaledToFill()
                     .clipShape(Circle())
                     .frame(width: 100, height: 100)
                     .glassEffectCompat()

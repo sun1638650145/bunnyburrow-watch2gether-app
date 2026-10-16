@@ -33,7 +33,7 @@ struct VolumeSlider: View {
             HStack {
                 Image(systemName: volumeSymbol)
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .scaledToFill()
                     .foregroundStyle(Color.foreground)
                     .frame(width: 20, height: 20)
 

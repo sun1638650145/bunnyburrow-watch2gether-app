@@ -16,7 +16,7 @@ struct MuteIndicator: View {
             HStack {
                 Image(systemName: "volume.slash.fill")
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .scaledToFill()
                     .foregroundStyle(Color.foreground)
                     .frame(width: 20, height: 20)
 

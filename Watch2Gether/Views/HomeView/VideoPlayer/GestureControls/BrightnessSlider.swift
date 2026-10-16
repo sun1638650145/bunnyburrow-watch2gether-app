@@ -19,7 +19,7 @@ struct BrightnessSlider: View {
             HStack {
                 Image(systemName: brightness < 0.5 ? "sun.min.fill" : "sun.max.fill")
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
+                    .scaledToFill()
                     .foregroundStyle(Color.yellow)
                     .frame(width: 20, height: 20)
 
