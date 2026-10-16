@@ -41,7 +41,7 @@ struct VideoSwitchButton: View {
         }, label: {
             Image(systemName: "film.stack")
                 .resizable()
-                .aspectRatio(contentMode: .fill)
+                .scaledToFill()
                 .frame(width: 27, height: 27)
                 .foregroundStyle(Color.foreground)
                 .padding(5)
