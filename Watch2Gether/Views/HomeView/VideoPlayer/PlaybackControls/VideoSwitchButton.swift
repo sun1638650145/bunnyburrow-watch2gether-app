@@ -43,7 +43,7 @@ struct VideoSwitchButton: View {
                     do {
                         try await videosViewModel.fetchVideos(from: playerViewModel.domainUrl)
                     } catch {
-                        logger.error("获取流媒体视频列表失败: \(error.localizedDescription, privacy: .public)")
+                        self.logger.error("获取流媒体视频列表失败: \(error.localizedDescription, privacy: .public)")
                     }
                 })
             }

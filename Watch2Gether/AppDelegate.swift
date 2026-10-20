@@ -23,7 +23,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             /// 设置音频会话在静音或屏幕锁定仍然继续播放.
             try audioSession.setCategory(.playback, mode: .moviePlayback)
         } catch {
-            logger.error("设置音频会话配置失败: \(error.localizedDescription, privacy: .public)")
+            self.logger.error("设置音频会话配置失败: \(error.localizedDescription, privacy: .public)")
         }
     }
 
