@@ -8,6 +8,7 @@
 //
 
 import AppKit
+import OSLog
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -18,6 +19,12 @@ struct VideoSwitchButton: View {
     @Environment(AppSettings.self) var appSettings
     @Environment(PlayerViewModel.self) var playerViewModel
     @Environment(VideosViewModel.self) var videosViewModel
+
+    /// 系统日志记录器.
+    private let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "MacWatch2Gether",
+        category: "VideoSwitchButton"
+    )
 
     var body: some View {
         Button(action: {
@@ -34,7 +41,7 @@ struct VideoSwitchButton: View {
                     do {
                         try await videosViewModel.fetchVideos(from: playerViewModel.domainUrl)
                     } catch {
-                        print("获取流媒体视频列表失败: \(error.localizedDescription)")
+                        self.logger.error("获取流媒体视频列表失败: \(error.localizedDescription)")
                     }
                 })
             }
