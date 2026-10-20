@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import OSLog
 import SwiftUI
 
 /// `VideoSwitchButton`是视频源切换按钮;
@@ -23,6 +24,12 @@ struct VideoSwitchButton: View {
     /// 视频源URL.
     @State private var url: String?
 
+    /// 系统日志记录器.
+    private let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "Watch2Gether",
+        category: "VideoSwitchButton"
+    )
+
     var body: some View {
         Button(action: {
             /// 使用本地视频文件则打开`VideoPickerViewController`.
@@ -36,7 +43,7 @@ struct VideoSwitchButton: View {
                     do {
                         try await videosViewModel.fetchVideos(from: playerViewModel.domainUrl)
                     } catch {
-                        print("获取流媒体视频列表失败: \(error.localizedDescription)")
+                        logger.error("获取流媒体视频列表失败: \(error.localizedDescription, privacy: .public)")
                     }
                 })
             }
