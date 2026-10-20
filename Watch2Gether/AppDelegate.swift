@@ -8,9 +8,13 @@
 //
 
 import AVKit
+import OSLog
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    /// 系统日志记录器.
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "Watch2Gether", category: "AppDelegate")
+
     /// 配置音频会话.
     private func configureAudioSession() {
         let audioSession = AVAudioSession.sharedInstance()
@@ -19,7 +23,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             /// 设置音频会话在静音或屏幕锁定仍然继续播放.
             try audioSession.setCategory(.playback, mode: .moviePlayback)
         } catch {
-            print("设置音频会话配置失败: \(error.localizedDescription)")
+            logger.error("设置音频会话配置失败: \(error.localizedDescription, privacy: .public)")
         }
     }
 
