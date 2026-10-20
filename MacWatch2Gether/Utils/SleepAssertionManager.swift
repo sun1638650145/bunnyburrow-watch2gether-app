@@ -9,9 +9,16 @@
 
 import Foundation
 import IOKit.pwr_mgt
+import OSLog
 
 /// 系统休眠状态管理器, 通过使用`IOKit`的电源管理系统接口, 阻止或恢复系统休眠.
 class SleepAssertionManager {
+    /// 系统日志记录器.
+    private let logger = Logger(
+        subsystem: Bundle.main.bundleIdentifier ?? "MacWatch2Gether",
+        category: "SleepAssertionManager"
+    )
+
     /// 断言ID, 用于跟踪电源管理状态.
     private var assertionID: IOPMAssertionID = 0
 
@@ -20,7 +27,7 @@ class SleepAssertionManager {
         let result = IOPMAssertionRelease(assertionID)
 
         if result == kIOReturnSuccess {
-            print("启用系统休眠.")
+            self.logger.info("启用系统休眠.")
         }
     }
 
@@ -38,7 +45,7 @@ class SleepAssertionManager {
         )
 
         if result == kIOReturnSuccess {
-            print("阻止系统休眠.")
+            self.logger.info("阻止系统休眠.")
         }
     }
 }
