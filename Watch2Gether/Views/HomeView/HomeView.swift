@@ -15,42 +15,45 @@ struct HomeView: View {
     @Environment(AppSettings.self) var appSettings
 
     var body: some View {
-        ZStack {
-            Color.background
-                .hideKeyboard()
-                .ignoresSafeArea()
+        NavigationStack(root: {
+            ZStack {
+                Color.background
+                    .hideKeyboard()
+                    .ignoresSafeArea()
 
-            if appSettings.isPlayerFullScreen {
-                VideoPlayer()
-                    .hideHomeIndicator()
-                    .transition(.scale(scale: 1.1))
+                if appSettings.isPlayerFullScreen {
+                    VideoPlayer()
+                        .hideHomeIndicator()
+                        .transition(.scale(scale: 1.1))
 
-                DanmakuSpace()
-            } else {
-                // TODO: 在`ConversationSpace`中使用safeAreaInset(edge: .bottom)处理键盘, 移除HomeView中的`GeometryReader`(Steve).
-                GeometryReader(content: { _ in
-                    VStack(spacing: 0, content: {
-                        VideoPlayer()
-                            /// 设置视频播放器按16:9宽高比显示.
-                            .aspectRatio(16 / 9, contentMode: .fit)
+                    DanmakuSpace()
+                } else {
+                    // TODO: 在`ConversationSpace`中使用safeAreaInset(edge: .bottom)处理键盘,
+                    // 移除HomeView中的`GeometryReader`(Steve).
+                    GeometryReader(content: { _ in
+                        VStack(spacing: 0, content: {
+                            VideoPlayer()
+                                /// 设置视频播放器按16:9宽高比显示.
+                                .aspectRatio(16 / 9, contentMode: .fit)
 
-                        FriendsList()
+                            FriendsList()
 
-                        ConversationSpace()
+                            ConversationSpace()
+                        })
                     })
-                })
-                .ignoresSafeArea(.keyboard)
+                    .ignoresSafeArea(.keyboard)
+                }
             }
-        }
-        .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("homeView")
-        /// 检测设备旋转自动设置视频播放器全屏.
-        .onRotate(perform: { orientation in
-            if orientation == .portrait {
-                appSettings.isPlayerFullScreen = false
-            } else if orientation.isLandscape {
-                appSettings.isPlayerFullScreen = true
-            }
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier("homeView")
+            /// 检测设备旋转自动设置视频播放器全屏.
+            .onRotate(perform: { orientation in
+                if orientation == .portrait {
+                    appSettings.isPlayerFullScreen = false
+                } else if orientation.isLandscape {
+                    appSettings.isPlayerFullScreen = true
+                }
+            })
         })
     }
 }

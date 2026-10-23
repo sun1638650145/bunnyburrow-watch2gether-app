@@ -51,7 +51,27 @@ struct FriendsList: View {
             if showFriendsListDetail {
                 ScrollView(.horizontal, content: {
                     HStack {
-                        ForEach(onlineFriends, content: { friend in
+                        NavigationLink(destination: {
+                            SettingsView()
+                        }, label: {
+                            if let user = onlineFriends.first {
+                                VStack {
+                                    Image(base64: user.avatar ?? "")
+                                        .resizable()
+                                        .scaledToFill()
+                                        .clipShape(Circle())
+                                        .frame(width: 50, height: 50)
+                                        .overlay(content: {
+                                            Circle().stroke(Color.avatarBorder, lineWidth: 2)
+                                        })
+                                    
+                                    MarqueeText(user.name, duration: 6.0, color: .foreground, font: .footnote)
+                                }
+                                .frame(width: 60, height: 80)
+                            }
+                        })
+
+                        ForEach(onlineFriends.dropFirst(), content: { friend in
                             VStack {
                                 Image(base64: friend.avatar ?? "")
                                     .resizable()

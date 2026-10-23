@@ -15,6 +15,7 @@ struct SettingsView: View {
         Text("Watch2Gether")
             .bold()
             .font(.largeTitle)
+            .navigationTitle("Settings")
     }
 }
 
