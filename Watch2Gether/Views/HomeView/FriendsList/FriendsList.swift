@@ -11,6 +11,7 @@ import SwiftUI
 
 /// `FriendsList`是用于显示在线好友列表的视图.
 struct FriendsList: View {
+    @Environment(User.self) var user
     @Environment(FriendsViewModel.self) var friendsViewModel
 
     /// 显示在线好友列表详细信息的变量.
@@ -54,21 +55,19 @@ struct FriendsList: View {
                         NavigationLink(destination: {
                             SettingsView()
                         }, label: {
-                            if let user = onlineFriends.first {
-                                VStack {
-                                    Image(base64: user.avatar ?? "")
-                                        .resizable()
-                                        .scaledToFill()
-                                        .clipShape(Circle())
-                                        .frame(width: 50, height: 50)
-                                        .overlay(content: {
-                                            Circle().stroke(Color.avatarBorder, lineWidth: 2)
-                                        })
-                                    
-                                    MarqueeText(user.name, duration: 6.0, color: .foreground, font: .footnote)
-                                }
-                                .frame(width: 60, height: 80)
+                            VStack {
+                                Image(base64: user.avatar ?? "")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .clipShape(Circle())
+                                    .frame(width: 50, height: 50)
+                                    .overlay(content: {
+                                        Circle().stroke(Color.avatarBorder, lineWidth: 2)
+                                    })
+
+                                MarqueeText(user.name, duration: 6.0, color: .foreground, font: .footnote)
                             }
+                            .frame(width: 60, height: 80)
                         })
 
                         ForEach(onlineFriends.dropFirst(), content: { friend in
@@ -100,7 +99,7 @@ struct FriendsList: View {
 }
 
 #Preview {
-    let user0 = User(
+    let user = User(
         avatar: "/9j/2wCEAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDIBCQk" +
                 "JDAsMGA0NGDIhHCEyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMv/AABEIABkAGQMBIg" +
                 "ACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcic" +
@@ -116,19 +115,20 @@ struct FriendsList: View {
         clientID: 2023,
         name: "Steve R. Sun"
     )
-    let user1 = User(avatar: nil, clientID: 2025, name: "A")
+    let friend = User(avatar: nil, clientID: 2025, name: "A")
 
     var friendsViewModel: FriendsViewModel {
         let friendsViewModel = FriendsViewModel()
 
-        friendsViewModel.addFriend(friend: user0)
-        friendsViewModel.addFriend(friend: user1)
+        friendsViewModel.addFriend(friend: user)
+        friendsViewModel.addFriend(friend: friend)
 
         return friendsViewModel
     }
 
     VStack {
         FriendsList()
+            .environment(user)
             .environment(friendsViewModel)
 
         Spacer()
