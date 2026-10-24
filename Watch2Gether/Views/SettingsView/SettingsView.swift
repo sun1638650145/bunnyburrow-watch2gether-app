@@ -11,14 +11,29 @@ import SwiftUI
 
 /// `SettingsView`是设置视图.
 struct SettingsView: View {
+    @Environment(User.self) var user
+
+    /// 用户的头像的Base-64.
+    @AppStorage("Account.avatar") private var avatar: String?
+
     var body: some View {
-        Text("Watch2Gether")
-            .bold()
-            .font(.largeTitle)
-            .navigationTitle("Settings")
+        VStack {
+            Text("Watch2Gether")
+                .bold()
+                .font(.largeTitle)
+
+            AvatarUploader($avatar)
+                .onChange(of: avatar, {
+                    user.update(avatar)
+                })
+        }
+        .navigationTitle("Settings")
     }
 }
 
 #Preview {
+    let user = User()
+
     SettingsView()
+        .environment(user)
 }
