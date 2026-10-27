@@ -17,16 +17,52 @@ struct SettingsView: View {
     @AppStorage("Account.avatar") private var avatar: String?
 
     var body: some View {
-        VStack {
-            Text("Watch2Gether")
-                .bold()
-                .font(.largeTitle)
+        List(content: {
+            Section(content: {
+                HStack(content: {
+                    Spacer()
 
-            AvatarUploader($avatar)
-                .onChange(of: avatar, {
-                    user.update(avatar)
+                    Text("Watch2Gether")
+                        .bold()
+                        .font(.largeTitle)
+
+                    Spacer()
                 })
-        }
+                .listRowBackground(Color.clear)
+            })
+
+            Section(content: {
+                HStack(content: {
+                    Spacer()
+
+                    AvatarUploader($avatar)
+                        .onChange(of: avatar, {
+                            user.update(avatar)
+                        })
+
+                    Spacer()
+                })
+                .listRowBackground(Color.clear)
+            })
+
+            Section("Personal Information", content: {
+                HStack(content: {
+                    Text("Name")
+
+                    Spacer()
+
+                    Text(user.name)
+                })
+
+                HStack(content: {
+                    Text("Client ID")
+
+                    Spacer()
+
+                    Text(String(user.clientID))
+                })
+            })
+        })
         .navigationTitle("Settings")
     }
 }
