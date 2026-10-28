@@ -16,6 +16,9 @@ struct SettingsView: View {
     /// 用户的头像的Base-64.
     @AppStorage("Account.avatar") private var avatar: String?
 
+    /// 用户的昵称.
+    @AppStorage("Account.name") private var name: String = ""
+
     var body: some View {
         List(content: {
             Section(content: {
@@ -37,7 +40,7 @@ struct SettingsView: View {
 
                     AvatarUploader($avatar)
                         .onChange(of: avatar, {
-                            user.update(avatar)
+                            user.updateAvatar(avatar)
                         })
 
                     Spacer()
@@ -51,7 +54,12 @@ struct SettingsView: View {
 
                     Spacer()
 
-                    Text(user.name)
+                    TextField(user.name, text: $name)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.trailing)
+                        .onChange(of: name, {
+                            user.updateName(name)
+                        })
                 })
 
                 HStack(content: {

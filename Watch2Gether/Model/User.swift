@@ -51,21 +51,29 @@ class User: Identifiable {
         self.init(avatar: avatar, clientID: clientID, name: name)
     }
 
-    /// 更新用户头像.
-    ///
-    /// - Parameters:
-    ///   - newAvatar: 新的头像的Base-64.
-    func update(_ newAvatar: String?) {
-        self.avatar = newAvatar
-    }
-
     /// 更新用户信息.
     ///
     /// - Parameters:
     ///   - newAvatar: 新的头像的Base-64.
     ///   - newName: 新的昵称.
-    func update(_ newAvatar: String? = nil, _ newName: String) {
+    func update(_ newAvatar: String?, _ newName: String) {
         self.avatar = newAvatar
+        self.name = newName
+    }
+
+    /// 更新用户头像.
+    ///
+    /// - Parameters:
+    ///   - newAvatar: 新的头像的Base-64.
+    func updateAvatar(_ newAvatar: String?) {
+        self.avatar = newAvatar
+    }
+
+    /// 更新用户昵称.
+    ///
+    /// - Parameters:
+    ///   - newName: 新的昵称.
+    func updateName(_ newName: String) {
         self.name = newName
     }
 }
