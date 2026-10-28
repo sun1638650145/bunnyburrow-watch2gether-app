@@ -37,13 +37,35 @@ struct UserTests {
     }
 
     @Test
-    func updateUserProfile() {
+    func updateUserAvatar() {
+        let user = User(clientID: 2025, name: "A")
+
+        #expect(user.avatar == nil)
+
+        user.updateAvatar("base64")
+
+        #expect(user.avatar == "base64")
+    }
+
+    @Test
+    func updateUserInformation() {
         let user = User(clientID: 2025, name: "A")
 
         user.update("base64", "Steve")
 
         #expect(user.avatar == "base64")
         #expect(user.clientID == 2025, "更新用户信息后不会修改客户端ID.")
+        #expect(user.name == "Steve")
+    }
+
+    @Test
+    func updateUserName() {
+        let user = User(clientID: 2025, name: "A")
+
+        #expect(user.name == "A")
+
+        user.updateName("Steve")
+
         #expect(user.name == "Steve")
     }
 }
