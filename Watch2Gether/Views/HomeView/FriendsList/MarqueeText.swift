@@ -15,6 +15,9 @@ struct MarqueeText: View {
     /// 滚动状态.
     @State private var isScrolling = false
 
+    /// 对齐方式.
+    private let alignment: Alignment
+
     /// 文本的颜色.
     private let color: Color
 
@@ -51,9 +54,16 @@ struct MarqueeText: View {
         #endif
     }
 
-    init(_ text: String, duration: Double = 5.0, color: Color = .primary, font: Font = .body) {
+    init(
+        _ text: String,
+        duration: Double = 5.0,
+        alignment: Alignment = .center,
+        color: Color = .primary,
+        font: Font = .body
+    ) {
         self.text = text
         self.duration = duration
+        self.alignment = alignment
         self.color = color
         self.font = font
     }
@@ -73,8 +83,8 @@ struct MarqueeText: View {
                 .offset(x: isScrolling ? -(textRenderedWidth + geometry.size.width) : 0)
             } else {
                 Text(text)
-                    /// 使文本填满父容器并保持水平居中.
-                    .frame(maxWidth: .infinity)
+                    /// 使文本填满父容器.
+                    .frame(maxWidth: .infinity, alignment: alignment)
                     .multilineTextAlignment(.center)
             }
         })
