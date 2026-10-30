@@ -54,12 +54,10 @@ struct SettingsView: View {
 
                     Spacer()
 
-                    TextField(user.name, text: $name)
-                        .foregroundStyle(.secondary)
-                        .multilineTextAlignment(.trailing)
-                        .onChange(of: name, {
-                            user.updateName(name)
-                        })
+                    MarqueeTextField(text: $name, duration: 12.5, alignment: .trailing, onTextChange: { name in
+                        user.updateName(name)
+                    })
+                    .frame(width: 125)
                 })
 
                 HStack(content: {
@@ -68,6 +66,7 @@ struct SettingsView: View {
                     Spacer()
 
                     Text(String(user.clientID))
+                        .foregroundStyle(Color.secondary)
                 })
             })
         })
