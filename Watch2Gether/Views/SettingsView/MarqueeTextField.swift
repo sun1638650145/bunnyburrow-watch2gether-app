@@ -59,11 +59,13 @@ struct MarqueeTextField: View {
         Group {
             if isEditing {
                 TextField("", text: $text)
+                    .autocorrectionDisabled()
                     .foregroundStyle(color)
                     .multilineTextAlignment(textAlignment)
                     .onSubmit({
                         isEditing = false
                     })
+                    .textInputAutocapitalization(.never)
             } else {
                 MarqueeText(text, duration: duration, alignment: alignment, color: color)
                     .onTapGesture(perform: {
