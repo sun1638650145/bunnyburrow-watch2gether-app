@@ -39,6 +39,7 @@ struct SettingsView: View {
                     Spacer()
 
                     AvatarUploader($avatar)
+                        .buttonStyle(PlainButtonStyle())
                         .onChange(of: avatar, {
                             user.updateAvatar(avatar)
                         })
