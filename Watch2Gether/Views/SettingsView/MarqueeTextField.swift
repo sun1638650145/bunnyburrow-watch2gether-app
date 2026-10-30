@@ -17,6 +17,9 @@ struct MarqueeTextField: View {
     /// 文本是否正在编辑变量.
     @State private var isEditing: Bool = false
 
+    /// 对齐方式.
+    private let alignment: Alignment
+
     /// 文本的颜色.
     private let color: Color
 
@@ -26,14 +29,28 @@ struct MarqueeTextField: View {
     /// 输入文本值更改时调用的闭包.
     private let onTextChange: (String) -> Void
 
+    /// 文本的对齐方式.
+    private var textAlignment: TextAlignment {
+        switch alignment {
+        case .leading:
+            return .leading
+        case .trailing:
+            return .trailing
+        default:
+            return .center
+        }
+    }
+
     init(
         text: Binding<String>,
         duration: Double = 5.0,
+        alignment: Alignment = .center,
         color: Color = .secondary,
         onTextChange: @escaping (String) -> Void = { _ in }
     ) {
         self._text = text
         self.duration = duration
+        self.alignment = alignment
         self.color = color
         self.onTextChange = onTextChange
     }
@@ -43,12 +60,12 @@ struct MarqueeTextField: View {
             if isEditing {
                 TextField("", text: $text)
                     .foregroundStyle(color)
-                    .multilineTextAlignment(.center)
+                    .multilineTextAlignment(textAlignment)
                     .onSubmit({
                         isEditing = false
                     })
             } else {
-                MarqueeText(text, duration: duration, color: color)
+                MarqueeText(text, duration: duration, alignment: alignment, color: color)
                     .onTapGesture(perform: {
                         isEditing = true
                     })
